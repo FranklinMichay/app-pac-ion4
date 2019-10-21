@@ -24,7 +24,7 @@ export class GetMeetingPage implements OnInit {
     this.namePatient = user ? user.nombre +  ' ' + user.apellido : 'Sin Nombre';
     const { pk } = this.hour.medic.id;
     const { hora , fecha, pkCentroMed } = this.hour;
-
+//gfyfffhgfhgfhgf
     console.log(pk, hora, fecha , pkCentroMed, 'lo que trae');
     
   }
