@@ -1,0 +1,222 @@
+.title-toolbar {
+    color: white;
+    text-align: center;
+}
+
+.style-icon-logout {
+    color: white;
+}
+
+.style-button-back {
+    color: white;
+}
+
+.title {
+    color: black;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.72;
+}
+
+.container {
+    background-color: #f6f6f6;
+}
+
+.table-bordered {
+    margin: 2% 0;
+    width: 100%;
+}
+
+.head-content {
+    height: 45px;
+    background-color: #f6f6f6;
+    border-radius: 55px;
+    margin-top: -10%;
+}
+
+::ng-deep .month-label {
+    font-size: 20px;
+    padding: 0% 5%;
+    font-weight: 500;
+}
+
+.container-no-results {
+    text-align: center;
+}
+
+tr {
+    text-align: center;
+}
+
+::ng-deep td {
+    text-align: center;
+    height: 42px;
+    font-weight: bold;
+    width: 40px !important;
+}
+
+.icon-control {
+    margin: 2% 5%;
+}
+
+.row-order {
+    width: 90%;
+}
+
+.day-ts {
+    margin-top: 20%;
+    height: 100%;
+}
+
+.icon-header {
+    margin: 17% 0% !important;
+    color: #597bf0;
+    font-size: 30px;
+}
+
+.colum {
+    padding: 0;
+    box-shadow: 2px 0px 5px 2px rgba(130, 130, 130, 0.12);
+    margin: 13px;
+    align-content: center !important;
+    height: 80px;
+}
+
+::ng-deep .bg-info {
+    background-color: #7461fc;
+    color: white !important;
+    border-radius: 36vh;
+    width: 12% !important;
+}
+
+::ng-deep .bg-sunday {
+    color: #c5c5c5 !important;
+}
+
+::ng-deep .colm {
+    padding: 5px;
+    height: 20px !important;
+    border-bottom: 1px #4c4e6a;
+}
+
+.cell {
+    padding: 11px 13px;
+    height: 27px !important;
+    color: #4c4e6a;
+    font-size: 18px;
+    font-weight: 800;
+    text-align: center;
+}
+
+.calendar {
+    width: 100%;
+}
+
+.disponible {
+    width: auto;
+    height: 84px;
+    border-radius: 6px;
+    border: solid 1px var(--silver);
+    background-color: #f6f6f6;
+    //margin-top      : 2%;
+}
+
+.container-disponible {
+    display: flex;
+}
+
+.btn-get-meeting {
+    width: 50%;
+    height: 40px;
+    border-radius: 5px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    background-color: #d4cfff;
+    margin-top: 7.5%;
+    margin-left: auto;
+    margin-right: auto;
+    color: black;
+}
+
+.container-hours {
+    padding: 0px;
+    margin-left: auto;
+    margin-right: -13%;
+    width: 100%;
+    display: flex;
+}
+
+.hour {
+    font-family: OpenSans;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.3px;
+    color: #787993;
+    margin-top: 7%;
+}
+
+.calendar-content {
+    display: block;
+    margin-top: 10%;
+    width: auto;
+    background-color: #f6f6f6;
+}
+
+.medic-label {
+    text-align: left;
+    font-size: 20px;
+    padding: 5% !important;
+    box-shadow: 2px 6px 6px 7px rgba(78, 78, 78, 0.12);
+    border-radius: 20px;
+}
+
+.icon-title {
+    font-size: 20px;
+    color: #7461fc;
+    margin: 0px 10px;
+}
+
+.img-empty {
+    margin-top: -9%;
+    width: 30%;
+    height: auto;
+}
+
+.label-empty {
+    margin: 13% 10%;
+}
+
+.pedido {
+    width: auto;
+    font-size: 12px;
+    font-weight: 500;
+    color: blue;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    margin-top: 1%;
+}
+
+.container-2 {
+    color: red;
+}
+
+@media (min-width: 619px) {
+    .btn-get-meeting {
+        margin-top: calc(2.5% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .hour {
+        margin-top: calc(2.5% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(14px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .disponible {
+        height: calc(100px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .btn-get-meeting {
+        height: calc(50px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+}

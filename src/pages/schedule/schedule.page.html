@@ -1,0 +1,79 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-back-button class="style-button-back" slot="start">
+        </ion-back-button>
+        <ion-buttons slot="end">
+            <ion-button (click)="returnHome()" slot="end">
+                <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title class="title-toolbar">Agenda</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="text-center">
+    <div class="calendar-content">
+        <div class="head-content">
+            <ion-col class="icon-header">
+                <ion-icon *ngIf="disableBackBS" name="arrow-dropleft" class="icon-control" (click)="previous()"></ion-icon>
+            </ion-col>
+            <span class="month-label">{{monthLabel}},&nbsp;&nbsp;{{currentYear}}</span>
+            <ion-col class="icon-header">
+                <ion-icon name="arrow-dropright" class="icon-control" (click)="next()">
+                </ion-icon>
+            </ion-col>
+        </div>
+
+        <!-- <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)" (onRangeChanged)="reloadSource(startTime, endTime)" (onEventSelected)="onEventSelected($event)"
+            (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30">
+
+        </calendar> -->
+        <table class="table-bordered" id="calendar">
+            <thead class="head-content">
+                <tr class="head-content">
+                    <th class="title">Dom</th>
+                    <th class="title">Lun</th>
+                    <th class="title">Mar</th>
+                    <th class="title">Mie</th>
+                    <th class="title">Jue</th>
+                    <th class="title">Vie</th>
+                    <th class="title">Sab</th>
+                </tr>
+            </thead>
+            <tbody class="calendar" id="calendar-body">
+            </tbody>
+        </table>
+    </div>
+
+    <ion-grid *ngIf="hoursAvailable.length >=1 ">
+        <ion-row *ngFor="let hour of hoursAvailable">
+            <ion-col size="2" class="hour">
+                <span [ngStyle]="{'color': hour.color}">
+                        {{hour.hora.substring(0, 5)}}
+                      </span>
+            </ion-col>
+            <ion-col size="10">
+                <div class="disponible">
+                    <ion-row>
+                        <!-- <button class="btn-get-meeting" [disabled]="hour.disabled" (click)="getMeeting(hour)">
+                            AGENDAR
+                          </button> -->
+                        <button class="btn-get-meeting" [disabled]="hour.disabled" (click)="getMeeting(hour)">
+                                AGENDAR
+                              </button>
+                    </ion-row>
+                    <ion-row>
+                        <label *ngIf="hour.disabled" class="pedido">Ya tienes un pedido</label>
+                        <label *ngIf="hour.ocupado" class="pedido">Ya hay un pedido de agendamiento</label>
+                    </ion-row>
+
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <div class="container-no-results" *ngIf="!hoursAvailable || hoursAvailable === '' || hoursAvailable === undefined || hoursAvailable.length<=0 ">
+        <h5 class="label-empty ">No se encontraron horas disponibles </h5>
+        <img class="img-empty" src="assets/imgs/sin-datos.svg ">
+
+    </div>
+</ion-content>

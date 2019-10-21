@@ -1,0 +1,51 @@
+<ion-content>
+    <img class="splash" src="../../assets/imgs/splash.svg">
+    <img class="logo" src="../../assets/imgs/medipharm.svg">
+    <p class="paciente">PACIENTE</p>
+
+    <form [formGroup]="form_login" (ngSubmit)="getData()">
+        <input class="mail" type="text" formControlName="usuario" placeholder="user@gmail.com" [(ngModel)]="user.username">
+        <ion-label *ngIf="form_login.get('usuario').errors && form_login.get('usuario').dirty">
+            <p class="validator" ion-text *ngIf="form_login.get('usuario').hasError('required')">Este campo es requerido</p>
+            <p class="validator" ion-text *ngIf="form_login.get('usuario').hasError('email')">El email es inválido</p>
+        </ion-label>
+
+        <ion-row class="password">
+            <ion-col size="10">
+                <input [type]="passwordType" formControlName="password" clearOnEdit="true" placeholder="******" [(ngModel)]="user.password" class="input-pass">
+            </ion-col>
+            <ion-col size="2">
+                <ion-icon end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
+            </ion-col>
+        </ion-row>
+
+        <div *ngIf="form_login.get('password').errors && form_login.get('password').dirty">
+            <p class="validator" ion-text *ngIf="form_login.get('password').hasError('required')">Este campo es requerido
+            </p>
+            <p class="validator" ion-text *ngIf="form_login.get('password').hasError('pattern')">Contraseña debe contener letras y números</p>
+        </div>
+        <ion-button class="login" type="submit" [disabled]="form_login.invalid">INGRESAR</ion-button>
+    </form>
+    <!-- <ion-label class="Conectate-con"> Conéctate con </ion-label> -->
+
+    <!-- <ion-row>
+        <ion-col>
+            <button ion-button class="conect-facebook" type="submit" (click)="login()">
+            <ion-icon class="icon-face" name="logo-facebook"></ion-icon> &nbsp;FACEBOOK
+        </button>
+        </ion-col>
+        <ion-col>
+            <button ion-button class="conect-gmail" type="submit" (click)="loginGoogle()">
+            <ion-icon class="icon-gmail" name="logo-google"></ion-icon> &nbsp;GOOGLE
+        </button>
+        </ion-col>
+    </ion-row> -->
+    <ion-row class="style-row">
+        <ion-col class="contain-register" size="6">
+            <ion-label class="forgot-pass" (click)="goForgotPass()"> Olvidaste tu contraseña? </ion-label>
+        </ion-col>
+        <ion-col class="account" size="6">
+            <ion-label end class="new-account" (tap)="goToRegister()"> CREAR CUENTA </ion-label>
+        </ion-col>
+    </ion-row>
+</ion-content>

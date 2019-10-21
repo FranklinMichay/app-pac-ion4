@@ -1,5 +1,7 @@
 {
   "name": "app-pac-ion4",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }

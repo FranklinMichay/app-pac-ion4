@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  apiUrl: 'http://192.168.0.109:9000/entidades/getData?model=',
+  apiURL1: 'http://192.168.0.109:9000/',
+  socketUrl: 'http://192.168.0.109:8080'
+
 };
 
 /*

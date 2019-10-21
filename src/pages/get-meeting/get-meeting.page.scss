@@ -1,0 +1,192 @@
+page-get-meeting {
+    border-radius: 10px;
+}
+
+.content-body {
+    border-radius: 10px;
+    overflow: hidden;
+    background-color: white;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    bottom: 0px;
+    position: absolute;
+}
+
+.close {
+    position: absolute;
+    width: 8px;
+    top: 5px;
+    left: 5px;
+    font-size: 30px;
+    color: #fe0404;
+}
+
+.label-icon {
+    background-color: blue !important;
+    border-block-color: red;
+}
+
+.state {
+    font-size: 18px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: black;
+    font-weight: 700;
+}
+
+.logo {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center !important;
+    height: auto;
+    width: 70px;
+    display: block;
+}
+
+.btn-send {
+    border-radius: 20px;
+    background-color: rgb(0, 124, 128);
+    height: 45px;
+    width: 100%;
+    text-transform: uppercase;
+    color: white;
+}
+
+.btn-cancel {
+    border-radius: 20px;
+    background-color: rgb(173, 22, 11);
+    height: 45px;
+    width: 100%;
+    text-transform: uppercase;
+    color: white;
+}
+
+.icon-desplegable {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1em;
+    display: flex;
+}
+
+.accept {
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: black;
+    margin-top: -8%;
+}
+
+.label-content {
+    width: 96%;
+    height: 100%;
+    border-radius: 5px;
+    //border: solid 2px map-get($colors, primary-default);
+    background-color: white;
+    text-align: -webkit-left;
+}
+
+.name {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    //color: map-get($colors, black);
+}
+
+.esp {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    margin-top: -4%;
+    color: black;
+}
+
+.fecha {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    margin-top: -3%;
+    color: #657785;
+}
+
+.cm {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    margin-top: -5%;
+    color: black;
+}
+
+.ok {
+    width: 90%;
+    height: 50px;
+    border-radius: 25px;
+    background: linear-gradient(99deg, #ffc185, #fd5f54);
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    margin-top: 6%;
+}
+
+.time {
+    position: absolute;
+    right: 8%;
+    padding: 2%;
+}
+
+.nav {
+    height: 10%;
+}
+
+@media (min-width: 619px) {
+    /*  .content-body {
+      width       : calc(80% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+      height      : calc(72% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+      margin-left : calc(0% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+      margin-right: calc(10% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    } */
+    .content-body {
+        width: auto;
+        height: auto;
+    }
+    .esp {
+        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        margin-top: calc(-2% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .cm {
+        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .accept {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+}
+
+@media (min-width: 1024px) {
+    /*  .content-body {
+      width         : calc(62% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+      height        : calc(76% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+      margin-left   : calc(0% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+      //margin-right: calc(10% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    } */
+    .accept {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+}

@@ -1,0 +1,42 @@
+<div class="content-body">
+    <content>
+
+        <ion-icon class="icon-desplegable" color="primary-default" (click)="dismiss()" name="ios-arrow-down">
+        </ion-icon>
+
+        <hr>
+        <ion-grid class="container-info">
+            <ion-row>
+                <ion-col>
+                    <h4 class="accept">Listo,<br> tu cita será agendada:</h4>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <button class="label-content">
+              <ion-row>
+                <ion-icon class="time" color="primary-default" name="time"></ion-icon>
+                <ion-col class="name" col-12>
+                  {{hour.nombre}} &nbsp;{{hour.apellido}}
+                </ion-col>
+                <ion-col class="esp" col-12>
+                  {{hour.especialidad}}
+                </ion-col>
+                <ion-col class="fecha" col-16>
+                  {{hour.fecha}}&nbsp;&nbsp; &nbsp;&nbsp;{{hour.hora}}
+                </ion-col>
+                <ion-col class="cm" col-12>
+                  {{hour.centroMedico}}
+                </ion-col>
+              </ion-row>
+            </button>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <button ion-button class="ok" type="submit" (click)="dismiss()">ENTENDIDO</button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </content>
+</div>

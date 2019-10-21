@@ -1,0 +1,406 @@
+.bg-header {
+    height: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.text-center {
+    color: white;
+}
+
+.container-medic {
+    position: absolute;
+}
+
+.name-medic {
+    width: 62%;
+    top: 18%;
+    position: absolute;
+    left: 3%;
+    font-family: Poppins;
+    font-size: 23px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #f3f4f8;
+    margin-top: -25%;
+}
+
+.especialidad {
+    position: absolute;
+    top: 23.5%;
+    left: 3%;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: white;
+    margin-top: -20%;
+}
+
+.medico {
+    width: 22%;
+    left: 3%;
+    position: absolute;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 5px;
+    color: #ffffff;
+    background-color: #695cff;
+    margin-top: -30%;
+}
+
+.ver-agenda {
+    width: auto;
+    position: absolute;
+    top: 4%;
+    right: 5%;
+    font-family: Poppins;
+    font-size: 18px;
+    border-radius: 25px;
+    line-height: normal;
+    color: #ffffff;
+    height: 6%;
+    background-image: linear-gradient(284deg, #645aff, #a573ff);
+    height: auto;
+}
+
+.title-toolbar {
+    color: white;
+    text-align: center;
+}
+
+.style-icon-logout {
+    color: white;
+}
+
+.info {
+    width: 88%;
+    height: auto;
+    line-height: 1.63;
+    font-family: Poppins;
+    color: #1d1732;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: justify;
+    margin-top: -8%;
+}
+
+.container-locate {
+    display: flex;
+    margin-top: 5%;
+    font-family: Poppins;
+    font-size: 12.8px;
+    color: #657785;
+    margin-left: 3.5%;
+}
+
+.container-calendar {
+    display: flex;
+    margin-top: 2%;
+    font-family: Poppins;
+    font-size: 12.8px;
+    color: #657785;
+    margin-left: 3.5%;
+}
+
+.container-mc {
+    display: -ms-flexbox;
+    display: flex;
+    font-family: Poppins;
+    margin-left: 3.5%;
+    width: 93%;
+}
+
+.icon-location {
+    left: 5%;
+    padding-left: 3%;
+}
+
+.icon-location-mc {
+    left: 5%;
+    padding-left: 3%;
+}
+
+.icon-calendar {
+    left: 5%;
+    padding-left: 3%;
+}
+
+.text-locate {
+    padding-left: 4%;
+    font-size: 15px;
+    margin-top: 0%;
+}
+
+.text-map {
+    color: #597bf0;
+    margin-top: -4%;
+    position: absolute;
+    right: 1%;
+    font-size: 12px;
+}
+
+.container-product-detail {
+    width: 92%;
+    margin: 4%;
+    overflow: hidden;
+    border-radius: 5px;
+    position: relative;
+    height: 204px;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.5);
+}
+
+.container-product-detail>.img-product {
+    position: relative;
+    left: -30%;
+    right: 0%;
+    top: 0%;
+    bottom: 0%;
+    margin: auto;
+}
+
+.container-product-detail .img-product {
+    width: 100% !important;
+    height: 100% !important;
+    //opacity  : 0.7;
+    max-width: none !important;
+}
+
+// .slide-name-medical-center {
+//     width: 100%;
+//     font-family: Poppins;
+//     font-size: 20px;
+//     font-weight: 500;
+//     font-style: normal;
+//     font-stretch: normal;
+//     line-height: normal;
+//     letter-spacing: normal;
+//     color: white;
+//     position: fixed;
+//     top: 59%;
+//     text-align: left;
+//     padding-left: 7%;
+// }
+// .slide-text {
+//     width: 100%;
+//     font-family: Poppins;
+//     font-size: 12.8px;
+//     font-weight: normal;
+//     font-style: normal;
+//     font-stretch: normal;
+//     line-height: 1;
+//     letter-spacing: normal;
+//     color: white;
+//     position: fixed;
+//     top: 75%;
+//     text-align: left;
+//     padding-left: 7%;
+// }
+.text-mc {
+    padding-left: 4%;
+    font-size: 16px;
+    margin-top: 2%;
+    margin-left: -1%;
+    font-weight: 500;
+    color: black
+}
+
+.text-mc-detail {
+    padding-left: 4%;
+    font-size: 12px;
+    margin-top: 2%;
+    margin-left: -1%;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #657785;
+}
+
+.text-calendar {
+    padding-left: 4%;
+    font-size: 15px;
+    margin-top: 0%;
+}
+
+.medical-center {
+    color: black;
+    font-size: 20px;
+    font-weight: 500;
+    padding: 0% 6%;
+}
+
+ion-item.item {
+    padding-left: 0 !important;
+}
+
+.margin-ion-content {
+    height: 100vh;
+}
+
+ion-list {
+    .list-profile {
+        p {
+            font-size: 14px;
+            color: #657785;
+            padding: 0 19px;
+            margin-left: 1%;
+        }
+        span {
+            font-weight: 500;
+            color: #657785;
+            font-size: 16px;
+            padding: 0 19px;
+        }
+    }
+    .container-cm {
+        display: flex;
+        margin-top: 5%;
+        font-family: Poppins;
+        font-size: 12.8px;
+        color: #657785;
+        margin-left: 1.5%;
+    }
+    .list-profile {
+        background-color: white;
+        // border-bottom: 0.5px solid map_get($colors, shadow-light);
+    }
+}
+
+.panel {
+    height: 300px;
+}
+
+.logo-circle {
+    text-align: center;
+    //background: linear-gradient(to bottom, rgba(43, 52, 82, 0.67) 0%, rgba(43, 52, 82, 0.88) 100%), url(../assets/imgs/background-profile.png) no-repeat 0px 0px;
+    background-size: cover;
+    min-height: 300px;
+    padding: 5em 0 0;
+    img {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        padding: 10px;
+    }
+    h3 {
+        color: #fff;
+        font-size: 2em;
+        font-weight: 600;
+    }
+}
+
+.portada {
+    width: -webkit-fill-available;
+    height: auto;
+}
+
+.border-effect1 {
+    border: 2px dotted #16e6c9;
+    padding: 9px;
+    border-left: 2px dotted #7461fc;
+    border-bottom: 2px dotted #7461fc;
+    border-radius: 2.5em;
+    width: 100px;
+    height: 100px;
+    text-align: center;
+    font-size: 80px;
+    color: white;
+}
+
+.container-ion-list {
+    background: white;
+    //margin-bottom: 60px;
+}
+
+.container-all {
+    margin-top: 17%;
+}
+
+.close-account {
+    color: white;
+    font-size: 15px;
+    top: 20px;
+    left: 18px;
+    position: absolute;
+}
+
+.skipe-account {
+    color: white;
+    font-size: 15px;
+    top: 20px;
+    right: 18px;
+    position: absolute;
+}
+
+.button-ctrl {
+    width: 90%;
+    display: block;
+    height: 45px;
+    color: white;
+    margin: 5%;
+    background: #25282a;
+    text-transform: uppercase;
+}
+
+@media (min-width: 619px) {
+    .name-medic {
+        top: calc(33% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(25px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .especialidad {
+        top: calc(37% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .medico {
+        top: calc(32% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        width: calc(11% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .elige-opcion {
+        font-size: calc(28px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .container-locate {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .container-calendar {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .text-locate {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .medical-center {
+        font-size: calc(27px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .text-calendar {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .text-mc-detail {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .text-mc {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .info {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        margin-top: calc(0% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .ver-agenda {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .container-all {
+        margin-top: calc(60% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+}

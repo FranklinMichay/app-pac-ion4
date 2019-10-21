@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-back-button class="style-button-back" slot="start">
+        </ion-back-button>
+        <ion-title class="title-toolbar">Médicos</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ion-grid>
+        <ion-row>
+            <ion-col size="9">
+                <ion-searchbar placeholder="Buscar" (ionInput)="onInput($event)"></ion-searchbar>
+            </ion-col>
+            <ion-col size="1">
+                <ion-icon class="funnel" name="md-funnel" (click)="filterModal()"></ion-icon>
+            </ion-col>
+            <ion-col size="2">
+                <label class="filtros" (click)="filterModal()">FILTROS</label>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div *ngIf="searching" class="results">
+        <div *ngIf="medics && medics.length === 0">
+            <div class="center-img">
+                <img src="assets/imgs/sin-datos.svg">
+                <p class="text">No se han encontrado resultados para su búsqueda</p>
+            </div>
+        </div>
+
+        <div *ngIf="medics">
+            <ion-grid class="content-medic">
+                <ion-row *ngFor="let medic of medics" (click)="goToDetails(medic)" class="container-medic">
+                    <ion-col class="container-image" size="4">
+                        <img class="image" *ngIf="medic.fotoPerfil" [src]="medic.fotoPerfil">
+                        <img class="image" *ngIf="!medic.fotoPerfil" src="assets/imgs/doctor.png">
+                    </ion-col>
+                    <ion-col class="container-info-medic" size="7">
+                        <ion-row>
+                            <ion-col class="name" size="12">
+                                {{ medic.priNombre }} {{ medic.priApellido }}
+                            </ion-col>
+                            <ion-col class="fecha" size="12">
+                                {{ medic.pais}} &#8226; {{ medic.ciudad }}
+                            </ion-col>
+                            <ion-col class="cm" *ngFor="let cm of medic.centroMedico" size="6">
+                                {{ cm.nombre }}
+                            </ion-col>
+                        </ion-row>
+                    </ion-col>
+                    <ion-col size="1" class="icon-medic">
+                        <ion-icon name="ios-arrow-forward"></ion-icon>
+
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </div>
+</ion-content>

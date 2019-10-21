@@ -1,0 +1,323 @@
+    .icon-back {
+        position: absolute;
+        top: 10px;
+        left: 15px;
+        z-index: 9;
+        color: #7461fc;
+        background: transparent;
+        padding: 0;
+    }
+    
+    .container-title {
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        background-color: #35d6a7
+    }
+    
+    .button {
+        background-color: #35d6a7;
+    }
+    
+    .style-button-back {
+        color: white;
+    }
+    
+    .bg-header {
+        display: flex;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .title-toolbar {
+        color: white;
+        text-align: center;
+    }
+    
+    .custom-icon {
+        font-size: 28px;
+        text-shadow: 1px 1px 0 white;
+        font-weight: 800;
+    }
+    
+    // .close-icon {
+    //     margin-right: 10px;
+    //     font-size: 28px;
+    //     text-shadow: 1px 1px 0 white;
+    //     font-weight: 800;
+    //     color: map-get($colors, gray-light);
+    // }
+    .results {
+        top: 20%;
+        padding-right: 5px;
+        background-color: #4c69cc;
+    }
+    
+    .bg-medics {
+        background-image: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 91%);
+    }
+    
+    .list-header {
+        text-align: center !important;
+        border-top: 0px solid white;
+        padding-right: 0px !important;
+        margin-right: 0px !important;
+        margin-bottom: 0px;
+    }
+    
+    .separator {
+        width: 94vw;
+        margin: 0 14px 0 14px;
+        border-bottom: 0.5px solid #d4cfff;
+        .productSearch {
+            font-size: 18px;
+        }
+    }
+    
+    .vendorSearch a {
+        color: rgb(83, 82, 82);
+        font-size: 14px;
+    }
+    
+    .center-img {
+        text-align: center;
+        align-items: center;
+        img {
+            max-width: 40%;
+            padding-top: 20%;
+        }
+        p {
+            //color: map-get($colors, gray-light);
+        }
+    }
+    
+    .icon-medic {
+        margin-top: 7%;
+    }
+    
+    .name {
+        font-family: Poppins;
+        font-size: 14px;
+        font-weight: bold;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.57;
+        letter-spacing: 0.22px;
+        color: black;
+        padding: 3% 0% 0% 10%;
+    }
+    
+    .fecha {
+        font-family: Poppins;
+        font-size: 11px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 0.29;
+        letter-spacing: normal;
+        color: #657785;
+        padding: 3% 0% 0% 10%;
+    }
+    
+    .cm {
+        font-family: Poppins;
+        font-size: 12.8px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.72;
+        letter-spacing: normal;
+        color: #8c8c8c;
+        padding: 3% 0% 0% 10%;
+    }
+    
+    .filtros {
+        font-family: Poppins;
+        font-size: 11px;
+        letter-spacing: 1.37px;
+        color: #597bf0;
+        position: relative !important;
+        top: 28%;
+        margin-left: -25%;
+        font-weight: 800;
+    }
+    
+    .funnel {
+        color: #597bf0;
+        position: absolute !important;
+        top: 33%;
+        left: -10;
+    }
+    
+    .search {
+        width: 90%;
+        height: 0%;
+        margin-top: 2%;
+        margin-left: auto;
+        margin-right: auto;
+        background-color: #e9e9e9;
+    }
+    
+    .searchbar-md-input-search-icon-color {
+        color: red;
+    }
+    
+    .searchbar-ios-input-search-icon-color {
+        color: #e9e9e9;
+    }
+    
+    .searchbar-md {
+        padding: 0 !important;
+    }
+    
+    .container-search {
+        display: -ms-flexbox;
+        width: 95%;
+        height: 8%;
+        font-size: 17px;
+        border-radius: 28px;
+        background-color: #e9e9e9;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+        margin-top: 2%;
+        .searchbar-ios {
+            padding: 0 8px;
+            min-height: 44px;
+            /* border-top   : 0.55px solid transparent; */
+            /* border-bottom: 0.55px solid rgba(0, 0, 0, 0.05); */
+            /* background   : rgba(0, 0, 0, 0.2); */
+        }
+        .searchbar-md .searchbar-input {
+            box-shadow: none !important;
+            margin-top: 0%;
+            background-color: #f6f6f6;
+            height: 21%;
+        }
+        .searchbar-search-icon {
+            left: 0;
+            //color: map-get($colors, gray);
+            margin-top: 0%;
+        }
+        .searchbar-input {
+            padding: 8px 43px;
+            border-radius: 2px;
+            background-position: left 8px center;
+        }
+    }
+    
+    .text {
+        font-family: Poppins;
+        font-size: 14px;
+    }
+    
+    .link-product {
+        color: black;
+        font-size: 15px;
+    }
+    
+    .container-image {
+        padding: 20px;
+    }
+    
+    .content-medic {
+        overflow-y: scroll;
+        width: 102%;
+        //height          : 92vh;
+        background: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 91%);
+        background-color: white;
+    }
+    
+    .toolbar-search {
+        border-radius: 36px;
+        margin-top: 2%;
+        width: 95%;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+    }
+    
+    .row-medic {
+        border-bottom: 1px solid gray;
+    }
+    
+    .city {
+        margin: 1% 0;
+    }
+    
+    .container-tags {
+        border-radius: 10px;
+        background-color: #597bf0;
+        color: white;
+        text-align: center;
+    }
+    
+    .container-medic {
+        width: 98%;
+        border-radius: 11px;
+        background-color: #f6f6f6;
+        margin-top: 2%;
+        border-left: solid 9px #4c69cc;
+        height: auto;
+        .line {
+            background-color: #695cff;
+        }
+        .container-info-medic {
+            left: -14%;
+        }
+        .image {
+            width: 7vh;
+            height: 7vh;
+            border-radius: 4vh;
+            margin-top: -14%;
+            margin-left: -9%;
+        }
+        .medical-center {
+            font-family: Poppins;
+            font-size: 12.8px;
+            font-weight: normal;
+            font-style: normal;
+            font-stretch: normal;
+            line-height: 1.72;
+            letter-spacing: normal;
+            color: black;
+        }
+    }
+    
+    ion-searchbar {
+        .searchbar-input-container {
+            .searchbar-input {
+                border-radius: 20px;
+                background-color: #f6f6f6;
+                font-size: 15px;
+                border: 0 !important;
+                box-shadow: none !important;
+            }
+        }
+    }
+    
+    @media (min-width: 619px) {
+        .name {
+            font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        }
+        .fecha {
+            font-size: calc(16px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        }
+        .cm {
+            font-size: calc(16px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        }
+        .name {
+            font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        }
+        .filtros {
+            font-size: calc(17px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        }
+        .funnel {
+            font-size: calc(21px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        }
+        .searchbar-input {
+            background: rgba(0, 0, 0, 0.08);
+            font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+            height: calc(45px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        }
+    }
