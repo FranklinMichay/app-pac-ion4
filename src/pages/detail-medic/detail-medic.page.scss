@@ -1,0 +1,406 @@
+.title-toolbar {
+    color: white;
+    text-align: center;
+}
+
+.style-icon-logout {
+    color: white;
+}
+
+.style-button-back {
+    color: white;
+}
+
+.content {
+    //background    : rgba(243, 245, 247, 1);
+    background-color: white;
+}
+
+.row-content {
+    margin: 5px 10px;
+    height: 70px !important;
+    background-color: white;
+    display: flex;
+    border-radius: 15px;
+    align-items: center;
+    text-align: left !important;
+}
+
+.title {
+    font-size: 20px;
+    margin: 20px 0px;
+    display: block;
+}
+
+.form-inline {
+    position: absolute;
+    bottom: 20px;
+    width: 94%;
+}
+
+.button-ctrl {
+    display: inline;
+    border: 1px solid #d0d0e0;
+    background: #888888;
+    display: inline;
+    color: #f5f5f5;
+    border-radius: 15px;
+}
+
+.container-hours {
+    overflow-y: scroll;
+    height: 60vh;
+    margin-top: 10px;
+}
+
+.detail {
+    font-size: 15px;
+    color: #666e79;
+}
+
+.state {
+    font-size: 20px;
+}
+
+
+/* .panel {
+    height: 300px;
+  } */
+
+.portada {
+    width: -webkit-fill-available;
+    height: auto;
+}
+
+.info {
+    width: 88%;
+    height: 17%;
+    border-radius: 0px;
+    font-size: 16px;
+    background-color: white;
+    font-family: Poppins;
+    margin-left: auto;
+    margin-right: auto;
+    display: -ms-flexbox;
+    display: flex;
+    margin-top: 3%;
+    color: black;
+    text-align: justify;
+}
+
+.text-center {
+    color: white;
+}
+
+.cancelar-shedule {
+    width: 137px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #d4cfff;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 2%;
+    margin-bottom: 4%;
+}
+
+.label-content {
+    width: 93%;
+    height: auto;
+    border-radius: 5px;
+    //border          : solid 2px map-get($colors, primary-default);
+    background-color: #f3f4f8;
+    text-align: -webkit-left;
+    margin-left: 4%;
+    margin-top: -8%;
+    border-top: solid 6px #137ecc;
+}
+
+.state {
+    position: absolute;
+    right: 3%;
+    font-family: Poppins;
+    font-size: 15.8px;
+    font-weight: normal;
+    font-weight: 600;
+    color: white;
+    border-radius: 4px;
+    background-color: #13ccb3;
+    width: auto;
+    height: 3%;
+    margin-top: 0%;
+}
+
+.name {
+    font-family: Poppins;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+    margin-top: 4%;
+}
+
+.esp {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    margin-top: -6%;
+    color: black;
+}
+
+.fecha {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    margin-top: -3%;
+    color: #657785;
+}
+
+.cm {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    margin-top: -3%;
+    color: black;
+}
+
+.container-posp {
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    font-weight: 600;
+}
+
+.time {
+    position: absolute;
+    right: 8%;
+    padding: 2%;
+}
+
+.name-medic {
+    width: 62%;
+    top: 18%;
+    position: absolute;
+    left: 3%;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #f3f4f8;
+    margin-top: -25%;
+}
+
+.especialidad {
+    position: absolute;
+    top: 23.5%;
+    left: 3%;
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: white;
+    margin-top: -20%;
+}
+
+.medico {
+    width: 22%;
+    left: 3%;
+    position: absolute;
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 5px;
+    color: #ffffff;
+    background-color: #695cff;
+    margin-top: -30%;
+}
+
+.container-locate {
+    display: flex;
+    margin-top: 5%;
+    font-family: Poppins;
+    font-size: 12.8px;
+    color: #657785;
+    margin-left: 3.5%;
+}
+
+.container-all {
+    margin-top: 37%;
+}
+
+.container-calendar {
+    display: flex;
+    margin-top: 2%;
+    font-family: Poppins;
+    font-size: 12.8px;
+    color: #657785;
+    margin-left: 3.5%;
+}
+
+.container-mc {
+    display: -ms-flexbox;
+    display: flex;
+    font-family: Poppins;
+    margin-left: 3.5%;
+    width: 93%;
+}
+
+.icon-location {
+    left: 5%;
+    padding-left: 3%;
+}
+
+.icon-location-mc {
+    left: 5%;
+    padding-left: 3%;
+}
+
+.icon-calendar {
+    left: 5%;
+    padding-left: 3%;
+}
+
+.text-locate {
+    padding-left: 4%;
+    font-size: 15px;
+    margin-top: 0%;
+}
+
+.text-map {
+    color: #137ecc;
+    margin-top: -2%;
+    text-align: -webkit-right;
+}
+
+.btn-get-meeting {
+    width: 90%;
+    height: 35px;
+    border-radius: 12px;
+    color: white;
+    background-color: #35d6a7;
+}
+
+.img-empty {
+    margin-top: 25%;
+    width: 30%;
+    height: auto;
+}
+
+.label-empty {
+    margin: 5% 10%;
+}
+
+.medic-label {
+    text-align: left;
+    font-size: 20px;
+    margin: 5% 3%;
+    box-shadow: 2px 6px 6px 7px rgba(78, 78, 78, 0.12);
+    border-radius: 20px;
+}
+
+.icon-title {
+    font-size: 20px;
+    color: #35d6a7;
+    margin: 0px 10px;
+}
+
+.block {
+    display: block;
+}
+
+.text-calendar {
+    padding-left: 4%;
+    font-size: 15px;
+    margin-top: 0%;
+}
+
+@media (min-width: 619px) {
+    .name-medic {
+        top: calc(33% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(25px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .especialidad {
+        top: calc(37% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .medico {
+        top: calc(32% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        width: calc(11% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .elige-opcion {
+        font-size: calc(28px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .container-locate {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .container-calendar {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .text-locate {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .medical-center {
+        font-size: calc(27px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .text-calendar {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .text-mc-detail {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .text-mc {
+        font-size: calc(23px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .state {
+        font-size: calc(26px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .label-content {
+        height: auto;
+    }
+    .name {
+        margin-top: calc(-1% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(26px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .fecha {
+        margin-top: calc(-2% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(22px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .cm {
+        margin-top: calc(-2% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(22px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .cancelar-shedule {
+        width: calc(40% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        height: calc(65px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(24px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .info {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        margin-top: calc(-30% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+}

@@ -39,41 +39,43 @@ export class HomePage {
     private auth: AuthService,
     public platform: Platform,
     public router: Router,
-    //public backgroundMode: BackgroundMode,
-   // public localNotifications: LocalNotifications,
+    // public backgroundMode: BackgroundMode,
+    // public localNotifications: LocalNotifications,
     public menuControler: MenuController,
   ) {
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem('user'));
     console.log(this.dataUser, 'datos de paciente');
     
-    // this.getDataPac();
-    // const user = JSON.parse(localStorage.getItem('user'));
-    // console.log(user, 'user');
-    // const pkPaciente = user ? user.pk : 1;
-    // const fields: any = { pkPaciente: pkPaciente };
-    // this.connection = this.auth.getMeetingData(fields).subscribe((data: any) => {
-    //   if (data.dataNews && data.medicName) {
-    //     if (this.platform.is('cordova')) {
-    //       //REVISAR ISENABLE CON ISOFF
-    //       if (this.backgroundMode.isEnabled()) {
-    //         this.backgroundMode.wakeUp();
-    //         this.localNotifications.schedule({
-    //           id: 1,
-    //           text: data.type,
-    //           sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
-    //           data: { secret: 'key' },
-    //           wakeup: true,
-    //           title: data.medicName,
-    //           actions: 'click',
-    //           launch: true
-    //         })
-    //       }
-    //     }
-    //   }
-    // }, (err) => {
-    //   console.log(err, 'error');
-    // });
+    this.getDataPac();
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user, 'user');
+    const idPaciente = user ? user.id : 1;
+    const fields: any = idPaciente;
+    this.auth.getMeetingData(fields).subscribe((data: any) => {
+      console.log(data, 'data server user');
+      
+      // if (data.dataNews && data.medicName) {
+      //   if (this.platform.is('cordova')) {
+      //     //REVISAR ISENABLE CON ISOFF
+      //     if (this.backgroundMode.isEnabled()) {
+      //       this.backgroundMode.wakeUp();
+      //       this.localNotifications.schedule({
+      //         id: 1,
+      //         text: data.type,
+      //         sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
+      //         data: { secret: 'key' },
+      //         wakeup: true,
+      //         title: data.medicName,
+      //         actions: 'click',
+      //         launch: true
+      //       })
+      //     }
+      //   }
+      // }
+    }, (err) => {
+      console.log(err, 'error');
+    });
   }
 
   ngOnInit() {
@@ -83,13 +85,15 @@ export class HomePage {
   getDataPac() {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user, 'user');
-    const pkPaciente = user ? user.pk : null;
-    const _data = { pkPaciente: pkPaciente };
-    this.auth.getMeetingAccepted(_data).then(
+    const idPaciente = user ? user.id : null;
+    console.log(idPaciente, 'ide del paciente');
+    
+    //const _data = { pkPaciente: idPaciente };
+    this.auth.getMeetingAccepted(idPaciente).then(
       d => {
         console.log(d, 'DATOS DE PACIENTE');
-        this.dataHome = _.first(d['data_agenda']);
-        console.log(this.dataHome);
+        this.dataHome = _.first(d);
+        console.log(this.dataHome, 'ultima cita agendada');
       });
   }
 
@@ -112,8 +116,9 @@ export class HomePage {
 
   logout() {
     localStorage.removeItem('user');
+    this.connection.unsubscribe();
     this.router.navigate(['login']);
-    //this.connection.unsubscribe();
+    
     //this.navCtrl.setRoot(LoginPage);
     //this.connection.unsubscribe();
   }

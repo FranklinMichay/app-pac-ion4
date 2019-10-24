@@ -96,7 +96,6 @@ export class LoginPage implements OnInit {
         if (access['result'] === 'success') {
           this.getInfoPaciente(access)
         } else {
-          
           console.log(access, 'Error al acceder al servidor');
         }
       });

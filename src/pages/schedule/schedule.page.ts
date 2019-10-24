@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Info } from '../../shared/mock/months';
-
+import { LoadingService } from './../../app/services/loadingService';
 //import { DayPage } from '../day/day';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { GetMeetingPage } from '../get-meeting/get-meeting.page';
@@ -43,28 +43,26 @@ export class SchedulePage implements OnInit {
   h: any;
   loading: any;
   dataForModal: any;
-  hoursAvailable: any;
+  hoursAvailable = [] ;
   eventSource = [];
   calendar = {
     mode: 'month',
     currentDate: new Date()
   }
 
-  
-
   constructor(
     private router: Router,
     public navCtrl: NavController,
     public mdlCtrl: ModalController,
     public alertCtrl: AlertController,
-    public loadingCtrl: LoadingController,
     public toast: ToastController,
     private auth: AuthService,
+    private loadingCtrl: LoadingService
     
   ) { 
     this.medic = this.router.getCurrentNavigation().extras.state;
     console.log(this.medic, 'lo que traigo de perfil de medico');
-    this.hourCopy = _.cloneDeep(Info.hours);
+    //this.hourCopy = _.cloneDeep(Info.hours);
   }
 
   ngOnInit() {
@@ -76,16 +74,13 @@ export class SchedulePage implements OnInit {
     this.currentYear = this.today.getFullYear();
     this.monthLabel = Info.months[this.today.getMonth()];
     this.currentMonth = this.today.getMonth();
-    
-    
     //this.medic = this.navParams.get('medic');
     this.showCalendar(this.currentYear, this.currentMonth);
-    console.log(this.medicS, 'medic app');
     //DATOS DE DAY
-    console.log(this.hours, 'hours para SHEDULE');
     const user: any = JSON.parse(localStorage.getItem('user'));
-    this.pacienteId = user ? user.pk : 1;
-    console.log(this.info, 'info donde veo el pk');
+    this.pacienteId = user ? user.id : 1;
+    console.log(this.hoursAvailable, 'horas para calendario');
+    //console.log(this.info, 'info donde veo el pk');
     const year = this.currentYear;
     const month = this.currentMonth;
     const day = this.today.getDate();
@@ -95,16 +90,26 @@ export class SchedulePage implements OnInit {
       this.dateLabel = day + '/' + this.months[month] + '/' + year;
     }
     this.getDaysInMonth(this.currentMonth, this.currentYear);
+    console.log(year, month, day, 'fecha ');
+    
     this.getDayInfo(year, month, day);
+    const _info = {
+      medico_id: this.medic.id,
+      fecha: formatDate(this.today, 'yyyy-MM-dd', 'en-US'),
+      paciente_id: this.pacienteId
+    };
     this.disableBack(year, month, day);
-  }
-
-  async presentLoading() {
-    this.loading = await this.loadingCtrl.create({
-      spinner: 'crescent',
-      message: 'Obteniendo Datos...',
+    this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
+      console.log(result, 'agenda from api in day');
+      if( result.estadoAgenda != 'unavailable'){
+        this.hoursAvailable.push(result);
+      }
+      
+      //this.loadingCtrl.dismiss();
+    }, (err) => {
+     console.log(err, 'errores');
+      console.log(err);
     });
-    return await this.loading.present();
   }
 
   onEventSelected() {
@@ -170,18 +175,36 @@ export class SchedulePage implements OnInit {
       }
       tbl.appendChild(row);
     }
+
   }
 
   getDataDay(date) {
+    this.loadingCtrl.presentLoading();
+    this.hoursAvailable = [];
     console.log(this.medic, 'verificar id');
     let url = 'estadoAgenda=available,estadoCita=hold,fecha=' + date + ',medico_id=' + this.medic.id; 
-    this.hoursAvailable = this.auth.getByUrlCustom(url).subscribe((result: any) => {
+    this.auth.getByUrlCustom(url).subscribe((result: any) => {
       console.log(result, 'data del dia');
       this.hoursAvailable = result;
-      
+      this.loadingCtrl.dismiss();
     })
   }
 
+  getDayInfo(year, month, day) {
+    //this.loadingCtrl.presentLoading();
+    month = month + 1;
+    const m = (month < 10) ? ('0' + month) : month;
+    const d = (day < 10) ? ('0' + day) : day;
+    const date = year + '-' + m + '-' + d;
+    console.log(date, 'esta es la otra fecha');
+    const _info = {
+      medico_id: this.medic.id,
+      fecha: formatDate(new Date(date), 'yyyy-MM-dd', 'en-US'),
+      paciente_id: this.pacienteId
+    };
+    
+    this.auth.sendNotify({ fecha: date, client: this.pacienteId, idMedico: this.medic.id });
+  }
 
 
   daysInMonth(iMonth, iYear) {
@@ -196,6 +219,7 @@ export class SchedulePage implements OnInit {
     let date = this.currentYear + '/' + (this.currentMonth + 1) + '/' + index.textContent;
     this.today = new Date(date);
     console.log(date, 'fecha consultar');
+    this.getDayInfo(this.currentYear, this.currentMonth, index.textContent)
     this.getDataDay(formatDate(this.today, 'yyyy-MM-dd', 'en-US'));
     
     //this.getDayInfo(this.currentYear, this.currentMonth, index.textContent)
@@ -263,65 +287,6 @@ export class SchedulePage implements OnInit {
     return this.lastDay;
   };
 
-  getDayInfo(year, month, day) {
-    //this.loading.present()
-    month = month + 1;
-    const m = (month < 10) ? ('0' + month) : month;
-    const d = (day < 10) ? ('0' + day) : day;
-    const date = year + '-' + m + '-' + d;
-    const _info = {
-      pkMedico: this.medic.id,
-      fecha: date,
-      pkPaciente: this.pacienteId
-    };
-    this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
-      console.log(result, 'agenda from api in day');
-      if (result['result']) {
-        this.setData(result['result']['data_agenda']);
-      }
-      this.loading.dismiss();
-    }, (err) => {
-     console.log(err, 'errores');
-     
-      //this.loading.dismiss();
-      this.hours = this.hourCopy;
-
-      console.log(err);
-    });
-    //this.auth.sendNotify({ fecha: date, client: this.pacienteId, pkMedico: _info.pkMedico });
-  }
-
-  setData(data: any) {
-    this.hours = [];
-    if (_.isEmpty(data)) {
-      this.hours = null;
-    } else {
-      const res = _.groupBy(data, (v) => {
-        return [v.hora]
-      });
-      _.map(res, (v) => {
-        let newData: any =  _.first(v);;
-        newData.state = 'Disponible';
-        if(v.length > 1) {
-          _.forEach(v, (d) => {
-            console.log(this.pacienteId, d.pkpaciente,'======');     
-            if(d.pkpaciente === this.pacienteId) {
-              newData.disabled = true;
-              newData.ocupado = false;
-              return false;
-            } else {
-              newData.ocupado = true;
-            }
-          });
-        } 
-        this.hours.push(newData);
-        console.log(newData,'data newData');
-        
-      });
-      console.log(res, 'datos agrupados');
-    }
-  }
-
   getMeeting(hour) {
     console.log(hour, ' hora de la hora ');
     //this.presentModal();
@@ -334,7 +299,7 @@ export class SchedulePage implements OnInit {
       hora: hour.hora,
       medic: this.medic,
       centroMedico: hour.centroMedico.nombre,
-      pkCentroMed: hour.centroMedico.id
+      idCentroMed: hour.centroMedico.id
     }
     console.log(_info, 'INFO PARA AGENDAR CITA');
     this.dataForModal = _info;

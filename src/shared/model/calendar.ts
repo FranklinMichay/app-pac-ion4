@@ -1,7 +1,7 @@
 export interface Calendar {
   fecha?: string;
   client?: any;
-  pkMedico?: any;
+  idMedico?: any;
   data?: any;
   clientName?: any;
   medicName?: any;

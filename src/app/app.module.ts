@@ -1,3 +1,4 @@
+
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -12,15 +13,21 @@ import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { CalendarModule } from 'ion2-calendar';
 import { GetMeetingPage } from './../pages/get-meeting/get-meeting.page';
+import { ModalCancelPage } from './../pages/modal-cancel/modal-cancel.page';
+import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+
+const config: SocketIoConfig = {url: environment.socketUrl};
 
 @NgModule({
   declarations: [
     AppComponent,
-    GetMeetingPage
+    GetMeetingPage,
+    ModalCancelPage
     
   ],
   entryComponents: [
-    GetMeetingPage
+    GetMeetingPage,
+    ModalCancelPage
     
   ],
   imports: [
@@ -31,7 +38,7 @@ import { GetMeetingPage } from './../pages/get-meeting/get-meeting.page';
     AngularFireModule.initializeApp(environment),
     HttpClientModule,
     CalendarModule,
-   
+    SocketIoModule.forRoot(config)
   ],
   
   providers: [

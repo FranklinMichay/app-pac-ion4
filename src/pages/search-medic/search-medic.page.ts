@@ -1,3 +1,4 @@
+import { LoadingService } from './../../app/services/loadingService';
 import { ProfileMedicPage } from './../profile-medic/profile-medic.page';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../src/app/services/auth.service'
@@ -39,10 +40,11 @@ export class SearchMedicPage implements OnInit {
   constructor(
     public navCtrl: NavController,
     private auth: AuthService,
-    public loadingCtrl: LoadingController,
+    //public loadingCtrl: LoadingController,
     public mdlCtrl: ModalController,
     public toast: ToastController,
-    private router: Router
+    private router: Router,
+    private loadingCtrl: LoadingService
   ) { }
 
   ngOnInit() {
@@ -59,37 +61,11 @@ export class SearchMedicPage implements OnInit {
     // }
   }
 
-  async presentLoading() {
-    this.loading = await this.loadingCtrl.create({
-      spinner: 'crescent',
-      message: 'Obteniendo Datos...',
-    });
-    return await this.loading.present();
-  }
-
-  getSpecialities() {
-    this.presentLoading();
-    this.auth.getSpecialties()
-      .then((data) => {
-        this.specialties = data['data_especi'];
-        console.log(this.specialties, 'especialidades');
-        this.loading.dismiss();
-      }, (err) => {
-        // let alert = this.toast.create({
-        //   message: err.message,
-        //   duration: 3000,
-        //   position: 'top'
-        // });
-        // loading.dismiss();
-        // alert.present();
-        console.log(err);
-      });
-  }
-  
   ionViewDidLoad() {
     console.log('ionViewDidLoad SearchMedicPage');
 
   }
+
   onInput(keydata) {
     console.log(keydata.target.value, 'in ipnut');
     let query: any;
@@ -104,20 +80,17 @@ export class SearchMedicPage implements OnInit {
   }
 
   getDataList() {
-    this.presentLoading();
+    this.loadingCtrl.presentLoading();
     this.auth.getMedics()
       .then((data) => {
-        console.log(data, 'LISTA DE MEDICOS');
+        console.log(data, 'Los medicos');
         this.medics = data;
-        this.medicsOriginal = data;
-        this.medicFiltered = data;
-        this.loading.dismiss();
+        this.loadingCtrl.dismiss();
       }, (err) => {
         console.log(err, 'error al obtener datos');
       });
   }
 
-  
   searchMedics(query: any) {
     let val = query.target.value.toLowerCase();
     if (val && val.trim() != '') {
@@ -213,7 +186,7 @@ export class SearchMedicPage implements OnInit {
 
   goToDetails(medic) {
     console.log(medic, 'DATOS DEL MEDICO SELECCIONADO');
-    this.router.navigate(['profile-medic'], { state: medic } );
+    this.router.navigate(['profile-medic'], { state: medic });
   }
 
 }
