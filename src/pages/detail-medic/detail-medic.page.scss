@@ -338,6 +338,13 @@
     margin-top: 0%;
 }
 
+.css-modal .modal-wrapper {
+    height: 20%;
+    top: 80%;
+    position: absolute;
+    display: block;
+}
+
 @media (min-width: 619px) {
     .name-medic {
         top: calc(33% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
@@ -402,5 +409,9 @@
     .info {
         font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
         margin-top: calc(-30% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    app-modal-cancel.ion-page {
+        background: mediumvioletred !important;
+        border-radius: 14% !important;
     }
 }

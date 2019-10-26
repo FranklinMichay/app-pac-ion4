@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Info } from '../../shared/mock/months';
-import { LoadingService } from './../../app/services/loadingService';
+import { LoadingService } from '../../app/services/loading.service';
 //import { DayPage } from '../day/day';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { GetMeetingPage } from '../get-meeting/get-meeting.page';
@@ -312,6 +312,7 @@ export class SchedulePage implements OnInit {
   async presentModal() {
     const modal = await this.mdlCtrl.create({
       component: GetMeetingPage,
+      cssClass: 'css-modal',
       componentProps: {
         hour: this.dataForModal
      }

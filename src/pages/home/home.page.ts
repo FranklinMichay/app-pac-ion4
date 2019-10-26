@@ -52,30 +52,30 @@ export class HomePage {
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
-    this.auth.getMeetingData(fields).subscribe((data: any) => {
-      console.log(data, 'data server user');
+    // this.auth.getMeetingData(fields).subscribe((data: any) => {
+    //   console.log(data, 'data server user');
       
-      // if (data.dataNews && data.medicName) {
-      //   if (this.platform.is('cordova')) {
-      //     //REVISAR ISENABLE CON ISOFF
-      //     if (this.backgroundMode.isEnabled()) {
-      //       this.backgroundMode.wakeUp();
-      //       this.localNotifications.schedule({
-      //         id: 1,
-      //         text: data.type,
-      //         sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
-      //         data: { secret: 'key' },
-      //         wakeup: true,
-      //         title: data.medicName,
-      //         actions: 'click',
-      //         launch: true
-      //       })
-      //     }
-      //   }
-      // }
-    }, (err) => {
-      console.log(err, 'error');
-    });
+    //   // if (data.dataNews && data.medicName) {
+    //   //   if (this.platform.is('cordova')) {
+    //   //     //REVISAR ISENABLE CON ISOFF
+    //   //     if (this.backgroundMode.isEnabled()) {
+    //   //       this.backgroundMode.wakeUp();
+    //   //       this.localNotifications.schedule({
+    //   //         id: 1,
+    //   //         text: data.type,
+    //   //         sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
+    //   //         data: { secret: 'key' },
+    //   //         wakeup: true,
+    //   //         title: data.medicName,
+    //   //         actions: 'click',
+    //   //         launch: true
+    //   //       })
+    //   //     }
+    //   //   }
+    //   // }
+    // }, (err) => {
+    //   console.log(err, 'error');
+    // });
   }
 
   ngOnInit() {

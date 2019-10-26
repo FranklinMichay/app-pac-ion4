@@ -31,9 +31,9 @@ export class AuthService {
     private router: Router,
   ) {
     this.initSocketIo();
-    this.user = JSON.parse(localStorage.getItem('user'));
-    this.idPaciente = this.user.id;
-    console.log(this.idPaciente, 'id paciente en rest');
+    // this.user = JSON.parse(localStorage.getItem('user'));
+    // //this.idPaciente = this.user.id;
+    // console.log(this.idPaciente, 'id paciente en rest');
 
   }
 

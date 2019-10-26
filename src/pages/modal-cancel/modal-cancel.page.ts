@@ -12,6 +12,7 @@ export class ModalCancelPage implements OnInit {
 
   @Input() hour: any;
   hourCancel: any;
+  state = 'Disponible';
 
   constructor(
     navParams: NavParams,
@@ -20,15 +21,17 @@ export class ModalCancelPage implements OnInit {
     private auth: AuthService,
     private alertCtrl: AlertController,
     private router: Router,
-  ) { 
+  ) {
     this.hourCancel = navParams.get('hour');
-    console.log(this.hourCancel,'hora para cancelar');
-    
+    console.log(this.hourCancel, 'hora para cancelar');
+
   }
 
   ngOnInit() {
   }
 
-  
+  closeModal() {
+    this.modalCtrl.dismiss();
+  }
 
 }

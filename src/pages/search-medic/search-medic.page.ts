@@ -1,4 +1,4 @@
-import { LoadingService } from './../../app/services/loadingService';
+import { LoadingService } from '../../app/services/loading.service';
 import { ProfileMedicPage } from './../profile-medic/profile-medic.page';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../src/app/services/auth.service'

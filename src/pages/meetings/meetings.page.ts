@@ -1,10 +1,11 @@
 import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
-import { NavParams, ModalController, LoadingController, AlertController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { Info } from '../../shared/mock/months';
 import * as _ from 'lodash';  
 import { Socket } from 'ngx-socket-io';
+import { LoadingService } from '../../app/services/loading.service';
 
 @Component({
   selector: 'app-meetings',
@@ -55,10 +56,11 @@ export class MeetingsPage implements OnInit {
 
   constructor(
     private router: Router,
-    public loadingCtrl: LoadingController,
+    //public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     private auth: AuthService,
-    private socket: Socket
+    private socket: Socket,
+    private loadingCtrl: LoadingService
 
   ) { 
     this.currentYear = this.today.getFullYear();
@@ -73,39 +75,33 @@ export class MeetingsPage implements OnInit {
     console.log(user, 'user');
     this.idPaciente = user ? user.id : 1;
     console.log(this.idPaciente, 'id del paciente')
-    this.getData();
+    //this.getData();
     // this.getDataNews();
     // this.getDataAccept();
     // this.getDataPostponed();
   }
 
   ngOnInit() {
-    this.getDataAccept();
+    //this.getDataAccept();
+    this.getAllData(this.idPaciente);
   }
 
-  getData() {
-    this.presentLoading();
-    const fields: any = this.idPaciente;
-    this.connection = this.auth.getMeetingDataIo(fields).subscribe((data: any) => {
-      console.log(data, 'data del server');
-      if (data.dataAccepted && data.dataNews && data.dataPostponed) {
-        console.log(data, 'data del if');
-        this.acceptedMeetings = data;
-        this.newMeetings = data;
-        this.postponedMeetings = data;
-        this.filterData(this.currentYear, this.currentMonth, this.day);
-      }
-      this.loading.dismiss();
-    }, (err) => {
-      
-      this.loading.dismiss();
-      console.log(err);
+  getAllData(patientId) {
+    this.loadingCtrl.presentLoading();
+    const url = `paciente_id=${patientId},estadoCita=newORacceptedORpostponed`;
+    this.auth.getByUrlCustom(url).subscribe(result=>{
+      console.log(result, 'datos con url manuel');
+      this.acceptedMeetings = _.filter(result, function(o) { return o.estadoCita==='accepted'; });
+      this.newMeetings = _.filter(result, function(o) { return o.estadoCita==='new'; });
+      this.postponedMeetings = _.filter(result, function(o) { return o.estadoCita==='postponed'; });
+      console.log(this.acceptedMeetings, 'aceptadas');
+      console.log(this.newMeetings, 'new');
+      console.log(this.postponedMeetings, 'postponed');
+      this.loadingCtrl.dismiss();
     });
-    this.auth.sendResponse(this.idPaciente);
   }
 
   changeDay(day) {
-    
     this.setLabel(day, this.currentMonth, this.currentYear);
     this.getDaysInMonth(this.currentMonth, this.currentYear);
     this.daysWeek = _.map(this.daysWeek, (v, i) => {
@@ -125,9 +121,9 @@ export class MeetingsPage implements OnInit {
     this.accepted = _.filter(this.acceptedMeetings, (o: any) => { return o.fecha === date; });
     this.news = _.filter(this.newMeetings, (o: any) => { return o.fecha === date; });
     this.postponed = _.filter(this.postponedMeetings, (o: any) => { return o.fecha === date; });
-    console.log(this.accepted, 'aceptadas');
-    console.log(this.news, 'agendadas');
-    console.log(this.postponed, 'pospuestas');
+    // console.log(this.accepted, 'aceptadas');
+    // console.log(this.news, 'agendadas');
+    // console.log(this.postponed, 'pospuestas');
   }
   
   previousWeek() {
@@ -205,16 +201,12 @@ export class MeetingsPage implements OnInit {
     }
   }
 
-
-
   daysInMonth(iMonth, iYear) {
     return 32 - new Date(iYear, iMonth, 32).getDate();
   }
 
   openDay(index: any) {
     this.getDayInfo(this.currentYear, this.currentMonth, index)
-
-
   }
 
   next() {
@@ -273,21 +265,13 @@ export class MeetingsPage implements OnInit {
 
   getDaysInMonth(month, year) {
     console.log('month yar', month, year);
-
     this.lastDay = new Date(year, month + 1, 0).getDate();
     return this.lastDay;
   };
 
-  async presentLoading() {
-    this.loading = await this.loadingCtrl.create({
-      spinner: 'crescent',
-      message: 'Obteniendo Datos...',
-    });
-    return await this.loading.present();
-  }
+ 
 
   getDayInfo(year, month, day) {
-    this.presentLoading();
     month = month + 1;
     const m = (month < 10) ? ('0' + month) : month;
     const d = (day < 10) ? ('0' + day) : day;
@@ -302,15 +286,11 @@ export class MeetingsPage implements OnInit {
       if (result) {
         this.setData(result);
       }
-      this.loading.dismiss();
     }, (err) => {
-      
-      this.loading.dismiss();
-      
       this.hours = this.hourCopy;
       console.log(err);
     });
-    this.auth.sendNotify({ fecha: date, client: this.pacienteId, idMedico: _info.idMedico });
+    //this.auth.sendNotify({ fecha: date, client: this.pacienteId, idMedico: _info.idMedico });
   }
 
   setData(data: any) {
@@ -328,31 +308,6 @@ export class MeetingsPage implements OnInit {
         }
       });
     }
-  }
-
-
-  getDataNews() {
-    let url = 'estadoCita=new,paciente_id=' + this.idPaciente; 
-    this.auth.getByUrlCustom(url).subscribe((result: any) => {
-      this.newMeetings = result;
-      console.log(this.newMeetings, 'Citas agendadas');
-    })
-  }
-
-  getDataAccept() {
-    let url = 'estadoCita=accepted,paciente_id=' + this.idPaciente; 
-    this.auth.getByUrlCustom(url).subscribe((result: any) => {
-      this.acceptedMeetings = result;
-      console.log(this.acceptedMeetings, 'Citas aceptadas');
-    })
-  }
-
-  getDataPostponed() {
-    let url = 'estadoCita=postponed,paciente_id=' + this.idPaciente; 
-    this.auth.getByUrlCustom(url).subscribe((result: any) => {
-      this.postponedMeetings = result;
-      console.log(this.postponedMeetings, 'Citas pospuestas');
-    })
   }
 
   changeTab(tab: string) {

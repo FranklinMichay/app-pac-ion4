@@ -74,6 +74,7 @@ export class DetailMedicPage implements OnInit {
   async presentModal(data) {
     const modal = await this.mdlCtrl.create({
       component: ModalCancelPage,
+      cssClass: 'css-modal',
       componentProps: {
         hour: data
      }

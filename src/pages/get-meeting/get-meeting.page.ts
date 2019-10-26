@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 export class GetMeetingPage implements OnInit {
 
   @Input() hour: any;
-  
+
   idPaciente: any;
   namePatient: any;
   dataHour: any;
@@ -26,7 +26,7 @@ export class GetMeetingPage implements OnInit {
     private auth: AuthService,
     private alertCtrl: AlertController,
     private router: Router,
-  ) { 
+  ) {
     console.log(navParams.get('hour'), 'DATOS EN EL MODAL');
     this.dataHour = navParams.get('hour');
     // console.log(hor, 'hora lista');
@@ -34,12 +34,12 @@ export class GetMeetingPage implements OnInit {
     console.log(user, 'user from local storage');
     this.idPaciente = user ? user.id : 1;
     console.log(this.idPaciente, 'id user ');
-    
-    this.namePatient = user ? user.nombre +  ' ' + user.apellido : 'Sin Nombre';
-    const idMed =  this.dataHour.medic.id;
-    const {hora, fecha, idCentroMed, centroMedico, } =  this.dataHour;
-    console.log( idMed, hora, fecha, idCentroMed, centroMedico, idMed ,'lo que trae de la hora');
-    
+
+    this.namePatient = user ? user.nombre + ' ' + user.apellido : 'Sin Nombre';
+    const idMed = this.dataHour.medic.id;
+    const { hora, fecha, idCentroMed, centroMedico, } = this.dataHour;
+    console.log(idMed, hora, fecha, idCentroMed, centroMedico, idMed, 'lo que trae de la hora');
+
   }
 
   ngOnInit() {
@@ -54,21 +54,21 @@ export class GetMeetingPage implements OnInit {
   }
 
   sendRequest() {
-    
+
     let fields: any = {}
-    const idMed =  this.dataHour.medic.id;
-    const {hora, fecha, idCentroMed, } =  this.dataHour;
-    fields.medico = idMed;
+    const idMed = this.dataHour.medic.id;
+    const { hora, fecha, idCentroMed, } = this.dataHour;
+    fields.medico_id = idMed;
     fields.hora = hora;
     fields.fecha = fecha;
-    fields.paciente = this.idPaciente;
-    fields.centroMedico = idCentroMed;
+    fields.paciente_id = this.idPaciente;
+    fields.centroMedico_id = idCentroMed;
     fields.estadoCita = 'new';
     fields.estadoAgenda = 'available';
 
     console.log(fields, 'datos para enviar a agendar');
     this.presentLoading();
-    this.auth.create(fields).subscribe(result=> {
+    this.auth.create(fields).subscribe(result => {
       console.log(result, 'data agendar cita');
       this.loading.dismiss();
       this.presentAlertConfirm();
@@ -138,13 +138,16 @@ export class GetMeetingPage implements OnInit {
 
 
   dismiss() {
-    
+
     this.modalCtrl.dismiss({
       'dismissed': true
     });
   }
 
-
- 
+  closeModal() {
+    this.modalCtrl.dismiss({
+      'dismissed': true
+    });
+  }
 
 }

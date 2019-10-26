@@ -1,3 +1,9 @@
+::ng-deep ion-modal {
+    background: rgba(0, 0, 0, 0.5) !important;
+    display: block;
+    padding: 90% 0% 0% 0% !important;
+}
+
 .modal-wrapper {
     height: 70%;
     width: 60%;
@@ -84,7 +90,7 @@
     width: 96%;
     height: 100%;
     border-radius: 5px;
-    //border: solid 2px map-get($colors, primary-default);
+    border: solid 2px #7461fc;
     background-color: white;
     text-align: -webkit-left;
 }
@@ -97,7 +103,7 @@
     font-stretch: normal;
     line-height: 1.57;
     letter-spacing: 0.22px;
-    //color: map-get($colors, black);
+    color: black;
 }
 
 .esp {
@@ -136,25 +142,28 @@
     color: black;
 }
 
-.ok {
-    width: 90%;
-    height: 50px;
-    border-radius: 25px;
-    background: linear-gradient(99deg, #ffc185, #fd5f54);
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    margin-top: 6%;
-}
-
 .time {
     position: absolute;
     right: 8%;
     padding: 2%;
+    color: #7461fc;
 }
 
 .nav {
     height: 10%;
+}
+
+.ok {
+    width: 90%;
+    height: 50px;
+    --border-radius: 25px;
+    --background: linear-gradient(104deg, #ffc185, #fd5f54);
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    margin-top: 8%;
+    color: white;
+    font-size: 16px;
 }
 
 @media (min-width: 619px) {

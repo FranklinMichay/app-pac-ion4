@@ -1,156 +1,152 @@
 ::ng-deep ion-modal {
-    background-color: rgba(41, 28, 28, 0.774);
-    padding: 80% 0% 0% 0% !important;
-    .content-body {
-        border-radius: 10px;
-        overflow: hidden;
-        --background: red;
-        border-top-left-radius: 15px;
-        border-top-right-radius: 15px;
-        bottom: 0px;
-        position: absolute;
-        width: 100%;
-        height: auto;
-        border-radius: 20px;
-        height: 100%;
-    }
+    background: rgba(0, 0, 0, 0.5) !important;
+    display: block;
+    padding: 90% 0% 0% 0% !important;
 }
 
-// ::ng-deep ion-modal {
-//     padding: 80% 0% 0% 0% !important;
-//     background-color: rgba(41, 28, 28, 0.774);
-//     border-radius: 10px;
-//     height: 100%;
-// }
-// .content-body {
-//     border-radius: 10px;
-//     overflow: hidden;
-//     --background-color: white;
-//     border-top-left-radius: 15px;
-//     border-top-right-radius: 15px;
-//     bottom: 0px;
-//     position: absolute;
-//     width: 100%;
-//     height: auto;
-//     border-radius: 20px;
-//     height: 100%;
-// }
-// .label-content {
-//     width: 374px;
-//     height: 85px;
-//     border: solid 1px #f3f4f8;
-//     background-color: white;
-// }
-// .icon-desplegable {
-//     margin-left: auto;
-//     margin-right: auto;
-//     width: 1em;
-//     display: flex;
-// }
-// .name {
-//     font-family: Poppins;
-//     font-size: 20px;
-//     font-weight: 500;
-//     font-style: normal;
-//     font-stretch: normal;
-//     line-height: normal;
-//     letter-spacing: normal;
-//     //left          : -23%;
-//     color: black;
-//     margin-left: auto;
-//     margin-right: auto;
-// }
-// .icon-desplegable {
-//     margin-left: auto;
-//     margin-right: auto;
-//     width: 1em;
-//     display: flex;
-// }
-// .cancelar-shedule {
-//     width: 149px;
-//     height: 35px;
-//     border-radius: 5px;
-//     background-color: #d4cfff;
-//     margin-left: auto;
-//     margin-right: auto;
-//     display: block;
-//     text-align: center;
-//     font-weight: 600;
-//     margin-top: 1%;
-// }
-// .span-state {
-//     width: 67px;
-//     height: 22px;
-//     font-family: Poppins;
-//     font-size: 12.8px;
-//     font-weight: normal;
-//     font-style: normal;
-//     font-stretch: normal;
-//     line-height: 1.72;
-//     letter-spacing: normal;
-//     color: #13ccb3;
-// }
-// ::ng-deep .fecha {
-//     width: 103px;
-//     height: 22px;
-//     font-family: OpenSans;
-//     font-size: 14px;
-//     font-weight: bold;
-//     font-style: normal;
-//     font-stretch: normal;
-//     line-height: 1.57;
-//     letter-spacing: 0.22px;
-//     color: black;
-//     //left          : -27%;
-//     margin-top: -3%;
-//     margin-left: auto;
-//     margin-right: auto;
-// }
-// .container-cancel {
-//     text-align: center;
-//     margin-top: 5%;
-// }
-// .cancelar-text {
-//     font-family: OpenSans;
-//     font-size: 14.8px;
-//     font-weight: bold;
-//     line-height: 1.57;
-//     letter-spacing: 0.22px;
-//     color: black;
-// }
-// .sel-text {
-//     font-family: Poppins;
-//     font-size: 14px;
-//     font-weight: normal;
-//     font-style: normal;
-//     font-stretch: normal;
-//     line-height: 1.72;
-//     letter-spacing: normal;
-//     text-align: center;
-//     color: #657785;
-// }
-// .not-cancel {
-//     width: 150px;
-//     height: 50px;
-//     border-radius: 25px;
-//     border: solid 2px black;
-//     background-color: white;
-// }
-// .cancel {
-//     width: 150px;
-//     height: 50px;
-//     --border-radius: 25px;
-//     --background: linear-gradient(106deg, #ffc185, #fd5f54);
-//     color: white;
-// }
-// .container-buttons {
-//     margin-top: 8%;
-//     text-align: -webkit-center;
-//     margin-bottom: 5%;
-// }
-// @media (min-width: 619px) {
-//     .content-body {
-//         width: auto;
-//         height: auto;
-//     }
-// }
+app-modal-cancel.ion-page {
+    background: mediumvioletred !important;
+    border-radius: 14% !important;
+}
+
+.color-line {
+    color: #fd5f54;
+}
+
+.toolbar-background {
+    background: #13ccb3 !important;
+}
+
+.content-body {
+    height: auto;
+    // border-radius: 90% !important;
+    border-top-left-radius: 25% !important;
+    border-top-right-radius: 25% !important;
+    background-color: #fd5f54;
+}
+
+.label-content {
+    width: auto;
+    height: 76px;
+    border: solid 1px #f3f4f8;
+    background-color: white;
+}
+
+.icon-desplegable {
+    margin-left: auto;
+    margin-right: auto;
+    width: 1em;
+    display: flex;
+}
+
+.name {
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 500;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    //left          : -23%;
+    color: black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cancelar-shedule {
+    width: 149px;
+    height: 35px;
+    border-radius: 5px;
+    background-color: #d4cfff;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: center;
+    font-weight: 600;
+    margin-top: 1%;
+}
+
+.span-state {
+    width: 67px;
+    height: 22px;
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #13ccb3;
+}
+
+::ng-deep .fecha {
+    width: 103px;
+    height: 22px;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+    //left          : -27%;
+    margin-top: -3%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-cancel {
+    text-align: center;
+    margin-top: 5%;
+}
+
+.cancelar-text {
+    font-family: OpenSans;
+    font-size: 14.8px;
+    font-weight: bold;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+}
+
+.sel-text {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    text-align: center;
+    color: #657785;
+}
+
+.not-cancel {
+    width: 150px;
+    height: 50px;
+    border-radius: 25px;
+    border: solid 2px black;
+    background-color: white;
+}
+
+.cancel {
+    width: 150px;
+    height: 50px;
+    border-radius: 25px !important;
+    background: linear-gradient(104deg, #ffc185, #fd5f54);
+    color: white;
+}
+
+.container-buttons {
+    margin-top: 8%;
+    text-align: -webkit-center;
+    margin-bottom: 5%;
+}
+
+@media (min-width: 619px) {
+    .content-body {
+        width: auto;
+        height: auto;
+    }
+}

@@ -1,42 +1,37 @@
-<div class="content-body">
-    <content>
+<ion-icon class="icon-desplegable" color="primary-default" (click)="closeModal()" name="ios-arrow-down">
+</ion-icon>
 
-        <ion-icon class="icon-desplegable" color="primary-default" (click)="dismiss()" name="ios-arrow-down">
-        </ion-icon>
-
-        <hr>
-        <ion-grid class="container-info">
-            <ion-row>
-                <ion-col>
-                    <h4 class="accept">Listo,<br> tu cita será agendada:</h4>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <button class="label-content">
+<hr>
+<ion-grid class="container-info">
+    <ion-row>
+        <ion-col>
+            <h4 class="accept">Listo,<br> tu cita será agendada:</h4>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <button class="label-content">
               <ion-row>
                 <ion-icon class="time" color="primary-default" name="time"></ion-icon>
-                <ion-col class="name" col-12>
-                  {{hour.nombre}} &nbsp;{{hour.apellido}}
+                <ion-col class="name" size="12">
+                  {{hour.medic.priNombre}} &nbsp;{{hour.medic.priApellido}}
                 </ion-col>
-                <ion-col class="esp" col-12>
-                  {{hour.especialidad}}
+                <ion-col class="esp" size="12">
+                  {{hour.medic.especialidad.nombre}}
                 </ion-col>
-                <ion-col class="fecha" col-16>
+                <ion-col class="fecha" size="12">
                   {{hour.fecha}}&nbsp;&nbsp; &nbsp;&nbsp;{{hour.hora}}
                 </ion-col>
-                <ion-col class="cm" col-12>
+                <ion-col class="cm" size="12">
                   {{hour.centroMedico}}
                 </ion-col>
               </ion-row>
             </button>
-                </ion-col>
-            </ion-row>
-            <ion-row>
-                <ion-col>
-                    <button ion-button class="ok" type="submit" (click)="sendRequest()">ENTENDIDO</button>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </content>
-</div>
+        </ion-col>
+    </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-button class="ok" type="submit" (click)="sendRequest()">ENTENDIDO</ion-button>
+        </ion-col>
+    </ion-row>
+</ion-grid>
