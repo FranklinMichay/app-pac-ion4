@@ -63,7 +63,7 @@
     <div class="form-group required" *ngIf="currentTab === 'step1'">
         <div class="container">
             <ion-grid *ngIf="accepted">
-                <ion-row *ngFor="let val of accepted" class="row-container">
+                <ion-row *ngFor="let val of accepted" class="row-container" (click)="goToDetails(val, 'Agendada', false)">
                     <ion-col size="3" class="state">
                         <img class="image" *ngIf="val.medico.fotoPerfil" [src]="val.medico.fotoPerfil">
                         <img class="image" *ngIf="!val.medico.fotoPerfil" src="assets/imgs/doctor.png">
@@ -83,7 +83,7 @@
                             </ion-col>
                         </ion-row>
                     </ion-col>
-                    <ion-col size="1" (click)="goToDetails(val, 'Agendada', false)">
+                    <ion-col size="1">
                         <ion-icon name="ios-arrow-forward"></ion-icon>
                     </ion-col>
                 </ion-row>
@@ -98,7 +98,7 @@
     <div class="form-group required" *ngIf="currentTab === 'step2'">
         <div class="container">
             <ion-grid *ngIf="news">
-                <ion-row *ngFor="let cita of news" class="row-container">
+                <ion-row *ngFor="let cita of news" class="row-container" (click)="goToDetails(cita, 'Pedida', false)">
                     <ion-col size="3" class="state">
                         <img class="image" *ngIf="cita.medico.fotoPerfil" [src]="cita.medico.fotoPerfil">
                         <img class="image" *ngIf="!cita.medico.fotoPerfil" src="assets/imgs/doctor.png">
@@ -118,7 +118,7 @@
                             </ion-col>
                         </ion-row>
                     </ion-col>
-                    <ion-col size="1" (click)="goToDetails(cita, 'Pedida', false)">
+                    <ion-col size="1">
                         <!-- <ion-icon name="close-circle" class="close"></ion-icon> -->
                         <ion-icon name="ios-arrow-forward-outline"></ion-icon>
                     </ion-col>

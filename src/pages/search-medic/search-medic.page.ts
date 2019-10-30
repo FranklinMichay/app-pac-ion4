@@ -7,6 +7,7 @@ import { FormControl } from '@angular/forms'
 //import 'rxjs/add/operator/debounceTime';
 import { NavController, NavParams, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-search-medic',
@@ -44,7 +45,8 @@ export class SearchMedicPage implements OnInit {
     public mdlCtrl: ModalController,
     public toast: ToastController,
     private router: Router,
-    private loadingCtrl: LoadingService
+    private loadingCtrl: LoadingService,
+    private dataService: DataService
   ) { }
 
   ngOnInit() {
@@ -59,11 +61,6 @@ export class SearchMedicPage implements OnInit {
     //   this.getDataList();
     //   this.getSpecialities();
     // }
-  }
-
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad SearchMedicPage');
-
   }
 
   onInput(keydata) {
@@ -128,9 +125,6 @@ export class SearchMedicPage implements OnInit {
     console.log(event);
 
   }
-
-
-
   // filterModal() {
   //   console.log(this.medics, 'medicos sin filtrar');
   //   let modal = this.mdlCtrl.create(ChatPage);
@@ -186,7 +180,8 @@ export class SearchMedicPage implements OnInit {
 
   goToDetails(medic) {
     console.log(medic, 'DATOS DEL MEDICO SELECCIONADO');
-    this.router.navigate(['profile-medic'], { state: medic });
+    this.dataService.dataMedic = medic;
+    this.router.navigate(['profile-medic']);
   }
 
 }

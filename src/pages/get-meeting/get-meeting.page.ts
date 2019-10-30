@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { NavParams, ModalController, LoadingController, AlertController } from '@ionic/angular';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { Router } from '@angular/router';
+import { LoadingService } from 'src/app/services/loading.service';
 
 
 @Component({
@@ -22,10 +23,11 @@ export class GetMeetingPage implements OnInit {
   constructor(
     navParams: NavParams,
     private modalCtrl: ModalController,
-    private loadingCrtl: LoadingController,
+    //private loadingCrtl: LoadingController,
     private auth: AuthService,
     private alertCtrl: AlertController,
     private router: Router,
+    private loadingCtrl: LoadingService 
   ) {
     console.log(navParams.get('hour'), 'DATOS EN EL MODAL');
     this.dataHour = navParams.get('hour');
@@ -45,14 +47,6 @@ export class GetMeetingPage implements OnInit {
   ngOnInit() {
   }
 
-  async presentLoading() {
-    this.loading = await this.loadingCrtl.create({
-      spinner: 'crescent',
-      message: 'Obteniendo Datos...',
-    });
-    return await this.loading.present();
-  }
-
   sendRequest() {
 
     let fields: any = {}
@@ -67,42 +61,30 @@ export class GetMeetingPage implements OnInit {
     fields.estadoAgenda = 'available';
 
     console.log(fields, 'datos para enviar a agendar');
-    this.presentLoading();
+    this.loadingCtrl.presentLoading();
     this.auth.create(fields).subscribe(result => {
       console.log(result, 'data agendar cita');
-      this.loading.dismiss();
+      this.loadingCtrl.dismiss();
       this.presentAlertConfirm();
-      //this.dismiss();
+      this.auth.sendNotify(result[0]);
+      this.closeModal(this.dataHour);
     });
   }
 
-  // async presentAlert() {
-  //   const alert = await this.alertCtrl.create({
-  //     header: 'Correcto',
-  //     subHeader: 'Pedido Enviado',
-  //     message: 'Que hacer',
-  //     buttons: ['Quedarme Aqui', 'Ir a mis Citas']
-  //   });
-
-  //   await alert.present();
-  // }
-
   async presentAlertConfirm() {
     const alert = await this.alertCtrl.create({
-      header: 'Confirm!',
-      message: 'Message <strong>text</strong>!!!',
+      header: 'Listo, tu cita se agendó con éxito',
+      message: 'Que hacer ahora?',
       buttons: [
         {
           text: 'Ir a mis Citas',
           handler: () => {
             this.router.navigate(['meetings']);
-            this.dismiss();
             console.log('Ir a mis Citas');
           }
         }, {
           text: 'Quedarme Aqui',
           handler: () => {
-            this.dismiss();
             console.log('Quedarme Aqui');
           }
         }
@@ -112,41 +94,9 @@ export class GetMeetingPage implements OnInit {
     await alert.present();
   }
 
-  // goToMeetings() {
-  //   let alert = this.alertCtrl.create({
-  //     title: 'PEDIDO ENVIADO',
-  //     buttons: [
-  //       {
-  //         text: 'Quedarme Aqui',
-  //         role: 'cancel',
-  //         handler: () => {
-  //           this.cancel();
-  //         }
-  //       },
-  //       {
-  //         text: 'Ir a Mis Citas',
-  //         handler: () => {
-  //           this.cancel();
-  //           this.navCtrl.push(MeetingsPage);
-  //         }
-  //       }
-  //     ]
-  //   });
-  //   alert.present();
-  // }
-
-
-
-  dismiss() {
-
+  closeModal(data) {
     this.modalCtrl.dismiss({
-      'dismissed': true
-    });
-  }
-
-  closeModal() {
-    this.modalCtrl.dismiss({
-      'dismissed': true
+      'data': data
     });
   }
 

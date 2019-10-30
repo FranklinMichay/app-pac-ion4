@@ -1,0 +1,226 @@
+.title-toolbar {
+    color: white;
+    text-align: center;
+}
+
+.style-icon-logout {
+    color: white;
+}
+
+.text-center {
+    color: white;
+}
+
+.portada {
+    width: -webkit-fill-available;
+    height: auto;
+}
+
+.edit-profile {
+    width: 46%;
+    height: 40px;
+    --border-radius: 25px;
+    --background: linear-gradient(284deg, #645aff 103%, #a573ff -12%);
+    margin-left: auto;
+    margin-right: auto;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    margin-bottom: 5%;
+    color: white;
+}
+
+.paciente {
+    width: 22%;
+    position: fixed;
+    top: 21%;
+    text-align: center;
+    left: 7%;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 23px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #ffffff;
+    background-color: #13ccb3;
+}
+
+.container-inf-pac {
+    margin-right: -6%;
+}
+
+.style-label {
+    width: 66px;
+    height: 22px;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+}
+
+.info {
+    width: 88%;
+    height: auto;
+    line-height: 1.63;
+    font-family: Poppins;
+    color: #1d1732;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+    text-align: justify;
+}
+
+.container-locate {
+    display: flex;
+    margin-top: 5%;
+    font-family: Poppins;
+    font-size: 12.8px;
+    color: #657785;
+    margin-left: 3.5%;
+}
+
+.container-calendar {
+    display: flex;
+    margin-top: 2%;
+    font-family: Poppins;
+    font-size: 12.8px;
+    color: #657785;
+    margin-left: 3.5%;
+}
+
+.icon-location {
+    left: 5%;
+    padding-left: 3%;
+}
+
+.icon-calendar {
+    left: 5%;
+    padding-left: 3%;
+}
+
+.text-locate {
+    padding-left: 4%;
+    font-size: 15px;
+    margin-top: 0%;
+}
+
+.text-calendar {
+    padding-left: 4%;
+    font-size: 15px;
+    margin-top: 0%;
+}
+
+.inf-pac {
+    padding-left: 4%;
+    font-size: 15px;
+    margin-top: 0%;
+    display: flex;
+    margin-top: 2%;
+    font-family: Poppins;
+    font-size: 14px;
+    color: #657785;
+    margin-left: 3.5%;
+}
+
+.container-medic {
+    margin-top: 2%;
+}
+
+.name-paciente {
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 700;
+    font-style: normal;
+    color: black;
+    text-align: center;
+}
+
+.edad-paciente {
+    position: fixed;
+    top: 25%;
+    left: 7%;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #f3f4f8;
+}
+
+.style-content {
+    background-color: #f3f4f8;
+}
+
+.profile-picture {
+    position: relative;
+    .profile-picture__image {
+        border-radius: 50%;
+        /* height: 128px; */
+        width: 128px;
+        margin-top: 3%;
+        margin-left: auto;
+        margin-right: auto;
+        display: flex;
+    }
+}
+
+.inf-title-pac {
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: 700;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: black;
+    margin-left: 3%;
+    margin-top: 5%;
+}
+
+@media (min-width: 619px) {
+    button {
+        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        >ion-title.text-center {
+            font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        }
+    }
+    ion-item {
+        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    ion-label {
+        font-size: calc(12px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .paciente {
+        top: calc(30% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        width: calc(17% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .edad-paciente {
+        top: calc(34% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .name-paciente {
+        top: calc(31% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .style-label {
+        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .inf-pac {
+        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .inf-title-pac {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        margin-left: calc(5% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+}

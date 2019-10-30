@@ -6,6 +6,8 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Calendar } from '../../shared/model/calendar';
 import * as socketIo from 'socket.io-client';
+import * as _ from 'lodash';
+//import undefined = require('firebase/empty-import');
 
 @Injectable({
   providedIn: 'root'
@@ -31,9 +33,12 @@ export class AuthService {
     private router: Router,
   ) {
     this.initSocketIo();
-    // this.user = JSON.parse(localStorage.getItem('user'));
-    // //this.idPaciente = this.user.id;
-    // console.log(this.idPaciente, 'id paciente en rest');
+    this.user = JSON.parse(localStorage.getItem('user'));
+    if (this.user) {
+      this.idPaciente = this.user.id;
+    }
+
+    console.log(this.idPaciente, 'id paciente en rest');
 
   }
 
@@ -46,15 +51,15 @@ export class AuthService {
     this.socket.emit('init', { receiver: { _id: user.id } });
   }
 
-  sendNotify(data: Calendar) {
+  sendNotify(data: any) {
     console.log(data, 'in send notifi');
     this.socket.emit('calendar', data);
   }
 
-  sendResponse(data: Response) {
-    console.log(data, 'in send response client');
-    this.socket.emit('response', data);
-  }
+  // sendResponse(data: Response) {
+  //   console.log(data, 'in send response client');
+  //   this.socket.emit('response', data);
+  // }
 
   getToken(data: any) {
     console.log(data, 'DATOS DE LOGIN');
@@ -97,7 +102,6 @@ export class AuthService {
 
   getByUrlCustom(url): Observable<any> {
     this.fechaMeeting = url;
-
     return this.httpClient.get<any>(this.url + 'agenda/getData?model=Agenda&params=' + url);
   }
 
@@ -143,15 +147,25 @@ export class AuthService {
     console.log(_data, 'data for get');
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data) => {
-        if (data.medico === this.user.id || data.paciente === this.user.id || _data.medico_id === data.medico) {
-          console.log('DATO EXITOSO');
-          await this.getDayData(_data).then(
-            d => {
-              data.result = d;
-            });
-          observer.next(data);
+        console.log(data, 'data socket');
+        if (data.paciente === null || data.paciente === undefined
+          || data.medico === null || data.medico === undefined) {
+          if (_data.medico_id === data.medico.id) {
+            if (_data.fecha === data.fecha) {
+              console.log('DATOS NULL');
+            }
+          }
+        } else {
+          if (data.medico.id === this.user.id || data.paciente.id === this.user.id
+            || _data.medico_id === data.medico.id) {
+            console.log('DATO EXITOSO');
+            await this.getDayData(_data).then(
+              d => {
+                data.result = d;
+              });
+            observer.next(data);
+          }
         }
-        //console.log(data, _data, 'data del antes del if');
       });
     });
     return observable;
@@ -165,7 +179,7 @@ export class AuthService {
         if (data.client === _data.idPaciente) {
           await this.getMeetingNews(_data).then(
             d => {
-              
+
               data = d;
             });
           await this.getDataPostponed(_data).then(
@@ -188,18 +202,17 @@ export class AuthService {
   getDayData(data) {
     console.log(data, ' datos con la fecha e ide');
     return new Promise((resolve, reject) => {
-      this.httpClient.get(this.url +  this.urlGetInfo + 'estadoAgenda=available,estadoCita=hold,fecha='+ data.fecha)
+      this.httpClient.get(this.url + this.urlGetInfo + 'estadoAgenda=available,estadoCita=hold,fecha=' + data.fecha)
         .subscribe(res => {
           resolve(res);
           console.log(res, 'get day data en servicio');
-          
         }, (err) => {
           reject(err);
         });
     });
   }
 
- 
+
   getMeetingNews(idPaciente: any) {
     return new Promise((resolve, reject) => {
       this.httpClient.get(this.url + this.urlGetInfo + 'estadoCita=new,paciente_id=' + idPaciente)
@@ -224,7 +237,7 @@ export class AuthService {
     });
   }
 
-  getMeetingAccepted(data){
+  getMeetingAccepted(data) {
     console.log(data, ' for send');
     return new Promise((resolve, reject) => {
 
@@ -245,6 +258,22 @@ export class AuthService {
   create(data: any): Observable<any> {
     console.log(data, ' data');
     return this.httpClient.post(this.url + 'agenda/createDiaryMedic', data)
+  }
+
+  deleteAppointment(idCita: any): Observable<any> {
+    console.log(idCita, ' id cita eliminar');
+    return this.httpClient.delete(this.url + 'agenda/updateDiaryMedic/' + idCita + '/');
+
+  }
+
+  updatePostponed(data: any): Observable<any> {
+    console.log(data, ' data');
+    return this.httpClient.patch(this.url + 'agenda/DiaryMedic', data)
+  }
+
+  partialUpdate(data: any): Observable<any> {
+    console.log(data, ' data');
+    return this.httpClient.patch(this.url + 'agenda/updateDiaryMedic/', data)
   }
 
 }

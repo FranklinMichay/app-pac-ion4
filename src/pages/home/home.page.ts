@@ -33,7 +33,6 @@ export class HomePage {
   dataHome: any;
   
   constructor(
-    private loadingController: LoadingController,
     public navCtrl: NavController,
     public toast: ToastController,
     private auth: AuthService,
@@ -116,10 +115,7 @@ export class HomePage {
 
   logout() {
     localStorage.removeItem('user');
-    this.connection.unsubscribe();
     this.router.navigate(['login']);
-    
-    //this.navCtrl.setRoot(LoginPage);
     //this.connection.unsubscribe();
   }
   

@@ -1,11 +1,12 @@
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { Info } from '../../shared/mock/months';
-import * as _ from 'lodash';  
+import * as _ from 'lodash';
 import { Socket } from 'ngx-socket-io';
 import { LoadingService } from '../../app/services/loading.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-meetings',
@@ -16,7 +17,7 @@ export class MeetingsPage implements OnInit {
 
 
   newMeetings: any;
-  acceptedMeetings: any;
+  acceptedMeetings = [];
   currentTab: string = 'step1';
   idPaciente: any;
   postponedMeetings: any;
@@ -39,11 +40,12 @@ export class MeetingsPage implements OnInit {
   hours: any;
   hourCopy: any = [];
   lastDataShowed: any = {};
-  accepted: any;
+  accepted = [];
   news: any;
   postponed: any;
   posp: boolean = false;
   loading: any;
+  dataDelete: any;
 
   daysWeek = [
     { label: 'Dom.', selected: false, day: '' },
@@ -60,9 +62,11 @@ export class MeetingsPage implements OnInit {
     public alertCtrl: AlertController,
     private auth: AuthService,
     private socket: Socket,
-    private loadingCtrl: LoadingService
+    private loadingCtrl: LoadingService,
+    private route: ActivatedRoute,
+    private dataService: DataService
 
-  ) { 
+  ) {
     this.currentYear = this.today.getFullYear();
     this.monthLabel = Info.months[this.today.getMonth()];
     this.currentMonth = this.today.getMonth();
@@ -75,6 +79,7 @@ export class MeetingsPage implements OnInit {
     console.log(user, 'user');
     this.idPaciente = user ? user.id : 1;
     console.log(this.idPaciente, 'id del paciente')
+
     //this.getData();
     // this.getDataNews();
     // this.getDataAccept();
@@ -82,18 +87,42 @@ export class MeetingsPage implements OnInit {
   }
 
   ngOnInit() {
-    //this.getDataAccept();
+    //this.getDataAccept();    
     this.getAllData(this.idPaciente);
+
+  }
+
+  ionViewWillEnter() {
+
+    this.dataDelete = this.dataService.dataDelete;
+    const idDelete = this.dataDelete.data.data.id
+    console.log(idDelete, 'ide para eliminar');
+    this.deleteData(idDelete);
+
+
+  }
+
+  deleteData(id) {
+    console.log(this.accepted, 'datos ANTES DELETE');
+    _.remove(this.accepted, function (n) {
+      console.log(id, 'DELETE');
+      return n.id === id;
+    });
+    _.remove(this.acceptedMeetings, function (n) {
+      console.log(id, 'DELETE');
+      return n.id === id;
+    });
+    //console.log(this.acceptedMeetings, 'datos delete filtrados');
   }
 
   getAllData(patientId) {
     this.loadingCtrl.presentLoading();
     const url = `paciente_id=${patientId},estadoCita=newORacceptedORpostponed`;
-    this.auth.getByUrlCustom(url).subscribe(result=>{
+    this.auth.getByUrlCustom(url).subscribe(result => {
       console.log(result, 'datos con url manuel');
-      this.acceptedMeetings = _.filter(result, function(o) { return o.estadoCita==='accepted'; });
-      this.newMeetings = _.filter(result, function(o) { return o.estadoCita==='new'; });
-      this.postponedMeetings = _.filter(result, function(o) { return o.estadoCita==='postponed'; });
+      this.acceptedMeetings = _.filter(result, function (o) { return o.estadoCita === 'accepted'; });
+      this.newMeetings = _.filter(result, function (o) { return o.estadoCita === 'new'; });
+      this.postponedMeetings = _.filter(result, function (o) { return o.estadoCita === 'postponed'; });
       console.log(this.acceptedMeetings, 'aceptadas');
       console.log(this.newMeetings, 'new');
       console.log(this.postponedMeetings, 'postponed');
@@ -125,7 +154,7 @@ export class MeetingsPage implements OnInit {
     // console.log(this.news, 'agendadas');
     // console.log(this.postponed, 'pospuestas');
   }
-  
+
   previousWeek() {
     const currentFirstDay = this.lastDataShowed.firstDay.value;
     if (currentFirstDay === 1 && this.currentMonth === 0) {
@@ -269,7 +298,7 @@ export class MeetingsPage implements OnInit {
     return this.lastDay;
   };
 
- 
+
 
   getDayInfo(year, month, day) {
     month = month + 1;
@@ -300,7 +329,7 @@ export class MeetingsPage implements OnInit {
     } else {
       _.forEach(data, (element) => {
         console.log(element, 'element');
-        
+
         let newData: any = element;
         if (!element.id) {
           newData.state = 'Disponible'
@@ -323,8 +352,8 @@ export class MeetingsPage implements OnInit {
   }
 
   goToDetails(medic, state, posponed) {
-    console.log(medic, state, posponed ,'info para ');
-    this.router.navigate(['detail-medic', state, posponed], {state:medic} );
+    console.log(medic, state, posponed, 'info para ');
+    this.router.navigate(['detail-medic', state, posponed], { state: medic });
   }
 
 

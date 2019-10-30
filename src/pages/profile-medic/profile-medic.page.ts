@@ -1,7 +1,9 @@
+import { LoadingService } from './../../app/services/loading.service';
 import { Component, OnInit } from '@angular/core';
 import { NavController } from '@ionic/angular';
 import { HomePage } from '../home/home.page';
 import { Router, ActivatedRoute } from '@angular/router';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-profile-medic',
@@ -29,19 +31,22 @@ export class ProfileMedicPage implements OnInit {
   constructor(
     public navCtrl: NavController, 
     private router: Router,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private dataService: DataService
   ) { 
-    this.medic = this.router.getCurrentNavigation().extras.state;
-    console.log(this.medic, 'active params');
+    // this.medic = this.router.getCurrentNavigation().extras.state;
+    // console.log(this.medic, 'active params');
   }
 
   ngOnInit() {
-
+    this.medic = this.dataService.dataMedic
+    console.log(this.medic, 'datos de medico con dataService');
   }
 
   goToSchedule() {
     console.log(this.medic, 'DATOS DEL MEDICO SELECCIONADO PARA AGENDA');
-    this.router.navigate(['schedule'], { state: this.medic} );
+    const idMedico = this.medic.id
+    this.router.navigate(['schedule', idMedico] );
   }
   
   returnHome() {

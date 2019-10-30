@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
@@ -7,9 +8,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ProfilePage implements OnInit {
 
-  constructor() { }
+  data: any
+
+  constructor(
+    private router: Router,
+  ) { }
 
   ngOnInit() {
+    this.data = JSON.parse(localStorage.getItem('user'))
+  }
+
+  returnHome() {
+    this.router.navigate(['home']);
+  }
+
+  goEditProfile() {
+    this.router.navigate(['edit-profile'], { state: this.data });
   }
 
 }
