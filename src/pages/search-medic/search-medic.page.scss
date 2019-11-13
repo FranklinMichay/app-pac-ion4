@@ -50,7 +50,7 @@
 .results {
     top: 20%;
     padding-right: 5px;
-    background-color: #4c69cc;
+    //background-color: #4c69cc;
 }
 
 .bg-medics {
@@ -208,7 +208,7 @@
 
 .text {
     font-family: Poppins;
-    font-size: 14px;
+    font-size: 100%;
 }
 
 .link-product {
@@ -254,10 +254,10 @@
 
 .container-medic {
     width: 98%;
-    border-radius: 11px;
+    border-radius: 7px;
     background-color: #f6f6f6;
     margin-top: 2%;
-    border-left: solid 9px #4c69cc;
+    border-left: solid 8px #4c69cc;
     height: auto;
     .line {
         background-color: #695cff;
@@ -284,6 +284,32 @@
     }
 }
 
+.best-results {
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: black;
+}
+
+.keyword {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #657785;
+}
+
+ion-label {
+    --color: #3880ff;
+}
+
 ion-searchbar {
     .searchbar-input-container {
         .searchbar-input {
@@ -302,6 +328,20 @@ ion-auto-complete {
     display: table;
     /* display: flex; */
     margin-top: 5%;
+}
+
+.buscar {
+    width: 30%;
+    height: 27px;
+    --border-radius: 25px;
+    --background: linear-gradient(104deg, #ffc185, #fd5f54);
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    margin-top: 2%;
+    color: white;
+    font-size: 13px;
+    background-color: white;
 }
 
 @media (min-width: 619px) {

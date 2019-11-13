@@ -12,7 +12,6 @@ import { DataService } from 'src/app/services/data.service';
 import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
 import { SimpleFunction } from '../../app/services/simple-function.service';
 import { AutoCompleteOptions } from 'ionic4-auto-complete';
-
 import { logWarnings } from 'protractor/built/driverProviders';
 
 export interface AutoCompleteModel {
@@ -70,7 +69,7 @@ export class SearchMedicPage implements OnInit {
   items = ['Pizza', 'Pasta', 'Parmesan'];
   tags = [];
   paramsForRequest: any = {};
-
+  valor = 'nada';
   constructor(
     public navCtrl: NavController,
     private auth: AuthService,
@@ -111,7 +110,7 @@ export class SearchMedicPage implements OnInit {
   }
 
   getInfoSelect() {
-    
+
     if (this.param === 'Especialidad') {
       let url = 'administracion/especialidad';
       this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
@@ -144,15 +143,14 @@ export class SearchMedicPage implements OnInit {
 
   onTextChange() {
     let elementSelected = this.selected[(this.selected.length - 1)];
-    if (this.param === 'Ciudad'){
+    if (this.param === 'Ciudad') {
       this.paramsForRequest.ciudad = elementSelected.nombre
-    } else if (this.param === 'Centro Medico'){
+    } else if (this.param === 'Centro Medico') {
       this.paramsForRequest.centroMedico = elementSelected.id
-    } else if (this.param === 'Especialidad'){
+    } else if (this.param === 'Especialidad') {
       this.paramsForRequest.especialidad_id = elementSelected.id
     }
     console.log(this.paramsForRequest);
-    //this.valueButton();
   }
 
   onInput(keydata) {
@@ -198,10 +196,14 @@ export class SearchMedicPage implements OnInit {
   }
 
   getMedicsForParams() {
+    this.loadingCtrl.presentLoading();
     this.auth.sendParamsForSearch(this.paramsForRequest).subscribe((result: any) => {
       this.medics = result;
       this.medicFiltered = result;
       console.log(result, 'medicos encontrados');
+      this.selected = [];
+      this.paramsForRequest = {};
+      this.loadingCtrl.dismiss();
     }, (err) => {
       console.log(err, 'error al traer medicos');
     });
@@ -242,8 +244,8 @@ export class SearchMedicPage implements OnInit {
         const statement =
           o.priNombre.toLowerCase() + ' ' +
           o.priApellido.toLowerCase();
-        //o.fields.especialidad.toLowerCase() + ' ' +
-        //o.fields.ciudad.toLowerCase();
+        o.segNombre.toLowerCase() + ' ' +
+          o.segApellido.toLowerCase();
         return (patt.test(statement));
       });
       this.medics = res;
@@ -254,28 +256,6 @@ export class SearchMedicPage implements OnInit {
 
   buscar(event) {
     console.log(event);
-
-  }
-
-  filterModal() {
-    //console.log(this.medics, 'medicos sin filtrar');
-    //this.navCtrl.create(GetMeetingPage, {hour: _info});
-    this.presentModal();
-    // modal.onDidDismiss((v) => {
-    //   console.log(v, 'valores para filtrar');
-    //   if (v) {
-    //     this.params.fields = v.params;
-    //     this.filterData();
-    //     if (v.medicalCenter && this.filterData) {
-    //       this.filterMedicalCenter(v.medicalCenter);
-    //       this.medicalCenter = v.medicalCenter
-    //     }
-    //     else {
-    //       this.medicalCenter = ''
-    //     }
-    //   }
-    // }
-    // );
   }
 
   async presentModal() {
