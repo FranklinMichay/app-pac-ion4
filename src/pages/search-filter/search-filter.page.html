@@ -1,0 +1,78 @@
+<div class="content-body">
+
+    <ion-icon class="icon-desplegable" color="primary-default" name="ios-arrow-down-outline" (click)="goBack()">
+        <hr>
+    </ion-icon>
+
+
+
+    <ion-list class="container-cancel">
+
+        <label class="cancelar-text">Mejora Resultados</label><br>
+        <!-- <label class="sel-text">Ciudad </label> -->
+        <ion-item>
+            <ion-label>Selecciona Ciudad</ion-label>
+            <ion-select placeholder="Select One">
+                <ion-select-option value="Loja">Loja</ion-select-option>
+                <ion-select-option value="Cuenca">Cuenca</ion-select-option>
+                <ion-select-option value="" selected>Todos</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+        <!-- <label class="sel-text">Centros Médicos </label> -->
+        <ion-item class="city">
+            <ion-label>Selecciona Centro Médico</ion-label>
+            <ion-select [selectedText]="medicalC" (ionChange)="codeSelected()">
+                <ion-select-option *ngFor="let mc of medicalCenter" [value]="mc.nombre">{{mc.nombre}}</ion-select-option>
+                <ion-select-option value="" selected>Todos</ion-select-option>
+            </ion-select>
+        </ion-item>
+
+
+        <!-- <label class="sel-text">Especialidades</label> -->
+        <ion-item class="city">
+            <ion-label>Selecciona Especialidad</ion-label>
+            <ion-select [selectedText]="speciality">
+                <ion-select-option *ngFor="let s of specilities" [value]="s.nombre">{{s.nombre}}</ion-select-option>
+                <ion-select-option value="" selected>Todos</ion-select-option>
+            </ion-select>
+        </ion-item>
+    </ion-list>
+
+    <!-- <div class="container-cancel">
+        <label class="cancelar-text">Mejora Resultados</label><br>
+        <label class="sel-text">Ciudad </label>
+        <ion-item class="city">
+            <ion-label>Selecciona Ciudad</ion-label>
+            <ion-select [(ngModel)]="filtered.ciudad" (ngModelChange)="updateData($event)">
+                <ion-option value="Loja">Loja</ion-option>
+                <ion-option value="Cuenca">Cuenca</ion-option>
+                <ion-option value="" selected>Todos</ion-option>
+            </ion-select>
+        </ion-item>
+
+        <label class="sel-text">Centros Médicos </label>
+        <ion-item class="city">
+            <ion-label>Selecciona Centro medico</ion-label>
+            <ion-select [(ngModel)]="medicalC">
+                <ion-option *ngFor="let mc of medicalCenter" [value]="mc.nombre">{{mc.nombre}}</ion-option>
+                <ion-option value="" selected>Todos</ion-option>
+            </ion-select>
+        </ion-item>
+        <label class="sel-text">Especialidades </label>
+        <ion-item class="city">
+            <ion-label>Selecciona Especialidad</ion-label>
+            <ion-select [(ngModel)]="filtered.especialidad">
+                <ion-option *ngFor="let s of speciality" [value]="s.nombre">{{s.nombre}}</ion-option>
+                <ion-option value="" selected>Todos</ion-option>
+            </ion-select>
+        </ion-item>
+        <br />
+
+
+    </div> -->
+    <div class="container-buttons">
+        <button class="not-cancel" (click)="closeModal()"> CANCELAR </button>
+        <button class="cancel" (click)="filter()"> ACEPTAR</button>
+    </div>
+</div>

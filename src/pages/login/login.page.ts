@@ -4,8 +4,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ForgotPasswordPage } from '../forgot-password/forgot-password.page';
 import { AuthService } from '../../../src/app/services/auth.service'
-import { MenuController, AlertController, ToastController } from '@ionic/angular';
+import { MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { ToastService} from '../../../src/app/services/toast.service'
 
 
 @Component({
@@ -15,6 +16,8 @@ import { Router } from '@angular/router';
 })
 
 export class LoginPage implements OnInit {
+
+  
 
   user: any = {};
   userGoogle: any;
@@ -33,14 +36,15 @@ export class LoginPage implements OnInit {
     //public restProvider: RestProvider,
     public fb: FormBuilder,
     public alertCtrl: AlertController,
-    public tc: ToastController,
     public menu: MenuController,
     public router: Router,
-    private auth: AuthService
+    private auth: AuthService,
+    private toast: ToastService
   ) {
     this.form_login = this.fb.group({
       usuario: ['', [Validators.email, Validators.required]],
-      password: ['', [Validators.pattern(/^[a-z0-9_-]{6,18}$/)]]
+     // password: ['', [Validators.pattern(/^[a-z0-9_-]{6,18}$/)]],
+      password: ['', [Validators.required]]
     });
   }
 
@@ -85,6 +89,8 @@ export class LoginPage implements OnInit {
         console.log(token, 'TOKEN');
         this.getIdPaciente(token);
       }, (err) => {
+        this.toast.presentToast(err);
+        console.log('entro en getError');
         console.log(err);
       });
   }
@@ -101,14 +107,6 @@ export class LoginPage implements OnInit {
       });
   }
 
-  async presentToast() {
-    const toast = await this.tc.create({
-      message: 'Your settings have been saved.',
-      duration: 2000
-    });
-    toast.present();
-  }
-
   getInfoPaciente(data) {
     this.auth.getInfoPaciente(data).subscribe(dataPaciente => {
       console.log('DATOS PACIENTE', dataPaciente[0]);
@@ -121,4 +119,14 @@ export class LoginPage implements OnInit {
     this.passwordType = this.passwordType === 'text' ? 'password' : 'text';
     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
   }
+
+  goToRegister() {
+    this.router.navigate(['register']);
+  }
+
+  goToForgotPass() {
+    this.router.navigate(['forgot-password']);
+  }
+  
+ 
 }

@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { Calendar } from '../../shared/model/calendar';
 import * as socketIo from 'socket.io-client';
 import * as _ from 'lodash';
-//import undefined = require('firebase/empty-import');
+import { ToastService } from '../../../src/app/services/toast.service'
 
 @Injectable({
   providedIn: 'root'
@@ -26,11 +26,12 @@ export class AuthService {
   private urlGetInfo = 'agenda/getData?model=agenda&params=';
 
   fechaMeeting: any;
-
+  corsConfig: any = {};
 
   constructor(
     private httpClient: HttpClient,
     private router: Router,
+    private toast: ToastService
   ) {
     this.initSocketIo();
     this.user = JSON.parse(localStorage.getItem('user'));
@@ -52,7 +53,7 @@ export class AuthService {
   }
 
   sendNotify(data: any) {
-    console.log(data, 'in send notifi');
+    console.log(data, 'notificcion enviada');
     this.socket.emit('calendar', data);
   }
 
@@ -77,13 +78,13 @@ export class AuthService {
           resolve(res);
         }, (err) => {
           reject(err);
+          //this.toast.getError(err);
           console.log(err, 'Error al generar Token');
         });
     });
   }
 
   loginMedico(data: any) {
-
     return this.httpClient.post(this.url + 'medico/api-token-auth/', data).pipe(
       map(
         (token: any) => {
@@ -100,9 +101,43 @@ export class AuthService {
     )
   }
 
+  createUserPaciente(data: any): Observable<any> {
+    console.log('dataUser', data)
+    return this.httpClient.post<any>(this.url + 'paciente/createUserPaciente/', data);
+  }
+
+  getIdUser(correo) {
+    return this.httpClient.get<any>(this.url + 'paciente/getIdUser/' + correo)
+  }
+
+  registerPaciente(data): Observable<any> {
+    this.corsConfig = {
+      headers: new HttpHeaders({
+        'Content-Type': 'multipart/form-data',
+      })
+    }
+    console.log('data-APirest', data)
+    return this.httpClient.post<any>(this.url + 'paciente/createPerfilPaciente/', data);
+  }
+
+  getInfoPac(data: any): Observable<any> {
+    console.log(data, ' data');
+    console.log(data.jsonPk, ' data');
+    if (data.jsonPk != undefined) {
+      return this.httpClient.get<any>(this.url + 'paciente/getData?model=userPaciente&params=user_id=' + data.jsonPk);
+    }
+    else {
+      return this.httpClient.get<any>(this.url + 'paciente/getData?model=userPaciente&params=user_id=' + data);
+    }
+  }
+
   getByUrlCustom(url): Observable<any> {
     this.fechaMeeting = url;
     return this.httpClient.get<any>(this.url + 'agenda/getData?model=Agenda&params=' + url);
+  }
+
+  getDataByUrlCustom(url): Observable<any> {
+    return this.httpClient.get<any>(this.url + url);
   }
 
   obtenerId(correo: any, data: any): Observable<any> {
@@ -133,6 +168,18 @@ export class AuthService {
     });
   }
 
+
+  sendParamsForSearch(data) {
+    const dic = JSON.stringify(data);
+    console.log(data, 'parseado');
+    return this.httpClient.get(this.url+ 'medico/searchMedic/?params=' + dic);
+  }
+
+
+  recoveryPassword(data: any): Observable<any> {
+    return this.httpClient.post<any>(this.url + 'paciente/emailResetMovil/', data);
+  }
+
   getSpecialties() {
     return new Promise((resolve, reject) => {
       this.httpClient.get(this.url + 'movil/getEspecialidades/').subscribe(data => {
@@ -150,15 +197,22 @@ export class AuthService {
         console.log(data, 'data socket');
         if (data.paciente === null || data.paciente === undefined
           || data.medico === null || data.medico === undefined) {
-          if (_data.medico_id === data.medico.id) {
+          console.log(_data, 'data enviada');
+          console.log(_data.medico_id, data.medico, 'data enviada 2');
+          if (_data.medico_id === data.medico || _data.medico_id === data.medico.id) {
             if (_data.fecha === data.fecha) {
-              console.log('DATOS NULL');
+              console.log('DATA SOCKET MEDICO');
+              await this.getDayData(_data).then(
+                d => {
+                  data.result = d;
+                });
+              observer.next(data);
             }
           }
         } else {
           if (data.medico.id === this.user.id || data.paciente.id === this.user.id
             || _data.medico_id === data.medico.id) {
-            console.log('DATO EXITOSO');
+            console.log('DATO EXITOSO DESDE PACIENTE');
             await this.getDayData(_data).then(
               d => {
                 data.result = d;
@@ -179,14 +233,12 @@ export class AuthService {
         if (data.client === _data.idPaciente) {
           await this.getMeetingNews(_data).then(
             d => {
-
               data = d;
             });
           await this.getDataPostponed(_data).then(
             d => {
               data = d;
             });
-
           await this.getMeetingAccepted(_data).then(
             d => {
               data = d;
@@ -211,7 +263,6 @@ export class AuthService {
         });
     });
   }
-
 
   getMeetingNews(idPaciente: any) {
     return new Promise((resolve, reject) => {
@@ -240,7 +291,6 @@ export class AuthService {
   getMeetingAccepted(data) {
     console.log(data, ' for send');
     return new Promise((resolve, reject) => {
-
       this.httpClient.get(this.url + this.urlGetInfo + 'estadoCita=accepted,paciente_id=' + data)
         .subscribe(res => {
           console.log(res, 'data accepted desde el servidor');

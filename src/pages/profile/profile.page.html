@@ -2,6 +2,7 @@
     <ion-toolbar color="primary">
         <ion-back-button class="title-toolbar" slot="start">
         </ion-back-button>
+
         <ion-buttons slot="end">
             <ion-button (click)="returnHome()" slot="end">
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
@@ -11,63 +12,48 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="style-content" *ngIf="data">
-    <section class="profile-picture">
-        <img *ngIf="data" [src]="data.fotoPerfil" class="profile-picture__image" alt="Profile Picture">
-        <img *ngIf="!data" [src]="'assets/imgs/perfil.svg'" class="profile-picture__image" alt="Profile Picture">
-    </section>
-    <ion-button class="edit-profile" type="submit" (click)="goEditProfile()">EDITAR PERFIL</ion-button>
-
-    <h4 class="inf-title-pac">Información básica:</h4>
-    <div class="container-inf-pac">
-        <ion-row>
-            <ion-col size="5">
-                <label class="style-label">Nombres:</label>
-            </ion-col>
-            <ion-col size="7">
-                <span class="inf-pac">{{data.name}}&nbsp;{{data.email}}</span>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col size="5">
-                <label class="style-label">Email:</label>
-            </ion-col>
-            <ion-col size="7">
-                <span class="inf-pac">{{data.email}}</span>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col size="5">
-                <label class="style-label">Identificación:</label>
-            </ion-col>
-            <ion-col size="7">
-                <span class="inf-pac">{{data.identificacion}}</span>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col size="5">
-                <label class="style-label">Ciudad:</label>
-            </ion-col>
-            <ion-col size="7">
-                <span class="inf-pac">{{data.ciudad}}</span>
-            </ion-col>
-        </ion-row>
-        <ion-row>
-            <ion-col size="5">
-                <label class="style-label">Fecha de Nacimiento:</label>
-            </ion-col>
-            <ion-col size="7">
-                <span class="inf-pac">{{data.fecha}}</span>
-            </ion-col>
-        </ion-row>
-        <ion-row class="ion-justify-content-left">
-            <ion-col size="5">
-                <label class="style-label">Teléfono:</label>
-            </ion-col>
-            <ion-col size="7">
-                <span class="inf-pac">{{data.telefonoCelular}}</span>
-            </ion-col>
-        </ion-row>
+<ion-content *ngIf="data" padding>
+    <div class="user-photo">
+        <ion-avatar>
+            <img [src]="data.fotoPerfil || '/assets/imgs/noavatar.png'">
+        </ion-avatar>
     </div>
-
+    <ion-button class="edit-profile" type="submit" (click)="goEditProfile()">EDITAR PERFIL</ion-button>
+    <ion-list>
+        <ion-item>
+            <ion-icon name="person" slot="start"></ion-icon>
+            <ion-label>
+                <p>Nombre</p>
+                <h2>{{data.priNombre}}&nbsp;{{data.priApellido}}</h2>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="mail" slot="start"></ion-icon>
+            <ion-label>
+                <p>Email</p>
+                <h2>{{data.user.username}}</h2>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="finger-print" slot="start"></ion-icon>
+            <ion-label>
+                <p>Identificación</p>
+                <h2>{{data.identificacion}}</h2>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="pin" slot="start"></ion-icon>
+            <ion-label>
+                <p>Ciudad</p>
+                <h2>{{data.ciudad}}</h2>
+            </ion-label>
+        </ion-item>
+        <ion-item>
+            <ion-icon name="call" slot="start"></ion-icon>
+            <ion-label>
+                <p>Celular</p>
+                <h2>{{data.telefonoCelular}}</h2>
+            </ion-label>
+        </ion-item>
+    </ion-list>
 </ion-content>

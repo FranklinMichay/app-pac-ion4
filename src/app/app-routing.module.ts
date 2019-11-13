@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('../pages/home/home.module').then( m => m.HomePageModule)},
   { path: 'login', loadChildren: () => import('../pages/login/login.module').then( m => m.LoginPageModule)},
   { path: 'forgot-password',  loadChildren: () => import('../pages/forgot-password/forgot-password.module').then( m => m.ForgotPasswordPageModule)},
@@ -18,6 +18,8 @@ const routes: Routes = [
   { path: 'profile',  loadChildren: () => import('../pages/profile/profile.module').then( m => m.ProfilePageModule)},
   { path: 'register', loadChildren: () => import('../pages/register/register.module').then( m => m.RegisterPageModule)},
   { path: 'edit-profile', loadChildren: () => import('../pages/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)},
+  { path: 'search-filter',  loadChildren: () => import('../pages/search-filter/search-filter.module').then( m => m.SearchFilterPageModule)},
+
 
 ];
 

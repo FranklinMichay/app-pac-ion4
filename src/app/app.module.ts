@@ -1,5 +1,5 @@
-
-import { NgModule } from '@angular/core';
+import { SearchFilterPage } from './../pages/search-filter/search-filter.page';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -15,38 +15,47 @@ import { CalendarModule } from 'ion2-calendar';
 import { GetMeetingPage } from './../pages/get-meeting/get-meeting.page';
 import { ModalCancelPage } from './../pages/modal-cancel/modal-cancel.page';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TagInputModule } from 'ngx-chips';
 
-const config: SocketIoConfig = {url: environment.socketUrl};
+
+const config: SocketIoConfig = { url: environment.socketUrl };
 
 @NgModule({
   declarations: [
     AppComponent,
     GetMeetingPage,
-    ModalCancelPage
-    
+    ModalCancelPage,
+    SearchFilterPage
   ],
   entryComponents: [
     GetMeetingPage,
-    ModalCancelPage
-    
+    ModalCancelPage,
+    SearchFilterPage
   ],
   imports: [
-    BrowserModule, 
-    IonicModule.forRoot(), 
+    BrowserModule,    
+    BrowserAnimationsModule,
+    IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment),
     HttpClientModule,
     CalendarModule,
-    SocketIoModule.forRoot(config)
+    SocketIoModule.forRoot(config),
+    AutoCompleteModule,
+    TagInputModule,
   ],
-  
+
   providers: [
     StatusBar,
     SplashScreen,
-    
+
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA]
 })
-export class AppModule {}
+export class AppModule { }

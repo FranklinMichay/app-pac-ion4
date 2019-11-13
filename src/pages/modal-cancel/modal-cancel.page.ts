@@ -48,6 +48,9 @@ export class ModalCancelPage implements OnInit {
     };
     this.auth.partialUpdate(_info).subscribe(result => {
       console.log(result, 'resul de la eliminacion');
+      this.auth.sendNotify(result[0]);
+      console.log('emit enviado ojo ');
+      
       this.closeModal(dataCita);
       //this.router.navigate(['meetings'] );
       this.loadingCtrl.dismiss();

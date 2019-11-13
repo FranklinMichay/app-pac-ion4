@@ -1,11 +1,13 @@
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
-
 import { IonicModule } from '@ionic/angular';
-
 import { SearchMedicPage } from './search-medic.page';
+import { AutoCompleteModule } from 'ionic4-auto-complete';
+import { TagInputModule } from 'ngx-chips';
+
+
 
 const routes: Routes = [
   {
@@ -16,11 +18,16 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
+    TagInputModule,
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
+    AutoCompleteModule,
+    
   ],
-  declarations: [SearchMedicPage]
+  declarations: [SearchMedicPage],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA,
+    NO_ERRORS_SCHEMA]
 })
 export class SearchMedicPageModule {}

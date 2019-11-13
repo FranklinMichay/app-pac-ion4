@@ -1,13 +1,30 @@
+import { map } from 'rxjs/operators';
+import { SearchFilterPage } from './../search-filter/search-filter.page';
 import { LoadingService } from '../../app/services/loading.service';
 import { ProfileMedicPage } from './../profile-medic/profile-medic.page';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../src/app/services/auth.service'
 import * as _ from 'lodash';  // tslint:disable-line
-import { FormControl } from '@angular/forms'
 //import 'rxjs/add/operator/debounceTime';
 import { NavController, NavParams, LoadingController, ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
+import { SimpleFunction } from '../../app/services/simple-function.service';
+import { AutoCompleteOptions } from 'ionic4-auto-complete';
+
+import { logWarnings } from 'protractor/built/driverProviders';
+
+export interface AutoCompleteModel {
+  nombre: any;
+  id: any;
+  ciudad: any;
+  detalle: any;
+  direccion: any;
+  estado: any;
+  pais: any;
+  provincia: any;
+}
 
 @Component({
   selector: 'app-search-medic',
@@ -24,19 +41,35 @@ export class SearchMedicPage implements OnInit {
   city: any = '';
   medicFiltered: any;
   specialties: any;
-  items: any;
-  params: any = {
-    fields: {
-      ciudad: '',
-      especialidad: ''
-    }
-  };
-  medicalCenter: any;
+  //items: any;
 
+  params: any = [
+    {
+      "name": "Ciudad",
+    },
+    {
+      "name": "Centro Medico",
+    },
+    {
+      "name": "Especialidad",
+    }
+  ];
+
+  param = '';
+  medicalCenter: any;
   searchTerm: string = '';
   searchControl: FormControl;
   item: any;
   loading: any;
+  specilities: any;
+  public options: AutoCompleteOptions;
+  public selected = [];
+  form: FormGroup;
+
+  dataSearch = {};
+  items = ['Pizza', 'Pasta', 'Parmesan'];
+  tags = [];
+  paramsForRequest: any = {};
 
   constructor(
     public navCtrl: NavController,
@@ -46,21 +79,80 @@ export class SearchMedicPage implements OnInit {
     public toast: ToastController,
     private router: Router,
     private loadingCtrl: LoadingService,
+    public provider: SimpleFunction,
+    private formBuilder: FormBuilder,
     private dataService: DataService
-  ) { }
+
+  ) {
+
+    this.options = new AutoCompleteOptions();
+    this.options.autocomplete = 'on';
+    this.options.cancelButtonIcon = 'assets/icons/clear.svg';
+    this.options.clearIcon = 'assets/icons/clear.svg';
+    this.options.debounce = 750;
+    this.options.placeholder = 'Ingrese parámetro para la búsqueda';
+    this.options.searchIcon = 'assets/icons/add-user.svg';
+    this.options.type = 'search';
+
+  }
 
   ngOnInit() {
-    this.getDataList();
-    //   this.getSpecialities();
-    // const fromSpeciality = this.navParams.get('specialty');
-    // if (fromSpeciality) {
-    //   this.medicsOriginal = fromSpeciality;
-    //   this.medics = fromSpeciality;
-    //   console.log(fromSpeciality, 'from especialidades');
-    // } else {
-    //   this.getDataList();
-    //   this.getSpecialities();
+    //this.getDataList();
+  }
+
+
+  on(output, event): void {
+    console.log(output);
+    // if (this.selected){
+    //   console.log(this.selected[0].id, 'SELCCIONADO');
     // }
+    // console.log(event);
+    //this.getMedicBySpeciality();
+  }
+
+  getInfoSelect() {
+    
+    if (this.param === 'Especialidad') {
+      let url = 'administracion/especialidad';
+      this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
+        this.tags = result;
+        console.log(this.tags, 'tags');
+      }, (err) => {
+        console.log(err, 'errores');
+      });
+    } else if (this.param === 'Ciudad') {
+      let url = 'medico/listAllCities/';
+      this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
+        this.tags = result.map(item => {
+          return { nombre: item.ciudad }
+        });
+        console.log(this.tags, 'tags');
+      }, (err) => {
+        console.log(err, 'errores');
+      });
+
+    } else if (this.param === 'Centro Medico') {
+      let url = 'administracion/centroMedico';
+      this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
+        this.tags = result;
+        console.log(this.tags, 'tags');
+      }, (err) => {
+        console.log(err, 'errores');
+      });
+    }
+  }
+
+  onTextChange() {
+    let elementSelected = this.selected[(this.selected.length - 1)];
+    if (this.param === 'Ciudad'){
+      this.paramsForRequest.ciudad = elementSelected.nombre
+    } else if (this.param === 'Centro Medico'){
+      this.paramsForRequest.centroMedico = elementSelected.id
+    } else if (this.param === 'Especialidad'){
+      this.paramsForRequest.especialidad_id = elementSelected.id
+    }
+    console.log(this.paramsForRequest);
+    //this.valueButton();
   }
 
   onInput(keydata) {
@@ -74,6 +166,45 @@ export class SearchMedicPage implements OnInit {
     } else {
       this.medics = this.medicFiltered;
     }
+  }
+
+  getSpecialities() {
+    this.loadingCtrl.presentLoading();
+    let url = 'administracion/especialidad';
+    this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
+      console.log(result, 'especialidades');
+      this.specilities = result;
+      this.loadingCtrl.dismiss();
+    }, (err) => {
+      console.log(err, 'errores');
+    });
+  }
+
+  updateData() {
+    console.log(this.speciality, 'data para consulta');
+
+  }
+
+  getMedicBySpeciality() {
+    this.loadingCtrl.presentLoading();
+    let url = '/medico/getData?model=userMedico&params=especialidad_id=' + this.selected[0].id;
+    this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
+      console.log(result, 'medicos por id de especialidad');
+      this.medics = result;
+      this.loadingCtrl.dismiss();
+    }, (err) => {
+      console.log(err, 'errores');
+    });
+  }
+
+  getMedicsForParams() {
+    this.auth.sendParamsForSearch(this.paramsForRequest).subscribe((result: any) => {
+      this.medics = result;
+      this.medicFiltered = result;
+      console.log(result, 'medicos encontrados');
+    }, (err) => {
+      console.log(err, 'error al traer medicos');
+    });
   }
 
   getDataList() {
@@ -109,8 +240,8 @@ export class SearchMedicPage implements OnInit {
       console.log(this.medicFiltered, 'un metod sharch22');
       const res = _.filter(this.medicFiltered, o => {
         const statement =
-          o.fields.nombre.toLowerCase() + ' ' +
-          o.fields.apellido.toLowerCase();
+          o.priNombre.toLowerCase() + ' ' +
+          o.priApellido.toLowerCase();
         //o.fields.especialidad.toLowerCase() + ' ' +
         //o.fields.ciudad.toLowerCase();
         return (patt.test(statement));
@@ -125,27 +256,40 @@ export class SearchMedicPage implements OnInit {
     console.log(event);
 
   }
-  // filterModal() {
-  //   console.log(this.medics, 'medicos sin filtrar');
-  //   let modal = this.mdlCtrl.create(ChatPage);
-  //   //this.navCtrl.create(GetMeetingPage, {hour: _info});
-  //   modal.present();
-  //   modal.onDidDismiss((v) => {
-  //     console.log(v, 'valores para filtrar');
-  //     if (v) {
-  //       this.params.fields = v.params;
-  //       this.filterData();
-  //       if (v.medicalCenter && this.filterData) {
-  //         this.filterMedicalCenter(v.medicalCenter);
-  //         this.medicalCenter = v.medicalCenter
-  //       }
-  //       else {
-  //         this.medicalCenter = ''
-  //       }
-  //     }
-  //   }
-  //   );
-  // }
+
+  filterModal() {
+    //console.log(this.medics, 'medicos sin filtrar');
+    //this.navCtrl.create(GetMeetingPage, {hour: _info});
+    this.presentModal();
+    // modal.onDidDismiss((v) => {
+    //   console.log(v, 'valores para filtrar');
+    //   if (v) {
+    //     this.params.fields = v.params;
+    //     this.filterData();
+    //     if (v.medicalCenter && this.filterData) {
+    //       this.filterMedicalCenter(v.medicalCenter);
+    //       this.medicalCenter = v.medicalCenter
+    //     }
+    //     else {
+    //       this.medicalCenter = ''
+    //     }
+    //   }
+    // }
+    // );
+  }
+
+  async presentModal() {
+    const modal = await this.mdlCtrl.create({
+      component: SearchFilterPage,
+      cssClass: 'css-modal',
+    });
+    modal.onDidDismiss()
+      .then((data) => {
+        console.log(data, 'data del dismis modal ok');
+        this.router.navigate(['search-medic'], { state: data });
+      });
+    return await modal.present();
+  }
 
   filterMedicalCenter(cMedico) {
     console.log('in medical center filter', this.medics);
@@ -168,10 +312,6 @@ export class SearchMedicPage implements OnInit {
     if (this.medics.length != 0)
       return true;
     return false
-  }
-
-  goBack() {
-    this.navCtrl.pop();
   }
 
   goItem(id: string) {

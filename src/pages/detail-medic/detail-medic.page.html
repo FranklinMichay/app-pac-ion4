@@ -37,6 +37,9 @@
         <ion-col class="name " size="12 ">
             Cita médica con &nbsp;{{ medic.medico.priNombre }}&nbsp;{{ medic.medico.priApellido }}
         </ion-col>
+        <ion-col *ngIf="medic.estadoCita === 'canceled'" class="name " size="12 ">
+            Motivo: &nbsp;{{ medic.detalleCancelado }}
+        </ion-col>
         <ion-col class="fecha " size="12 ">
             {{ medic.fecha }} &nbsp; &#8212; &nbsp;{{ medic.hora }}
         </ion-col>
@@ -45,8 +48,8 @@
         </ion-col>
         </ion-row>
         <div class="container-posp ">
-            <button class="cancelar-shedule " (click)="presentModal(medic) "> CANCELAR CITA</button>
-            <button *ngIf="posponed " class="cancelar-shedule " (click)="accept( 'accepted', medic) "> AGENDAR CITA</button>
+            <button *ngIf="medic.estadoCita === 'postponed' || medic.estadoCita === 'accepted'" class="cancelar-shedule " (click)="presentModal(medic) "> CANCELAR CITA</button>
+            <button *ngIf="medic.estadoCita === 'postponed'" class="cancelar-shedule " (click)="accept( 'accepted', medic) "> AGENDAR CITA</button>
         </div>
         </button>
     </div>

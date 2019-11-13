@@ -12,29 +12,22 @@ export class EditProfilePage implements OnInit {
 
   data: any
   //form_editar_profile: FormGroup;
+  formEditProfile: FormGroup
   
   constructor(
     private router: Router,
     public tc: ToastController,
+    private fb: FormBuilder
   ) {
     this.data = this.router.getCurrentNavigation().extras.state;
-    // this.form_editar_profile = this.fb.group({
-    //   nombre: '',
-    //   apellido: '',
-    //   profile_pic: '',
-    //   direccion: '',
-    //   edad: "",
-    //   ciudad: "",
-    //   fuenteIngreso: "",
-    //   identificacion: "",
-    //   lugarNaci: "",
-    //   ocupacion: "",
-    //   sexo: "",
-    //   fecha: "",
-    //   telefonoFijo: "",
-    //   tipoSeguro: "",
-    //   telefonoCelular: ''
-    // });
+    this.formEditProfile = this.fb.group({
+      nombre: '',
+      apellido: '',
+      ciudad: '',
+      identificacion: '',
+      telefonoCelular: '',
+      username:''
+    });
    }
 
   ngOnInit() {

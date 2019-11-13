@@ -17,7 +17,7 @@
             <label class="text-center">Aceptadas</label>
         </ion-col>
         <ion-col class="col-center" [ngClass]="{'active': currentTab === 'step2'}" (click)="changeTab('step2')">
-            <label class="text-center">Agendadas</label>
+            <label class="text-center">Canceladas</label>
         </ion-col>
         <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step3'}" (click)="changeTab('step3')">
             <label class="text-center">Pospuestas</label>
@@ -63,7 +63,7 @@
     <div class="form-group required" *ngIf="currentTab === 'step1'">
         <div class="container">
             <ion-grid *ngIf="accepted">
-                <ion-row *ngFor="let val of accepted" class="row-container" (click)="goToDetails(val, 'Agendada', false)">
+                <ion-row *ngFor="let val of accepted" class="row-container" (click)="goToDetails(val, 'Aceptada', false)">
                     <ion-col size="3" class="state">
                         <img class="image" *ngIf="val.medico.fotoPerfil" [src]="val.medico.fotoPerfil">
                         <img class="image" *ngIf="!val.medico.fotoPerfil" src="assets/imgs/doctor.png">
@@ -98,7 +98,7 @@
     <div class="form-group required" *ngIf="currentTab === 'step2'">
         <div class="container">
             <ion-grid *ngIf="news">
-                <ion-row *ngFor="let cita of news" class="row-container" (click)="goToDetails(cita, 'Pedida', false)">
+                <ion-row *ngFor="let cita of news" class="row-container" (click)="goToDetails(cita, 'Cancelada', false)">
                     <ion-col size="3" class="state">
                         <img class="image" *ngIf="cita.medico.fotoPerfil" [src]="cita.medico.fotoPerfil">
                         <img class="image" *ngIf="!cita.medico.fotoPerfil" src="assets/imgs/doctor.png">
@@ -120,7 +120,7 @@
                     </ion-col>
                     <ion-col size="1">
                         <!-- <ion-icon name="close-circle" class="close"></ion-icon> -->
-                        <ion-icon name="ios-arrow-forward-outline"></ion-icon>
+                        <ion-icon name="ios-arrow-forward"></ion-icon>
                     </ion-col>
                 </ion-row>
             </ion-grid>
@@ -135,7 +135,7 @@
     <div class="form-group required" *ngIf="currentTab === 'step3'">
         <div class="container">
             <ion-grid *ngIf="postponed">
-                <ion-row *ngFor="let v of postponed" class="row-container">
+                <ion-row *ngFor="let v of postponed" class="row-container" (click)="goToDetails(v, 'Pospuesta', true)">
                     <ion-col size="3" class="state">
                         <img class="image" *ngIf="v.medico.fotoPerfil" [src]="v.medico.fotoPerfil">
                         <img class="image" *ngIf="!v.medico.fotoPerfil" src="assets/imgs/doctor.png">
@@ -155,7 +155,7 @@
                             </ion-col>
                         </ion-row>
                     </ion-col>
-                    <ion-col size="1" (click)="goToDetails(v, 'Pospuesta', true)">
+                    <ion-col size="1">
                         <ion-icon name="ios-arrow-forward"></ion-icon>
                     </ion-col>
                 </ion-row>

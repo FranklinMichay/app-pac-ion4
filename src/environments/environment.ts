@@ -5,8 +5,8 @@
 export const environment = {
   production: false,
   apiUrl: 'http://192.168.0.109:9000/entidades/getData?model=',
-  apiURL1: 'http://192.168.0.109:9000/',
-  socketUrl: 'http://192.168.0.109:8080'
+  apiURL1: 'http://192.168.0.104:9000/',
+  socketUrl: 'http://192.168.0.104:8080'
 
 };
 

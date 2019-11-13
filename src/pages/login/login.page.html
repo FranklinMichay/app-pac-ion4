@@ -40,12 +40,14 @@
         </button>
         </ion-col>
     </ion-row> -->
+
     <ion-row class="style-row">
         <ion-col class="contain-register" size="6">
-            <ion-label class="forgot-pass" (click)="goForgotPass()"> Olvidaste tu contraseña? </ion-label>
+            <ion-label class="forgot-pass" (click)="goToForgotPass()"> Olvidaste tu contraseña? </ion-label>
         </ion-col>
         <ion-col class="account" size="6">
-            <ion-label end class="new-account" (tap)="goToRegister()"> CREAR CUENTA </ion-label>
+            <ion-label end class="new-account" (click)="goToRegister()"> CREAR CUENTA </ion-label>
         </ion-col>
     </ion-row>
+
 </ion-content>

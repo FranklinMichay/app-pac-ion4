@@ -13,16 +13,19 @@
 
 <ion-content class="text-center">
     <div class="calendar-content">
-        <div class="head-content">
-            <ion-col class="icon-header">
+        <ion-row class="head-content">
+            <ion-col class="icon-header" size="2">
                 <ion-icon *ngIf="disableBackBS" name="arrow-dropleft" class="icon-control" (click)="previous()"></ion-icon>
             </ion-col>
-            <span class="month-label">{{monthLabel}},&nbsp;&nbsp;{{currentYear}}</span>
-            <ion-col class="icon-header">
+            <ion-col size="8">
+                <span class="month-label">{{monthLabel}},&nbsp;&nbsp;{{currentYear}}</span>
+            </ion-col>
+
+            <ion-col class="icon-header" size="2">
                 <ion-icon name="arrow-dropright" class="icon-control" (click)="next()">
                 </ion-icon>
             </ion-col>
-        </div>
+        </ion-row>
 
         <!-- <calendar [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate" (onCurrentDateChanged)="onCurrentDateChanged($event)" (onRangeChanged)="reloadSource(startTime, endTime)" (onEventSelected)="onEventSelected($event)"
             (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30">

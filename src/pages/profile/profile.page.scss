@@ -1,3 +1,24 @@
+:host {
+    .user-photo ion-avatar {
+        margin: 0 auto;
+        width: 120px;
+        height: 120px;
+    }
+    ion-list {
+        margin-top: 24px;
+        p {
+            font-size: 12px;
+            font-weight: 400;
+            padding-bottom: 4px;
+        }
+        ;
+        h2 {
+            font-weight: 400;
+            opacity: .5;
+        }
+    }
+}
+
 .title-toolbar {
     color: white;
     text-align: center;
@@ -20,7 +41,7 @@
     width: 46%;
     height: 40px;
     --border-radius: 25px;
-    --background: linear-gradient(284deg, #645aff 103%, #a573ff -12%);
+    --background: linear-gradient(104deg, #ffc185, #fd5f54);
     margin-left: auto;
     margin-right: auto;
     display: -webkit-box;

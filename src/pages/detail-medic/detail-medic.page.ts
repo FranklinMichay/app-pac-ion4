@@ -33,6 +33,8 @@ export class DetailMedicPage implements OnInit {
     
     this.state = this.route.snapshot.paramMap.get('state')
     this.posponed = this.route.snapshot.paramMap.get('posponed')
+    console.log(this.posponed,'postponed');
+    
     console.log(this.medic, this.state, this.posponed, 'data desde meetings');
     const idUser = JSON.parse(localStorage.getItem('user'));
     this.idPaciente = idUser.id;
@@ -44,8 +46,6 @@ export class DetailMedicPage implements OnInit {
 
   ngOnInit() {
   }
-
-
 
   getDataNews() {
     let url = 'estadoCita=new,paciente_id=' + this.idPaciente;

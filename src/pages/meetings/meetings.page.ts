@@ -47,6 +47,7 @@ export class MeetingsPage implements OnInit {
   loading: any;
   dataDelete: any;
 
+
   daysWeek = [
     { label: 'Dom.', selected: false, day: '' },
     { label: 'Lun.', selected: true, day: '' },
@@ -73,33 +74,25 @@ export class MeetingsPage implements OnInit {
     this.day = this.today.getDate();
     const index = this.today.getDay();
     this.setWeek(this.day, index);
-
-    console.log('ionViewDidLoad MeetingsPage 1');
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user, 'user');
     this.idPaciente = user ? user.id : 1;
     console.log(this.idPaciente, 'id del paciente')
-
-    //this.getData();
-    // this.getDataNews();
-    // this.getDataAccept();
-    // this.getDataPostponed();
+    console.log(this.day, 'dia para presentar');
   }
 
   ngOnInit() {
-    //this.getDataAccept();    
     this.getAllData(this.idPaciente);
-
+    this.changeDay(this.day)
   }
 
   ionViewWillEnter() {
-
-    this.dataDelete = this.dataService.dataDelete;
-    const idDelete = this.dataDelete.data.data.id
-    console.log(idDelete, 'ide para eliminar');
-    this.deleteData(idDelete);
-
-
+    if (Object.keys(this.dataService.dataDelete).length !== 0) {
+      this.dataDelete = this.dataService.dataDelete;
+      const idDelete = this.dataDelete.data.data.id
+      console.log(idDelete, 'ide para eliminar');
+      this.deleteData(idDelete);
+    }
   }
 
   deleteData(id) {
@@ -117,20 +110,25 @@ export class MeetingsPage implements OnInit {
 
   getAllData(patientId) {
     this.loadingCtrl.presentLoading();
-    const url = `paciente_id=${patientId},estadoCita=newORacceptedORpostponed`;
+    const url = `paciente_id=${patientId},estadoCita=newORacceptedORpostponedORcanceled`;
     this.auth.getByUrlCustom(url).subscribe(result => {
-      console.log(result, 'datos con url manuel');
+      console.log(result, 'todas las horas del paciente');
       this.acceptedMeetings = _.filter(result, function (o) { return o.estadoCita === 'accepted'; });
-      this.newMeetings = _.filter(result, function (o) { return o.estadoCita === 'new'; });
+      this.newMeetings = _.filter(result, function (o) { return o.estadoCita === 'canceled'; });
       this.postponedMeetings = _.filter(result, function (o) { return o.estadoCita === 'postponed'; });
-      console.log(this.acceptedMeetings, 'aceptadas');
-      console.log(this.newMeetings, 'new');
-      console.log(this.postponedMeetings, 'postponed');
+      this.filterData(this.currentYear, this.currentMonth, this.day);
+      // console.log(this.acceptedMeetings, 'aceptadas');
+       console.log(this.newMeetings, 'canceled');
+      // console.log(this.postponedMeetings, 'postponed');
       this.loadingCtrl.dismiss();
     });
+
+    // this.auth.sendNotify({ client: this.idPaciente });
   }
 
   changeDay(day) {
+    console.log('cambio el dia');
+
     this.setLabel(day, this.currentMonth, this.currentYear);
     this.getDaysInMonth(this.currentMonth, this.currentYear);
     this.daysWeek = _.map(this.daysWeek, (v, i) => {

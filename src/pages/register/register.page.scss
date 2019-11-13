@@ -1,0 +1,289 @@
+:host {
+    .user-photo ion-avatar {
+        margin: 0 auto;
+        width: 120px;
+        height: 120px;
+    }
+    ion-list {
+        margin-top: 24px;
+        p {
+            font-size: 12px;
+            font-weight: 400;
+            padding-bottom: 4px;
+        }
+        ;
+        h2 {
+            font-weight: 400;
+            opacity: .5;
+        }
+    }
+}
+
+.go-login {
+    font-family: Poppins;
+    font-size: 12px;
+    letter-spacing: 0.2px;
+    color: #597bf0;
+    position: absolute;
+    bottom: 1px;
+    width: 100%;
+    text-align: right;
+    text-align: center;
+}
+
+.title-toolbar {
+    color: white;
+    text-align: center;
+}
+
+// .password {
+//     width: 90%;
+//     height: 55px;
+//     font-size: 17px;
+//     border-radius: 3px;
+//     background-color: rgb(233, 233, 233);
+//     margin-top: 5%;
+//     font-weight: 500;
+//     margin-left: auto;
+//     margin-right: auto;
+//     display: flex;
+// }
+.icon-pass {
+    font-size: 3rem !important;
+    margin: 0 auto !important;
+    right: -14%;
+}
+
+.accept-edit {
+    width: 100%;
+    height: 35px;
+    --border-radius: 25px;
+    --background: linear-gradient(104deg, #ffc185, #fd5f54);
+    margin-left: auto;
+    margin-right: auto;
+    display: -webkit-box;
+    display: flex;
+    margin-bottom: 5%;
+    color: white;
+    margin-top: 5%;
+}
+
+.item-pass {
+    background-color: rgb(233, 233, 233);
+}
+
+.input-pass {
+    height: initial;
+    background: transparent;
+    border: 0px solid;
+    margin-top: 5%;
+}
+
+.scroll-content {
+    width: 100%;
+    height: 100%;
+    background-color: #f6f6f6;
+}
+
+.logo {
+    width: 62%;
+    position: absolute;
+    top: 7%;
+    left: 19%;
+}
+
+.splash {
+    width: 100%;
+}
+
+.new-register {
+    font-family: Poppins;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    margin-top: -22%;
+}
+
+.user {
+    width: 90%;
+    height: 55px;
+    font-size: 17px;
+    border-radius: 3px;
+    background-color: rgb(233, 233, 233);
+    margin-top: 20%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.name {
+    width: 90%;
+    font-size: 17px;
+    border-radius: 3px;
+    font-family: Poppins;
+    background-color: #e9e9e9;
+    margin-top: 2%;
+    font-weight: 800;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.container-input {
+    margin-top: 20%;
+}
+
+.mail {
+    width: 90%;
+    height: 55px;
+    font-size: 17px;
+    border-radius: 3px;
+    font-weight: 500;
+    background-color: rgb(233, 233, 233);
+    margin-top: 3%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    border: 0px solid;
+}
+
+.password {
+    width: 90%;
+    height: 55px;
+    font-size: 17px;
+    border-radius: 3px;
+    background-color: rgb(233, 233, 233);
+    margin-top: 5%;
+    font-weight: 500;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+form {
+    width: 93%;
+}
+
+.passwordIcon {
+    top: 15px !important;
+    right: 2%;
+    position: absolute;
+}
+
+.pass {
+    width: 90%;
+    height: 55px;
+    font-size: 17px;
+    border-radius: 3px;
+    background-color: rgb(233, 233, 233);
+    margin-top: 5%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.val-input {
+    width: 90%;
+    height: 55px;
+    font-size: 17px;
+    border-radius: 3px;
+    background-color: rgb(233, 233, 233);
+    margin-top: 8%;
+    font-weight: 500;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.container-form {
+    margin-top: 20%;
+}
+
+p.validator {
+    color: red;
+    margin-left: 6%;
+    padding: -3px 0px -12px 1px;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.val-message {
+    background-color: white;
+    border: 0;
+}
+
+.input-form {
+    border: 0;
+    background-color: rgb(233, 233, 233);
+}
+
+.input-pass {
+    height: initial;
+    background: transparent;
+    border: 0px solid;
+    margin-top: 5%;
+    font-family: Poppins;
+    font-weight: 800;
+}
+
+// .passwordIcon {
+//     font-size: 3rem !important;
+//     position: relative !important;
+//     top: 11px !important;
+//     margin: 0 auto !important;
+// }
+.register {
+    width: 90%;
+    height: 50px;
+    --border-radius: 25px;
+    --background: linear-gradient(99deg, #ffc185, #fd5f54);
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    margin-top: 10%;
+    color: white;
+}
+
+.login {
+    font-family: Poppins;
+    font-size: 16px;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: 0.2px;
+    color: #597bf0;
+    display: inline-block;
+    position: absolute;
+    bottom: 5px;
+    right: 10px;
+    left: 10px;
+    text-align: center;
+    margin-bottom: -38%;
+    margin-top: 12%;
+}
+
+@media (min-width: 619px) {
+    //font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    .name {
+        margin-top: calc(1% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .container-input {
+        margin-top: calc(22% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .login {
+        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .register {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        //width    : calc(60% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .new-register {
+        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .val-input {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        height: calc(60px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .new-register {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+}

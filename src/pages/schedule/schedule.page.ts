@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Info } from '../../shared/mock/months';
 import { LoadingService } from '../../app/services/loading.service';
-//import { DayPage } from '../day/day';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { GetMeetingPage } from '../get-meeting/get-meeting.page';
 import * as _ from 'lodash';  // tslint:disable-line
-import { HomePage } from '../home/home.page';
 import { NavController, NavParams, ModalController, AlertController, LoadingController, ToastController } from '@ionic/angular';
 import { formatDate } from '@angular/common';
 import { DataService } from 'src/app/services/data.service';
@@ -95,18 +93,18 @@ export class SchedulePage implements OnInit {
     };
     this.disableBack(year, month, day);
     this.getDataDay(formatDate(this.today, 'yyyy-MM-dd', 'en-US'));
-    this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
-      console.log(result, 'agenda from api in day');
-      if (result.estadoAgenda !== 'unavailable' || result.estadoCita !== 'accepted' || result.estadoCita !== 'new'
-      || result.estadoCita !== 'postponed' || result.estadoCita !== 'denied') {
-        this.hoursAvailable.push(result);
-      }
+    // this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
+    //   console.log(result, 'agenda from api in day');
+    //   if (result.estadoAgenda !== 'unavailable' || result.estadoCita !== 'accepted' || result.estadoCita !== 'new'
+    //   || result.estadoCita !== 'postponed' || result.estadoCita !== 'denied') {
+    //     this.hoursAvailable.push(result);
+    //   }
 
-      //this.loadingCtrl.dismiss();
-    }, (err) => {
-      console.log(err, 'errores');
-      console.log(err);
-    });
+    //   //this.loadingCtrl.dismiss();
+    // }, (err) => {
+    //   console.log(err, 'errores');
+    //   console.log(err);
+    // });
 
   }
 
@@ -160,7 +158,6 @@ export class SchedulePage implements OnInit {
       }
       tbl.appendChild(row);
     }
-
   }
 
   getDataDay(date) {
@@ -172,25 +169,41 @@ export class SchedulePage implements OnInit {
       console.log(result, 'data del dia');
       this.hoursAvailable = result;
       this.loadingCtrl.dismiss();
-      this.connection.unsubscribe();
-      // const _info = {
-      //   medico_id: this.medic.id,
-      //   fecha: formatDate(this.today, 'yyyy-MM-dd', 'en-US'),
-      //   paciente_id: this.pacienteId
-      // };
-      // this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
-      //   console.log(result, 'agenda from api in day');
-      //   if (result.estadoAgenda !== 'unavailable' || result.estadoCita !== 'accepted' || result.estadoCita !== 'new'
-      //   || result.estadoCita !== 'postponed' || result.estadoCita !== 'denied')  {
-      //     this.hoursAvailable.push(result);
-      //   }
-
-      //   //this.loadingCtrl.dismiss();
-      // }, (err) => {
-      //   console.log(err, 'errores');
-      //   console.log(err);
-      // });
+      //this.connection.unsubscribe();
+      const _info = {
+        medico_id: this.medic.id,
+        fecha: formatDate(this.today, 'yyyy-MM-dd', 'en-US'),
+        paciente_id: this.pacienteId
+      };
+      this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
+        console.log(result, 'agenda from api in day');
+        if (result.estadoCita === 'accepted') {
+          this.deleteHourDay(result.hora);
+        } else if (result.estadoCita !== 'new'
+          || result.estadoCita !== 'postponed' || result.estadoCita !== 'denied') {
+          this.controlExpressShedule(result);
+        }
+      }, (err) => {
+        console.log(err, 'errores');
+        console.log(err);
+      });
     });
+  }
+
+  controlExpressShedule(data) {
+    if (data.estadoAgenda === 'available') {
+      this.hoursAvailable.push(data);
+      this.hoursAvailable = _.uniqBy(this.hoursAvailable, function (d) {
+        return d.hora;
+      });
+
+      this.hoursAvailable = _.orderBy(this.hoursAvailable, ['hora'], ['asc']);
+
+    } else if (data.estadoAgenda === 'unavailable') {
+      console.log('unavailable');
+
+      this.deleteHourDay(data.hora);
+    }
   }
 
   getDayInfo(year, month, day) {
@@ -320,21 +333,20 @@ export class SchedulePage implements OnInit {
         console.log(this.hoursAvailable, 'agenda antes');
         this.deleteHourDay(horaDelete);
         console.log(this.hoursAvailable, 'agenda despues');
-        
+
       });
     return await modal.present();
+  }
+
+  deleteHourDay(hour: any) {
+    _.remove(this.hoursAvailable, function (n) {
+      console.log(hour, 'hora a eliminar');
+      return n.hora === hour;
+    });
   }
 
   ngOnDestroy() {
     this.connection.unsubscribe();
   }
-
-  deleteHourDay(hour: any){
-    _.remove(this.hoursAvailable, function(n) {
-      console.log(hour,'hora a eliminar');
-      return n.hora === hour;
-    });
-  }
-
 
 }

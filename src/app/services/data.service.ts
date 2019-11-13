@@ -2,23 +2,27 @@ import { Injectable } from '@angular/core';
 
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 
 export class DataService {
-    
-    dataMedic = {}
-    dataDelete = {}
-    constructor( 
 
-    ) { }
+  dataMedic = {}
+  dataDelete = {}
+  tagsParam = [];
+  constructor(
 
-    
+  ) { }
+
+
   ngOnInit() {
-    if (this.dataMedic){
-        console.log(this.dataMedic, 'data medic');
-        
-        
+    if (this.dataMedic) {
+      console.log(this.dataMedic, 'data medic');
     }
+  }
+
+  param() {
+    console.log(
+      this.tagsParam, 'los params');
   }
 }

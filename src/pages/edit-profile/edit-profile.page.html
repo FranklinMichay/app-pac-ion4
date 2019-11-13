@@ -11,85 +11,46 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
-    <section class="profile-picture">
-        <img *ngIf="data" [src]="data.fotoPerfil" class="profile-picture__image" alt="Profile Picture">
-        <img *ngIf="!data" [src]="'assets/imgs/perfil.svg'" class="profile-picture__image" alt="Profile Picture">
-    </section>
+<ion-content padding>
+    <div class="user-photo">
+        <ion-avatar>
+            <img [src]="data.fotoPerfil || 'assets/imgs/perfil.svg'">
+        </ion-avatar>
+    </div>
 
-
-    <!-- <form [formGroup]="form_editar_profile" class="container-form">
-        <ion-item>
-            <ion-label>Nombre:</ion-label>
-            <ion-input formControlName="nombre" type="text" placeholder="Nombre" [(ngModel)]="userInfo.nombre" class="style-input">
-            </ion-input>
-        </ion-item>
-
-         <ion-item>
-            <ion-label>Apellido:</ion-label>
-            <ion-input formControlName="apellido" type="text" placeholder="Apellido" [(ngModel)]="userInfo.apellido">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label>Dirección:</ion-label>
-            <ion-input formControlName="direccion" type="text" placeholder="Dirección" [(ngModel)]="userInfo.direccion">
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label>Edad:</ion-label>
-            <ion-input formControlName="edad" type="text" placeholder="Edad" [(ngModel)]="userInfo.edad">
-
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label>Ciudad:</ion-label>
-            <ion-input formControlName="ciudad" type="text" placeholder="Ciudad" [(ngModel)]="userInfo.ciudad">
-
-            </ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label>Identificación:</ion-label>
-            <ion-input formControlName="identificacion" type="text" placeholder="Identificación" [(ngModel)]="userInfo.identificacion"></ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label>Fecha de Nacimiento:</ion-label>
-            <ion-datetime formControlName="fecha" type="text" displayFormat="YYYY-MM-DD" placeholder="YYYY-MM-DD" [(ngModel)]="userInfo.fecha"></ion-datetime>
-        </ion-item>
-        <ion-item>
-            <ion-label>Lugar de Nacimiento:</ion-label>
-            <ion-input formControlName="lugarNaci" type="text" placeholder="Lugar de Nacimiento" [(ngModel)]="userInfo.lugarNaci"></ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label>Teléfono Fijo:</ion-label>
-            <ion-input formControlName="telefonoFijo" type="text" placeholder="Teléfono Fijo" [(ngModel)]="userInfo.telefonoFijo"></ion-input>
-        </ion-item>
-        <ion-item>
-            <ion-label>Teléfono Celular:</ion-label>
-            <ion-input formControlName="telefonoCelular" type="text" placeholder="Teléfono Celular" [(ngModel)]="userInfo.telefonoCelular"></ion-input>
-        </ion-item>
-
-        <ion-row radio-group formControlName="sexo" [(ngModel)]="userInfo.sexo">
-            <ion-col size="6">
-                <ion-item>
-                    <ion-label>Mujer</ion-label>
-                    <ion-radio value="mujer"></ion-radio>
-                </ion-item>
-            </ion-col>
-            <ion-col size="6">
-                <ion-item>
-                    <ion-label>Hombre</ion-label>
-                    <ion-radio value="hombre"></ion-radio>
-                </ion-item>
-            </ion-col>
-        </ion-row>
-
-        <div class="cont-buttons">
-            <ion-button class="not-cancel" (click)="returnPage()"> CANCELAR </ion-button>
-            <ion-button class="accept" (click)="updateUser()"> ACEPTAR </ion-button>
-        </div>
-    </form> -->
-
-
+    <form [formGroup]="formEditProfile" (ngSubmit)="getData()">
+        <ion-list>
+            <ion-item>
+                <ion-icon name="person" slot="start"></ion-icon>
+                <ion-label position="floating">Nombre</ion-label>
+                <ion-input formControlName="nombre" type="text" [(ngModel)]="data.priNombre"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="person" slot="start"></ion-icon>
+                <ion-label position="floating">Apellido</ion-label>
+                <ion-input formControlName="apellido" type="text" [(ngModel)]="data.priApellido"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="mail" slot="start"></ion-icon>
+                <ion-label position="floating">Email</ion-label>
+                <ion-input formControlName="username" type="text" [(ngModel)]="data.user.username"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="finger-print" slot="start"></ion-icon>
+                <ion-label position="floating">identificación</ion-label>
+                <ion-input formControlName="identificacion" type="text" [(ngModel)]="data.identificacion"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="call" slot="start"></ion-icon>
+                <ion-label position="floating">Teléfono</ion-label>
+                <ion-input formControlName="telefonoCelular" type="text" [(ngModel)]="data.telefonoCelular"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="pin" slot="start"></ion-icon>
+                <ion-label position="floating">Ciudad</ion-label>
+                <ion-input formControlName="ciudad" type="text" [(ngModel)]="data.ciudad"></ion-input>
+            </ion-item>
+        </ion-list>
+        <ion-button class="accept-edit" type="submit" [disabled]="formEditProfile.invalid">ACEPTAR</ion-button>
+    </form>
 </ion-content>
