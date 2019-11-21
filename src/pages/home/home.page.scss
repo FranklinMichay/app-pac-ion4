@@ -217,7 +217,7 @@
 
 @media (min-width: 619px) {
     .elige-opcion {
-        font-size: calc(44px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(25px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
     }
     .info {
         font-size: calc(30px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
@@ -225,10 +225,10 @@
     .div-head {
         height: calc(14% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
     }
-    .header-info {
-        //margin: calc(-4% 0% 4% 2% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-        margin: -4% 0% 4% 2%;
-    }
+    // .header-info {
+    //     //margin: calc(-4% 0% 4% 2% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    //     margin: -4% 0% 4% 2%;
+    // }
     .container-product-detail {
         height: calc(28% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
         border-radius: calc(16px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;

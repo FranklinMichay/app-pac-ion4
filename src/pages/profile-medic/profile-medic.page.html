@@ -15,8 +15,8 @@
 
 <ion-content>
     <div>
-        <img *ngIf="!medic.fotoPerfil" src="https://cdn.lavoz.com.ar/sites/default/files/styles/width_1072/public/nota_periodistica/cirujano_0.jpg">
-        <img *ngIf="medic.fotoPerfil" [src]="medic.fotoPerfil">
+        <img *ngIf="medic.fotoPerfil" src="https://cdn.lavoz.com.ar/sites/default/files/styles/width_1072/public/nota_periodistica/cirujano_0.jpg">
+        <!-- <img *ngIf="medic.fotoPerfil" [src]="medic.fotoPerfil"> -->
     </div>
 
     <button class="ver-agenda" id="previous" (click)="goToSchedule()">VER AGENDA</button>

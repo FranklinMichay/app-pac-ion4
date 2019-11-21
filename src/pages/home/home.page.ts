@@ -6,6 +6,7 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-home',
@@ -31,13 +32,15 @@ export class HomePage {
     }];
   connection: any;
   dataHome: any;
-  
+  imageUrl: any;
+
   constructor(
     public navCtrl: NavController,
     public toast: ToastController,
     private auth: AuthService,
     public platform: Platform,
     public router: Router,
+    private sanitizer: DomSanitizer,
     // public backgroundMode: BackgroundMode,
     // public localNotifications: LocalNotifications,
     public menuControler: MenuController,
@@ -45,6 +48,9 @@ export class HomePage {
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem('user'));
     console.log(this.dataUser, 'datos de paciente');
+    this.imageUrl = this.dataUser.fotoPerfil;
+    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
+    console.log(this.imageUrl, 'imagennnnnnnnnnnn');
     
     this.getDataPac();
     const user = JSON.parse(localStorage.getItem('user'));
@@ -118,9 +124,6 @@ export class HomePage {
     this.router.navigate(['login']);
     //this.connection.unsubscribe();
   }
-
-  
-
 
   // async  loginWithGoogle() {
   //   this.dataGoogle = await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())

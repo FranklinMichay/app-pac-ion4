@@ -101,6 +101,10 @@ export class AuthService {
     )
   }
 
+  uploadImage(formData: FormData) {
+    return this.httpClient.post<any>(this.url + 'paciente/fotoPrueba/', formData);
+  }
+
   createUserPaciente(data: any): Observable<any> {
     console.log('dataUser', data)
     return this.httpClient.post<any>(this.url + 'paciente/createUserPaciente/', data);
@@ -122,7 +126,7 @@ export class AuthService {
 
   getInfoPac(data: any): Observable<any> {
     console.log(data, ' data');
-    console.log(data.jsonPk, ' data');
+    //console.log(data.jsonPk, ' data');
     if (data.jsonPk != undefined) {
       return this.httpClient.get<any>(this.url + 'paciente/getData?model=userPaciente&params=user_id=' + data.jsonPk);
     }
@@ -130,6 +134,11 @@ export class AuthService {
       return this.httpClient.get<any>(this.url + 'paciente/getData?model=userPaciente&params=user_id=' + data);
     }
   }
+
+  updateProfilePatient(data, id) {
+    
+    return this.httpClient.put<any>(this.url + 'paciente/updatePerfilPaciente/' + id + '/', data);
+  } 
 
   getByUrlCustom(url): Observable<any> {
     this.fechaMeeting = url;

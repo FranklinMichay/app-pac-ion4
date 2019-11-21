@@ -16,6 +16,26 @@
     border-top-right-radius: 20px;
 }
 
+@media (min-width: 619px) {
+    .validator {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    ion-button {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        height: calc(80px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        --border-radius: calc(40px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    ion-label {
+        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    ion-input {
+        font-size: calc(25px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    ion-icon {
+        font-size: calc(25px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+}
+
 
 /* Core CSS required for Ionic components to work properly */
 

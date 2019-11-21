@@ -2,6 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NavController, ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from 'src/app/services/auth.service';
+import { LoadingService } from 'src/app/services/loading.service';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Crop } from '@ionic-native/crop/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 
 @Component({
   selector: 'app-edit-profile',
@@ -10,27 +16,120 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class EditProfilePage implements OnInit {
 
+  currentImage: any;
   data: any
+
+  image;
+  imageData;
   //form_editar_profile: FormGroup;
   formEditProfile: FormGroup
-  
+  formData = new FormData();
+
+  fileUrl: any = null;
+  respData: any;
+
   constructor(
     private router: Router,
     public tc: ToastController,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private auth: AuthService,
+    private loadingCtrl: LoadingService,
+    private camera: Camera,
+    private transfer: FileTransfer,
+    private crop: Crop,
+    private imagePicker: ImagePicker
+
   ) {
     this.data = this.router.getCurrentNavigation().extras.state;
+    console.log(this.data.id);
+
     this.formEditProfile = this.fb.group({
-      nombre: '',
-      apellido: '',
-      ciudad: '',
-      identificacion: '',
-      telefonoCelular: '',
-      username:''
+      priNombre: [null, Validators.compose([Validators.required])],
+      telefonoCelular: [null, Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
+      //email: [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
+      priApellido: [null, Validators.compose([Validators.required])],
+      ciudad: [null, Validators.compose([Validators.required])],
+      identificacion: [null, Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
+      estadoCivil: [null, Validators.compose([Validators.required])],
+      numCasa: [null, Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{6},)*[0-9]{6}$')])],
     });
-   }
+  }
 
   ngOnInit() {
   }
+  // onChange(event) {
+  //   const file = event.target.files[0];
+  //   this.registerForm.get('fotoPerfil').setValue(file);
+  // }
 
+  takePicture() {
+    const options: CameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
+    };
+
+    this.camera.getPicture(options).then((imageData) => {
+      this.currentImage = 'data:image/jpeg;base64,' + imageData;
+    }, (err) => {
+      // Handle error
+      console.log("Camera issue:" + err);
+    });
+
+    this.upload();
+  }
+
+  upload() {
+    const date = new Date().valueOf();
+
+    // Replace extension according to your media type
+    const imageName = date + '.jpeg';
+    // call method that creates a blob from dataUri
+    const imageBlob = this.dataURItoBlob(this.currentImage);
+    const imageFile = new File([imageBlob], imageName, { type: 'image/jpeg' })
+
+    let postData = new FormData();
+    postData.append('file', imageFile);
+    console.log(postData, 'foto perfil ok....');
+
+
+    // let data:Observable<any> = this.http.post(url,postData);
+    // data.subscribe((result) => {
+    //   console.log(result);
+    // });
+  }
+
+  dataURItoBlob(dataURI) {
+    const byteString = window.atob(dataURI);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const int8Array = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      int8Array[i] = byteString.charCodeAt(i);
+    }
+    const blob = new Blob([int8Array], { type: 'image/jpeg' });
+    return blob;
+  }
+
+  updateProfilePatient() {
+    Object.entries(this.formEditProfile.value).forEach(
+      ([key, value]: any[]) => {
+        this.formData.set(key, value);
+      }
+    )
+    this.formData.append('user_id', this.data.user.id);
+    this.auth.updateProfilePatient(this.formData, this.data.id).subscribe(data => {
+      console.log(data, 'dataaaa que leggaaa');
+      if (data.fotoPerfil[0] !== 'h') {
+        let foto = 'http://192.168.0.104:9000' + data.fotoPerfil;
+        data.fotoPerfil = foto;
+      }
+      console.log(data, 'DATA NUEVA');
+
+      localStorage.setItem('user', JSON.stringify(data));
+      this.router.navigate(['home']);
+    }, (err) => {
+      console.log(err, 'errores');
+    });
+  }
 }

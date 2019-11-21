@@ -6,6 +6,13 @@ import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { AgeValidator } from 'src/app/validators/age';
 import { UsernameValidator } from 'src/app/validators/username';
+import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
+import { Crop } from '@ionic-native/crop/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { DomSanitizer } from '@angular/platform-browser';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+
 
 @Component({
   selector: 'app-register',
@@ -15,9 +22,7 @@ import { UsernameValidator } from 'src/app/validators/username';
 export class RegisterPage implements OnInit {
 
 
-  //@ViewChild('slider') slider;
-  @ViewChild('slider') slider;
-
+  @ViewChild('slider', { static: true }) slider: IonSlides;
 
   passwordType: string = 'password';
   passwordIcon: string = 'eye-off';
@@ -33,9 +38,15 @@ export class RegisterPage implements OnInit {
   formData = new FormData();
   public slideOneForm: FormGroup;
   public slideTwoForm: FormGroup;
-
   public submitAttempt: boolean = false;
 
+  //currentImage: any;
+  currentImage:string='';
+  data: any
+  sanitizeImg: any;
+  imageURI: any;
+  imageFileName: any;
+  file: File;
 
   constructor(
     public alertCtrl: AlertController,
@@ -44,6 +55,12 @@ export class RegisterPage implements OnInit {
     private router: Router,
     private auth: AuthService,
     private loadingCtrl: LoadingService,
+    private camera: Camera,
+    private transfer: FileTransfer,
+    private crop: Crop,
+    private imagePicker: ImagePicker,
+    private sanitizer: DomSanitizer,
+    private webview: WebView,
   ) {
 
     this.slideOneForm = fb.group({
@@ -88,7 +105,6 @@ export class RegisterPage implements OnInit {
   save() {
 
     this.submitAttempt = true;
-
     if (!this.slideOneForm.valid) {
       this.slider.slideTo(0);
     }
@@ -109,6 +125,32 @@ export class RegisterPage implements OnInit {
 
   public cancelar() {
     //this.navCtrl.push(LoginPage);
+  }
+
+  changeListener($event) : void {
+    this.file = $event.target.files[0];
+    this.formData.append('fotoPerfil', this.file);
+  }
+
+  upload() {
+    
+  }
+
+  imageCaptured(){
+    this.loadingCtrl.presentLoading();
+    const options:CameraOptions={
+      quality:70,
+      destinationType:this.camera.DestinationType.DATA_URL,
+      encodingType:this.camera.EncodingType.JPEG,
+      mediaType:this.camera.MediaType.PICTURE
+    }
+    this.camera.getPicture(options).then((ImageData=>{
+       this.file = ImageData;
+       this.loadingCtrl.dismiss();
+    }),error=>{
+      console.log(error);
+      this.loadingCtrl.dismiss()
+    })
   }
 
   onSubmit() {
@@ -135,9 +177,17 @@ export class RegisterPage implements OnInit {
             this.formData.set(key, value);
           }
         )
+        Object.entries(this.slideOneForm.value).forEach(
+          ([key, value]: any[]) => {
+            this.formData.set(key, value);
+          }
+        )
         this.formData.append('user', data1[0].id);
+
         this.auth.registerPaciente(this.formData).subscribe(data2 => {
           this.auth.getInfoPac(data1[0].id).subscribe(data3 => {
+            console.log(data3, 'dfatatafjsgjhs');
+
             localStorage.setItem('user', JSON.stringify(data3[0]));
             this.router.navigate(['home']);
           })

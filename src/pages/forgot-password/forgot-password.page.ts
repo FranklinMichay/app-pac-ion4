@@ -14,7 +14,6 @@ export class ForgotPasswordPage implements OnInit {
   passInfoSuccess: any = false;
   resetPassForm: FormGroup;
   
-
   constructor(
     public fb: FormBuilder,
     private auth: AuthService,

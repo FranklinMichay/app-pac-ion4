@@ -18,9 +18,14 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagInputModule } from 'ngx-chips';
-
-
+import { Camera } from '@ionic-native/camera/ngx';
+import { ImagePicker }  from '@ionic-native/image-picker/ngx';
+import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { Crop } from '@ionic-native/crop/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl };
+//import { CameraMock } from '../shared/mock/camera.mock';
+import { WebView } from '@ionic-native/ionic-webview/ngx';
+
 
 @NgModule({
   declarations: [
@@ -46,14 +51,22 @@ const config: SocketIoConfig = { url: environment.socketUrl };
     SocketIoModule.forRoot(config),
     AutoCompleteModule,
     TagInputModule,
+  
   ],
 
   providers: [
     StatusBar,
+    ImagePicker,
     SplashScreen,
-
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    Camera,
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    FileTransfer,
+    FileTransferObject,
+    Crop,
+    WebView,
+    //{provide: Camera, useClass: CameraMock},
   ],
+  
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA]

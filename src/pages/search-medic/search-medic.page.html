@@ -57,8 +57,8 @@
         <ion-grid class="content-medic ">
             <ion-row *ngFor="let medic of medics " (click)="goToDetails(medic) " class="container-medic ">
                 <ion-col class="container-image " size="4 ">
-                    <img class="image " *ngIf="medic.fotoPerfil " [src]="medic.fotoPerfil ">
-                    <img class="image " *ngIf="!medic.fotoPerfil " src="assets/imgs/doctor.png ">
+                    <!-- <img class="image " *ngIf="medic.fotoPerfil " [src]="medic.fotoPerfil"> -->
+                    <img class="image " *ngIf="medic.fotoPerfil " src="assets/imgs/doctor.png ">
                 </ion-col>
                 <ion-col class="container-info-medic " size="7 ">
                     <ion-row>
@@ -66,7 +66,8 @@
                             {{ medic.priNombre }} {{ medic.priApellido }}
                         </ion-col>
                         <ion-col class="fecha " size="12 ">
-                            {{ medic.especialidad.nombre }} &#8226; {{ medic.telefono}}
+                            {{ medic.especialidad.nombre }}
+                            <!-- &#8226; {{ medic.telefono}} -->
                         </ion-col>
                         <ion-col class="cm " *ngFor="let cm of medic.centroMedico " size="12 ">
                             {{ cm.nombre }}

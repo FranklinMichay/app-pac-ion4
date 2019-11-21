@@ -18,46 +18,46 @@
                     <h3 class="elige-opcion">Elige una opción para interactuar</h3>
                 </ion-col>
                 <ion-col size="3" class="container-image" color="white-two1">
-                    <img class="image" *ngIf="dataUser.fotoPerfil" [src]="dataUser.fotoPerfil">
-                    <img class="image" *ngIf="!dataUser.fotoPerfil" src="assets/imgs/doctor.png">
+                    <img class="image" *ngIf="dataUser.fotoPerfil" [src]="imageUrl">
+                    <img class="image " *ngIf="!dataUser.fotoPerfil " src="assets/imgs/doctor.png ">
                 </ion-col>
             </ion-row>
         </ion-grid>
     </div>
-    <div *ngIf="dataHome" class="header-info">
-        <label class="info-home">
-        <img class="medic" src="assets/imgs/doc.svg">
-        <label class="datos">Tu proxima cita agendada es para el {{dataHome.fecha}} a las
+    <div *ngIf="dataHome " class="header-info ">
+        <label class="info-home ">
+        <img class="medic " src="assets/imgs/doc.svg">
+        <label class="datos ">Tu proxima cita agendada es para el {{dataHome.fecha}} a las
           {{dataHome.hora.substring(0, 5)}}</label>
         </label>
     </div>
-    <div *ngIf="!dataHome" class="header-info">
-        <label class="info-home">
-        <img class="medic" src="../../assets/imgs/doc.svg">
-        <label class="datos">Aún no tienes citas agendadas</label>
+    <div *ngIf="!dataHome " class="header-info ">
+        <label class="info-home ">
+        <img class="medic " src="../../assets/imgs/doc.svg ">
+        <label class="datos ">Aún no tienes citas agendadas</label>
         </label>
     </div>
 
 
-    <div *ngIf="slides" class="container-product-detail">
+    <div *ngIf="slides " class="container-product-detail ">
         <ion-slides>
-            <ion-slide *ngFor="let slide of slides">
-                <img [src]="slide.src" class="img-product">
-                <p class="slide-name-medical-center">{{slide.medicalCenter}}</p>
-                <p class="slide-text">{{slide.detalle}}</p>
+            <ion-slide *ngFor="let slide of slides ">
+                <img [src]="slide.src " class="img-product ">
+                <p class="slide-name-medical-center ">{{slide.medicalCenter}}</p>
+                <p class="slide-text ">{{slide.detalle}}</p>
             </ion-slide>
         </ion-slides>
     </div>
 
-    <ion-grid class="section-hero white-bg" id="section-category">
-        <ion-row *ngIf="data" class="g12grid">
-            <ion-col class="block-explore" *ngFor="let category of data" size="6">
-                <div class="inner" tappable (click)="goToMenu(category.component)">
-                    <div class="container">
-                        <a *ngIf="category.logo">
-                            <img class="crop" [src]="category.logo">
-                            <p class="explore-title">{{category.name}}</p>
-                            <p class="explore-text">{{category.text}}</p>
+    <ion-grid class="section-hero white-bg " id="section-category ">
+        <ion-row *ngIf="data " class="g12grid ">
+            <ion-col class="block-explore " *ngFor="let category of data " size="6 ">
+                <div class="inner " tappable (click)="goToMenu(category.component) ">
+                    <div class="container ">
+                        <a *ngIf="category.logo ">
+                            <img class="crop " [src]="category.logo ">
+                            <p class="explore-title ">{{category.name}}</p>
+                            <p class="explore-text ">{{category.text}}</p>
                         </a>
                     </div>
                 </div>

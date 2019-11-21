@@ -13,6 +13,7 @@ import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
 import { SimpleFunction } from '../../app/services/simple-function.service';
 import { AutoCompleteOptions } from 'ionic4-auto-complete';
 import { logWarnings } from 'protractor/built/driverProviders';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface AutoCompleteModel {
   nombre: any;
@@ -40,8 +41,6 @@ export class SearchMedicPage implements OnInit {
   city: any = '';
   medicFiltered: any;
   specialties: any;
-  //items: any;
-
   params: any = [
     {
       "name": "Ciudad",
@@ -64,12 +63,11 @@ export class SearchMedicPage implements OnInit {
   public options: AutoCompleteOptions;
   public selected = [];
   form: FormGroup;
-
-  dataSearch = {};
-  items = ['Pizza', 'Pasta', 'Parmesan'];
   tags = [];
   paramsForRequest: any = {};
-  valor = 'nada';
+  imageMedic: any;
+  fotoPerfil: any;
+
   constructor(
     public navCtrl: NavController,
     private auth: AuthService,
@@ -80,7 +78,8 @@ export class SearchMedicPage implements OnInit {
     private loadingCtrl: LoadingService,
     public provider: SimpleFunction,
     private formBuilder: FormBuilder,
-    private dataService: DataService
+    private dataService: DataService,
+    private sanitizer: DomSanitizer,
 
   ) {
 
@@ -198,7 +197,7 @@ export class SearchMedicPage implements OnInit {
   getMedicsForParams() {
     this.loadingCtrl.presentLoading();
     this.auth.sendParamsForSearch(this.paramsForRequest).subscribe((result: any) => {
-      this.medics = result;
+      this.medics = result 
       this.medicFiltered = result;
       console.log(result, 'medicos encontrados');
       this.selected = [];
@@ -216,7 +215,7 @@ export class SearchMedicPage implements OnInit {
         console.log(data, 'Los medicos');
         this.medics = data;
         this.loadingCtrl.dismiss();
-      }, (err) => {
+      }, (err) => { 
         console.log(err, 'error al obtener datos');
       });
   }

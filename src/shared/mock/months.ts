@@ -19,7 +19,7 @@ export const Info = {
     { detail: '20:00:00', state: 'No Disponible', color: 'rgb(197, 61, 61)' }],
   categories: [
     
-    { name: 'HISTORIAL', logo: 'assets/icon/agenda.svg', text: 'Tu historial.' },
+    { name: 'MIS RECETAS', logo: 'assets/icon/agenda.svg', text: 'Listado de recetas.' },
     { name: 'MIS CITAS', logo: 'assets/icon/citas.svg', text: 'Listado de tus citas agendadas.', component: 'meetings' },
     //{ name: 'RECETAS', logo: 'assets/icon/receta.svg', text: 'Medicamentos recetados' },
     { name: 'MÉDICOS', logo: 'assets/icon/medic.svg', text: 'Agendamiento de citas.', component: 'search-medic' },

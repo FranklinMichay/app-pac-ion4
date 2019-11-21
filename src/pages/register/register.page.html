@@ -1,33 +1,17 @@
-<ion-header>
-    <ion-toolbar color="primary">
-        <ion-title class="title-toolbar">
-            Registro Paciente
-        </ion-title>
-        <!-- <ion-buttons slot="start">
-            <ion-button (click)="prev()">
-                <ion-icon slot="start" name="arrow-back"></ion-icon> Prev
-            </ion-button>
-        </ion-buttons>
-        <ion-buttons slot="end">
-            <ion-button (click)="next()">Next
-                <ion-icon slot="end" name="arrow-forward"></ion-icon>
-            </ion-button>
-        </ion-buttons> -->
-    </ion-toolbar>
-</ion-header>
-
 <ion-content>
 
-    <!-- <img class="splash" src="assets/imgs/splash.svg">
+    <img class="splash" src="assets/imgs/splash-register.svg">
     <img class="logo" src="assets/imgs/medipharm.svg">
-    <p class="new-register">REGISTRO NUEVO PACIENTE</p> -->
+    <p class="new-register">REGISTRO NUEVO PACIENTE</p>
+
+
     <!-- <div class="user-photo">
           <ion-avatar>
               <img [src]="data.fotoPerfil || 'assets/imgs/perfil.svg'">
           </ion-avatar>
-      </div> -->
+      </div>-->
 
-    <ion-slides #slider>
+    <ion-slides #slider class="slide-style">
         <ion-slide>
             <form [formGroup]="slideOneForm">
                 <ion-list>
@@ -47,24 +31,25 @@
                         <ion-input formControlName="email" type="text"></ion-input>
                     </ion-item>
                     <ion-item>
-                        <ion-icon name="person" slot="start"></ion-icon>
+                        <ion-icon name="key" slot="start"></ion-icon>
                         <ion-label position="floating">Contraseña</ion-label>
                         <ion-input formControlName="password" [type]="passwordType" clearOnEdit="false"></ion-input>
                         <ion-icon item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'>
                         </ion-icon>
                     </ion-item>
-
+                    <ion-item>
+                        <ion-icon name="photos" slot="start"></ion-icon>
+                        <!-- <ion-label id="profile_image" color="primary" stacked>Profilbild wählen</ion-label> -->
+                        <ion-input type="file" accept="image/*" (change)="changeListener($event)" name="algo"></ion-input>
+                    </ion-item>
                 </ion-list>
                 <ion-button class="accept-edit" type="submit" (click)="next()" [disabled]="slideOneForm.invalid">
                     Siguiente</ion-button>
             </form>
         </ion-slide>
-
         <ion-slide>
-
             <form [formGroup]="slideTwoForm">
                 <ion-list>
-
                     <ion-item>
                         <ion-icon name="finger-print" slot="start"></ion-icon>
                         <ion-label position="floating">identificación</ion-label>
@@ -89,10 +74,6 @@
                     </ion-item> -->
 
                     <ion-radio-group formControlName="sexo">
-                        <ion-list-header>
-                            <ion-label>Sexo</ion-label>
-                        </ion-list-header>
-
                         <ion-item>
                             <ion-label>Mujer</ion-label>
                             <ion-radio value="mujer"></ion-radio>
@@ -103,8 +84,6 @@
                             <ion-radio value="hombre"></ion-radio>
                         </ion-item>
                     </ion-radio-group>
-
-
                     <ion-row>
                         <ion-col size="6">
                             <ion-button class="accept-edit" type="submit" (click)="prev()">Atrás</ion-button>
@@ -112,14 +91,35 @@
                         <ion-col size="6">
                             <ion-button class="accept-edit" type="submit" [disabled]="slideTwoForm.invalid" (click)="onSubmit()">Registrar
                             </ion-button>
-
                         </ion-col>
                     </ion-row>
-
                 </ion-list>
             </form>
         </ion-slide>
     </ion-slides>
-
-    <p class="go-login" (click)="goToLogin()"> Ir a Login </p>
+    <ion-row class="style-row">
+        <ion-col class="contain-register" size="12">
+            <ion-label class="go-login" (click)="goToLogin()"> Ir a Login </ion-label>
+        </ion-col>
+    </ion-row>
+    <!-- <ion-item>
+        <ion-grid fixed>
+            <ion-row>
+                <ion-col size="6">
+                    <ion-button color="danger" type="button" expand="full" shape="round" size="large" (click)="takePicture()">
+                        <ion-icon name="camera"></ion-icon>
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                    <ion-button color="secondary" type="button" expand="full" shape="round" size="large" (click)="getImage()">
+                        <ion-icon name="image"></ion-icon>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-item> -->
+    <!-- <img [src]="currentImage" *ngIf="currentImage">
+    <ion-button (click)="upload()">
+        Click me
+    </ion-button> -->
 </ion-content>

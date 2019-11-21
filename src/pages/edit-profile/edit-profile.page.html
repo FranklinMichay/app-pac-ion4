@@ -4,51 +4,73 @@
         </ion-back-button>
         <ion-buttons slot="end">
             <ion-button (click)="returnHome()" slot="end">
-                <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
+                <!-- <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon> -->
             </ion-button>
         </ion-buttons>
         <ion-title class="title-toolbar">Editar Perfil</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content class="ion-padding">
+
+
+    <!-- <img [src]="currentImage" *ngIf="currentImage">
+
+    <ion-fab vertical="top" horizontal="left" slot="fixed">
+        <ion-fab-button (click)="takePicture()">
+            <ion-icon name="camera"></ion-icon>
+        </ion-fab-button>
+    </ion-fab> -->
+
+    <!-- <input type="file" name="myfile" name="fotoPerfil" (change)="onChange($event)" />  -->
+
     <div class="user-photo">
         <ion-avatar>
             <img [src]="data.fotoPerfil || 'assets/imgs/perfil.svg'">
         </ion-avatar>
     </div>
 
-    <form [formGroup]="formEditProfile" (ngSubmit)="getData()">
+    <form [formGroup]="formEditProfile" (ngSubmit)="updateProfilePatient()">
         <ion-list>
             <ion-item>
                 <ion-icon name="person" slot="start"></ion-icon>
                 <ion-label position="floating">Nombre</ion-label>
-                <ion-input formControlName="nombre" type="text" [(ngModel)]="data.priNombre"></ion-input>
+                <ion-input formControlName="priNombre" type="text" value="{{data.priNombre}}"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-icon name="person" slot="start"></ion-icon>
                 <ion-label position="floating">Apellido</ion-label>
-                <ion-input formControlName="apellido" type="text" [(ngModel)]="data.priApellido"></ion-input>
+                <ion-input formControlName="priApellido" type="text" value="{{data.priApellido}}"></ion-input>
             </ion-item>
             <ion-item>
+                <ion-icon name="people" slot="start"></ion-icon>
+                <ion-label position="floating">Estado Civil</ion-label>
+                <ion-input formControlName="estadoCivil" type="text" value="{{data.estadoCivil}}"></ion-input>
+            </ion-item>
+            <ion-item>
+                <ion-icon name="home" slot="start"></ion-icon>
+                <ion-label position="floating">Número de Casa</ion-label>
+                <ion-input formControlName="numCasa" type="text" value="{{data.numCasa}}"></ion-input>
+            </ion-item>
+            <!-- <ion-item>
                 <ion-icon name="mail" slot="start"></ion-icon>
                 <ion-label position="floating">Email</ion-label>
-                <ion-input formControlName="username" type="text" [(ngModel)]="data.user.username"></ion-input>
-            </ion-item>
+                <ion-input formControlName="email" type="text" value="{{data.user.email}}"></ion-input>
+            </ion-item> -->
             <ion-item>
                 <ion-icon name="finger-print" slot="start"></ion-icon>
                 <ion-label position="floating">identificación</ion-label>
-                <ion-input formControlName="identificacion" type="text" [(ngModel)]="data.identificacion"></ion-input>
+                <ion-input formControlName="identificacion" type="text" value="{{data.identificacion}}"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-icon name="call" slot="start"></ion-icon>
                 <ion-label position="floating">Teléfono</ion-label>
-                <ion-input formControlName="telefonoCelular" type="text" [(ngModel)]="data.telefonoCelular"></ion-input>
+                <ion-input formControlName="telefonoCelular" type="text" value="{{data.telefonoCelular}}"></ion-input>
             </ion-item>
             <ion-item>
                 <ion-icon name="pin" slot="start"></ion-icon>
                 <ion-label position="floating">Ciudad</ion-label>
-                <ion-input formControlName="ciudad" type="text" [(ngModel)]="data.ciudad"></ion-input>
+                <ion-input formControlName="ciudad" type="text" value="{{data.ciudad}}"></ion-input>
             </ion-item>
         </ion-list>
         <ion-button class="accept-edit" type="submit" [disabled]="formEditProfile.invalid">ACEPTAR</ion-button>

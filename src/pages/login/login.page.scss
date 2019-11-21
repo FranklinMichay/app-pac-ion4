@@ -72,14 +72,11 @@
 
 .forgot-pass {
     font-family: Poppins;
-    font-size: 12px;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: 0.2px;
+    font-size: 13px;
+    letter-spacing: normal;
     color: #597bf0;
-    display: inline-block;
-    margin-left: 12%;
+    width: 100%;
+    margin-bottom: 5%;
 }
 
 .new-account {
@@ -190,14 +187,17 @@ p.validator {
     .container-input {
         margin-top: calc(22% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
     }
-    .account {
-        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    .new-account {
+        font-size: calc(25px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .forgot-pass {
+        font-size: calc(25px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
     }
     .contain-register {
         font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
     }
     .Conectate-con {
-        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+        font-size: calc(30px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
     }
     .mail {
         font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
@@ -210,5 +210,8 @@ p.validator {
     }
     .iniciar-sesion {
         font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+    }
+    .paciente {
+        font-size: calc(30px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
     }
 }
