@@ -6,6 +6,7 @@
         </ion-title>
     </ion-toolbar>
 </ion-header>
+
 <ion-content>
     <ion-grid class="container-info">
         <ion-row>
@@ -19,16 +20,16 @@
           <ion-row>
             <ion-icon class="time" color="primary-default" name="time"></ion-icon>
             <ion-col class="name" size="12">
-              {{hour.medic.priNombre}} &nbsp;{{hour.medic.priApellido}}
+              {{hourAccept.medico.priNombre}} &nbsp;{{hourAccept.medico.priApellido}}
             </ion-col>
             <ion-col class="esp" size="12">
-              {{hour.medic.especialidad.nombre}}
+              {{hourAccept.medico.especialidad.nombre}}
             </ion-col>
             <ion-col class="fecha" size="12">
-              {{hour.fecha}}&nbsp;&nbsp; &nbsp;&nbsp;{{hour.hora}}
+              {{hourAccept.fecha}}&nbsp;&nbsp; &nbsp;&nbsp;{{hourAccept.hora}}
             </ion-col>
             <ion-col class="cm" size="12">
-              {{hour.centroMedico}}
+              {{hourAccept.centroMedico.nombre}}
             </ion-col>
           </ion-row>
         </button>
@@ -36,7 +37,7 @@
         </ion-row>
         <ion-row>
             <ion-col>
-                <ion-button class="ok" type="submit" (click)="sendRequest()">ENTENDIDO</ion-button>
+                <ion-button class="ok" type="submit" (click)="AcceptPosponed(hourAccept.id)">ENTENDIDO</ion-button>
             </ion-col>
         </ion-row>
     </ion-grid>

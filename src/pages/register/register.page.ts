@@ -4,14 +4,13 @@ import { NavController, NavParams, AlertController, ToastController, IonSlide, I
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
-import { AgeValidator } from 'src/app/validators/age';
-import { UsernameValidator } from 'src/app/validators/username';
 import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Crop } from '@ionic-native/crop/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { DomSanitizer } from '@angular/platform-browser';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+
 
 
 @Component({
@@ -41,7 +40,7 @@ export class RegisterPage implements OnInit {
   public submitAttempt: boolean = false;
 
   //currentImage: any;
-  currentImage:string='';
+  currentImage: string = '';
   data: any
   sanitizeImg: any;
   imageURI: any;
@@ -64,24 +63,19 @@ export class RegisterPage implements OnInit {
   ) {
 
     this.slideOneForm = fb.group({
-      // firstName: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      // lastName: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      // age: ['', AgeValidator.isValid],
-      priNombre: ['', Validators.required],
-      priApellido: ['', Validators.required],
+      
+      priNombre: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      priApellido: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       email: ['', [Validators.email, Validators.required]],
-      password: ['', Validators.required],
+      password: ['',Validators.required]
     });
 
     this.slideTwoForm = fb.group({
-      // username: ['', Validators.compose([Validators.required, Validators.pattern('[a-zA-Z]*')]), UsernameValidator.checkUsername],
-      // privacy: ['', Validators.required],
-      // bio: ['']
-      //fechaNacimiento: ['', Validators.required],
+     
       sexo: ['', Validators.required],
-      identificacion: ['', Validators.required],
-      telefonoCelular: ['', Validators.required],
-      ciudad: ['', Validators.required],
+      identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
+      telefonoCelular: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
+      ciudad: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
 
     });
   }
@@ -123,31 +117,31 @@ export class RegisterPage implements OnInit {
     this.passwordIcon = this.passwordIcon === 'eye-off' ? 'eye' : 'eye-off';
   }
 
-  public cancelar() {
-    //this.navCtrl.push(LoginPage);
-  }
-
-  changeListener($event) : void {
+  changeListener($event): void {
     this.file = $event.target.files[0];
     this.formData.append('fotoPerfil', this.file);
   }
 
   upload() {
-    
+    this.auth.uploadImage(this.formData).subscribe(result => {
+      console.log(result, 'datos ok');
+    }, (err) => {
+      console.log(err, 'errores ');
+    });
   }
 
-  imageCaptured(){
+  imageCaptured() {
     this.loadingCtrl.presentLoading();
-    const options:CameraOptions={
-      quality:70,
-      destinationType:this.camera.DestinationType.DATA_URL,
-      encodingType:this.camera.EncodingType.JPEG,
-      mediaType:this.camera.MediaType.PICTURE
+    const options: CameraOptions = {
+      quality: 70,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE
     }
-    this.camera.getPicture(options).then((ImageData=>{
-       this.file = ImageData;
-       this.loadingCtrl.dismiss();
-    }),error=>{
+    this.camera.getPicture(options).then((ImageData => {
+      this.file = ImageData;
+      this.loadingCtrl.dismiss();
+    }), error => {
       console.log(error);
       this.loadingCtrl.dismiss()
     })
@@ -186,8 +180,7 @@ export class RegisterPage implements OnInit {
 
         this.auth.registerPaciente(this.formData).subscribe(data2 => {
           this.auth.getInfoPac(data1[0].id).subscribe(data3 => {
-            console.log(data3, 'dfatatafjsgjhs');
-
+            
             localStorage.setItem('user', JSON.stringify(data3[0]));
             this.router.navigate(['home']);
           })

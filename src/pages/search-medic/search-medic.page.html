@@ -55,10 +55,10 @@
 
     <div *ngIf="medics">
         <ion-grid class="content-medic ">
-            <ion-row *ngFor="let medic of medics " (click)="goToDetails(medic) " class="container-medic ">
+            <ion-row *ngFor="let medic of medics " (click)="goToDetails(medic) " class="container-medic">
                 <ion-col class="container-image " size="4 ">
-                    <!-- <img class="image " *ngIf="medic.fotoPerfil " [src]="medic.fotoPerfil"> -->
-                    <img class="image " *ngIf="medic.fotoPerfil " src="assets/imgs/doctor.png ">
+                    <img class="image " *ngIf="medic.fotoPerfil" src="http://192.168.0.104:9000{{medic.fotoPerfil}}" />
+                    <img class="image " *ngIf="!medic.fotoPerfil " src="assets/imgs/doctor.png " />
                 </ion-col>
                 <ion-col class="container-info-medic " size="7 ">
                     <ion-row>

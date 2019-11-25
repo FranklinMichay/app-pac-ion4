@@ -199,6 +199,7 @@ export class SearchMedicPage implements OnInit {
     this.auth.sendParamsForSearch(this.paramsForRequest).subscribe((result: any) => {
       this.medics = result 
       this.medicFiltered = result;
+      
       console.log(result, 'medicos encontrados');
       this.selected = [];
       this.paramsForRequest = {};

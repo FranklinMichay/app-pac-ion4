@@ -1,0 +1,96 @@
+.title-toolbar {
+    color: white;
+    text-align: center;
+}
+
+.style-icon-logout {
+    color: white;
+}
+
+.content-medic {
+    overflow-y: scroll;
+    width: 102%;
+    //height          : 92vh;
+    background: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 91%);
+    background-color: white;
+}
+
+.container-image {
+    padding: 20px;
+}
+
+.container-medic {
+    width: 98%;
+    border-radius: 7px;
+    background-color: #f6f6f6;
+    margin-top: 2%;
+    border-left: solid 8px #4c69cc;
+    height: auto;
+    .line {
+        background-color: #695cff;
+    }
+    .container-info-medic {
+        left: -14%;
+    }
+    .image {
+        width: 7vh;
+        height: 7vh;
+        border-radius: 4vh;
+        margin-top: -14%;
+        margin-left: -9%;
+    }
+    .medical-center {
+        font-family: Poppins;
+        font-size: 12.8px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.72;
+        letter-spacing: normal;
+        color: black;
+    }
+}
+
+.name {
+    font-family: Poppins;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    letter-spacing: 0.22px;
+    color: black;
+}
+
+.fecha {
+    font-family: Poppins;
+    font-size: 11px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 0.29;
+    letter-spacing: normal;
+    color: #657785;
+    padding: 3% 0% 0% 10%;
+}
+
+.cm {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #8c8c8c;
+}
+
+.icon-medic {
+    margin-top: 7%;
+}
+
+.time {
+    position: absolute;
+    right: 8%;
+    padding: 2%;
+    font-size: 20px;
+}

@@ -75,8 +75,9 @@
     font-size: 13px;
     letter-spacing: normal;
     color: #597bf0;
-    width: 100%;
-    margin-bottom: 5%;
+    bottom: 5px;
+    left: 20px;
+    position: absolute;
 }
 
 .new-account {
@@ -84,7 +85,9 @@
     font-size: 13px;
     letter-spacing: normal;
     color: #597bf0;
-    width: 100%;
+    position: absolute;
+    bottom: 5px;
+    right: 20px;
 }
 
 .contain-register {

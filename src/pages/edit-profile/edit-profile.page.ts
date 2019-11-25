@@ -27,6 +27,7 @@ export class EditProfilePage implements OnInit {
 
   fileUrl: any = null;
   respData: any;
+  file: File;
 
   constructor(
     private router: Router,
@@ -44,14 +45,14 @@ export class EditProfilePage implements OnInit {
     console.log(this.data.id);
 
     this.formEditProfile = this.fb.group({
-      priNombre: [null, Validators.compose([Validators.required])],
-      telefonoCelular: [null, Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
+      priNombre: ['', Validators.compose([Validators.required])],
+      telefonoCelular: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
       //email: [null, Validators.compose([Validators.required, Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')])],
-      priApellido: [null, Validators.compose([Validators.required])],
-      ciudad: [null, Validators.compose([Validators.required])],
-      identificacion: [null, Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
-      estadoCivil: [null, Validators.compose([Validators.required])],
-      numCasa: [null, Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{6},)*[0-9]{6}$')])],
+      priApellido: ['', Validators.compose([Validators.required])],
+      ciudad: ['', Validators.compose([Validators.required])],
+      identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
+      estadoCivil: ['', Validators.compose([Validators.required])],
+      numCasa: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{6},)*[0-9]{6}$')])],
     });
   }
 
@@ -110,6 +111,10 @@ export class EditProfilePage implements OnInit {
     const blob = new Blob([int8Array], { type: 'image/jpeg' });
     return blob;
   }
+  changeListener($event): void {
+    this.file = $event.target.files[0];
+    this.formData.append('fotoPerfil', this.file);
+  }
 
   updateProfilePatient() {
     Object.entries(this.formEditProfile.value).forEach(
@@ -119,7 +124,6 @@ export class EditProfilePage implements OnInit {
     )
     this.formData.append('user_id', this.data.user.id);
     this.auth.updateProfilePatient(this.formData, this.data.id).subscribe(data => {
-      console.log(data, 'dataaaa que leggaaa');
       if (data.fotoPerfil[0] !== 'h') {
         let foto = 'http://192.168.0.104:9000' + data.fotoPerfil;
         data.fotoPerfil = foto;
@@ -131,5 +135,9 @@ export class EditProfilePage implements OnInit {
     }, (err) => {
       console.log(err, 'errores');
     });
+  }
+
+  returnHome() {
+    this.router.navigate(['home']);
   }
 }

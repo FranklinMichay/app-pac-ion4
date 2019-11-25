@@ -21,7 +21,8 @@
                     <label class="medico ">Médico</label>
                 </ion-col>
                 <ion-col size="12">
-                    <p class="name-medic " *ngIf="medic ">{{ medic.medico.priNombre }}-{{ medic.medico.priApellido }}</p>
+                    <p class="name-medic " *ngIf="medic ">{{ medic.medico.priNombre }}-{{ medic.medico.priApellido }}
+                    </p>
                 </ion-col>
                 <ion-col size="12">
                     <h3 class="especialidad " *ngIf="medic ">{{ medic.medico.especialidad.nombre }}</h3>
@@ -32,8 +33,8 @@
 
     <div>
         <button class="label-content ">
-      <ion-row>
-        <button class="state " *ngIf="state "> {{state}} </button>
+            <ion-row>
+                <button class="state " *ngIf="state "> {{state}} </button>
         <ion-col class="name " size="12 ">
             Cita médica con &nbsp;{{ medic.medico.priNombre }}&nbsp;{{ medic.medico.priApellido }}
         </ion-col>
@@ -49,25 +50,25 @@
         </ion-row>
         <div class="container-posp ">
             <button *ngIf="medic.estadoCita === 'postponed' || medic.estadoCita === 'accepted'" class="cancelar-shedule " (click)="presentModal(medic) "> CANCELAR CITA</button>
-            <button *ngIf="medic.estadoCita === 'postponed'" class="cancelar-shedule " (click)="accept( 'accepted', medic) "> AGENDAR CITA</button>
+            <button *ngIf="medic.estadoCita === 'postponed'" class="cancelar-shedule " (click)="presentModalPosponed(medic) "> AGENDAR CITA</button>
         </div>
         </button>
     </div>
 
     <div>
         <label class="info ">
-      Realiza consultas médicas diarias a estudiantes y personal en general.
-      Diagnostica y prescribe tratamientos médicos a los pacientes.
-    </label>
-        <ion-list class="container-ion-list ">
-            <div class="container-locate ">
-                <ion-icon class="icon-location " name="pin "></ion-icon>
-                <span *ngIf="medic " class="text-locate ">
-          {{ medic.fecha }} &nbsp; &#8212; &nbsp;{{ medic.hora }} </span>
+            Realiza consultas médicas diarias a estudiantes y personal en general.
+            Diagnostica y prescribe tratamientos médicos a los pacientes.
+        </label>
+        <ion-list class="container-ion-list">
+            <div class="container-locate">
+                <ion-icon class="icon-location " name="pin"></ion-icon>
+                <span *ngIf="medic " class="text-locate">
+                    {{ medic.fecha }} &nbsp; &#8212; &nbsp;{{ medic.hora }} </span>
             </div>
-            <div class="container-calendar ">
-                <ion-icon class="icon-location " name="calendar "></ion-icon>
-                <span class="text-calendar ">Fecha de nacimiento 5 de Agosto de 1989</span>
+            <div class="container-calendar">
+                <ion-icon class="icon-location" name="calendar"></ion-icon>
+                <span class="text-calendar">Fecha de nacimiento 5 de Agosto de 1989</span>
             </div>
         </ion-list>
     </div>

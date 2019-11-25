@@ -19,7 +19,6 @@ export class ModalCancelPage implements OnInit {
   constructor(
     navParams: NavParams,
     private modalCtrl: ModalController,
-    //private loadingCrtl: LoadingController,
     private auth: AuthService,
     private alertCtrl: AlertController,
     private router: Router,
@@ -49,10 +48,7 @@ export class ModalCancelPage implements OnInit {
     this.auth.partialUpdate(_info).subscribe(result => {
       console.log(result, 'resul de la eliminacion');
       this.auth.sendNotify(result[0]);
-      console.log('emit enviado ojo ');
-      
       this.closeModal(dataCita);
-      //this.router.navigate(['meetings'] );
       this.loadingCtrl.dismiss();
     });
   }

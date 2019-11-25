@@ -1,27 +1,31 @@
-<!-- <ion-toolbar color="primary">
-    <ion-icon class="icon-desplegable" name="ios-arrow-down-outline" (click)="goDay()">
-    </ion-icon>
-</ion-toolbar> -->
-<ion-icon class="icon-desplegable" name="ios-arrow-down" (click)="closeModal()">
-</ion-icon>
-<hr class="color-line">
-<div *ngIf="hourCancel">
-    <ion-grid class="label-content">
-        <ion-row>
-            <ion-col class="name" size="12">
-                {{hourCancel.fecha}}&nbsp;-&nbsp;{{hourCancel.hora}}
-            </ion-col>
-            <ion-col class="fecha" size="12" *ngIf="state">
-                Estado Actual: <span class="span-state">{{state}}</span>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-</div>
-<div class="container-cancel">
-    <label class="cancelar-text">¿Deseas cancelar la cita?</label><br>
-    <label class="sel-text">La cita agendada a esta hora se eliminará. </label>
-</div>
-<div class="container-buttons">
-    <button class="not-cancel" (click)="closeModal()"> NO </button>
-    <button class="cancel" (click)="cancelAppointment(hourCancel)"> ACEPTAR</button>
-</div>
+<ion-header>
+    <ion-toolbar>
+        <ion-title>
+            <ion-icon class="icon-desplegable" name="ios-arrow-down" (click)="closeModal()">
+            </ion-icon>
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div *ngIf="hourCancel">
+        <ion-grid class="label-content">
+            <ion-row>
+                <ion-col class="name" size="12">
+                    {{hourCancel.fecha}}&nbsp;-&nbsp;{{hourCancel.hora}}
+                </ion-col>
+                <ion-col class="fecha" size="12" *ngIf="state">
+                    Estado Actual: <span class="span-state">{{state}}</span>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+    <div class="container-cancel">
+        <label class="cancelar-text">¿Deseas cancelar la cita?</label><br>
+        <label class="sel-text">La cita agendada a esta hora se eliminará. </label>
+    </div>
+    <div class="container-buttons">
+        <button class="not-cancel" (click)="closeModal()"> NO </button>&nbsp;
+        <button class="cancel" (click)="cancelAppointment(hourCancel)"> ACEPTAR</button>
+    </div>
+</ion-content>

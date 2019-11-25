@@ -136,9 +136,9 @@ export class AuthService {
   }
 
   updateProfilePatient(data, id) {
-    
+
     return this.httpClient.put<any>(this.url + 'paciente/updatePerfilPaciente/' + id + '/', data);
-  } 
+  }
 
   getByUrlCustom(url): Observable<any> {
     this.fechaMeeting = url;
@@ -181,7 +181,7 @@ export class AuthService {
   sendParamsForSearch(data) {
     const dic = JSON.stringify(data);
     console.log(data, 'parseado');
-    return this.httpClient.get(this.url+ 'medico/searchMedic/?params=' + dic);
+    return this.httpClient.get(this.url + 'medico/searchMedic/?params=' + dic);
   }
 
 
@@ -333,6 +333,18 @@ export class AuthService {
   partialUpdate(data: any): Observable<any> {
     console.log(data, ' data');
     return this.httpClient.patch(this.url + 'agenda/updateDiaryMedic/', data)
+  }
+
+  update(data: any): Observable<any> {
+    return this.httpClient.put<any>(this.url + 'agenda/updateDiaryMedic/' + data.id + '/', data);
+  }
+
+  getIdMedicalHistory(idPaciente): Observable<any> {
+    return this.httpClient.get<any>(this.url + 'historial/getData?model=HistorialMedico&params=paciente_id=' + idPaciente);
+  }
+
+  getPrescription(idHistory): Observable<any> {
+    return this.httpClient.get<any>(this.url + 'historial/getData?model=RecetaMedico&params=historial=' + idHistory);
   }
 
 }

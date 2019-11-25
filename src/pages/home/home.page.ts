@@ -47,10 +47,9 @@ export class HomePage {
   ) {
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem('user'));
-    console.log(this.dataUser, 'datos de paciente');
     this.imageUrl = this.dataUser.fotoPerfil;
     this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
-    console.log(this.imageUrl, 'imagennnnnnnnnnnn');
+    //console.log(this.imageUrl, 'imagennnnnnnnnnnn');
     
     this.getDataPac();
     const user = JSON.parse(localStorage.getItem('user'));

@@ -34,6 +34,11 @@
     color: white;
 }
 
+p.validator {
+    color: red;
+    margin-left: 18%;
+}
+
 .title-toolbar {
     color: white;
     text-align: center;
@@ -137,12 +142,26 @@
     font-weight: 600;
 }
 
+.container-buttons {
+    margin-top: 8%;
+    text-align: -webkit-center;
+    margin-bottom: 5%;
+}
+
 .accept {
     width: 156px;
     height: 50px;
     --border-radius: 25px;
     --background: linear-gradient(99deg, #ffc185, #fd5f54);
     background-color: white;
+    color: white;
+}
+
+.cancel {
+    width: 150px;
+    height: 50px;
+    border-radius: 25px !important;
+    background: linear-gradient(104deg, #ffc185, #fd5f54);
     color: white;
 }
 

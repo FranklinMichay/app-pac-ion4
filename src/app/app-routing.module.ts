@@ -19,10 +19,11 @@ const routes: Routes = [
   { path: 'register', loadChildren: () => import('../pages/register/register.module').then( m => m.RegisterPageModule)},
   { path: 'edit-profile', loadChildren: () => import('../pages/edit-profile/edit-profile.module').then( m => m.EditProfilePageModule)},
   { path: 'search-filter',  loadChildren: () => import('../pages/search-filter/search-filter.module').then( m => m.SearchFilterPageModule)},
-
+  { path: 'prescription', loadChildren: () => import('../pages/prescription/prescription.module').then( m => m.PrescriptionPageModule)},
+  { path: 'prescription-detail', loadChildren: () => import('../pages/prescription-detail/prescription-detail.module').then( m => m.PrescriptionDetailPageModule)},
+  { path: 'modal-accept-postponed',loadChildren: () => import('../pages/modal-accept-postponed/modal-accept-postponed.module').then( m => m.ModalAcceptPostponedPageModule)},
 
 ];
-
 @NgModule({
   imports: [
     RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })

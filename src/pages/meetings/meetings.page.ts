@@ -87,12 +87,39 @@ export class MeetingsPage implements OnInit {
   }
 
   ionViewWillEnter() {
+
     if (Object.keys(this.dataService.dataDelete).length !== 0) {
       this.dataDelete = this.dataService.dataDelete;
+      console.log(this.dataDelete, 'data para delete posponed');
+
       const idDelete = this.dataDelete.data.data.id
       console.log(idDelete, 'ide para eliminar');
       this.deleteData(idDelete);
+      this.dataService.dataDelete = {}
     }
+
+    else if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
+      console.log(this.dataService.dataCancelPosponed, 'id canceled');
+      
+      this.dataDelete = this.dataService.dataCancelPosponed;
+      console.log(this.dataDelete, 'data que no llega');
+
+      const idDelete = this.dataDelete.data.data.id
+      console.log(idDelete, 'ide cancel posponed para eliminar');
+      this.deleteDataPosponed(idDelete);
+      this.dataService.dataCancelPosponed = {}
+    }
+    
+    else if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
+      console.log(this.dataService.idAcceptPosponed, 'id Accepted');
+      
+      this.dataDelete = this.dataService.idAcceptPosponed;
+      const idDelete = this.dataDelete.data.data
+      console.log(idDelete, 'ide de posponed para eliminar');
+      this.deleteDataPosponed(idDelete);
+      this.dataService.idAcceptPosponed = {}
+    }
+    
   }
 
   deleteData(id) {
@@ -102,6 +129,19 @@ export class MeetingsPage implements OnInit {
       return n.id === id;
     });
     _.remove(this.acceptedMeetings, function (n) {
+      console.log(id, 'DELETE');
+      return n.id === id;
+    });
+    //console.log(this.acceptedMeetings, 'datos delete filtrados');
+  }
+
+  deleteDataPosponed(id) {
+    console.log(this.postponed, 'datos posponed ANTES DELETE');
+    _.remove(this.postponed, function (n) {
+      console.log(id, 'DELETE');
+      return n.id === id;
+    });
+    _.remove(this.postponedMeetings, function (n) {
       console.log(id, 'DELETE');
       return n.id === id;
     });
@@ -118,7 +158,7 @@ export class MeetingsPage implements OnInit {
       this.postponedMeetings = _.filter(result, function (o) { return o.estadoCita === 'postponed'; });
       this.filterData(this.currentYear, this.currentMonth, this.day);
       // console.log(this.acceptedMeetings, 'aceptadas');
-       console.log(this.newMeetings, 'canceled');
+      console.log(this.newMeetings, 'canceled');
       // console.log(this.postponedMeetings, 'postponed');
       this.loadingCtrl.dismiss();
     });

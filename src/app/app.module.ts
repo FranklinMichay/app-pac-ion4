@@ -11,7 +11,6 @@ import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
-import { CalendarModule } from 'ion2-calendar';
 import { GetMeetingPage } from './../pages/get-meeting/get-meeting.page';
 import { ModalCancelPage } from './../pages/modal-cancel/modal-cancel.page';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
@@ -23,8 +22,9 @@ import { ImagePicker }  from '@ionic-native/image-picker/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 import { Crop } from '@ionic-native/crop/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl };
-//import { CameraMock } from '../shared/mock/camera.mock';
 import { WebView } from '@ionic-native/ionic-webview/ngx';
+//import { PrescriptionDetailPage } from 'src/pages/prescription-detail/prescription-detail.page';
+import { ModalAcceptPostponedPage } from 'src/pages/modal-accept-postponed/modal-accept-postponed.page';
 
 
 @NgModule({
@@ -32,12 +32,14 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
     AppComponent,
     GetMeetingPage,
     ModalCancelPage,
-    SearchFilterPage
+    SearchFilterPage,
+    ModalAcceptPostponedPage
   ],
   entryComponents: [
     GetMeetingPage,
     ModalCancelPage,
-    SearchFilterPage
+    SearchFilterPage,
+    ModalAcceptPostponedPage
   ],
   imports: [
     BrowserModule,    
@@ -47,7 +49,6 @@ import { WebView } from '@ionic-native/ionic-webview/ngx';
     AngularFireAuthModule,
     AngularFireModule.initializeApp(environment),
     HttpClientModule,
-    CalendarModule,
     SocketIoModule.forRoot(config),
     AutoCompleteModule,
     TagInputModule,

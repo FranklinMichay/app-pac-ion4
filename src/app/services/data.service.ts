@@ -10,6 +10,8 @@ export class DataService {
   dataMedic = {}
   dataDelete = {}
   tagsParam = [];
+  idAcceptPosponed: any;
+  dataCancelPosponed: any;
   constructor(
 
   ) { }

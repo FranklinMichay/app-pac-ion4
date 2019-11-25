@@ -19,13 +19,23 @@
     }
 }
 
+p.validator {
+    color: red;
+    margin-left: -30%;
+    // padding: -3px 0px -12px 1px;
+    // margin-top: auto;
+    // margin-bottom: auto;
+}
+
 .go-login {
     font-family: Poppins;
     font-size: 13px;
     letter-spacing: normal;
     color: #597bf0;
     width: 100%;
-    margin-bottom: 5%;
+    text-align: center;
+    position: absolute;
+    bottom: 3px;
 }
 
 .contain-register {
@@ -210,14 +220,6 @@ form {
 
 .container-form {
     margin-top: 20%;
-}
-
-p.validator {
-    color: red;
-    margin-left: 6%;
-    padding: -3px 0px -12px 1px;
-    margin-top: auto;
-    margin-bottom: auto;
 }
 
 .val-message {
