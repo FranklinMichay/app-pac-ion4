@@ -25,7 +25,8 @@ const config: SocketIoConfig = { url: environment.socketUrl };
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 //import { PrescriptionDetailPage } from 'src/pages/prescription-detail/prescription-detail.page';
 import { ModalAcceptPostponedPage } from 'src/pages/modal-accept-postponed/modal-accept-postponed.page';
-
+import { BackgroundMode } from '@ionic-native/background-mode/ngx';
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,9 @@ import { ModalAcceptPostponedPage } from 'src/pages/modal-accept-postponed/modal
     StatusBar,
     ImagePicker,
     SplashScreen,
+    BackgroundMode,
     Camera,
+    LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FileTransfer,
     FileTransferObject,

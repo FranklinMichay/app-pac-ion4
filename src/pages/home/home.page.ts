@@ -7,6 +7,8 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Socket } from 'ngx-socket-io';
+import { fn } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-home',
@@ -41,49 +43,59 @@ export class HomePage {
     public platform: Platform,
     public router: Router,
     private sanitizer: DomSanitizer,
-    // public backgroundMode: BackgroundMode,
-    // public localNotifications: LocalNotifications,
+    private backgroundMode: BackgroundMode,
+    private localNotifications: LocalNotifications,
     public menuControler: MenuController,
+
   ) {
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem('user'));
     this.imageUrl = this.dataUser.fotoPerfil;
     this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
-    //console.log(this.imageUrl, 'imagennnnnnnnnnnn');
-    
     this.getDataPac();
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
-    // this.auth.getMeetingData(fields).subscribe((data: any) => {
-    //   console.log(data, 'data server user');
-      
-    //   // if (data.dataNews && data.medicName) {
-    //   //   if (this.platform.is('cordova')) {
-    //   //     //REVISAR ISENABLE CON ISOFF
-    //   //     if (this.backgroundMode.isEnabled()) {
-    //   //       this.backgroundMode.wakeUp();
-    //   //       this.localNotifications.schedule({
-    //   //         id: 1,
-    //   //         text: data.type,
-    //   //         sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
-    //   //         data: { secret: 'key' },
-    //   //         wakeup: true,
-    //   //         title: data.medicName,
-    //   //         actions: 'click',
-    //   //         launch: true
-    //   //       })
-    //   //     }
-    //   //   }
-    //   // }
-    // }, (err) => {
-    //   console.log(err, 'error');
-    // });
+    
+    
   }
 
   ngOnInit() {
     
+    
+  }
+
+  notification() {
+    console.log('notificame');
+    
+    this.auth.getDataAlerts().subscribe((data: any) => {
+      console.log(data, 'data server notification user');
+      this.localNotifications.schedule({
+        id: 1,
+        text: data.estadoCita,
+        data: { secret: 'secret' }
+      });
+
+    }, (err) => {
+      console.log(err, 'error');
+    });
+  }
+
+  single_notification() {
+    this.localNotifications.schedule({
+      id: 1,
+      text: 'Single Local Notification',
+      data: { secret: 'secret' }
+    });
+  }
+
+  setSound() {
+    if (this.platform.is('android')) {
+      return 'file://assets/sounds/Rooster.mp3'
+    } else {
+      return 'file://assets/sounds/Rooster.caf'
+    }
   }
 
   getDataPac() {
@@ -91,7 +103,7 @@ export class HomePage {
     console.log(user, 'user');
     const idPaciente = user ? user.id : null;
     console.log(idPaciente, 'ide del paciente');
-    
+
     //const _data = { pkPaciente: idPaciente };
     this.auth.getMeetingAccepted(idPaciente).then(
       d => {

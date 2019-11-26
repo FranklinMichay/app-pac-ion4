@@ -59,7 +59,6 @@ export class GetMeetingPage implements OnInit {
     fields.centroMedico_id = idCentroMed;
     fields.estadoCita = 'new';
     fields.estadoAgenda = 'available';
-
     console.log(fields, 'datos para enviar a agendar');
     this.loadingCtrl.presentLoading();
     this.auth.create(fields).subscribe(result => {

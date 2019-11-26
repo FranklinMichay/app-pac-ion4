@@ -37,8 +37,9 @@
         <label class="datos ">Aún no tienes citas agendadas</label>
         </label>
     </div>
-
-
+    <ion-button (click)="single_notification()">
+        Click me
+    </ion-button>
     <div *ngIf="slides " class="container-product-detail ">
         <ion-slides>
             <ion-slide *ngFor="let slide of slides ">

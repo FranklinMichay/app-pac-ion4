@@ -15,10 +15,12 @@
     <div class="calendar-content">
         <ion-row class="head-content">
             <ion-col class="icon-header" size="2">
-                <ion-icon *ngIf="disableBackBS" name="arrow-dropleft" class="icon-control" (click)="previous()"></ion-icon>
+                <ion-icon *ngIf="disableBackBS" name="arrow-dropleft" class="icon-control" (click)="previous()">
+                </ion-icon>
             </ion-col>
-            <ion-col size="8">
-                <span class="month-label">{{monthLabel}},&nbsp;&nbsp;{{currentYear}}</span>
+            <ion-col class="month-label" size="8">
+                <!-- <label class="month-label">{{monthLabel}},&nbsp;&nbsp;{{currentYear}}</label> -->
+                {{monthLabel}},&nbsp;&nbsp;{{currentYear}}
             </ion-col>
 
             <ion-col class="icon-header" size="2">
@@ -52,9 +54,9 @@
         <ion-row *ngFor="let hour of hoursAvailable">
             <ion-col size="2" class="hour">
                 <span [ngStyle]="{'color': hour.color}">
-                        {{hour.hora.substring(0, 5)}}
-                        <!-- {{hour.hora}} -->
-                      </span>
+                    {{hour.hora.substring(0, 5)}}
+                    <!-- {{hour.hora}} -->
+                </span>
             </ion-col>
             <ion-col size="10">
                 <div class="disponible">
@@ -63,8 +65,8 @@
                             AGENDAR
                           </button> -->
                         <button class="btn-get-meeting" [disabled]="hour.disabled" (click)="getMeeting(hour)">
-                                AGENDAR
-                              </button>
+                            AGENDAR
+                        </button>
                     </ion-row>
                     <ion-row>
                         <label *ngIf="hour.disabled" class="pedido">Ya tienes un pedido</label>

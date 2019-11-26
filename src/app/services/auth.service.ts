@@ -199,59 +199,11 @@ export class AuthService {
     });
   }
 
-  getDataDay(_data: any) {
-    console.log(_data, 'data for get');
+  getDataAlerts() {
     const observable = new Observable(observer => {
-      this.socket.on('calendar', async (data) => {
-        console.log(data, 'data socket');
-        if (data.paciente === null || data.paciente === undefined
-          || data.medico === null || data.medico === undefined) {
-          console.log(_data, 'data enviada');
-          console.log(_data.medico_id, data.medico, 'data enviada 2');
-          if (_data.medico_id === data.medico || _data.medico_id === data.medico.id) {
-            if (_data.fecha === data.fecha) {
-              console.log('DATA SOCKET MEDICO');
-              await this.getDayData(_data).then(
-                d => {
-                  data.result = d;
-                });
-              observer.next(data);
-            }
-          }
-        } else {
-          if (data.medico.id === this.user.id || data.paciente.id === this.user.id
-            || _data.medico_id === data.medico.id) {
-            console.log('DATO EXITOSO DESDE PACIENTE');
-            await this.getDayData(_data).then(
-              d => {
-                data.result = d;
-              });
-            observer.next(data);
-          }
-        }
-      });
-    });
-    return observable;
-  }
-  //let fields = date + ',medico_id=' + this.medic.id; 
-  getMeetingDataIo(_data) {
-    console.log(_data, 'data for get');
-    const observable = new Observable(observer => {
-      this.socket.on('response', async (data) => {
-        console.log(_data, data, ' on redis response fuera del if');
-        if (data.client === _data.idPaciente) {
-          await this.getMeetingNews(_data).then(
-            d => {
-              data = d;
-            });
-          await this.getDataPostponed(_data).then(
-            d => {
-              data = d;
-            });
-          await this.getMeetingAccepted(_data).then(
-            d => {
-              data = d;
-            });
+      this.socket.on('calendar', async (data: any) => {
+        console.log(data, 'data notifiacacion');
+        if (data.paciente.id === this.user.id || data.paciente === this.user.id) {
           observer.next(data);
         }
       });
@@ -259,8 +211,50 @@ export class AuthService {
     return observable;
   }
 
-  //let url = 'estadoAgenda=available,estadoCita=hold,fecha=' + date + ',medico_id=' + this.medic.id; 
+  getDataDay(_data: any) {
+    const observable = new Observable(observer => {
+      this.socket.on('calendar', async (data) => {
+        console.log(data, 'data socket');
+        if (data.paciente === null || data.paciente === undefined
+          || data.medico === null || data.medico === undefined) {
+          if (_data.medico_id === data.medico || _data.medico_id === data.medico.id) {
+            if (_data.fecha === data.fecha) {
+
+              await this.getDayData(_data).then(d => {
+                data.result = d;
+              });
+              observer.next(data);
+            }
+          }
+        } else {
+          if (data.medico.id === this.user.id || data.paciente.id === this.user.id
+            || _data.medico_id === data.medico.id) {
+
+            await this.getDayData(_data).then(d => {
+              data.result = d;
+            });
+            observer.next(data);
+          }
+        }
+      });
+    });
+    return observable;
+  }
+
   getDayData(data) {
+    console.log(data, ' datos con la fecha e ide');
+    return new Promise((resolve, reject) => {
+      this.httpClient.get(this.url + this.urlGetInfo + 'estadoAgenda=available,estadoCita=hold,fecha=' + data.fecha)
+        .subscribe(res => {
+          resolve(res);
+          console.log(res, 'get day data en servicio');
+        }, (err) => {
+          reject(err);
+        });
+    });
+  }
+
+  getDataPosponed(data) {
     console.log(data, ' datos con la fecha e ide');
     return new Promise((resolve, reject) => {
       this.httpClient.get(this.url + this.urlGetInfo + 'estadoAgenda=available,estadoCita=hold,fecha=' + data.fecha)
