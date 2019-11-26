@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { LoadingController, ToastController, Platform, MenuController, NavController } from '@ionic/angular';
+import { LoadingController, ToastController, Platform, MenuController, NavController, AlertController } from '@ionic/angular';
 import { Info } from '../../shared/mock/months';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
@@ -35,7 +35,7 @@ export class HomePage {
   connection: any;
   dataHome: any;
   imageUrl: any;
-
+  clickSub: any;
   constructor(
     public navCtrl: NavController,
     public toast: ToastController,
@@ -46,6 +46,7 @@ export class HomePage {
     private backgroundMode: BackgroundMode,
     private localNotifications: LocalNotifications,
     public menuControler: MenuController,
+    public alertController: AlertController
 
   ) {
     this.data = Info.categories;
@@ -62,7 +63,7 @@ export class HomePage {
   }
 
   ngOnInit() {
-    
+    this.simpleNotif();
     
   }
 
@@ -80,6 +81,53 @@ export class HomePage {
     }, (err) => {
       console.log(err, 'error');
     });
+  }
+
+  async presentAlert(data) {
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: data,
+      buttons: ['OK']
+    });
+
+    await alert.present();
+  }
+
+  unsub() {
+    this.clickSub.unsubscribe();
+  }
+  simpleNotif2() {
+    this.clickSub = this.localNotifications.on('click').subscribe(data => {
+      console.log(data);
+      this.presentAlert('Your notifiations contains a secret = ' + data.data.secret);
+      this.unsub();
+    });
+    this.localNotifications.schedule({
+      id: 1,
+      text: 'Single Local Notification',
+      data: { secret: 'secret' }
+    });
+
+  }
+
+  simpleNotif() {
+    this.clickSub = this.localNotifications.on('click').subscribe(data => {
+      console.log(data);
+      this.presentAlert('Notificacion ok = ' + data.data.secret);
+      this.unsub();
+    });
+
+    this.auth.getDataAlerts().subscribe((data: any) => {
+      this.localNotifications.schedule({
+        id: 1,
+        text: data.estadoCita,
+        data: { secret: 'secret' }
+      });
+
+    }, (err) => {
+      console.log(err, 'error');
+    });
+
   }
 
   single_notification() {
