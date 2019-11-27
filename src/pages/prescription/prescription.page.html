@@ -12,25 +12,23 @@
 </ion-header>
 
 <ion-content>
-    <ion-grid>
-        <ion-row>
-            <ion-col *ngFor="let prescription of prescriptions" (click)="goDetails(prescription)" size="6">
-                <ion-card>
-
-                    <ion-card-header>
-                        <ion-icon class="time" color="secondary" name="clipboard"></ion-icon>
-                        <ion-card-subtitle> {{prescription.fecha}}</ion-card-subtitle>
-                        <ion-card-subtitle class="name"> <b> {{ prescription.medico.priNombre}} {{ prescription.medico.priApellido}}</b></ion-card-subtitle>
-                        <ion-card-subtitle class="cm"> <b>{{prescription.medico.especialidad.nombre}}</b></ion-card-subtitle>
-                        <ion-card-subtitle class="cm"> {{prescription.medico.centroMedico.nombre}}</ion-card-subtitle>
-                    </ion-card-header>
-                    <!-- <ion-card-content>
+    <ion-row>
+        <ion-col *ngFor="let prescription of prescriptions" (click)="goDetails(prescription)" size="6">
+            <ion-card>
+                <ion-card-header>
+                    <ion-icon class="time" color="secondary" name="clipboard"></ion-icon>
+                    <ion-card-subtitle class="name"> <b> {{ prescription.medico.priNombre}}
+                            {{ prescription.medico.priApellido}}</b></ion-card-subtitle>
+                    <ion-card-subtitle> {{prescription.fecha}}</ion-card-subtitle>
+                    <ion-card-subtitle class="cm"> <b>{{prescription.medico.especialidad.nombre}}</b>
+                    </ion-card-subtitle>
+                    <ion-card-subtitle class="cm"> {{prescription.medico.centroMedico.nombre}}</ion-card-subtitle>
+                </ion-card-header>
+                <!-- <ion-card-content>
                         med the capital
                     </ion-card-content> -->
-                </ion-card>
-            </ion-col>
-
-        </ion-row>
-    </ion-grid>
+            </ion-card>
+        </ion-col>
+    </ion-row>
 
 </ion-content>

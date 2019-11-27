@@ -17,13 +17,10 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagInputModule } from 'ngx-chips';
-import { Camera } from '@ionic-native/camera/ngx';
 import { ImagePicker }  from '@ionic-native/image-picker/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
-import { Crop } from '@ionic-native/crop/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl };
 import { WebView } from '@ionic-native/ionic-webview/ngx';
-//import { PrescriptionDetailPage } from 'src/pages/prescription-detail/prescription-detail.page';
 import { ModalAcceptPostponedPage } from 'src/pages/modal-accept-postponed/modal-accept-postponed.page';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
@@ -61,12 +58,10 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     ImagePicker,
     SplashScreen,
     BackgroundMode,
-    Camera,
     LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FileTransfer,
     FileTransferObject,
-    Crop,
     WebView,
     //{provide: Camera, useClass: CameraMock},
   ],
