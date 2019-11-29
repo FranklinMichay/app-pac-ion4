@@ -26,17 +26,25 @@
     </div>
     <div *ngIf="dataHome" class="header-info">
         <label class="info-home">
-        <img class="medic " src="assets/imgs/doc.svg">
-        <label class="datos">Tu proxima cita agendada es para el {{dataHome.fecha}} a las
-          {{dataHome.hora.substring(0, 5)}} horas</label>
+            <img class="medic " src="assets/imgs/doc.svg">
+            <label class="datos">Tu proxima cita agendada es para el {{dataHome.fecha}} a las
+                {{dataHome.hora.substring(0, 5)}} horas</label>
         </label>
     </div>
     <div *ngIf="!dataHome " class="header-info ">
         <label class="info-home ">
-        <img class="medic " src="../../assets/imgs/doc.svg ">
-        <label class="datos ">Aún no tienes citas agendadas</label>
+            <img class="medic " src="../../assets/imgs/doc.svg ">
+            <label class="datos ">Aún no tienes citas agendadas</label>
         </label>
     </div>
+    <!-- 
+    <ion-button (click)="simpleNotif()">
+        Notify
+    </ion-button>
+
+    <ion-button (click)="single_notification()">
+        Click me
+    </ion-button> -->
 
     <div *ngIf="slides " class="container-product-detail ">
         <ion-slides>

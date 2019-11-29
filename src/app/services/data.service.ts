@@ -27,4 +27,7 @@ export class DataService {
     console.log(
       this.tagsParam, 'los params');
   }
+
+  
+
 }

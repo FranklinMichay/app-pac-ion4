@@ -15,6 +15,10 @@
     background-color: white;
 }
 
+.content-cites {
+    --background: linear-gradient(157deg, #ecf0f5, #ccd6e6);
+}
+
 .content-card {
     width: 100%;
 }
@@ -105,4 +109,23 @@
     right: 8%;
     padding: 2%;
     font-size: 20px;
+}
+
+.empty-state {
+    align-content: center;
+    margin: 5% auto;
+    height: 23vh;
+    width: 41vw;
+}
+
+.text-center {
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.empty-container {
+    display: grid;
+    align-items: center;
 }

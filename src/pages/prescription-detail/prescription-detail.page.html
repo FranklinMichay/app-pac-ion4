@@ -11,9 +11,70 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content class="content-cites">
 
-    <ion-card>
+    <div class="ion-padding">
+        <ion-row class="nav-tabs">
+            <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
+                <label class="text-center">Receta</label>
+            </ion-col>
+            <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step2'}" (click)="changeTab('step2')">
+                <label class="text-center">Despachos</label>
+            </ion-col>
+        </ion-row>
+    </div>
+
+
+    <div class="form-group required" *ngIf="currentTab === 'step1'">
+        <div class="container">
+            <ion-grid *ngIf="dataMedic">
+                <ion-row>
+                    <ion-col *ngFor="let medic of dataMedic" (click)="goDetails(medic)" size="6">
+                        <ion-card class="bg-card">
+                            <ion-card-header>
+                                <!-- <ion-icon class="time" color="secondary" name="clipboard"></ion-icon> -->
+                                <ion-card-subtitle class="name"> <b> {{ medic.datosMed.priNombre}}
+                                        {{ medic.datosMed.priApellido}}</b></ion-card-subtitle>
+                                <ion-card-subtitle class="cm"> <b>{{ medic.datosMed.especialidad}}</b>
+                                </ion-card-subtitle>
+                                <ion-card-subtitle class="cm"> <b>{{ medic.fecha | date : 'yyyy-MM-dd'}}</b>
+                                </ion-card-subtitle>
+                                <ion-card-subtitle class="cm"> <b>{{ medic.codRece}}</b>
+                                </ion-card-subtitle>
+
+                            </ion-card-header>
+                            <!-- <ion-card-content>
+                                            med the capital
+                                        </ion-card-content> -->
+                        </ion-card>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div *ngIf="!dataReceta" class="empty-container">
+                <img src="assets/imgs/sin-datos.svg" class="empty-state">
+                <h3 class="text-center">Sin Contenido</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group required" *ngIf="currentTab === 'step2'">
+        <div class="container">
+            <ion-grid *ngIf="dataReceta">
+                <ion-row class="row-container">
+                    <ion-col class="state">
+                        {{dataReceta.estado}}
+                    </ion-col>
+
+                </ion-row>
+            </ion-grid>
+            <div *ngIf="!dataReceta" class="empty-container">
+                <img src="assets/imgs/sin-datos.svg" class="empty-state">
+                <h3 class="text-center">Sin Contenido</h3>
+            </div>
+        </div>
+    </div>
+
+    <!-- <ion-card>
         <ion-row>
             <ion-icon class="time" color="secondary" name="clipboard"></ion-icon>
             <ion-col class="name" size="12">
@@ -116,7 +177,7 @@
                 <ion-label>c/8 horas</ion-label>
             </ion-col>
         </ion-row>
-    </ion-grid>
+    </ion-grid> -->
 
 
 </ion-content>

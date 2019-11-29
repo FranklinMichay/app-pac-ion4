@@ -12,17 +12,21 @@
 </ion-header>
 
 <ion-content class="content-cites">
-    <ion-row class="nav-tabs">
-        <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
-            <label class="text-center">Aceptadas</label>
-        </ion-col>
-        <ion-col class="col-center" [ngClass]="{'active': currentTab === 'step2'}" (click)="changeTab('step2')">
-            <label class="text-center">Canceladas</label>
-        </ion-col>
-        <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step3'}" (click)="changeTab('step3')">
-            <label class="text-center">Pospuestas</label>
-        </ion-col>
-    </ion-row>
+
+    <div class="ion-padding">
+        <ion-row class="nav-tabs">
+            <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
+                <label class="text-center">Aceptadas</label>
+            </ion-col>
+            <ion-col class="col-center" [ngClass]="{'active': currentTab === 'step2'}" (click)="changeTab('step2')">
+                <label class="text-center">Canceladas</label>
+            </ion-col>
+            <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step3'}" (click)="changeTab('step3')">
+                <label class="text-center">Pospuestas</label>
+            </ion-col>
+        </ion-row>
+    </div>
+
 
     <!-- <ion-slides pager="true" [options]="slideOpts">
         <ion-slide *ngFor="let item of 5">
@@ -36,11 +40,11 @@
             <ion-row class="content-header">
                 <ion-col class="content-col" *ngFor=" let v of daysWeek">
                     <span>
-              {{v.label}}
-            </span>
+                        {{v.label}}
+                    </span>
                     <span *ngIf="v.day" class="day-number" [className]="v.selected ? 'today' : 'sn'" (click)="changeDay(v.day)">
-              {{v.day}}
-            </span>
+                        {{v.day}}
+                    </span>
                 </ion-col>
                 <ion-col size="12">
                     <span class="text-center-day date-label"> {{dateLabel}} </span>
@@ -72,8 +76,8 @@
                         <ion-row>
                             <ion-col size="12">
                                 <span class="label-up">
-                  {{val.medico.priNombre}} &nbsp; {{val.medico.priApellido}}
-                </span>
+                                    {{val.medico.priNombre}} &nbsp; {{val.medico.priApellido}}
+                                </span>
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{val.fecha}} &#8212;&nbsp;{{val.hora}}
@@ -107,8 +111,8 @@
                         <ion-row>
                             <ion-col size="12">
                                 <span class="label-up">
-                  {{cita.medico.priNombre}} &nbsp; {{cita.medico.priApellido}}
-                </span>
+                                    {{cita.medico.priNombre}} &nbsp; {{cita.medico.priApellido}}
+                                </span>
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{cita.fecha}} &#8212;&nbsp;{{cita.hora}}
@@ -145,7 +149,7 @@
                             <ion-col size="12">
                                 <span class="label-up">
                                     {{v.medico.priNombre}} &nbsp; {{v.medico.priApellido}}
-                </span>
+                                </span>
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{v.fecha}} &#8212;&nbsp;{{v.hora}}

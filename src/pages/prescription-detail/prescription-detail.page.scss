@@ -4,6 +4,118 @@
     padding: 80% 0% 0% 0% !important;
 }
 
+// @import "../../theme/variables.scss";
+.title-toolbar {
+    color: white;
+    text-align: center;
+}
+
+// content {
+//     background-color: var(tertiary);
+// }
+.style-icon-logout {
+    color: white;
+}
+
+.style-button-back {
+    color: white;
+}
+
+.content-cites {
+    --background: linear-gradient(157deg, #ecf0f5, #ccd6e6);
+}
+
+.nav-tabs {
+    background-color: #f3f4f8;
+    height: 6%;
+    border-radius: 14px;
+    margin-top: 5%;
+    text-align: -webkit-center;
+}
+
+.active {
+    background: #597bf0;
+    color: white !important;
+    border-radius: initial;
+}
+
+.col-center {
+    display: grid;
+    align-items: center;
+}
+
+.content-cites {
+    --background: linear-gradient(157deg, #ecf0f5, #ccd6e6);
+}
+
+.col-left {
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-right: 1px darkgrey;
+    align-items: center;
+    display: grid;
+}
+
+.col-right {
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-left: 1px darkgrey;
+    align-items: center;
+    display: grid;
+}
+
+.row-container {
+    text-align: left;
+    margin: 5% 1%;
+    box-shadow: 2px 6px 6px 7px rgba(78, 78, 78, 0.12);
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    border-left: solid 9px #695cff;
+    background-color: #f6f6f6;
+    margin-top: -2%;
+}
+
+.empty-state {
+    align-content: center;
+    margin: 5% auto;
+    height: 23vh;
+    width: 41vw;
+}
+
+.text-center {
+    text-align: center;
+    font-family: Poppins;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.empty-container {
+    display: grid;
+    align-items: center;
+}
+
+.label-up {
+    font-weight: 500;
+    text-transform: capitalize;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+}
+
+.color-day {
+    color: #8c8c8c;
+}
+
+.text-center-citas {
+    color: white;
+}
+
 .title-toolbar {
     color: white;
     text-align: center;
@@ -68,6 +180,11 @@
     width: 100%;
     text-transform: uppercase;
     color: white;
+}
+
+.container {
+    align-items: center;
+    margin-top: 6%;
 }
 
 .btn-cancel {
@@ -164,6 +281,10 @@ ion-content {
     letter-spacing: normal;
     margin-top: -3%;
     color: #657785;
+}
+
+.bg-card {
+    background-color: #f6f6f6;
 }
 
 .cm {

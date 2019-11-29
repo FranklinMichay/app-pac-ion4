@@ -24,6 +24,7 @@ export class AuthService {
   private url = environment.apiURL1;
   private urlSocket = environment.socketUrl;
   private urlGetInfo = 'agenda/getData?model=agenda&params=';
+  private urlMongoDB = environment.apiMongoDB;
 
   fechaMeeting: any;
   corsConfig: any = {};
@@ -337,8 +338,23 @@ export class AuthService {
     return this.httpClient.get<any>(this.url + 'historial/getData?model=HistorialMedico&params=paciente_id=' + idPaciente);
   }
 
-  getPrescription(idHistory): Observable<any> {
-    return this.httpClient.get<any>(this.url + 'historial/getData?model=RecetaMedico&params=historial=' + idHistory);
+  getPrescription(dni): Observable<any> {
+    return this.httpClient.get<any>(this.urlMongoDB + 'receta/searchRecePac/' + dni);
+  }
+
+  getInfoProducts(ids: any): Observable<any> {
+    return this.httpClient.get<any>(this.urlMongoDB +'inventario/listarInventarios/'+ ids);
+  }
+
+  convertStringToArrayOfObjects(dataToConvert: any) {
+    let newJson = dataToConvert.replace(/([a-zA-Z0-9]+?):/g, '"$1":');
+    newJson = newJson.replace(/'/g, '"');
+    return JSON.parse(newJson);
+  }
+
+  
+  getDesp(ids: any): Observable<any> {
+    return this.httpClient.get<any>(this.urlMongoDB +'despacho/searchDespa/'+ ids);
   }
 
 }

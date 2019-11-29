@@ -3,12 +3,12 @@ import { LoadingController, ToastController, Platform, MenuController, NavContro
 import { Info } from '../../shared/mock/months';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Socket } from 'ngx-socket-io';
 import { fn } from '@angular/compiler/src/output/output_ast';
+import { LocalNotifications, ILocalNotificationActionType} from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-home',
@@ -36,6 +36,7 @@ export class HomePage {
   dataHome: any;
   imageUrl: any;
   clickSub: any;
+
   constructor(
     public navCtrl: NavController,
     public toast: ToastController,
@@ -58,34 +59,15 @@ export class HomePage {
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
-    
-    
   }
 
   ngOnInit() {
     this.simpleNotif();
-    
-  }
-
-  notification() {
-    console.log('notificame');
-    
-    this.auth.getDataAlerts().subscribe((data: any) => {
-      console.log(data, 'data server notification user');
-      this.localNotifications.schedule({
-        id: 1,
-        text: data.estadoCita,
-        data: { secret: 'secret' }
-      });
-
-    }, (err) => {
-      console.log(err, 'error');
-    });
   }
 
   async presentAlert(data) {
     const alert = await this.alertController.create({
-      header: 'Alert',
+      header: 'Detalle Cancelado',
       message: data,
       buttons: ['OK']
     });
@@ -96,53 +78,53 @@ export class HomePage {
   unsub() {
     this.clickSub.unsubscribe();
   }
-  simpleNotif2() {
-    this.clickSub = this.localNotifications.on('click').subscribe(data => {
-      console.log(data);
-      this.presentAlert('Your notifiations contains a secret = ' + data.data.secret);
-      this.unsub();
-    });
-    this.localNotifications.schedule({
-      id: 1,
-      text: 'Single Local Notification',
-      data: { secret: 'secret' }
-    });
-
-  }
 
   simpleNotif() {
     this.clickSub = this.localNotifications.on('click').subscribe(data => {
-      console.log(data);
+      console.log(data, 'DATA EN NOTIFICACIONNNNN');
       this.presentAlert('Notificacion ok = ' + data.data.secret);
       this.unsub();
     });
 
-    this.auth.getDataAlerts().subscribe((data: any) => {
-      this.localNotifications.schedule({
-        id: 1,
-        text: data.estadoCita,
-        data: { secret: 'secret' }
-      });
+    this.auth.getDataAlerts().subscribe((cita: any) => {
+      if (cita.estadoCita === 'postponed') {
+        this.localNotifications.schedule({
+          id: 1,
+          title: 'Cita Pospuesta',
+          text: 'Fecha: ' + ' ' + cita.fecha + '' + 'hora:' + ' ' + cita.hora,
+          data: {
+            secret: 'Hora pospuesta',
+            motivo: cita.estadoAgenda
+          },
+          sound: this.setSound(),
+          icon: "res://icon.png",
+          smallIcon: "res://icon.png",
+        });
 
+      } else if (cita.estadoCita === 'canceled') {
+        this.localNotifications.schedule({
+          id: 1,
+          title: 'Cita Cancelada',
+          text: 'Motivo' + '' + cita.detalleCancelado,
+          data: {
+            secret: 'Hora Cancelada',
+            motivo: cita.detalleCancelado
+          },
+          sound: this.setSound(),
+          icon: "res://icon.png",
+          smallIcon: "res://icon.png",
+        });
+      }
     }, (err) => {
       console.log(err, 'error');
-    });
-
-  }
-
-  single_notification() {
-    this.localNotifications.schedule({
-      id: 1,
-      text: 'Single Local Notification',
-      data: { secret: 'secret' }
     });
   }
 
   setSound() {
     if (this.platform.is('android')) {
-      return 'file://assets/sounds/Rooster.mp3'
+      return 'file://assets/www/assets/sound/sound.mp3'
     } else {
-      return 'file://assets/sounds/Rooster.caf'
+      return 'file://assets/www/assets/sound/sorted.m4r'
     }
   }
 

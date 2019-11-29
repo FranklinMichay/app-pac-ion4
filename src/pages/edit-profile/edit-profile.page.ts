@@ -4,7 +4,6 @@ import { NavController, ToastController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
-import { Camera, CameraOptions } from '@ionic-native/camera/ngx';
 import { Crop } from '@ionic-native/crop/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
@@ -35,10 +34,6 @@ export class EditProfilePage implements OnInit {
     private fb: FormBuilder,
     private auth: AuthService,
     private loadingCtrl: LoadingService,
-    private camera: Camera,
-    private transfer: FileTransfer,
-    private crop: Crop,
-    private imagePicker: ImagePicker
 
   ) {
     this.data = this.router.getCurrentNavigation().extras.state;
@@ -63,23 +58,7 @@ export class EditProfilePage implements OnInit {
   //   this.registerForm.get('fotoPerfil').setValue(file);
   // }
 
-  takePicture() {
-    const options: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    };
-
-    this.camera.getPicture(options).then((imageData) => {
-      this.currentImage = 'data:image/jpeg;base64,' + imageData;
-    }, (err) => {
-      // Handle error
-      console.log("Camera issue:" + err);
-    });
-
-    this.upload();
-  }
+  
 
   upload() {
     const date = new Date().valueOf();
