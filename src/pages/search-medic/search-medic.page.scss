@@ -262,7 +262,7 @@
     background-color: #f6f6f6;
     margin-top: 2%;
     border-left: solid 8px #4c69cc;
-    height: auto;
+    height: 100px;
     .line {
         background-color: #695cff;
     }
@@ -297,6 +297,7 @@
     line-height: normal;
     letter-spacing: normal;
     color: black;
+    margin-top: 5%;
 }
 
 .keyword {
@@ -346,6 +347,7 @@ ion-auto-complete {
     color: white;
     font-size: 13px;
     background-color: white;
+    border-radius: var(--border-radius);
 }
 
 @media (min-width: 619px) {

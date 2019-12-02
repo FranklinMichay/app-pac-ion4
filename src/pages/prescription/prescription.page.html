@@ -13,8 +13,6 @@
 
 <ion-content *ngIf="dataListDesp">
 
-
-
     <ion-row>
         <ion-col *ngFor="let desp of dataListDesp" (click)="goDetails(prescription)" size="12">
             <ion-card>
@@ -55,23 +53,13 @@
                     </ion-card-subtitle>
                     <ion-card-subtitle> {{desp.idReceta}}</ion-card-subtitle>
                     <ion-card-subtitle> {{desp.totalDesp}}</ion-card-subtitle> -->
-
                 </ion-card-header>
-
                 <!-- <ion-card-subtitle *ngFor="let item of dataForView"> {{item.codigoProducto.nombre}}</ion-card-subtitle> -->
-
             </ion-card>
         </ion-col>
-
-
     </ion-row>
-
     <div *ngIf="!dataListDesp || dataListDesp.length == 0" class="empty-container">
         <img src="assets/imgs/sin-datos.svg" class="empty-state">
         <h3 class="text-center">Sin Contenido</h3>
     </div>
-
-
-
-
 </ion-content>

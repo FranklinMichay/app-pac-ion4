@@ -71,7 +71,7 @@ export class EditProfilePage implements OnInit {
 
     let postData = new FormData();
     postData.append('file', imageFile);
-    console.log(postData, 'foto perfil ok....');
+    //console.log(postData, 'foto perfil ok....');
 
 
     // let data:Observable<any> = this.http.post(url,postData);
@@ -104,10 +104,10 @@ export class EditProfilePage implements OnInit {
     this.formData.append('user_id', this.data.user.id);
     this.auth.updateProfilePatient(this.formData, this.data.id).subscribe(data => {
       if (data.fotoPerfil[0] !== 'h') {
-        let foto = 'http://192.168.0.104:9000' + data.fotoPerfil;
+        let foto = 'http://192.168.0.107:9000' + data.fotoPerfil;
         data.fotoPerfil = foto;
       }
-      console.log(data, 'DATA NUEVA');
+      //console.log(data, 'DATA NUEVA');
 
       localStorage.setItem('user', JSON.stringify(data));
       this.router.navigate(['home']);

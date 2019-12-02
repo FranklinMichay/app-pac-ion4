@@ -43,9 +43,9 @@
 }
 
 .container:hover {
-    animation-delay: .2s;
-    animation: fadeInScale .3s ease-in-out forwards;
-    box-shadow: 0 10px 20px 10px rgba(black, .2);
+    animation-delay: 0.2s;
+    animation: fadeInScale 0.3s ease-in-out forwards;
+    box-shadow: 0 10px 20px 10px rgba(black, 0.2);
 }
 
 .container>.crop {
@@ -81,7 +81,7 @@
 }
 
 .masters {
-    background: rgba(243, 245, 247, 1)
+    background: rgba(243, 245, 247, 1);
 }
 
 .container-product-detail {
@@ -170,7 +170,8 @@
 
 .medic {
     width: 130px;
-    height: auto;
+    height: 30%;
+    margin-top: 1%;
 }
 
 .elige-opcion {
