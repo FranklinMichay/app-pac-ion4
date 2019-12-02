@@ -14,6 +14,7 @@ import { SimpleFunction } from '../../app/services/simple-function.service';
 import { AutoCompleteOptions } from 'ionic4-auto-complete';
 import { logWarnings } from 'protractor/built/driverProviders';
 import { DomSanitizer } from '@angular/platform-browser';
+import { environment } from '../../environments/environment';
 
 export interface AutoCompleteModel {
   nombre: any;
@@ -68,6 +69,8 @@ export class SearchMedicPage implements OnInit {
   imageMedic: any;
   fotoPerfil: any;
 
+  url: any; 
+
   constructor(
     public navCtrl: NavController,
     private auth: AuthService,
@@ -81,7 +84,10 @@ export class SearchMedicPage implements OnInit {
     private dataService: DataService,
     private sanitizer: DomSanitizer,
 
+
   ) {
+
+    this.url = environment.url
 
     this.options = new AutoCompleteOptions();
     this.options.autocomplete = 'on';

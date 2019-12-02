@@ -175,6 +175,9 @@ export class SchedulePage implements OnInit {
         fecha: formatDate(this.today, 'yyyy-MM-dd', 'en-US'),
         paciente_id: this.pacienteId
       };
+      if (this.connection !== undefined) {
+        this.connection.unsubscribe();
+      }
       this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
         console.log(result, 'agenda from api in day');
         if (result.estadoCita === 'accepted') {

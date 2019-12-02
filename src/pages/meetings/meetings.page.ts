@@ -100,7 +100,7 @@ export class MeetingsPage implements OnInit {
 
     else if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
       console.log(this.dataService.dataCancelPosponed, 'id canceled');
-      
+
       this.dataDelete = this.dataService.dataCancelPosponed;
       console.log(this.dataDelete, 'data que no llega');
 
@@ -109,17 +109,17 @@ export class MeetingsPage implements OnInit {
       this.deleteDataPosponed(idDelete);
       this.dataService.dataCancelPosponed = {}
     }
-    
+
     else if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
       console.log(this.dataService.idAcceptPosponed, 'id Accepted');
-      
+
       this.dataDelete = this.dataService.idAcceptPosponed;
       const idDelete = this.dataDelete.data.data
       console.log(idDelete, 'ide de posponed para eliminar');
       this.deleteDataPosponed(idDelete);
       this.dataService.idAcceptPosponed = {}
     }
-    
+
   }
 
   deleteData(id) {
@@ -336,8 +336,6 @@ export class MeetingsPage implements OnInit {
     return this.lastDay;
   };
 
-
-
   getDayInfo(year, month, day) {
     month = month + 1;
     const m = (month < 10) ? ('0' + month) : month;
@@ -348,7 +346,10 @@ export class MeetingsPage implements OnInit {
       fecha: date,
       idPaciente: this.pacienteId
     };
-    this.auth.getDataDay(_info).subscribe((result: any) => {
+    if (this.connection !== undefined) {
+      this.connection.unsubscribe();
+    }
+    this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
       console.log(result, 'agenda from api in day');
       if (result) {
         this.setData(result);
@@ -394,5 +395,8 @@ export class MeetingsPage implements OnInit {
     this.router.navigate(['detail-medic', state, posponed], { state: medic });
   }
 
+  ngOnDestroy() {
+    this.connection.unsubscribe();
+  }
 
 }

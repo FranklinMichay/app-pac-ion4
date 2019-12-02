@@ -3,12 +3,14 @@
     <img class="logo" src="../../assets/imgs/medipharm.svg">
     <p class="paciente">PACIENTE</p>
 
+
     <form [formGroup]="form_login" (ngSubmit)="getData()">
         <input class="mail" type="text" formControlName="usuario" placeholder="user@gmail.com" [(ngModel)]="user.username" autocomplete="off" autocorrect="off">
         <ion-label *ngIf="form_login.get('usuario').errors && form_login.get('usuario').dirty">
             <p class="validator" ion-text *ngIf="form_login.get('usuario').hasError('required')">Este campo es requerido
             </p>
-            <p class="validator" ion-text *ngIf="form_login.get('usuario').hasError('email')">El email es inválido</p>
+            <p class="validator" ion-text *ngIf="form_login.get('usuario').hasError('email')">El email es inválido
+            </p>
         </ion-label>
 
         <ion-row class="password">
@@ -27,6 +29,13 @@
         </div>
         <ion-button class="login" type="submit" [disabled]="form_login.invalid">INGRESAR</ion-button>
     </form>
+
+    <ion-label class="forgot-pass" (click)="goToForgotPass()"> Olvidaste tu contraseña? </ion-label>
+
+    <ion-label end class="new-account" (click)="goToRegister()"> CREAR CUENTA </ion-label>
+
+
+
     <!-- <ion-label class="Conectate-con"> Conéctate con </ion-label> -->
 
     <!-- <ion-row>
@@ -41,11 +50,5 @@
         </button>
         </ion-col>
     </ion-row> -->
-
-
-    <ion-label class="forgot-pass" (click)="goToForgotPass()"> Olvidaste tu contraseña? </ion-label>
-
-    <ion-label end class="new-account" (click)="goToRegister()"> CREAR CUENTA </ion-label>
-
 
 </ion-content>

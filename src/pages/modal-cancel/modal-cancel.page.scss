@@ -1,7 +1,7 @@
 ::ng-deep ion-modal {
     background: rgba(0, 0, 0, 0.5) !important;
     display: block;
-    padding: 90% 0% 0% 0% !important;
+    padding: 70% 0% 0% 0% !important;
 }
 
 app-modal-cancel.ion-page {
@@ -37,6 +37,7 @@ app-modal-cancel.ion-page {
     margin-right: auto;
     width: 1em;
     display: flex;
+    color: blue;
 }
 
 .name {
