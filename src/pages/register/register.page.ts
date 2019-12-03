@@ -54,9 +54,7 @@ export class RegisterPage implements OnInit {
     private router: Router,
     private auth: AuthService,
     private loadingCtrl: LoadingService,
-    private camera: Camera,
     private transfer: FileTransfer,
-    private crop: Crop,
     private imagePicker: ImagePicker,
     private sanitizer: DomSanitizer,
     private webview: WebView,
@@ -130,22 +128,22 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  imageCaptured() {
-    this.loadingCtrl.presentLoading();
-    const options: CameraOptions = {
-      quality: 70,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      encodingType: this.camera.EncodingType.JPEG,
-      mediaType: this.camera.MediaType.PICTURE
-    }
-    this.camera.getPicture(options).then((ImageData => {
-      this.file = ImageData;
-      this.loadingCtrl.dismiss();
-    }), error => {
-      console.log(error);
-      this.loadingCtrl.dismiss()
-    })
-  }
+  // imageCaptured() {
+  //   this.loadingCtrl.presentLoading();
+  //   const options: CameraOptions = {
+  //     quality: 70,
+  //     destinationType: this.camera.DestinationType.DATA_URL,
+  //     encodingType: this.camera.EncodingType.JPEG,
+  //     mediaType: this.camera.MediaType.PICTURE
+  //   }
+  //   this.camera.getPicture(options).then((ImageData => {
+  //     this.file = ImageData;
+  //     this.loadingCtrl.dismiss();
+  //   }), error => {
+  //     console.log(error);
+  //     this.loadingCtrl.dismiss()
+  //   })
+  // }
 
   onSubmit() {
     const {

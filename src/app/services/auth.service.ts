@@ -230,7 +230,6 @@ export class AuthService {
         } else {
           if (data.medico.id === this.user.id || data.paciente.id === this.user.id
             || _data.medico_id === data.medico.id) {
-
             await this.getDayData(_data).then(d => {
               data.result = d;
             });

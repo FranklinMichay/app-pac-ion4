@@ -96,21 +96,16 @@ export class MeetingsPage implements OnInit {
       console.log(idDelete, 'ide para eliminar');
       this.deleteData(idDelete);
       this.dataService.dataDelete = {}
-    }
-
-    else if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
+    } else if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
       console.log(this.dataService.dataCancelPosponed, 'id canceled');
 
       this.dataDelete = this.dataService.dataCancelPosponed;
       console.log(this.dataDelete, 'data que no llega');
-
       const idDelete = this.dataDelete.data.data.id
       console.log(idDelete, 'ide cancel posponed para eliminar');
       this.deleteDataPosponed(idDelete);
       this.dataService.dataCancelPosponed = {}
-    }
-
-    else if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
+    } else if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
       console.log(this.dataService.idAcceptPosponed, 'id Accepted');
 
       this.dataDelete = this.dataService.idAcceptPosponed;
@@ -395,8 +390,8 @@ export class MeetingsPage implements OnInit {
     this.router.navigate(['detail-medic', state, posponed], { state: medic });
   }
 
-  ngOnDestroy() {
-    this.connection.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.connection.unsubscribe();
+  // }
 
 }

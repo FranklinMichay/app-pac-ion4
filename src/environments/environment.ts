@@ -4,12 +4,18 @@
 
 export const environment = {
   production: false,
+  // apiUrl: 'http://192.168.0.107:9000/entidades/getData?model=',
+  // apiURL1: 'http://192.168.0.107:9000/',
+  // socketUrl: 'http://192.168.0.107:8080/',
+  // apiMongoDB: 'http://192.168.0.107:3000/',
+  // url: 'http://192.168.0.107:9000'
+
+
   apiUrl: 'http://9d8d5137.ngrok.io/entidades/getData?model=',
   apiURL1: 'http://192.168.0.107:9000/',
-  socketUrl: 'http://b4c5529b.ngrok.io',
+  socketUrl: 'http://f724eb12.ngrok.io',
   apiMongoDB: 'http://192.168.0.107:3000/',
   url: 'http://9d8d5137.ngrok.io'
-
 };
 
 /*

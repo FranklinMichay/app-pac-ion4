@@ -59,6 +59,8 @@ export class HomePage {
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
+
+    
   }
 
   ngOnInit() {
@@ -165,6 +167,12 @@ export class HomePage {
     this.router.navigate(['login']);
     //this.connection.unsubscribe();
   }
+
+  ionViewDidEnter() {
+    document.addEventListener("backbutton",function(e) {
+      console.log("disable back button")
+    }, false);
+}
 
   // async  loginWithGoogle() {
   //   this.dataGoogle = await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())
