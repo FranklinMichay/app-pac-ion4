@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Info } from '../../shared/mock/months';
 import { LoadingService } from '../../app/services/loading.service';
@@ -14,7 +14,7 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './schedule.page.html',
   styleUrls: ['./schedule.page.scss'],
 })
-export class SchedulePage implements OnInit {
+export class SchedulePage implements OnInit, OnDestroy {
 
   monthLabel: string;
   todayLabel: any;
@@ -93,19 +93,11 @@ export class SchedulePage implements OnInit {
     };
     this.disableBack(year, month, day);
     this.getDataDay(formatDate(this.today, 'yyyy-MM-dd', 'en-US'));
-    // this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
-    //   console.log(result, 'agenda from api in day');
-    //   if (result.estadoAgenda !== 'unavailable' || result.estadoCita !== 'accepted' || result.estadoCita !== 'new'
-    //   || result.estadoCita !== 'postponed' || result.estadoCita !== 'denied') {
-    //     this.hoursAvailable.push(result);
-    //   }
+  
+  }
 
-    //   //this.loadingCtrl.dismiss();
-    // }, (err) => {
-    //   console.log(err, 'errores');
-    //   console.log(err);
-    // });
-
+  ngOnDestroy() {
+    this.connection.unsubscribe();
   }
 
   returnHome() {
@@ -169,7 +161,6 @@ export class SchedulePage implements OnInit {
       console.log(result, 'data del dia');
       this.hoursAvailable = result;
       this.loadingCtrl.dismiss();
-      //this.connection.unsubscribe();
       const _info = {
         medico_id: this.medic.id,
         fecha: formatDate(this.today, 'yyyy-MM-dd', 'en-US'),
@@ -348,8 +339,6 @@ export class SchedulePage implements OnInit {
     });
   }
 
-  ngOnDestroy() {
-    this.connection.unsubscribe();
-  }
+  
 
 }

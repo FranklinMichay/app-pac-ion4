@@ -11,8 +11,8 @@ export const environment = {
   // url: 'http://192.168.0.107:9000'
 
 
-  apiUrl: 'http://9d8d5137.ngrok.io/entidades/getData?model=',
-  apiURL1: 'http://192.168.0.107:9000/',
+  //apiUrl: 'http://9d8d5137.ngrok.io/entidades/getData?model=',
+  apiURL1: 'http://9d8d5137.ngrok.io/',
   socketUrl: 'http://f724eb12.ngrok.io',
   apiMongoDB: 'http://192.168.0.107:3000/',
   url: 'http://9d8d5137.ngrok.io'

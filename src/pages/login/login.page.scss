@@ -76,7 +76,9 @@
     letter-spacing: normal;
     color: #597bf0;
     bottom: 5px;
-    left: 20px;
+    padding-left: 5%;
+    float: left !important;
+    margin-top: 10%;
 }
 
 .new-account {
@@ -85,7 +87,9 @@
     letter-spacing: normal;
     color: #597bf0;
     bottom: 5px;
-    right: 20px;
+    float: right !important;
+    padding-right: 5%;
+    margin-top: 10%;
 }
 
 .contain-register {
@@ -173,6 +177,10 @@ p.validator {
     margin-right: auto;
     display: flex;
     border: 0px solid;
+}
+
+.container-button {
+    align-items: center;
 }
 
 @media (min-width: 619px) {

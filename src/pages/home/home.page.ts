@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { LoadingController, ToastController, Platform, MenuController, NavController, AlertController } from '@ionic/angular';
 import { Info } from '../../shared/mock/months';
 import { AuthService } from '../../../src/app/services/auth.service'
@@ -8,14 +8,14 @@ import * as _ from 'lodash';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Socket } from 'ngx-socket-io';
 import { fn } from '@angular/compiler/src/output/output_ast';
-import { LocalNotifications, ILocalNotificationActionType} from '@ionic-native/local-notifications/ngx';
+import { LocalNotifications, ILocalNotificationActionType } from '@ionic-native/local-notifications/ngx';
 
 @Component({
   selector: 'app-home',
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage {
+export class HomePage implements OnInit, OnDestroy {
 
   data: any;
   dataUser: any;
@@ -60,14 +60,19 @@ export class HomePage {
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
 
-    
+
   }
 
   ngOnInit() {
     this.simpleNotif();
   }
 
+  ngOnDestroy() {
+    this.connection.unsubscribe();
+  }
+
   async presentAlert(data) {
+
     const alert = await this.alertController.create({
       header: 'Detalle Cancelado',
       message: data,
@@ -88,53 +93,42 @@ export class HomePage {
       this.unsub();
     });
 
-    this.auth.getDataAlerts().subscribe((cita: any) => {
+    if (this.connection !== undefined) {
+      this.connection.unsubscribe();
+    }
+    this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
       if (cita.estadoCita === 'postponed') {
         this.localNotifications.schedule({
           id: 1,
           title: 'Cita Pospuesta',
           text: 'Fecha: ' + ' ' + cita.fecha + '' + 'hora:' + ' ' + cita.hora,
-          data: {
-            secret: 'Hora pospuesta',
-            motivo: cita.estadoAgenda
-          },
-          sound: this.setSound(),
+          data: { secret: cita.estadoCita },
           icon: "res://icon.png",
           smallIcon: "res://icon.png",
         });
 
+
       } else if (cita.estadoCita === 'canceled') {
         this.localNotifications.schedule({
           id: 1,
-          title: 'Cita Cancelada',
-          text: 'Motivo' + '' + cita.detalleCancelado,
-          data: {
-            secret: 'Hora Cancelada',
-            motivo: cita.detalleCancelado
-          },
-          sound: this.setSound(),
+          title: 'Su Cita fué Cancelada',
+          text: 'Motivo: ' + ' ' + cita.detalleCancelado,
+          data: { secret: cita.estadoCita },
           icon: "res://icon.png",
           smallIcon: "res://icon.png",
         });
+        
       }
     }, (err) => {
       console.log(err, 'error');
     });
   }
 
-  setSound() {
-    if (this.platform.is('android')) {
-      return 'file://assets/www/assets/sound/sound.mp3'
-    } else {
-      return 'file://assets/www/assets/sound/sorted.m4r'
-    }
-  }
 
   getDataPac() {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user, 'user');
     const idPaciente = user ? user.id : null;
-    console.log(idPaciente, 'ide del paciente');
 
     //const _data = { pkPaciente: idPaciente };
     this.auth.getMeetingAccepted(idPaciente).then(
@@ -148,7 +142,6 @@ export class HomePage {
   goToMenu(component) {
     if (component) {
       this.router.navigateByUrl(component);
-      //this.navCtrl.push(component)
     } else {
       this.presentToast();
     }
@@ -165,14 +158,14 @@ export class HomePage {
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['login']);
-    //this.connection.unsubscribe();
+    this.connection.unsubscribe();
   }
 
   ionViewDidEnter() {
-    document.addEventListener("backbutton",function(e) {
+    document.addEventListener("backbutton", function (e) {
       console.log("disable back button")
     }, false);
-}
+  }
 
   // async  loginWithGoogle() {
   //   this.dataGoogle = await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())

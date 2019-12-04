@@ -1,5 +1,5 @@
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AlertController } from '@ionic/angular';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { Info } from '../../shared/mock/months';
@@ -13,7 +13,7 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './meetings.page.html',
   styleUrls: ['./meetings.page.scss'],
 })
-export class MeetingsPage implements OnInit {
+export class MeetingsPage implements OnInit, OnDestroy {
 
 
   newMeetings: any;
@@ -84,6 +84,11 @@ export class MeetingsPage implements OnInit {
   ngOnInit() {
     this.getAllData(this.idPaciente);
     this.changeDay(this.day)
+  }
+
+  
+  ngOnDestroy() {
+    this.connection.unsubscribe();
   }
 
   ionViewWillEnter() {
@@ -390,8 +395,5 @@ export class MeetingsPage implements OnInit {
     this.router.navigate(['detail-medic', state, posponed], { state: medic });
   }
 
-  // ngOnDestroy() {
-  //   this.connection.unsubscribe();
-  // }
 
 }
