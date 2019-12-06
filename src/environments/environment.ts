@@ -4,13 +4,17 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://45.79.169.248:9000/entidades/getData?model=',
-  apiURL1: 'http://45.79.169.248:9000/',
+  apiUrl: 'http://45.79.169.248:8000/entidades/getData?model=',
+  apiURL1: 'http://45.79.169.248:8000/',
   socketUrl: 'http://45.79.169.248:8080/',
   apiMongoDB: 'http://45.79.169.248:3000/',
-  url: 'http://45.79.169.248:9000'
+  url: 'http://45.79.169.248:8000'
 
-
+  // apiUrl: 'http://192.168.0.101:9000/entidades/getData?model=',
+  // apiURL1: 'http://192.168.0.101:9000/',
+  // socketUrl: 'http://192.168.0.101:8080/',
+  // apiMongoDB: 'http://192.168.0.101:3000/',
+  // url: 'http://192.168.0.101:9000'
   //apiUrl: 'http://9d8d5137.ngrok.io/entidades/getData?model=',
   // apiURL1: 'http://9d8d5137.ngrok.io/',
   // socketUrl: 'http://f724eb12.ngrok.io',

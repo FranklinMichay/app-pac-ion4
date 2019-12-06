@@ -17,6 +17,10 @@
                 <ion-col size="9" class="container-text coloreasda" color="white-two1">
                     <h3 class="elige-opcion">Elige una opción para interactuar</h3>
                 </ion-col>
+                <ion-button (click)="simpleNotif1()">
+                    Click me
+                </ion-button>
+
                 <ion-col size="3" class="container-image" color="white-two1">
                     <img class="image" *ngIf="dataUser.fotoPerfil" [src]="imageUrl">
                     <img class="image " *ngIf="!dataUser.fotoPerfil " src="assets/imgs/doctor.png ">

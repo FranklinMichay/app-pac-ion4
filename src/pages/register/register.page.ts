@@ -156,7 +156,7 @@ export class RegisterPage implements OnInit {
     const dataInf = {
       first_name: priNombre,
       last_name: priApellido,
-      email,
+      email: email,
       username: email,
       password,
     }

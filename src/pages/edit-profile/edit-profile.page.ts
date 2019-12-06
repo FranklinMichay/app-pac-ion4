@@ -7,6 +7,7 @@ import { LoadingService } from 'src/app/services/loading.service';
 import { Crop } from '@ionic-native/crop/ngx';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-edit-profile',
@@ -28,6 +29,8 @@ export class EditProfilePage implements OnInit {
   respData: any;
   file: File;
 
+  url: any; 
+
   constructor(
     private router: Router,
     public tc: ToastController,
@@ -36,6 +39,8 @@ export class EditProfilePage implements OnInit {
     private loadingCtrl: LoadingService,
 
   ) {
+
+    this.url = environment.url
     this.data = this.router.getCurrentNavigation().extras.state;
     console.log(this.data.id);
 
@@ -104,7 +109,7 @@ export class EditProfilePage implements OnInit {
     this.formData.append('user_id', this.data.user.id);
     this.auth.updateProfilePatient(this.formData, this.data.id).subscribe(data => {
       if (data.fotoPerfil[0] !== 'h') {
-        let foto = 'http://192.168.0.107:9000' + data.fotoPerfil;
+        let foto = this.url + data.fotoPerfil;
         data.fotoPerfil = foto;
       }
       //console.log(data, 'DATA NUEVA');

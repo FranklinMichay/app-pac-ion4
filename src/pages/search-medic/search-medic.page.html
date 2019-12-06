@@ -2,6 +2,11 @@
     <ion-toolbar color="primary">
         <ion-back-button class="style-button-back" slot="start">
         </ion-back-button>
+        <ion-buttons slot="end">
+            <ion-button (click)="returnHome()" slot="end">
+                <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
+            </ion-button>
+        </ion-buttons>
         <ion-title class="title-toolbar">Buscar Médicos</ion-title>
     </ion-toolbar>
 </ion-header>

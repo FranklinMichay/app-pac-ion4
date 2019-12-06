@@ -13,7 +13,7 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './meetings.page.html',
   styleUrls: ['./meetings.page.scss'],
 })
-export class MeetingsPage implements OnInit, OnDestroy {
+export class MeetingsPage implements OnInit {
 
 
   newMeetings: any;
@@ -86,11 +86,6 @@ export class MeetingsPage implements OnInit, OnDestroy {
     this.changeDay(this.day)
   }
 
-  
-  ngOnDestroy() {
-    this.connection.unsubscribe();
-  }
-
   ionViewWillEnter() {
 
     if (Object.keys(this.dataService.dataDelete).length !== 0) {
@@ -101,25 +96,27 @@ export class MeetingsPage implements OnInit, OnDestroy {
       console.log(idDelete, 'ide para eliminar');
       this.deleteData(idDelete);
       this.dataService.dataDelete = {}
-    } else if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
-      console.log(this.dataService.dataCancelPosponed, 'id canceled');
+    } else {
+      if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
+        console.log(this.dataService.dataCancelPosponed, 'id canceled');
 
-      this.dataDelete = this.dataService.dataCancelPosponed;
-      console.log(this.dataDelete, 'data que no llega');
-      const idDelete = this.dataDelete.data.data.id
-      console.log(idDelete, 'ide cancel posponed para eliminar');
-      this.deleteDataPosponed(idDelete);
-      this.dataService.dataCancelPosponed = {}
-    } else if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
-      console.log(this.dataService.idAcceptPosponed, 'id Accepted');
-
-      this.dataDelete = this.dataService.idAcceptPosponed;
-      const idDelete = this.dataDelete.data.data
-      console.log(idDelete, 'ide de posponed para eliminar');
-      this.deleteDataPosponed(idDelete);
-      this.dataService.idAcceptPosponed = {}
+        this.dataDelete = this.dataService.dataCancelPosponed;
+        console.log(this.dataDelete, 'data que no llega');
+        const idDelete = this.dataDelete.data.data.id
+        console.log(idDelete, 'ide cancel posponed para eliminar');
+        this.deleteDataPosponed(idDelete);
+        this.dataService.dataCancelPosponed = {}
+      } else {
+        if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
+          console.log(this.dataService.idAcceptPosponed, 'id Accepted');
+          this.dataDelete = this.dataService.idAcceptPosponed;
+          const idDelete = this.dataDelete.data.data
+          console.log(idDelete, 'ide de posponed para eliminar');
+          this.deleteDataPosponed(idDelete);
+          this.dataService.idAcceptPosponed = {}
+        }
+      }
     }
-
   }
 
   deleteData(id) {

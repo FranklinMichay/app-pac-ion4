@@ -114,6 +114,10 @@ export class SearchMedicPage implements OnInit {
     //this.getMedicBySpeciality();
   }
 
+  returnHome() {
+    this.router.navigate(['home']);
+  }
+
   getInfoSelect() {
 
     if (this.param === 'Especialidad') {

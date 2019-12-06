@@ -171,3 +171,30 @@
         </div>
     </div>
 </ion-content>
+
+<!-- if (Object.keys(this.dataService.dataDelete).length !== 0) {
+    this.dataDelete = this.dataService.dataDelete;
+    console.log(this.dataDelete, 'data para delete posponed');
+
+    const idDelete = this.dataDelete.data.data.id
+    console.log(idDelete, 'ide para eliminar');
+    this.deleteData(idDelete);
+    this.dataService.dataDelete = {}
+  } else if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
+    console.log(this.dataService.dataCancelPosponed, 'id canceled');
+
+    this.dataDelete = this.dataService.dataCancelPosponed;
+    console.log(this.dataDelete, 'data que no llega');
+    const idDelete = this.dataDelete.data.data.id
+    console.log(idDelete, 'ide cancel posponed para eliminar');
+    this.deleteDataPosponed(idDelete);
+    this.dataService.dataCancelPosponed = {}
+  } else if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
+    console.log(this.dataService.idAcceptPosponed, 'id Accepted');
+
+    this.dataDelete = this.dataService.idAcceptPosponed;
+    const idDelete = this.dataDelete.data.data
+    console.log(idDelete, 'ide de posponed para eliminar');
+    this.deleteDataPosponed(idDelete);
+    this.dataService.idAcceptPosponed = {}
+  } -->

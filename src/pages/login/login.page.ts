@@ -89,9 +89,9 @@ export class LoginPage implements OnInit {
         console.log(token, 'TOKEN');
         this.getIdPaciente(token);
       }, (err) => {
-        this.toast.presentToast(err);
-        console.log('entro en getError');
-        console.log(err);
+        //this.toast.presentToast(err);
+        //console.log('entro en getError');
+        console.log(err, 'error en login');
       });
   }
 
