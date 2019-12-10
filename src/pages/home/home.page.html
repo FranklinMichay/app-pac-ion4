@@ -17,9 +17,6 @@
                 <ion-col size="9" class="container-text coloreasda" color="white-two1">
                     <h3 class="elige-opcion">Elige una opción para interactuar</h3>
                 </ion-col>
-                <ion-button (click)="simpleNotif1()">
-                    Click me
-                </ion-button>
 
                 <ion-col size="3" class="container-image" color="white-two1">
                     <img class="image" *ngIf="dataUser.fotoPerfil" [src]="imageUrl">
@@ -51,7 +48,7 @@
     </ion-button> -->
 
     <div *ngIf="slides " class="container-product-detail ">
-        <ion-slides>
+        <ion-slides [options]="slideOptsOne">
             <ion-slide *ngFor="let slide of slides ">
                 <img [src]="slide.src " class="img-product ">
                 <p class="slide-name-medical-center ">{{slide.medicalCenter}}</p>

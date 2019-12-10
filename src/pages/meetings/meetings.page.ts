@@ -7,6 +7,7 @@ import * as _ from 'lodash';
 import { Socket } from 'ngx-socket-io';
 import { LoadingService } from '../../app/services/loading.service';
 import { DataService } from 'src/app/services/data.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-meetings',
@@ -46,7 +47,7 @@ export class MeetingsPage implements OnInit {
   posp: boolean = false;
   loading: any;
   dataDelete: any;
-
+  url: any; 
 
   daysWeek = [
     { label: 'Dom.', selected: false, day: '' },
@@ -79,6 +80,7 @@ export class MeetingsPage implements OnInit {
     this.idPaciente = user ? user.id : 1;
     console.log(this.idPaciente, 'id del paciente')
     console.log(this.day, 'dia para presentar');
+    this.url = environment.url;
   }
 
   ngOnInit() {
@@ -90,31 +92,17 @@ export class MeetingsPage implements OnInit {
 
     if (Object.keys(this.dataService.dataDelete).length !== 0) {
       this.dataDelete = this.dataService.dataDelete;
-      console.log(this.dataDelete, 'data para delete posponed');
-
-      const idDelete = this.dataDelete.data.data.id
-      console.log(idDelete, 'ide para eliminar');
-      this.deleteData(idDelete);
+      this.deleteData(this.dataDelete.data.data.id);
       this.dataService.dataDelete = {}
+    } else if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
+      this.dataDelete = this.dataService.dataCancelPosponed;
+      this.deleteDataPosponed(this.dataDelete.data.data.id);
+      this.dataService.dataCancelPosponed = {}
     } else {
-      if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
-        console.log(this.dataService.dataCancelPosponed, 'id canceled');
-
-        this.dataDelete = this.dataService.dataCancelPosponed;
-        console.log(this.dataDelete, 'data que no llega');
-        const idDelete = this.dataDelete.data.data.id
-        console.log(idDelete, 'ide cancel posponed para eliminar');
-        this.deleteDataPosponed(idDelete);
-        this.dataService.dataCancelPosponed = {}
-      } else {
-        if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
-          console.log(this.dataService.idAcceptPosponed, 'id Accepted');
-          this.dataDelete = this.dataService.idAcceptPosponed;
-          const idDelete = this.dataDelete.data.data
-          console.log(idDelete, 'ide de posponed para eliminar');
-          this.deleteDataPosponed(idDelete);
-          this.dataService.idAcceptPosponed = {}
-        }
+      if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
+        this.dataDelete = this.dataService.idAcceptPosponed;
+        this.deleteDataPosponed(this.dataDelete.data.data.id);
+        this.dataService.idAcceptPosponed = {}
       }
     }
   }
@@ -138,6 +126,7 @@ export class MeetingsPage implements OnInit {
       console.log(id, 'DELETE');
       return n.id === id;
     });
+
     _.remove(this.postponedMeetings, function (n) {
       console.log(id, 'DELETE');
       return n.id === id;
@@ -160,12 +149,33 @@ export class MeetingsPage implements OnInit {
       this.loadingCtrl.dismiss();
     });
 
-    // this.auth.sendNotify({ client: this.idPaciente });
+    if (this.connection !== undefined) {
+      this.connection.unsubscribe();
+    }
+    this.connection = this.auth.getDataAlerts().subscribe((result: any) => {
+      if (result.medico.fotoPerfil[0] !== 'h') {
+        let foto = this.url + result.medico.fotoPerfil;
+        result.medico.fotoPerfil = foto;
+      }
+      console.log(result, 'cita para pushear');
+      if (result.estadoCita === 'accepted') {
+        this.acceptedMeetings.push(result);
+        this.accepted.push(result);
+      } else if (result.estadoCita === 'canceled') {
+        this.newMeetings.push(result);
+        this.news.push(result);
+      }else if (result.estadoCita === 'postponed') {
+        this.postponedMeetings.push(result);
+        this.postponed.push(result);
+      }
+    }, (err) => {
+      console.log(err, 'errores');
+      console.log(err);
+    });
   }
 
   changeDay(day) {
     console.log('cambio el dia');
-
     this.setLabel(day, this.currentMonth, this.currentYear);
     this.getDaysInMonth(this.currentMonth, this.currentYear);
     this.daysWeek = _.map(this.daysWeek, (v, i) => {
@@ -185,9 +195,6 @@ export class MeetingsPage implements OnInit {
     this.accepted = _.filter(this.acceptedMeetings, (o: any) => { return o.fecha === date; });
     this.news = _.filter(this.newMeetings, (o: any) => { return o.fecha === date; });
     this.postponed = _.filter(this.postponedMeetings, (o: any) => { return o.fecha === date; });
-    // console.log(this.accepted, 'aceptadas');
-    // console.log(this.news, 'agendadas');
-    // console.log(this.postponed, 'pospuestas');
   }
 
   previousWeek() {
@@ -200,7 +207,6 @@ export class MeetingsPage implements OnInit {
     const newDay = currentFirstDay === 1 ? this.getDaysInMonth(this.currentMonth, this.currentYear) : currentFirstDay - 1;
     const newIndex = this.lastDataShowed.firstDay.index === 0 ? 6 : this.lastDataShowed.firstDay.index - 1;
     this.setWeek(newDay, newIndex);
-
     this.changeDay(this.daysWeek[3].day || this.daysWeek[0].day || this.daysWeek[6].day);
   }
 
@@ -224,13 +230,11 @@ export class MeetingsPage implements OnInit {
     let i = index;
     let j = index;
     this.getDaysInMonth(this.currentMonth, this.currentYear);
-
     this.daysWeek = _.map(this.daysWeek, (v, i) => {
       v.selected = (i === index) ? true : false
       return v;
     });
     for (; i < 7; i++) {
-
       console.log('this. last day', this.lastDay);
       if (dayAux <= this.lastDay) {
         this.daysWeek[i].day = dayAux;
@@ -388,7 +392,7 @@ export class MeetingsPage implements OnInit {
   }
 
   goToDetails(medic, state, posponed) {
-    console.log(medic, state, posponed, 'info para ');
+    console.log(medic, state, posponed, 'info para agendar');
     this.router.navigate(['detail-medic', state, posponed], { state: medic });
   }
 

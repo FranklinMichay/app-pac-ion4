@@ -203,16 +203,12 @@ export class AuthService {
   getDataAlerts() {
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data: any) => {
-        // console.log(data,  'notifiacacion');
-        // console.log( this.user.id, 'user id');
-        if(data.estadoCita !== 'hold'){
+        if (data.estadoCita !== 'hold') {
           if (data.paciente.id === this.user.id || data.paciente === this.user.id) {
             console.log(data, 'DATA EN SOCKET');
-            
             observer.next(data);
           }
         }
-        
       });
     });
     return observable;
@@ -348,7 +344,7 @@ export class AuthService {
   }
 
   getInfoProducts(ids: any): Observable<any> {
-    return this.httpClient.get<any>(this.urlMongoDB +'inventario/listarInventarios/'+ ids);
+    return this.httpClient.get<any>(this.urlMongoDB + 'inventario/listarInventarios/' + ids);
   }
 
   convertStringToArrayOfObjects(dataToConvert: any) {
@@ -357,9 +353,9 @@ export class AuthService {
     return JSON.parse(newJson);
   }
 
-  
+
   getDesp(ids: any): Observable<any> {
-    return this.httpClient.get<any>(this.urlMongoDB +'despacho/searchDespa/'+ ids);
+    return this.httpClient.get<any>(this.urlMongoDB + 'despacho/searchDespa/' + ids);
   }
 
 }

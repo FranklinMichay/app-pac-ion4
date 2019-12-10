@@ -18,13 +18,9 @@
             <ion-card>
                 <ion-card-header>
                     <!-- <ion-icon class="time" color="secondary" name="clipboard"></ion-icon> -->
-                    <ion-card-subtitle class="name"> <b> {{ desp.fecha | date: 'yyyy-MM-dd'}}
-                        </b>
-                    </ion-card-subtitle>
-                    <ion-card-subtitle class="name"> <b> {{ desp.totalDespacho}}
-                        </b>
-                    </ion-card-subtitle>
-
+                    <label class="name"> <b> Fecha: {{ desp.fecha | date: 'yyyy-MM-dd'}}</b></label><br>
+                    <label class="name"> <b> Código: {{ desp.idReceta }}</b></label>
+                    <label class="name"> <b> {{ desp.totalDespacho }}</b></label>
                     <ion-row class="label-content">
                         <ion-col size="4">
                             <ion-label>Medicamento</ion-label>
@@ -54,7 +50,6 @@
                     <ion-card-subtitle> {{desp.idReceta}}</ion-card-subtitle>
                     <ion-card-subtitle> {{desp.totalDesp}}</ion-card-subtitle> -->
                 </ion-card-header>
-                <!-- <ion-card-subtitle *ngFor="let item of dataForView"> {{item.codigoProducto.nombre}}</ion-card-subtitle> -->
             </ion-card>
         </ion-col>
     </ion-row>

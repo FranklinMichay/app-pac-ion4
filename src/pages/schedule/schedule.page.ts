@@ -190,12 +190,9 @@ export class SchedulePage implements OnInit, OnDestroy {
       this.hoursAvailable = _.uniqBy(this.hoursAvailable, function (d) {
         return d.hora;
       });
-
       this.hoursAvailable = _.orderBy(this.hoursAvailable, ['hora'], ['asc']);
-
     } else if (data.estadoAgenda === 'unavailable') {
       console.log('unavailable');
-
       this.deleteHourDay(data.hora);
     }
   }

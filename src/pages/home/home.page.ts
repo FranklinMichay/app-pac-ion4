@@ -9,8 +9,6 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Socket } from 'ngx-socket-io';
 import { fn } from '@angular/compiler/src/output/output_ast';
 import { LocalNotifications, ILocalNotificationActionType } from '@ionic-native/local-notifications/ngx';
-import { SplashScreen } from '@ionic-native/splash-screen/ngx';
-import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 @Component({
   selector: 'app-home',
@@ -40,6 +38,12 @@ export class HomePage implements OnInit, OnDestroy {
   imageUrl: any;
   clickSub: any;
 
+  slideOptsOne = {
+    // initialSlide: 0,
+    // slidesPerView: 1,
+    autoplay: true
+  };
+
   constructor(
     public navCtrl: NavController,
     public toast: ToastController,
@@ -51,8 +55,6 @@ export class HomePage implements OnInit, OnDestroy {
     private localNotifications: LocalNotifications,
     public menuControler: MenuController,
     public alertController: AlertController,
-    private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
 
   ) {
     this.data = Info.categories;
@@ -64,21 +66,12 @@ export class HomePage implements OnInit, OnDestroy {
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
-    this.initializeApp();
-    this.simpleNotif();
+
   }
 
   ngOnInit() {
+    this.simpleNotif();
 
-    
-  }
-
-  initializeApp() {
-    this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
-      this.backgroundMode.enable();
-    });
   }
 
   ngOnDestroy() {
@@ -87,7 +80,7 @@ export class HomePage implements OnInit, OnDestroy {
 
   async presentAlert(data) {
     const alert = await this.alertController.create({
-      header: 'Alert',
+      header: 'Detalles:',
       message: data,
       buttons: ['OK']
     });
@@ -99,77 +92,45 @@ export class HomePage implements OnInit, OnDestroy {
     this.clickSub.unsubscribe();
   }
 
-  simpleNotif1() {
-    this.clickSub = this.localNotifications.on('click').subscribe(data => {
-      console.log(data);
-      this.presentAlert('Your notifiations contains a secret = ' + data.data.secret);
-      this.unsub();
-    });
-    this.localNotifications.schedule({
-      id: 1,
-      text: 'Single Local Notification',
-      data: { secret: 'secret' }
-    });
-
-  }
-
   simpleNotif() {
     this.clickSub = this.localNotifications.on('click').subscribe(data => {
       console.log(data);
-      this.router.navigate['meetings']
-      this.presentAlert('Your notifiations contains a secret = ' + data.data.secret);
+      this.presentAlert('Médico:' + data.data.secret);
       this.unsub();
     });
 
     this.auth.getDataAlerts().subscribe((cita: any) => {
       console.log(cita.estadoCita, 'estado de la citaaaaa ');
-
       if (cita.estadoCita === 'postponed') {
         console.log(cita.paciente.id, 'id paciente');
-        this.backgroundMode.isScreenOff((ok = true) => {
-          this.backgroundMode.wakeUp();
-        });
         this.localNotifications.schedule({
           id: cita.paciente.id,
           title: 'SU CITA FUE POSPUESTA',
           text: 'Fecha: ' + ' ' + cita.fecha + ' ' + 'hora:' + ' ' + cita.hora,
-          data: { secret: cita.estadoCita },
-          sound: this.platform.is('cordova') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
-          led: 'FF0000',
-          foreground: true,
-          icon: "res://icon.png",
-          smallIcon: "res://icon.png",
+          data: {
+            secret: cita.medico.priNombre + cita.medico.priApellido
+          },
+          sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
+          smallIcon: 'res://drawable-hdpi/ic_launcher.png',
         });
       } else if (cita.estadoCita === 'canceled') {
-        this.backgroundMode.isScreenOff((ok = true) => {
-          this.backgroundMode.wakeUp();
-        });
         this.localNotifications.schedule({
           id: cita.paciente.id,
           title: 'Su Cita fué Cancelada',
           text: 'Motivo: ' + ' ' + cita.detalleCancelado,
           data: { secret: cita.estadoCita },
-          sound: this.platform.is('cordova') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
-          led: 'FF0000',
-          foreground: true,
-          icon: "res://icon.png",
-          smallIcon: "res://icon.png",
+          sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
+          smallIcon: 'res://drawable-hdpi/ic_launcher.png',
         });
-        //this.alert = true;
-
       }
     }, (err) => {
       console.log(err, 'error');
     });
   }
-
-
   getDataPac() {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user, 'user');
     const idPaciente = user ? user.id : null;
-
-    //const _data = { pkPaciente: idPaciente };
     this.auth.getMeetingAccepted(idPaciente).then(
       d => {
         console.log(d, 'DATOS DE PACIENTE');
@@ -197,7 +158,7 @@ export class HomePage implements OnInit, OnDestroy {
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['login']);
-    this.connection.unsubscribe();
+    //this.connection.unsubscribe();
     this.backgroundMode.disable()
   }
 

@@ -37,7 +37,7 @@
         "@ionic/angular": "^4.7.1",
         "@types/cordova": "0.0.34",
         "angular2-tag-input": "^1.2.3",
-        "cordova-android": "8.1.0",
+        "cordova-android": "^8.1.0",
         "cordova-browser": "^6.0.0",
         "cordova-plugin-background-mode": "^0.7.3",
         "cordova-plugin-badge": "^0.8.8",
@@ -121,8 +121,6 @@
             },
             "cordova-plugin-local-notification": {}
         },
-        "platforms": [
-            "android"
-        ]
+        "platforms": []
     }
 }
