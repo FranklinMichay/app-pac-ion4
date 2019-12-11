@@ -27,25 +27,15 @@ export class AppComponent {
   initializeApp() {
 
     this.platform.ready().then(() => {
-      this.platform.backButton.observers.pop();
-
-      // this.platform.backButton.subscribe(() => {
-      //   if (this.router.url === '/Login') {
-      //     this.util.presentAppExitAlert();
-      //   } else {
-      //     // event.preventDefault();
-      //     console.log("invoing url ", this.router.url);
-      //   }
-      // });
-      // this.platform.backButton.subscribeWithPriority(9999, () => {
-      //   document.addEventListener('backbutton', function (event) {
-      //     event.preventDefault();
-      //     event.stopPropagation();
-      //     console.log('hello');
-      //   }, false);
-      // });
+      //this.platform.backButton.observers.pop();
       this.statusBar.styleDefault();
       this.splashScreen.hide();
+    });
+
+    this.platform.backButton.subscribe(() => {
+      if (window.location.pathname == "/home") {
+        navigator['app'].exitApp();
+      }
     });
   }
 }

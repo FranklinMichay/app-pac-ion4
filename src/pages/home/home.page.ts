@@ -37,6 +37,7 @@ export class HomePage implements OnInit, OnDestroy {
   dataHome: any;
   imageUrl: any;
   clickSub: any;
+  subscription: any;
 
   slideOptsOne = {
     // initialSlide: 0,
@@ -77,7 +78,7 @@ export class HomePage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.connection.unsubscribe();
   }
-
+  
   async presentAlert(data) {
     const alert = await this.alertController.create({
       header: 'Detalles:',
