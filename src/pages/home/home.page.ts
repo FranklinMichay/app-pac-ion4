@@ -78,7 +78,7 @@ export class HomePage implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.connection.unsubscribe();
   }
-  
+
   async presentAlert(data) {
     const alert = await this.alertController.create({
       header: 'Detalles:',
@@ -113,6 +113,7 @@ export class HomePage implements OnInit, OnDestroy {
           },
           sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
           smallIcon: 'res://drawable-hdpi/ic_launcher.png',
+          icon: "res://icon.png"
         });
       } else if (cita.estadoCita === 'canceled') {
         this.localNotifications.schedule({
@@ -122,6 +123,7 @@ export class HomePage implements OnInit, OnDestroy {
           data: { secret: cita.estadoCita },
           sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
           smallIcon: 'res://drawable-hdpi/ic_launcher.png',
+          icon: "res://icon.png",
         });
       }
     }, (err) => {
