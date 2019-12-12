@@ -38,7 +38,7 @@
                 <ion-label position="floating">Apellido</ion-label>
                 <ion-input formControlName="priApellido" type="text" [(ngModel)]="data.priApellido"></ion-input>
             </ion-item>
-            <ion-label *ngIf="formEditProfile.get('priApellido').errors && formEditProfile.get('priApellido').dirty">
+            <ion-label *ngIf="formEditProfile.get('priApellido').errors && formEditProfile.get('priApellido').dirty ">
                 <p class="validator" ion-text *ngIf="formEditProfile.get('priApellido').hasError('required')">Este campo es requerido
                 </p>
 
@@ -46,21 +46,21 @@
             <ion-item>
                 <ion-icon name="people" slot="start"></ion-icon>
                 <ion-label position="floating">Estado Civil</ion-label>
-                <ion-input formControlName="estadoCivil" type="text" [(ngModel)]="data.estadoCivil"></ion-input>
+                <ion-input formControlName="estadoCivil" type="text" [(ngModel)]="data.estadoCivil" required></ion-input>
             </ion-item>
-            <ion-label *ngIf="formEditProfile.get('estadoCivil').errors && formEditProfile.get('estadoCivil').dirty">
+            <ion-label *ngIf="formEditProfile.get('estadoCivil').errors && formEditProfile.get('estadoCivil').dirty || formEditProfile.get('estadoCivil').untouched || formEditProfile.get('estadoCivil').touched">
                 <p class="validator" ion-text *ngIf="formEditProfile.get('estadoCivil').hasError('required')">Este campo es requerido
                 </p>
             </ion-label>
             <ion-item>
                 <ion-icon name="home" slot="start"></ion-icon>
                 <ion-label position="floating">Número de Casa</ion-label>
-                <ion-input formControlName="numCasa" type="text" [(ngModel)]="data.numCasa"></ion-input>
+                <ion-input formControlName="numCasa" type="text" [(ngModel)]="data.numCasa" clearInput></ion-input>
             </ion-item>
-            <ion-label *ngIf="formEditProfile.get('numCasa').errors && formEditProfile.get('numCasa').dirty">
+            <ion-label *ngIf="formEditProfile.get('numCasa').errors && formEditProfile.get('numCasa').dirty || formEditProfile.get('numCasa').untouched || formEditProfile.get('estadoCivil').numCasa">
                 <p class="validator" ion-text *ngIf="formEditProfile.get('numCasa').hasError('required')">Este campo es requerido
                 </p>
-                <p class="validator" ion-text *ngIf="formEditProfile.get('numCasa').hasError('pattern')">Máximo 6 números</p>
+                <p class="validator" ion-text *ngIf="formEditProfile.get('numCasa').hasError('pattern')">Máximo 5 números</p>
             </ion-label>
             <!-- <ion-item>
                 <ion-icon name="mail" slot="start"></ion-icon>

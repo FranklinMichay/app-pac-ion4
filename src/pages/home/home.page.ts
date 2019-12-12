@@ -76,12 +76,12 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.connection.unsubscribe();
+    //this.connection.unsubscribe();
   }
 
   async presentAlert(data) {
     const alert = await this.alertController.create({
-      header: 'Detalles:',
+      header: 'Detalle Alerta:',
       message: data,
       buttons: ['OK']
     });
@@ -89,15 +89,21 @@ export class HomePage implements OnInit, OnDestroy {
     await alert.present();
   }
 
-  unsub() {
-    this.clickSub.unsubscribe();
-  }
+  // unsub() {
+  //   this.clickSub.unsubscribe();
+  // }
 
   simpleNotif() {
     this.clickSub = this.localNotifications.on('click').subscribe(data => {
       console.log(data);
-      this.presentAlert('Médico:' + data.data.secret);
-      this.unsub();
+        this.presentAlert(
+          'Médico:' + ' ' + data.data.medico + '\n'+
+          'fecha:' + ' '+ data.data.fecha + '\n' +
+          'hora:' + ' '+ data.data.hora + '\n' +
+          'motivo:' + ' ' + data.data.motivo
+        );
+        this.router.navigate['meetings'];
+      //this.unsub();
     });
 
     this.auth.getDataAlerts().subscribe((cita: any) => {
@@ -109,18 +115,27 @@ export class HomePage implements OnInit, OnDestroy {
           title: 'SU CITA FUE POSPUESTA',
           text: 'Fecha: ' + ' ' + cita.fecha + ' ' + 'hora:' + ' ' + cita.hora,
           data: {
-            secret: cita.medico.priNombre + cita.medico.priApellido
+            medico: cita.medico.priNombre + cita.medico.priApellido,
+            fecha: cita.fecha,
+            hora: cita.hora,
+            motivo: ''
           },
           sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
           smallIcon: 'res://drawable-hdpi/ic_launcher.png',
           icon: "res://icon.png"
         });
+
       } else if (cita.estadoCita === 'canceled') {
         this.localNotifications.schedule({
           id: cita.paciente.id,
-          title: 'Su Cita fué Cancelada',
+          title: 'SU CITA FUE CANCELADA',
           text: 'Motivo: ' + ' ' + cita.detalleCancelado,
-          data: { secret: cita.estadoCita },
+          data: { 
+            medico: cita.medico.priNombre + cita.medico.priApellido,
+            fecha: cita.fecha,
+            hora: cita.hora,
+            motivo: cita.detalleCancelado
+          },
           sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
           smallIcon: 'res://drawable-hdpi/ic_launcher.png',
           icon: "res://icon.png",

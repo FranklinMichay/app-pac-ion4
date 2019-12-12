@@ -29,7 +29,7 @@ export class EditProfilePage implements OnInit {
   respData: any;
   file: File;
 
-  url: any; 
+  url: any;
 
   constructor(
     private router: Router,
@@ -51,8 +51,10 @@ export class EditProfilePage implements OnInit {
       priApellido: ['', Validators.compose([Validators.required])],
       ciudad: ['', Validators.compose([Validators.required])],
       identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
+      //estadoCivil: [''],
+      //numCasa: [''],
       estadoCivil: ['', Validators.compose([Validators.required])],
-      numCasa: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{6},)*[0-9]{6}$')])],
+      numCasa: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{5},)*[0-9]{5}$')])],
     });
   }
 
@@ -63,7 +65,7 @@ export class EditProfilePage implements OnInit {
   //   this.registerForm.get('fotoPerfil').setValue(file);
   // }
 
-  
+
 
   upload() {
     const date = new Date().valueOf();
@@ -108,10 +110,13 @@ export class EditProfilePage implements OnInit {
     )
     this.formData.append('user_id', this.data.user.id);
     this.auth.updateProfilePatient(this.formData, this.data.id).subscribe(data => {
-      if (data.fotoPerfil[0] !== 'h') {
-        let foto = this.url + data.fotoPerfil;
-        data.fotoPerfil = foto;
+      if (data.fotoPerfil !== null) {
+        if (data.fotoPerfil[0] !== 'h') {
+          let foto = this.url + data.fotoPerfil;
+          data.fotoPerfil = foto;
+        }
       }
+
       //console.log(data, 'DATA NUEVA');
 
       localStorage.setItem('user', JSON.stringify(data));

@@ -5,7 +5,7 @@
 
 
     <form [formGroup]="form_login" (ngSubmit)="getData()">
-        <input class="mail" type="text" formControlName="usuario" placeholder="user@gmail.com" [(ngModel)]="user.username" autocomplete="off" autocorrect="off">
+        <input class="mail" type="text" formControlName="usuario" placeholder="user@gmail.com" [(ngModel)]="user.username" autocomplete="off" autocorrect="off" clearInput>
         <ion-label *ngIf="form_login.get('usuario').errors && form_login.get('usuario').dirty">
             <p class="validator" ion-text *ngIf="form_login.get('usuario').hasError('required')">Este campo es requerido
             </p>
@@ -15,7 +15,7 @@
 
         <ion-row class="password">
             <ion-col size="10">
-                <input [type]="passwordType" formControlName="password" clearOnEdit="true" placeholder="******" [(ngModel)]="user.password" class="input-pass" autocomplete="off" autocorrect="off">
+                <input [type]="passwordType" formControlName="password" clearOnEdit="true" placeholder="******" [(ngModel)]="user.password" class="input-pass" autocomplete="off" autocorrect="off" clearInput>
             </ion-col>
             <ion-col size="2">
                 <ion-icon end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
