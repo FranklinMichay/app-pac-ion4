@@ -67,6 +67,7 @@ export class HomePage implements OnInit, OnDestroy {
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
+    this.simpleNotif();
 
   }
 
@@ -76,7 +77,7 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    //this.connection.unsubscribe();
+    this.connection.unsubscribe();
   }
 
   async presentAlert(data) {
@@ -105,8 +106,11 @@ export class HomePage implements OnInit, OnDestroy {
         this.router.navigate['meetings'];
       //this.unsub();
     });
+    if (this.connection !== undefined) {
+      this.connection.unsubscribe();
+    }
 
-    this.auth.getDataAlerts().subscribe((cita: any) => {
+    this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
       console.log(cita.estadoCita, 'estado de la citaaaaa ');
       if (cita.estadoCita === 'postponed') {
         console.log(cita.paciente.id, 'id paciente');
