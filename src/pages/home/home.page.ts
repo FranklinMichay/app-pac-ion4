@@ -15,7 +15,7 @@ import { LocalNotifications, ILocalNotificationActionType } from '@ionic-native/
   templateUrl: 'home.page.html',
   styleUrls: ['home.page.scss'],
 })
-export class HomePage implements OnInit, OnDestroy {
+export class HomePage implements OnInit {
 
   data: any;
   alert = false;
@@ -45,6 +45,8 @@ export class HomePage implements OnInit, OnDestroy {
     autoplay: true
   };
 
+  cita: any;
+
   constructor(
     public navCtrl: NavController,
     public toast: ToastController,
@@ -67,24 +69,91 @@ export class HomePage implements OnInit, OnDestroy {
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
-    this.simpleNotif();
 
   }
 
   ngOnInit() {
-    this.simpleNotif();
-
+    if (this.connection !== undefined) {
+      this.connection.unsubscribe();
+    }
+    this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
+      this.cita = cita;
+      this.notification();
+      console.log(this.cita, 'cita alert');
+    }, (err) => {
+      console.log(err, 'error getAlerts');
+    });
   }
 
-  ngOnDestroy() {
-    this.connection.unsubscribe();
+  notification() {
+      this.localNotifications.on('click').subscribe(data => {
+        console.log(data);
+        this.presentAlert(
+          'Médico:' + ' ' + data.data.medico + '<br>' +
+          'fecha:' + ' ' + data.data.fecha + '<br>' +
+          'hora:' + ' ' + data.data.hora + '<br>' +
+          'motivo:' + ' ' + data.data.motivo
+        );
+      });
+
+      if (this.cita.estadoCita === 'postponed') {
+        console.log(this.cita.paciente.id, 'id paciente');
+        this.localNotifications.schedule(
+          {
+            id: this.cita.paciente.id,
+            title: 'SU CITA FUE POSPUESTA',
+            text: 'Fecha: ' + ' ' + this.cita.fecha + ' ' + 'hora:' + ' ' + this.cita.hora,
+            data: {
+              medico: this.cita.medico.priNombre + ' ' + this.cita.medico.priApellido,
+              fecha: this.cita.fecha,
+              hora: this.cita.hora,
+              motivo: ''
+            },
+            sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
+            smallIcon: 'res://drawable-hdpi/ic_launcher.png',
+            icon: "res://icon.png"
+          });
+
+      } else if (this.cita.estadoCita === 'canceled') {
+        this.localNotifications.schedule({
+          id: this.cita.paciente.id,
+          title: 'SU CITA FUE CANCELADA',
+          text: 'Motivo: ' + ' ' + this.cita.detalleCancelado,
+          data: {
+            medico: this.cita.medico.priNombre + ' ' + this.cita.medico.priApellido,
+            fecha: this.cita.fecha,
+            hora: this.cita.hora,
+            motivo: this.cita.detalleCancelado
+          },
+          sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
+          smallIcon: 'res://drawable-hdpi/ic_launcher.png',
+          icon: "res://icon.png",
+        });
+      }
   }
+
+  // ngOnDestroy() {
+  //   this.connection.unsubscribe();
+
+  // }
 
   async presentAlert(data) {
     const alert = await this.alertController.create({
-      header: 'Detalle Alerta:',
+      header: 'Detalles:',
       message: data,
-      buttons: ['OK']
+      buttons: [
+        {
+          text: 'OK',
+
+        }, {
+          text: 'Ir a mis Citas',
+          handler: () => {
+            this.router.navigate(['meetings']);
+            console.log('Ir a mis Citas');
+          }
+        }
+      ]
+
     });
 
     await alert.present();
@@ -95,46 +164,55 @@ export class HomePage implements OnInit, OnDestroy {
   // }
 
   simpleNotif() {
-    this.clickSub = this.localNotifications.on('click').subscribe(data => {
+    debugger;
+    this.localNotifications.on('click').subscribe(data => {
       console.log(data);
-        this.presentAlert(
-          'Médico:' + ' ' + data.data.medico + '\n'+
-          'fecha:' + ' '+ data.data.fecha + '\n' +
-          'hora:' + ' '+ data.data.hora + '\n' +
-          'motivo:' + ' ' + data.data.motivo
-        );
-        this.router.navigate['meetings'];
-      //this.unsub();
+      this.presentAlert(
+        'Médico:' + ' ' + data.data.medico + '<br>' +
+        'fecha:' + ' ' + data.data.fecha + '<br>' +
+        'hora:' + ' ' + data.data.hora + '<br>' +
+        'motivo:' + ' ' + data.data.motivo
+      );
     });
+    // if (this.platform.is('cordova')) {
+
+    // this.backgroundMode.isScreenOff(() => {
+    //   this.backgroundMode.wakeUp();
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
     }
-
     this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
       console.log(cita.estadoCita, 'estado de la citaaaaa ');
       if (cita.estadoCita === 'postponed') {
         console.log(cita.paciente.id, 'id paciente');
-        this.localNotifications.schedule({
-          id: cita.paciente.id,
-          title: 'SU CITA FUE POSPUESTA',
-          text: 'Fecha: ' + ' ' + cita.fecha + ' ' + 'hora:' + ' ' + cita.hora,
-          data: {
-            medico: cita.medico.priNombre + cita.medico.priApellido,
-            fecha: cita.fecha,
-            hora: cita.hora,
-            motivo: ''
-          },
-          sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
-          smallIcon: 'res://drawable-hdpi/ic_launcher.png',
-          icon: "res://icon.png"
-        });
+        this.localNotifications.schedule(
+          {
+            id: cita.paciente.id,
+            title: 'SU CITA FUE POSPUESTA',
+            text: 'Fecha: ' + ' ' + cita.fecha + ' ' + 'hora:' + ' ' + cita.hora,
+            summary: cita.paciente.id,
+            group: cita.paciente.id,
+            groupSummary: true,
+            data: {
+              medico: cita.medico.priNombre + cita.medico.priApellido,
+              fecha: cita.fecha,
+              hora: cita.hora,
+              motivo: ''
+            },
+            sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
+            smallIcon: 'res://drawable-hdpi/ic_launcher.png',
+            icon: "res://icon.png"
+          });
 
       } else if (cita.estadoCita === 'canceled') {
         this.localNotifications.schedule({
           id: cita.paciente.id,
           title: 'SU CITA FUE CANCELADA',
           text: 'Motivo: ' + ' ' + cita.detalleCancelado,
-          data: { 
+          summary: cita.paciente.id,
+          group: cita.paciente.id,
+          groupSummary: true,
+          data: {
             medico: cita.medico.priNombre + cita.medico.priApellido,
             fecha: cita.fecha,
             hora: cita.hora,
@@ -148,7 +226,10 @@ export class HomePage implements OnInit, OnDestroy {
     }, (err) => {
       console.log(err, 'error');
     });
+    //});
+    //}
   }
+
   getDataPac() {
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user, 'user');
@@ -180,15 +261,10 @@ export class HomePage implements OnInit, OnDestroy {
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['login']);
-    //this.connection.unsubscribe();
     this.backgroundMode.disable()
   }
 
-  ionViewDidEnter() {
-    document.addEventListener("backbutton", function (e) {
-      console.log("disable back button")
-    }, false);
-  }
+
 
   // async  loginWithGoogle() {
   //   this.dataGoogle = await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())

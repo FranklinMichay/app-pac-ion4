@@ -68,6 +68,8 @@ export class SearchMedicPage implements OnInit {
   paramsForRequest: any = {};
   imageMedic: any;
   fotoPerfil: any;
+  dataPaciente: any
+  medicByCity: any;
 
   url: any; 
 
@@ -97,6 +99,8 @@ export class SearchMedicPage implements OnInit {
     this.options.placeholder = 'Ingrese parámetro para la búsqueda';
     this.options.searchIcon = 'assets/icons/add-user.svg';
     this.options.type = 'search';
+    this.dataPaciente = JSON.parse(localStorage.getItem('user'));
+    this.medicsByCity();
 
   }
 
@@ -312,6 +316,19 @@ export class SearchMedicPage implements OnInit {
     console.log(medic, 'DATOS DEL MEDICO SELECCIONADO');
     this.dataService.dataMedic = medic;
     this.router.navigate(['profile-medic']);
+  }
+
+  medicsByCity() {
+    this.loadingCtrl.presentLoading();
+    let city = this.dataPaciente.ciudad.toUpperCase();
+    this.auth.medicsByCity(city).subscribe((result: any) => {
+      this.medics = result;
+      this.medicFiltered = result;
+      console.log(result, 'medicos por ciudad');
+      this.loadingCtrl.dismiss();
+    }, (err) => {
+      console.log(err, 'error al traer medicos por ciudad');
+    });
   }
 
 }

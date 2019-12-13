@@ -185,6 +185,9 @@ export class AuthService {
     return this.httpClient.get(this.url + 'medico/searchMedic/?params=' + dic);
   }
 
+  medicsByCity(city) {
+    return this.httpClient.get(this.url + 'medico/getData?model=userMedico&params=ciudad=' + city);
+  }
 
   recoveryPassword(data: any): Observable<any> {
     return this.httpClient.post<any>(this.url + 'paciente/emailResetMovil/', data);
