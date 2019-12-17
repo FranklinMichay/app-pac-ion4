@@ -279,7 +279,7 @@ ion-content {
     font-stretch: normal;
     line-height: 1.72;
     letter-spacing: normal;
-    margin-top: -3%;
+    margin-top: -9%;
     color: #657785;
 }
 
@@ -321,6 +321,49 @@ ion-content {
     margin-top: 8%;
     color: white;
     font-size: 16px;
+}
+
+.container-medic {
+    width: 98%;
+    border-radius: 7px;
+    background-color: #f6f6f6;
+    margin-top: 2%;
+    border-left: solid 8px #4c69cc;
+    height: 100px;
+    .line {
+        background-color: #695cff;
+    }
+    .container-info-medic {
+        left: -14%;
+    }
+    .image {
+        width: 7vh;
+        height: 7vh;
+        border-radius: 4vh;
+        margin-top: 15%;
+    }
+    .medical-center {
+        font-family: Poppins;
+        font-size: 12.8px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.72;
+        letter-spacing: normal;
+        color: black;
+    }
+}
+
+.content-medic {
+    overflow-y: scroll;
+    width: 102%;
+    //height          : 92vh;
+    background: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 91%);
+    background-color: white;
+}
+
+.icon-medic {
+    margin-top: 10%;
 }
 
 @media (min-width: 619px) {

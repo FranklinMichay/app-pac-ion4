@@ -58,6 +58,10 @@ export class AuthService {
     this.socket.emit('calendar', data);
   }
 
+  removeListener(name) {
+    this.socket.off(name);
+  }
+
   // sendResponse(data: Response) {
   //   console.log(data, 'in send response client');
   //   this.socket.emit('response', data);
@@ -208,7 +212,21 @@ export class AuthService {
       this.socket.on('calendar', async (data: any) => {
         if (data.estadoCita !== 'hold') {
           if (data.paciente.id === this.user.id || data.paciente === this.user.id) {
-            console.log(data, 'DATA EN SOCKET');
+            console.log(data, 'DATA SOCKET ALERTA');
+            observer.next(data);
+          }
+        }
+      });
+    });
+    return observable;
+  }
+
+  getLastAppointment() {
+    const observable = new Observable(observer => {
+      this.socket.on('calendar', async (data: any) => {
+        if (data.estadoCita !== 'hold') {
+          if (data.paciente.id === this.user.id || data.paciente === this.user.id) {
+            console.log(data, 'DATA SOCKET LAST APPOINTMENT');
             observer.next(data);
           }
         }
@@ -220,12 +238,12 @@ export class AuthService {
   getDataDay(_data: any) {
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data) => {
-        console.log(data, 'data socket');
+        
         if (data.paciente === null || data.paciente === undefined
           || data.medico === null || data.medico === undefined) {
           if (_data.medico_id === data.medico || _data.medico_id === data.medico.id) {
             if (_data.fecha === data.fecha) {
-
+              console.log(data, 'data socket if ');
               await this.getDayData(_data).then(d => {
                 data.result = d;
               });
@@ -238,6 +256,7 @@ export class AuthService {
             await this.getDayData(_data).then(d => {
               data.result = d;
             });
+            console.log(data, 'data socket else ');
             observer.next(data);
           }
         }
@@ -289,19 +308,6 @@ export class AuthService {
       this.httpClient.get(this.url + this.urlGetInfo + 'estadoCita=postponed,paciente_id=' + data)
         .subscribe(res => {
           console.log(res, 'data pospuestas');
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
-  }
-
-  getMeetingAccepted(data) {
-    console.log(data, ' for send');
-    return new Promise((resolve, reject) => {
-      this.httpClient.get(this.url + this.urlGetInfo + 'estadoCita=accepted,paciente_id=' + data)
-        .subscribe(res => {
-          console.log(res, 'data accepted desde el servidor');
           resolve(res);
         }, (err) => {
           reject(err);

@@ -81,11 +81,16 @@ export class MeetingsPage implements OnInit {
     console.log(this.idPaciente, 'id del paciente')
     console.log(this.day, 'dia para presentar');
     this.url = environment.url;
+    if (this.connection !== undefined) {
+      this.connection.unsubscribe();
+      this.auth.removeListener('calendar');
+    }
   }
 
   ngOnInit() {
     this.getAllData(this.idPaciente);
     this.changeDay(this.day)
+    
   }
 
   ionViewWillEnter() {
@@ -151,6 +156,7 @@ export class MeetingsPage implements OnInit {
 
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
+      this.auth.removeListener('calendar');
     }
     this.connection = this.auth.getDataAlerts().subscribe((result: any) => {
       if (result.medico.fotoPerfil[0] !== 'h') {
@@ -211,9 +217,10 @@ export class MeetingsPage implements OnInit {
   }
 
   nextWeek() {
+    
     const currentLastDay = this.lastDataShowed.lastDay.value;
     if (currentLastDay === this.lastDay && this.currentMonth === 11) {
-      this.currentYear + 1
+      this.currentYear = this.currentYear + 1;
     }
     this.currentMonth = (currentLastDay === this.lastDay) ? (this.currentMonth + 1) % 12 : this.currentMonth;
     const newDay = this.lastDay === currentLastDay ? 1 : currentLastDay + 1;
@@ -347,8 +354,10 @@ export class MeetingsPage implements OnInit {
       fecha: date,
       idPaciente: this.pacienteId
     };
+    
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
+      this.auth.removeListener('calendar');
     }
     this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
       console.log(result, 'agenda from api in day');

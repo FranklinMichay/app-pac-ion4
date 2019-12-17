@@ -1,5 +1,5 @@
 import { SearchFilterPage } from './../pages/search-filter/search-filter.page';
-import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -17,7 +17,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagInputModule } from 'ngx-chips';
-import { ImagePicker }  from '@ionic-native/image-picker/ngx';
+import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl };
 import { WebView } from '@ionic-native/ionic-webview/ngx';
@@ -25,13 +25,14 @@ import { ModalAcceptPostponedPage } from 'src/pages/modal-accept-postponed/modal
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
+
 @NgModule({
   declarations: [
     AppComponent,
     GetMeetingPage,
     ModalCancelPage,
     SearchFilterPage,
-    ModalAcceptPostponedPage
+    ModalAcceptPostponedPage,
   ],
   entryComponents: [
     GetMeetingPage,
@@ -40,7 +41,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     ModalAcceptPostponedPage
   ],
   imports: [
-    BrowserModule,    
+    BrowserModule,
     BrowserAnimationsModule,
     IonicModule.forRoot(),
     AppRoutingModule,
@@ -50,7 +51,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     SocketIoModule.forRoot(config),
     AutoCompleteModule,
     TagInputModule,
-  
+
   ],
 
   providers: [
@@ -65,7 +66,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     WebView,
     //{provide: Camera, useClass: CameraMock},
   ],
-  
+
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA]

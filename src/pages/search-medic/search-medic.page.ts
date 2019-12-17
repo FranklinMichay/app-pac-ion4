@@ -71,7 +71,9 @@ export class SearchMedicPage implements OnInit {
   dataPaciente: any
   medicByCity: any;
 
-  url: any; 
+  url: any;
+
+  // filterText: any;
 
   constructor(
     public navCtrl: NavController,
@@ -105,7 +107,16 @@ export class SearchMedicPage implements OnInit {
   }
 
   ngOnInit() {
+
+
     //this.getDataList();
+  }
+
+  filterItems(searchTerm) {
+    return this.medics.filter(item => {
+      return item.priNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1,
+        item.priNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+    });
   }
 
 
@@ -211,9 +222,9 @@ export class SearchMedicPage implements OnInit {
   getMedicsForParams() {
     this.loadingCtrl.presentLoading();
     this.auth.sendParamsForSearch(this.paramsForRequest).subscribe((result: any) => {
-      this.medics = result 
+      this.medics = result
       this.medicFiltered = result;
-      
+
       console.log(result, 'medicos encontrados');
       this.selected = [];
       this.paramsForRequest = {};
@@ -230,7 +241,7 @@ export class SearchMedicPage implements OnInit {
         console.log(data, 'Los medicos');
         this.medics = data;
         this.loadingCtrl.dismiss();
-      }, (err) => { 
+      }, (err) => {
         console.log(err, 'error al obtener datos');
       });
   }

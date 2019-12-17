@@ -93,6 +93,7 @@ export class SchedulePage implements OnInit, OnDestroy {
     };
     this.disableBack(year, month, day);
     this.getDataDay(formatDate(this.today, 'yyyy-MM-dd', 'en-US'));
+
   
   }
 
@@ -168,13 +169,13 @@ export class SchedulePage implements OnInit, OnDestroy {
       };
       if (this.connection !== undefined) {
         this.connection.unsubscribe();
+        this.auth.removeListener('calendar');
       }
       this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
         console.log(result, 'agenda from api in day');
         if (result.estadoCita === 'accepted') {
           this.deleteHourDay(result.hora);
-        } else if (result.estadoCita !== 'new'
-          || result.estadoCita !== 'postponed' || result.estadoCita !== 'denied') {
+        } else if (result.estadoCita === 'hold') {
           this.controlExpressShedule(result);
         }
       }, (err) => {

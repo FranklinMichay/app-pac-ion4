@@ -21,7 +21,7 @@
     <div class="ion-padding" class="bg-content">
         <ion-list>
             <ion-list-header>
-                <ion-label class="best-results">Seleccione parámetros para la Búsqueda </ion-label>
+                <ion-label class="best-results">Seleccione un parámetro para la Búsqueda </ion-label>
             </ion-list-header>
             <ion-item>
                 <ion-label>Parámetro</ion-label>
@@ -34,7 +34,7 @@
             </ion-item>
 
             <ion-list-header>
-                <ion-label class="keyword">Palabras Clave </ion-label>
+                <ion-label class="keyword">Puedes seleccionar hasta 3 parámetros </ion-label>
             </ion-list-header>
             <ion-item>
                 <tag-input [(ngModel)]="selected" [placeholder]="'Seleccione otro parámetro'" [secondaryPlaceholder]="'Seleccione un parámetro'" [onlyFromAutocomplete]="true" (onTextChange)="onTextChange($event)" [maxItems]='3'>
@@ -49,7 +49,10 @@
         <ion-button class="buscar" *ngIf="selected.length > 0" type="submit" (click)="getMedicsForParams()">BUSCAR
         </ion-button>
     </div>
-    <ion-searchbar *ngIf="medics" placeholder="Buscar por nombre Ej: Juan" (ionInput)="onInput($event)">
+
+
+    <ion-searchbar *ngIf="medics" placeholder="Buscar por nombre Ej: Juan" [(ngModel)]="searchText">
+
     </ion-searchbar>
     <div *ngIf="medics && medics.length === 0">
         <div class="center-img">
@@ -60,15 +63,16 @@
 
     <div *ngIf="medics">
         <ion-grid class="content-medic ">
-            <ion-row *ngFor="let medic of medics" (click)="goToDetails(medic) " class="container-medic">
+            <ion-row *ngFor="let medic of medics | filter:searchText" (click)="goToDetails(medic) " class="container-medic">
                 <ion-col class="container-image" size="4">
-                    <img class="image " *ngIf="medic.fotoPerfil" src="{{medic.fotoPerfil}}" />
-                    <img class="image " *ngIf="!medic.fotoPerfil " src="assets/imgs/doctor.png " />
+                    <img class="image " *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] !== 'h'" src="{{url}}{{medic.fotoPerfil}}" />
+                    <img class="image " *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] === 'h'" src="{{medic.fotoPerfil}}" />
+                    <img class="image " *ngIf="!medic.fotoPerfil" src="assets/imgs/doctor.png " />
                 </ion-col>
-                <ion-col class="container-info-medic " size="8">
+                <ion-col class="container-info-medic " size="7">
                     <ion-row>
                         <ion-col class="name " size="12 ">
-                            {{ medic.priNombre }} {{ medic.priApellido }}
+                            {{ medic.priNombre }} {{ medic.priApellido }} {{ medic.segApellido }}
                         </ion-col>
                         <ion-col class="fecha " size="12 ">
                             {{ medic.especialidad.nombre }}
@@ -79,8 +83,8 @@
                         </ion-col>
                     </ion-row>
                 </ion-col>
-                <ion-col size="1 " class="icon-medic ">
-                    <ion-icon name="ios-arrow-forward "></ion-icon>
+                <ion-col size="1" class="icon-medic">
+                    <ion-icon name="ios-arrow-forward"></ion-icon>
 
                 </ion-col>
             </ion-row>

@@ -6,6 +6,7 @@ import { IonicModule } from '@ionic/angular';
 import { SearchMedicPage } from './search-medic.page';
 import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { TagInputModule } from 'ngx-chips';
+import { FilterPipe } from '../../app/pipes/filter.pipe';
 
 
 
@@ -24,10 +25,11 @@ const routes: Routes = [
     IonicModule,
     RouterModule.forChild(routes),
     AutoCompleteModule,
-    
+
   ],
-  declarations: [SearchMedicPage],
+  declarations: [SearchMedicPage,
+    FilterPipe],
   schemas: [CUSTOM_ELEMENTS_SCHEMA,
     NO_ERRORS_SCHEMA]
 })
-export class SearchMedicPageModule {}
+export class SearchMedicPageModule { }
