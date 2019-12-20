@@ -102,7 +102,20 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    
+  }
 
+  upBackgroundMode() {
+    this.platform.ready().then(() => {
+      this.backgroundMode.setDefaults({ silent: true });
+      this.backgroundMode.enable();
+      if (this.platform.is("android")) {
+        this.backgroundMode.on('activate').subscribe(() => {
+          this.backgroundMode.disableWebViewOptimizations();
+          this.notification();
+        });
+      }
+    })
   }
 
   notification() {
@@ -177,6 +190,16 @@ export class HomePage implements OnInit {
       var citaByDate = _.filter(cita, { "fecha": fecha });
       this.dataHome = _.first(citaByDate);
       console.log(this.dataHome, 'ultima cita agendada');
+      // if (this.connection !== undefined) {
+      //   this.connection.unsubscribe();
+      //   this.auth.removeListener('calendar');
+      // }
+      // this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
+      //   this.cita = cita;
+      //   this.notification();
+      // }, (err) => {
+      //   console.log(err, 'error getAlerts');
+      // });
     }, (err) => {
       console.log(err, 'error ultima cita');
     });
@@ -201,7 +224,10 @@ export class HomePage implements OnInit {
   logout() {
     localStorage.removeItem('user');
     this.router.navigate(['login']);
-    this.backgroundMode.disable()
+    if (this.connection !== undefined) {
+      this.connection.unsubscribe();
+      this.auth.removeListener('calendar');
+    }
   }
 
 

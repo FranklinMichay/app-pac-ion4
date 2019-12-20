@@ -6,7 +6,8 @@ import { ForgotPasswordPage } from '../forgot-password/forgot-password.page';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { ToastService} from '../../../src/app/services/toast.service'
+import { ToastService } from '../../../src/app/services/toast.service'
+import { LoadingService } from '../../app/services/loading.service';
 
 
 @Component({
@@ -17,7 +18,7 @@ import { ToastService} from '../../../src/app/services/toast.service'
 
 export class LoginPage implements OnInit {
 
-  
+
 
   user: any = {};
   userGoogle: any;
@@ -39,11 +40,12 @@ export class LoginPage implements OnInit {
     public menu: MenuController,
     public router: Router,
     private auth: AuthService,
-    private toast: ToastService
+    private toast: ToastService,
+    private loadingCtrl: LoadingService,
   ) {
     this.form_login = this.fb.group({
       usuario: ['', [Validators.email, Validators.required]],
-     // password: ['', [Validators.pattern(/^[a-z0-9_-]{6,18}$/)]],
+      // password: ['', [Validators.pattern(/^[a-z0-9_-]{6,18}$/)]],
       password: ['', [Validators.required]]
     });
   }
@@ -89,13 +91,14 @@ export class LoginPage implements OnInit {
         console.log(token, 'TOKEN');
         this.getIdPaciente(token);
       }, (err) => {
-        //this.toast.presentToast(err);
+        this.toast.presentToast(err);
         //console.log('entro en getError');
         console.log(err, 'error en login');
       });
   }
 
   getIdPaciente(token) {
+    this.loadingCtrl.presentLoading();
     this.auth.obtenerId(this.form_login.value, token)
       .subscribe(access => {
         console.log(access, 'Info acceso del servidor...!!!');
@@ -104,14 +107,17 @@ export class LoginPage implements OnInit {
         } else {
           console.log(access, 'Error al acceder al servidor');
         }
+        this.loadingCtrl.dismiss();
       });
   }
 
   getInfoPaciente(data) {
+    this.loadingCtrl.presentLoading();
     this.auth.getInfoPaciente(data).subscribe(dataPaciente => {
       console.log('DATOS PACIENTE', dataPaciente[0]);
       localStorage.setItem('user', JSON.stringify(dataPaciente[0]));
       this.router.navigate(['home']);
+      this.loadingCtrl.dismiss();
     })
   }
 
@@ -127,6 +133,6 @@ export class LoginPage implements OnInit {
   goToForgotPass() {
     this.router.navigate(['forgot-password']);
   }
-  
- 
+
+
 }

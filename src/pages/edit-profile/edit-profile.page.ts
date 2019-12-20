@@ -54,7 +54,7 @@ export class EditProfilePage implements OnInit {
       //estadoCivil: [''],
       //numCasa: [''],
       estadoCivil: ['', Validators.compose([Validators.required])],
-      numCasa: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{5},)*[0-9]{5}$')])],
+      //numCasa: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{5},)*[0-9]{5}$')])],
     });
   }
 

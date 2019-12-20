@@ -59,10 +59,17 @@
                         </p>
                     </ion-label>
                     <ion-item>
-                        <ion-icon name="photos" slot="start"></ion-icon>
-                        <ion-input type="file" accept="image/*" (change)="changeListener($event)">
+                        <ion-icon name="finger-print" slot="start"></ion-icon>
+                        <ion-label position="floating">identificación</ion-label>
+                        <ion-input formControlName="identificacion" type="text">
                         </ion-input>
                     </ion-item>
+                    <ion-label *ngIf="slideOneForm.get('identificacion').errors && slideOneForm.get('identificacion').dirty">
+                        <p class="validator" ion-text *ngIf="slideOneForm.get('identificacion').hasError('required')">Este campo es requerido
+                        </p>
+                        <p class="validator" ion-text *ngIf="slideOneForm.get('identificacion').hasError('pattern')">El campo debe contener 10 números</p>
+
+                    </ion-label>
                 </ion-list>
                 <ion-button class="accept-edit" type="submit" (click)="next()" [disabled]="slideOneForm.invalid">
                     Siguiente</ion-button>
@@ -72,17 +79,11 @@
             <form [formGroup]="slideTwoForm">
                 <ion-list>
                     <ion-item>
-                        <ion-icon name="finger-print" slot="start"></ion-icon>
-                        <ion-label position="floating">identificación</ion-label>
-                        <ion-input formControlName="identificacion" type="text">
+                        <ion-icon name="photos" slot="start"></ion-icon>
+                        <ion-input type="file" accept="image/*" (change)="changeListener($event)">
                         </ion-input>
                     </ion-item>
-                    <ion-label *ngIf="slideTwoForm.get('identificacion').errors && slideTwoForm.get('identificacion').dirty">
-                        <p class="validator" ion-text *ngIf="slideTwoForm.get('identificacion').hasError('required')">Este campo es requerido
-                        </p>
-                        <p class="validator" ion-text *ngIf="slideTwoForm.get('identificacion').hasError('pattern')">El campo debe contener 10 números</p>
 
-                    </ion-label>
                     <ion-item>
                         <ion-icon name="call" slot="start"></ion-icon>
                         <ion-label position="floating">Teléfono</ion-label>

@@ -33,7 +33,7 @@ export class AppComponent {
     });
 
     this.platform.backButton.subscribe(() => {
-      if (window.location.pathname === "/home") {
+      if (window.location.pathname === "/home" || window.location.pathname === "/login") {
         navigator['app'].exitApp();
       }
     });

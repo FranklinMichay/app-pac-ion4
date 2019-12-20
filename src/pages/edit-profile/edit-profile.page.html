@@ -11,94 +11,99 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
 
-
-    <div class="user-photo">
-        <ion-avatar>
-            <img [src]="data.fotoPerfil || 'assets/imgs/perfil.svg'">
-        </ion-avatar>
+    <div class="profile">
+        <ion-card class="ion-no-margin">
+            <ion-card-content class="bg-profile">
+                <img [src]="data.fotoPerfil || '/assets/imgs/noavatar.png'">
+                <label for="file-upload" class="subir">
+                    <i class="fas fa-cloud-upload-alt"></i> Cambiar Foto
+                </label>
+                <input id="file-upload" (change)="changeListener($event)" type="file" style='display: none;' />
+                <h1 class="fw500">{{data.priNombre}} {{data.priApellido}}</h1>
+                <h2 color="light">{{data.ciudad}}</h2>
+            </ion-card-content>
+        </ion-card>
     </div>
 
-    <ion-input type="file" accept="image/*" (change)="changeListener($event)" placeholder="hola"></ion-input>
-
     <form [formGroup]="formEditProfile" (ngSubmit)="updateProfilePatient()">
-        <ion-list>
-            <ion-item>
-                <ion-icon name="person" slot="start"></ion-icon>
-                <ion-label position="floating">Nombre</ion-label>
-                <ion-input formControlName="priNombre" type="text" [(ngModel)]="data.priNombre"></ion-input>
-            </ion-item>
-            <ion-label *ngIf="formEditProfile.get('priNombre').errors && formEditProfile.get('priNombre').dirty">
-                <p class="validator" ion-text *ngIf="formEditProfile.get('priNombre').hasError('required')">Este campo es requerido
-                </p>
-            </ion-label>
-            <ion-item>
-                <ion-icon name="person" slot="start"></ion-icon>
-                <ion-label position="floating">Apellido</ion-label>
-                <ion-input formControlName="priApellido" type="text" [(ngModel)]="data.priApellido"></ion-input>
-            </ion-item>
-            <ion-label *ngIf="formEditProfile.get('priApellido').errors && formEditProfile.get('priApellido').dirty ">
-                <p class="validator" ion-text *ngIf="formEditProfile.get('priApellido').hasError('required')">Este campo es requerido
-                </p>
+        <ion-grid>
+            <ion-row>
+                <ion-col size="12">
+                    <ion-list>
+                        <ion-list-header color="light">
+                            <ion-label class="fw700">Editar Perfil</ion-label>
+                        </ion-list-header>
+                        <ion-item>
+                            <ion-icon name="person" slot="start"></ion-icon>
+                            <ion-label color="dark" position="stacked">Nombre:</ion-label>
+                            <ion-input formControlName="priNombre" type="text" [(ngModel)]="data.priNombre"></ion-input>
+                        </ion-item>
+                        <ion-label *ngIf="formEditProfile.get('priNombre').errors && formEditProfile.get('priNombre').dirty">
+                            <p class="validator" ion-text *ngIf="formEditProfile.get('priNombre').hasError('required')">
+                                Este campo es requerido
+                            </p>
+                        </ion-label>
+                        <ion-item>
+                            <ion-icon name="person" slot="start"></ion-icon>
+                            <ion-label position="floating">Apellido</ion-label>
+                            <ion-input formControlName="priApellido" type="text" [(ngModel)]="data.priApellido">
+                            </ion-input>
+                        </ion-item>
+                        <ion-label *ngIf="formEditProfile.get('priApellido').errors && formEditProfile.get('priApellido').dirty ">
+                            <p class="validator" ion-text *ngIf="formEditProfile.get('priApellido').hasError('required')">Este campo es requerido
+                            </p>
 
-            </ion-label>
-            <ion-item>
-                <ion-icon name="people" slot="start"></ion-icon>
-                <ion-label position="floating">Estado Civil</ion-label>
-                <ion-input formControlName="estadoCivil" type="text" [(ngModel)]="data.estadoCivil" required></ion-input>
-            </ion-item>
-            <ion-label *ngIf="formEditProfile.get('estadoCivil').errors && formEditProfile.get('estadoCivil').dirty || formEditProfile.get('estadoCivil').untouched || formEditProfile.get('estadoCivil').touched">
-                <p class="validator" ion-text *ngIf="formEditProfile.get('estadoCivil').hasError('required')">Este campo es requerido
-                </p>
-            </ion-label>
-            <ion-item>
-                <ion-icon name="home" slot="start"></ion-icon>
-                <ion-label position="floating">Número de Casa</ion-label>
-                <ion-input formControlName="numCasa" type="text" [(ngModel)]="data.numCasa" clearInput></ion-input>
-            </ion-item>
-            <ion-label *ngIf="formEditProfile.get('numCasa').errors && formEditProfile.get('numCasa').dirty || formEditProfile.get('numCasa').untouched || formEditProfile.get('estadoCivil').numCasa">
-                <p class="validator" ion-text *ngIf="formEditProfile.get('numCasa').hasError('required')">Este campo es requerido
-                </p>
-                <p class="validator" ion-text *ngIf="formEditProfile.get('numCasa').hasError('pattern')">Máximo 5 números</p>
-            </ion-label>
-            <!-- <ion-item>
-                <ion-icon name="mail" slot="start"></ion-icon>
-                <ion-label position="floating">Email</ion-label>
-                <ion-input formControlName="email" type="text" value="{{data.user.email}}"></ion-input>
-            </ion-item> -->
-            <ion-item>
-                <ion-icon name="finger-print" slot="start"></ion-icon>
-                <ion-label position="floating">identificación</ion-label>
-                <ion-input formControlName="identificacion" type="text" [(ngModel)]="data.identificacion"></ion-input>
-            </ion-item>
-            <ion-label *ngIf="formEditProfile.get('identificacion').errors && formEditProfile.get('identificacion').dirty">
-                <p class="validator" ion-text *ngIf="formEditProfile.get('identificacion').hasError('required')">Este campo es requerido
-                </p>
-                <p class="validator" ion-text *ngIf="formEditProfile.get('identificacion').hasError('pattern')">Máximo 10 números</p>
-            </ion-label>
-            <ion-item>
-                <ion-icon name="call" slot="start"></ion-icon>
-                <ion-label position="floating">Teléfono</ion-label>
-                <ion-input formControlName="telefonoCelular" type="text" [(ngModel)]="data.telefonoCelular"></ion-input>
-            </ion-item>
-            <ion-label *ngIf="formEditProfile.get('telefonoCelular').errors && formEditProfile.get('telefonoCelular').dirty">
-                <p class="validator" ion-text *ngIf="formEditProfile.get('telefonoCelular').hasError('required')">Este campo es requerido
-                </p>
-                <p class="validator" ion-text *ngIf="formEditProfile.get('telefonoCelular').hasError('pattern')">Máximo 10 números</p>
-            </ion-label>
-            <ion-item>
-                <ion-icon name="pin" slot="start"></ion-icon>
-                <ion-label position="floating">Ciudad</ion-label>
-                <ion-input formControlName="ciudad" type="text" [(ngModel)]="data.ciudad"></ion-input>
-            </ion-item>
-            <ion-label *ngIf="formEditProfile.get('ciudad').errors && formEditProfile.get('ciudad').dirty">
-                <p class="validator" ion-text *ngIf="formEditProfile.get('ciudad').hasError('required')">Este campo es requerido
-                </p>
+                        </ion-label>
+                        <ion-item>
+                            <ion-icon name="people" slot="start"></ion-icon>
+                            <ion-label position="floating">Estado Civil</ion-label>
+                            <ion-input formControlName="estadoCivil" type="text" [(ngModel)]="data.estadoCivil" required>
+                            </ion-input>
+                        </ion-item>
+                        <ion-label *ngIf="formEditProfile.get('estadoCivil').errors && formEditProfile.get('estadoCivil').dirty || formEditProfile.get('estadoCivil').untouched || formEditProfile.get('estadoCivil').touched">
+                            <p class="validator" ion-text *ngIf="formEditProfile.get('estadoCivil').hasError('required')">Este campo es requerido
+                            </p>
+                        </ion-label>
+                        <ion-item>
+                            <ion-icon name="finger-print" slot="start"></ion-icon>
+                            <ion-label position="floating">identificación</ion-label>
+                            <ion-input formControlName="identificacion" type="text" [(ngModel)]="data.identificacion">
+                            </ion-input>
+                        </ion-item>
+                        <ion-label *ngIf="formEditProfile.get('identificacion').errors && formEditProfile.get('identificacion').dirty">
+                            <p class="validator" ion-text *ngIf="formEditProfile.get('identificacion').hasError('required')">Este campo es requerido
+                            </p>
+                            <p class="validator" ion-text *ngIf="formEditProfile.get('identificacion').hasError('pattern')">Máximo 10 números</p>
+                        </ion-label>
+                        <ion-item>
+                            <ion-icon name="call" slot="start"></ion-icon>
+                            <ion-label position="floating">Teléfono</ion-label>
+                            <ion-input formControlName="telefonoCelular" type="text" [(ngModel)]="data.telefonoCelular">
+                            </ion-input>
+                        </ion-item>
+                        <ion-label *ngIf="formEditProfile.get('telefonoCelular').errors && formEditProfile.get('telefonoCelular').dirty">
+                            <p class="validator" ion-text *ngIf="formEditProfile.get('telefonoCelular').hasError('required')">Este campo es requerido
+                            </p>
+                            <p class="validator" ion-text *ngIf="formEditProfile.get('telefonoCelular').hasError('pattern')">Máximo 10 números</p>
+                        </ion-label>
+                        <ion-item>
+                            <ion-icon name="pin" slot="start"></ion-icon>
+                            <ion-label position="floating">Ciudad</ion-label>
+                            <ion-input formControlName="ciudad" type="text" [(ngModel)]="data.ciudad"></ion-input>
+                        </ion-item>
+                        <ion-label *ngIf="formEditProfile.get('ciudad').errors && formEditProfile.get('ciudad').dirty">
+                            <p class="validator" ion-text *ngIf="formEditProfile.get('ciudad').hasError('required')">
+                                Este campo es requerido
+                            </p>
 
-            </ion-label>
-        </ion-list>
-        <ion-button class="accept-edit" type="submit" [disabled]="formEditProfile.invalid">ACEPTAR</ion-button>
-
+                        </ion-label>
+                    </ion-list>
+                    <ion-button class="accept-edit" type="submit" [disabled]="formEditProfile.invalid">ACEPTAR
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
     </form>
 </ion-content>

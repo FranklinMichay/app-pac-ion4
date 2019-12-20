@@ -61,17 +61,18 @@ export class RegisterPage implements OnInit {
   ) {
 
     this.slideOneForm = fb.group({
-      
+
       priNombre: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       priApellido: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       email: ['', [Validators.email, Validators.required]],
-      password: ['',Validators.required]
+      password: ['', Validators.required],
+      identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
     });
 
     this.slideTwoForm = fb.group({
-     
+
       sexo: ['', Validators.required],
-      identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
+      //identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
       telefonoCelular: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
       ciudad: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
 
@@ -151,6 +152,7 @@ export class RegisterPage implements OnInit {
       priApellido,
       email,
       password,
+      identificacion
     } = this.slideOneForm.value;
 
     const dataInf = {
@@ -159,37 +161,64 @@ export class RegisterPage implements OnInit {
       email: email,
       username: email,
       password,
+      identificacion: identificacion,
     }
-    this.auth.createUserPaciente(dataInf).subscribe(data => {
-      this.auth.getIdUser(data.email).subscribe(data1 => {
-        console.log(data1, 'data con el id');
-        //debugger
-        Object.entries(this.slideTwoForm.value).forEach(
-          ([key, value]: any[]) => {
-            this.formData.set(key, value);
-          }
-        )
-        Object.entries(this.slideOneForm.value).forEach(
-          ([key, value]: any[]) => {
-            this.formData.set(key, value);
-          }
-        )
-        this.formData.append('user', data1[0].id);
 
-        this.auth.registerPaciente(this.formData).subscribe(data2 => {
-          this.auth.getInfoPac(data1[0].id).subscribe(data3 => {
-            
-            localStorage.setItem('user', JSON.stringify(data3[0]));
-            this.router.navigate(['home']);
+    const _dataVerify = {
+      email: email,
+      cedula: identificacion,
+    }
+    this.auth.verifyUser(_dataVerify).subscribe(verification => {
+
+      if (verification.result === 'error') {
+        this.presentToast();
+      } else if (verification.result === 'success') {
+        this.auth.createUserPaciente(dataInf).subscribe(data => {
+          this.auth.getIdUser(data.email).subscribe(data1 => {
+            console.log(data1, 'data con el id');
+            //debugger
+            Object.entries(this.slideTwoForm.value).forEach(
+              ([key, value]: any[]) => {
+                this.formData.set(key, value);
+              }
+            )
+            Object.entries(this.slideOneForm.value).forEach(
+              ([key, value]: any[]) => {
+                this.formData.set(key, value);
+              }
+            )
+            this.formData.append('user', data1[0].id);
+
+            this.auth.registerPaciente(this.formData).subscribe(data2 => {
+              this.auth.getInfoPac(data1[0].id).subscribe(data3 => {
+
+                localStorage.setItem('user', JSON.stringify(data3[0]));
+                this.router.navigate(['home']);
+              })
+            })
           })
-        })
-      })
+        }, (err) => {
+          console.log(err, 'error en registro');
+        });
+        
+      }
+
     }, (err) => {
-      console.log(err, 'error en registro');
+      console.log(err, 'verify user error');
     });
   }
 
   goToLogin() {
     this.router.navigate(['login']);
   }
+
+
+  async presentToast() {
+    const toast = await this.tc.create({
+      message: 'email y/o cédula ya registrados',
+      duration: 4000
+    });
+    toast.present();
+  }
 }
+

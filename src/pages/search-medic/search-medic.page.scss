@@ -100,12 +100,14 @@
 }
 
 .icon-medic {
-    margin-top: 7%;
+    margin-top: 10%;
+    font-size: 20px;
+    color: dodgerblue;
 }
 
 .name {
     font-family: Poppins;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: bold;
     font-style: normal;
     font-stretch: normal;
@@ -125,19 +127,16 @@
     letter-spacing: normal;
     color: #657785;
     padding: 3% 0% 0% 10%;
+    margin-bottom: 4%;
 }
 
 .cm {
     font-family: Poppins;
     font-size: 12.8px;
     font-weight: normal;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.72;
     letter-spacing: normal;
     color: #8c8c8c;
     padding: 0% 0% 0% 10%;
-    margin-top: 3%;
 }
 
 .filtros {

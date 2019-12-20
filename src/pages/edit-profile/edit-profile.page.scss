@@ -11,12 +11,56 @@
             font-weight: 400;
             padding-bottom: 4px;
         }
-        ;
         h2 {
             font-weight: 400;
-            opacity: .5;
+            opacity: 0.5;
         }
     }
+}
+
+.fw700 {
+    font-weight: 700 !important;
+}
+
+.profile {
+    ion-card {
+        width: 100%;
+        border-radius: 0;
+        background-color: #fff;
+        ion-card-content {
+            padding: 12px;
+            background-color: darkcyan;
+            color: white;
+            text-align: center;
+            img {
+                height: 130px;
+                width: 130px;
+                border-radius: 50%;
+                border: solid 4px #fff;
+                display: inline;
+                box-shadow: 0 0 28px rgba(255, 255, 255, 0.65);
+            }
+            h1 {
+                margin-top: 0.5rem;
+            }
+        }
+    }
+}
+
+.subir {
+    padding: 5px 10px;
+    background: lightcoral;
+    color: #fff;
+    border: 0px solid #fff;
+    margin-left: auto;
+    margin-right: auto;
+    display: table;
+    border-radius: 6px;
+}
+
+.subir:hover {
+    color: #fff;
+    background: #f7cb15;
 }
 
 .accept-edit {

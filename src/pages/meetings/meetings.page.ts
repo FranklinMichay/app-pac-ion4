@@ -163,6 +163,7 @@ export class MeetingsPage implements OnInit {
         let foto = this.url + result.medico.fotoPerfil;
         result.medico.fotoPerfil = foto;
       }
+      //debugger;
       console.log(result, 'cita para pushear');
       if (result.estadoCita === 'accepted') {
         this.acceptedMeetings.push(result);
@@ -170,13 +171,26 @@ export class MeetingsPage implements OnInit {
       } else if (result.estadoCita === 'canceled') {
         this.newMeetings.push(result);
         this.news.push(result);
+        this.removeData(result.id);
       }else if (result.estadoCita === 'postponed') {
         this.postponedMeetings.push(result);
         this.postponed.push(result);
+        this.removeData(result.id);
       }
     }, (err) => {
       console.log(err, 'errores');
       console.log(err);
+    });
+  }
+
+  removeData(result) {
+    _.remove(this.accepted, function (n) {
+          
+      return n.id === result;
+    });
+    _.remove(this.acceptedMeetings, function (n) {
+      
+      return n.id === result;
     });
   }
 

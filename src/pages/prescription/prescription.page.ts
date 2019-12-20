@@ -1,3 +1,4 @@
+import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { LoadingService } from '../../app/services/loading.service';
@@ -19,9 +20,10 @@ export class PrescriptionPage implements OnInit {
 
   dataDespacho: any;
   idForRequest: any;
-  dataForView: any ;
+  dataForView: any;
   listProducts: any = [];
   dataListDesp: any = [];
+
 
   constructor(
     public mdlCtrl: ModalController,
@@ -40,7 +42,17 @@ export class PrescriptionPage implements OnInit {
     console.log(this.dataReceta, 'recetaaa');
     this.getDesp();
 
+
   }
+
+  // despachos() {
+  //   this.auth.getInfoProducts().subscribe((resultGetInfoProducts: any) => {
+  //     console.log();
+      
+
+  //     //console.log(this.dataForView, 'despachos detalles');
+  //   });
+  // }
 
   returnHome() {
     this.router.navigate(['home']);
@@ -65,12 +77,8 @@ export class PrescriptionPage implements OnInit {
   getDesp() {
     this.loadingCtrl.presentLoading();
     this.auth.getDesp(this.dataReceta.codRece).subscribe(searchPrescription => {
-      console.log(searchPrescription, 'Despachos');
-
       for (let index = 0; index < searchPrescription.length; index++) {
         this.dataDespacho = this.auth.convertStringToArrayOfObjects(searchPrescription[index].detalles);
-
-
         let datos = {
           fecha: new Date(searchPrescription[index].fecha),
           idReceta: searchPrescription[index].idReceta,
@@ -79,14 +87,25 @@ export class PrescriptionPage implements OnInit {
         }
         this.dataListDesp.push(datos)
       }
-
+      console.log(this.dataReceta.detalles, 'dat receta detalles');
+      
       this.idForRequest = this.removeSquareBracket(_.map(this.dataReceta.detalles, 'id'));
-     
+      console.log(this.idForRequest, 'dataaaa');
+      
+      //this.getInfoProductByListId(this.idForRequest, 'dataaa');
+      this.auth.getInfoProducts(this.idForRequest).subscribe((resultGetInfoProducts: any) => {
+        this.dataForView = resultGetInfoProducts;
+        if (this.dataDespacho) {
+          this.dataDespacho.map((item, index) => {
+            if (item.id == this.dataForView[index]._id) {
+              //console.log('mensaje data for view', this.dataForView[index]);
+              this.dataListDesp[index].detalles = this.dataForView[index];
+            }
+          });
+        }
 
-      this.getInfoProductByListId(this.idForRequest);
-     
-
-
+        console.log(this.dataListDesp, 'despachos pusheados');
+      });
       this.loadingCtrl.dismiss();
     }, (err) => {
       console.log(err, 'error despachos');
@@ -95,15 +114,14 @@ export class PrescriptionPage implements OnInit {
   }
 
   getInfoProductByListId(ids: any) {
-
-    //console.log(ids, 'idsssss');
-
     this.auth.getInfoProducts(ids).subscribe((resultGetInfoProducts: any) => {
       this.dataForView = resultGetInfoProducts;
 
+      //console.log(this.dataForView, 'despachos detalles');
     });
-   
   }
+
+
 
   removeSquareBracket(array: []) {
     let resultRemove = '';
@@ -112,4 +130,5 @@ export class PrescriptionPage implements OnInit {
     });
     return (resultRemove.slice(0, (resultRemove.length - 1)));
   }
+
 }

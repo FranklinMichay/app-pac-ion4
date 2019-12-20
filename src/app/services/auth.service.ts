@@ -140,6 +140,11 @@ export class AuthService {
     }
   }
 
+  verifyUser(data: any): Observable<any> {
+    console.log('verify user', data)
+    return this.httpClient.post<any>(this.url +  'paciente/verificaUser/', data);
+  }
+
   updateProfilePatient(data, id) {
 
     return this.httpClient.put<any>(this.url + 'paciente/updatePerfilPaciente/' + id + '/', data);
@@ -208,11 +213,14 @@ export class AuthService {
   }
 
   getDataAlerts() {
+    console.log(this.idPaciente, 'id paciente en rest');
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data: any) => {
+        
         if (data.estadoCita !== 'hold') {
-          if (data.paciente.id === this.user.id || data.paciente === this.user.id) {
+          if (data.paciente.id === this.idPaciente || data.paciente === this.idPaciente) {
             console.log(data, 'DATA SOCKET ALERTA');
+            
             observer.next(data);
           }
         }
@@ -225,7 +233,7 @@ export class AuthService {
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data: any) => {
         if (data.estadoCita !== 'hold') {
-          if (data.paciente.id === this.user.id || data.paciente === this.user.id) {
+          if (data.paciente.id === this.idPaciente || data.paciente === this.idPaciente) {
             console.log(data, 'DATA SOCKET LAST APPOINTMENT');
             observer.next(data);
           }
@@ -239,27 +247,28 @@ export class AuthService {
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data) => {
         
-        if (data.paciente === null || data.paciente === undefined
-          || data.medico === null || data.medico === undefined) {
-          if (_data.medico_id === data.medico || _data.medico_id === data.medico.id) {
-            if (_data.fecha === data.fecha) {
-              console.log(data, 'data socket if ');
+          if (data.paciente === null || data.paciente === undefined
+            || data.medico === null || data.medico === undefined) {
+            if (_data.medico_id === data.medico || _data.medico_id === data.medico.id) {
+              if (_data.fecha === data.fecha) {
+                console.log(data, 'data socket if ');
+                await this.getDayData(_data).then(d => {
+                  data.result = d;
+                });
+                observer.next(data);
+              }
+            }
+          } else {
+            if (data.medico.id === this.user.id || data.paciente.id === this.user.id
+              || _data.medico_id === data.medico.id) {
               await this.getDayData(_data).then(d => {
                 data.result = d;
               });
+              console.log(data, 'data socket else ');
               observer.next(data);
             }
           }
-        } else {
-          if (data.medico.id === this.user.id || data.paciente.id === this.user.id
-            || _data.medico_id === data.medico.id) {
-            await this.getDayData(_data).then(d => {
-              data.result = d;
-            });
-            console.log(data, 'data socket else ');
-            observer.next(data);
-          }
-        }
+        
       });
     });
     return observable;
@@ -353,6 +362,8 @@ export class AuthService {
   }
 
   getInfoProducts(ids: any): Observable<any> {
+    //console.log(ids);
+
     return this.httpClient.get<any>(this.urlMongoDB + 'inventario/listarInventarios/' + ids);
   }
 
@@ -362,9 +373,12 @@ export class AuthService {
     return JSON.parse(newJson);
   }
 
-
   getDesp(ids: any): Observable<any> {
     return this.httpClient.get<any>(this.urlMongoDB + 'despacho/searchDespa/' + ids);
   }
+
+  // despachos(ids: any): Observable<any> {
+  //   return this.httpClient.get<any>(this.urlMongoDB + 'despacho/searchDespa/' + ids);
+  // }
 
 }
