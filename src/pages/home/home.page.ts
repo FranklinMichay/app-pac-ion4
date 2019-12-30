@@ -86,7 +86,6 @@ export class HomePage implements OnInit {
       this.cita = cita;
       this.getDataPac();
       this.notification();
-
     }, (err) => {
       console.log(err, 'error getAlerts');
     });
@@ -134,6 +133,7 @@ export class HomePage implements OnInit {
             hora: this.cita.hora,
             motivo: ''
           },
+          sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
           smallIcon: 'res://drawable-hdpi/ic_launcher.png',
           icon: "res://drawable-hdpi/ic_launcher.png",
         });
@@ -152,6 +152,7 @@ export class HomePage implements OnInit {
           hora: this.cita.hora,
           motivo: this.cita.detalleCancelado
         },
+        sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
         smallIcon: 'res://drawable-hdpi/ic_launcher.png',
         icon: "res://drawable-hdpi/ic_launcher.png",
       });
