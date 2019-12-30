@@ -23,7 +23,7 @@ const config: SocketIoConfig = { url: environment.socketUrl };
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { ModalAcceptPostponedPage } from 'src/pages/modal-accept-postponed/modal-accept-postponed.page';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-import { AppMinimize } from '@ionic-native/app-minimize/ngx';
+// import { AppMinimize } from '@ionic-native/app-minimize/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 
 
@@ -60,7 +60,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
     ImagePicker,
     SplashScreen,
     BackgroundMode,
-    AppMinimize,
+    //AppMinimize,
     LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FileTransfer,

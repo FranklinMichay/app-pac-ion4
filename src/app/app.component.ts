@@ -22,7 +22,7 @@ export class AppComponent {
     private statusBar: StatusBar,
     private router: Router,
     private backgroundMode: BackgroundMode,
-    private appMinimize: AppMinimize
+    // private appMinimize: AppMinimize
   ) {
     this.initializeApp();
     
