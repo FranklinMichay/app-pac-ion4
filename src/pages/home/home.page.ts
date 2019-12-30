@@ -121,7 +121,6 @@ export class HomePage implements OnInit {
     if (this.cita.estadoCita === 'postponed') {
       this.localNotifications.schedule(
         {
-          foreground: true,
           id: this.cita.paciente.id,
           title: 'SU CITA FUE POSPUESTA',
           text:
@@ -136,10 +135,11 @@ export class HomePage implements OnInit {
           sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
           smallIcon: 'res://drawable-hdpi/ic_launcher.png',
           icon: "res://drawable-hdpi/ic_launcher.png",
+          foreground: true,
         });
     } else if (this.cita.estadoCita === 'canceled') {
       this.localNotifications.schedule({
-        foreground: true,
+        
         id: this.cita.paciente.id,
         title: 'SU CITA FUE CANCELADA',
         text:
@@ -155,6 +155,7 @@ export class HomePage implements OnInit {
         sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
         smallIcon: 'res://drawable-hdpi/ic_launcher.png',
         icon: "res://drawable-hdpi/ic_launcher.png",
+        foreground: true,
       });
     }
 
