@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { Socket } from 'ngx-socket-io';
 import { fn } from '@angular/compiler/src/output/output_ast';
 import { LocalNotifications, ILocalNotificationActionType } from '@ionic-native/local-notifications/ngx';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -47,6 +48,8 @@ export class HomePage implements OnInit {
   };
 
   cita: any;
+  worker: Subscription;
+  backButtonSubscription;
 
   constructor(
     public navCtrl: NavController,
@@ -60,7 +63,9 @@ export class HomePage implements OnInit {
     public menuControler: MenuController,
     public alertController: AlertController,
 
+
   ) {
+
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem('user'));
     this.imageUrl = this.dataUser.fotoPerfil;
@@ -71,61 +76,57 @@ export class HomePage implements OnInit {
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
 
+
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
       this.auth.removeListener('calendar');
     }
 
-    this.connection = this.auth.getLastAppointment().subscribe((cita: any) => {
-      this.getDataPac();
-    }, (err) => {
-      console.log(err, 'error last appointment');
-    });
-
     this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
       this.cita = cita;
+      this.getDataPac();
       this.notification();
+
     }, (err) => {
       console.log(err, 'error getAlerts');
     });
 
-    this.platform.ready().then((readySource) => {
-      this.localNotifications.on('click').subscribe(data => {
-        this.presentAlert(
-          'Médico:' + ' ' + data.data.medico + '<br>' +
-          'fecha:' + ' ' + data.data.fecha + '<br>' +
-          'hora:' + ' ' + data.data.hora + '<br>' +
-          'motivo:' + ' ' + data.data.motivo
-        );
-      });
+
+    this.clickSub = this.localNotifications.on('click').subscribe(data => {
+      this.presentAlert(
+        'Médico:' + ' ' + data.data.medico + '<br>' +
+        'fecha:' + ' ' + data.data.fecha + '<br>' +
+        'hora:' + ' ' + data.data.hora + '<br>' +
+        'motivo:' + ' ' + data.data.motivo
+      );
+      //this.unsub();
     });
   }
 
   ngOnInit() {
-    
+
   }
 
-  upBackgroundMode() {
-    this.platform.ready().then(() => {
-      this.backgroundMode.setDefaults({ silent: true });
-      this.backgroundMode.enable();
-      if (this.platform.is("android")) {
-        this.backgroundMode.on('activate').subscribe(() => {
-          this.backgroundMode.disableWebViewOptimizations();
-          this.notification();
-        });
-      }
-    })
+  ionViewWillEnter() {
+    // this.backButtonSubscription = this.platform.backButton.subscribe(async () => {
+    //   navigator['app'].exitApp();
+    // });
+  }
+
+  ionViewDidLeave() {
+    // this.backButtonSubscription.unsubscribe();
   }
 
   notification() {
+
     if (this.cita.estadoCita === 'postponed') {
       this.localNotifications.schedule(
         {
+          foreground: true,
           id: this.cita.paciente.id,
           title: 'SU CITA FUE POSPUESTA',
           text:
-            'Fecha: ' + ' ' + this.cita.fecha
+            'Fecha: ' + ' ' + this.cita.fecha + '\n'
             + 'hora:' + ' ' + this.cita.hora,
           data: {
             medico: this.cita.medico.priNombre + ' ' + this.cita.medico.priApellido,
@@ -133,12 +134,12 @@ export class HomePage implements OnInit {
             hora: this.cita.hora,
             motivo: ''
           },
-          sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
           smallIcon: 'res://drawable-hdpi/ic_launcher.png',
           icon: "res://drawable-hdpi/ic_launcher.png",
         });
     } else if (this.cita.estadoCita === 'canceled') {
       this.localNotifications.schedule({
+        foreground: true,
         id: this.cita.paciente.id,
         title: 'SU CITA FUE CANCELADA',
         text:
@@ -151,11 +152,11 @@ export class HomePage implements OnInit {
           hora: this.cita.hora,
           motivo: this.cita.detalleCancelado
         },
-        sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
         smallIcon: 'res://drawable-hdpi/ic_launcher.png',
         icon: "res://drawable-hdpi/ic_launcher.png",
       });
     }
+
   }
 
   async presentAlert(data) {
@@ -190,16 +191,7 @@ export class HomePage implements OnInit {
       var citaByDate = _.filter(cita, { "fecha": fecha });
       this.dataHome = _.first(citaByDate);
       console.log(this.dataHome, 'ultima cita agendada');
-      // if (this.connection !== undefined) {
-      //   this.connection.unsubscribe();
-      //   this.auth.removeListener('calendar');
-      // }
-      // this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
-      //   this.cita = cita;
-      //   this.notification();
-      // }, (err) => {
-      //   console.log(err, 'error getAlerts');
-      // });
+
     }, (err) => {
       console.log(err, 'error ultima cita');
     });
@@ -222,13 +214,20 @@ export class HomePage implements OnInit {
   }
 
   logout() {
+    this.connection.unsubscribe();
+    this.auth.removeListener('calendar');
     localStorage.removeItem('user');
+    this.unsub();
     this.router.navigate(['login']);
-    if (this.connection !== undefined) {
-      this.connection.unsubscribe();
-      this.auth.removeListener('calendar');
-    }
+
+
   }
+
+  // OnDestroy() {
+  //   this.connection.unsubscribe();
+  //   this.auth.removeListener('calendar');
+
+  // }
 
 
 

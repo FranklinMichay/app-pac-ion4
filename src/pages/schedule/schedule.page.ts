@@ -14,7 +14,7 @@ import { DataService } from 'src/app/services/data.service';
   templateUrl: './schedule.page.html',
   styleUrls: ['./schedule.page.scss'],
 })
-export class SchedulePage implements OnInit, OnDestroy {
+export class SchedulePage implements OnInit {
 
   monthLabel: string;
   todayLabel: any;
@@ -97,9 +97,11 @@ export class SchedulePage implements OnInit, OnDestroy {
   
   }
 
-  ngOnDestroy() {
-    this.connection.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.connection.unsubscribe();
+  //   this.auth.removeListener('calendar');
+    
+  // }
 
   returnHome() {
     this.router.navigate(['home']);

@@ -98,7 +98,6 @@ export class LoginPage implements OnInit {
   }
 
   getIdPaciente(token) {
-    this.loadingCtrl.presentLoading();
     this.auth.obtenerId(this.form_login.value, token)
       .subscribe(access => {
         console.log(access, 'Info acceso del servidor...!!!');
@@ -107,7 +106,6 @@ export class LoginPage implements OnInit {
         } else {
           console.log(access, 'Error al acceder al servidor');
         }
-        this.loadingCtrl.dismiss();
       });
   }
 

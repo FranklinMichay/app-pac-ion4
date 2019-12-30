@@ -79,9 +79,13 @@
             <form [formGroup]="slideTwoForm">
                 <ion-list>
                     <ion-item>
-                        <ion-icon name="photos" slot="start"></ion-icon>
-                        <ion-input type="file" accept="image/*" (change)="changeListener($event)">
-                        </ion-input>
+                        <label for="file-upload" class="subir">
+                            <i class="fas fa-cloud-upload-alt"></i> Subir Foto
+                        </label>
+                        <input id="file-upload" (change)="changeListener($event)" type="file" style='display: none;' />
+                        <!-- <ion-icon name="photos" slot="start"></ion-icon>
+                        <ion-input type="file" accept="image/*" (change)="changeListener($event)"> -->
+                        <!-- </ion-input> -->
                     </ion-item>
 
                     <ion-item>

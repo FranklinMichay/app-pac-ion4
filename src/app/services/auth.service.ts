@@ -59,6 +59,7 @@ export class AuthService {
   }
 
   removeListener(name) {
+    console.log(name, 'eliminado');
     this.socket.off(name);
   }
 
@@ -213,7 +214,10 @@ export class AuthService {
   }
 
   getDataAlerts() {
-    console.log(this.idPaciente, 'id paciente en rest');
+    this.user = JSON.parse(localStorage.getItem('user'));
+    if (this.user) {
+      this.idPaciente = this.user.id;
+    }
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data: any) => {
         

@@ -68,9 +68,10 @@ export class SearchMedicPage implements OnInit {
   paramsForRequest: any = {};
   imageMedic: any;
   fotoPerfil: any;
-  dataPaciente: any
+  dataPaciente: any;
   medicByCity: any;
-
+  medicsFav: any = [];
+  medicsFavorites: any = [];
   url: any;
 
   // filterText: any;
@@ -107,7 +108,8 @@ export class SearchMedicPage implements OnInit {
   }
 
   ngOnInit() {
-
+    // this.medicsFav = JSON.parse(sessionStorage.getItem('medics'));
+    // console.log(this.medicsFav, 'medicos favoritos');
 
     //this.getDataList();
   }
@@ -327,6 +329,25 @@ export class SearchMedicPage implements OnInit {
     console.log(medic, 'DATOS DEL MEDICO SELECCIONADO');
     this.dataService.dataMedic = medic;
     this.router.navigate(['profile-medic']);
+    // debugger;
+    // this.medicsFavorites = [];
+    // this.medicsFavorites.push(JSON.parse(sessionStorage.getItem('medics')));
+    // console.log(this.medicsFavorites, 'medicossss');
+    // if (!this.medicsFavorites) {
+    //   sessionStorage.setItem('medics', JSON.stringify(medic));
+      
+    // } else {
+    //   this.medicsFavorites.filter((x: any) => {
+    //     if (x.id === medic.id) {
+    //       console.log();
+    //     } else {
+    //       this.medicsFavorites.push(medic);
+    //     }
+    //   });
+    //   console.log(this.medicsFavorites, 'lo del filter');
+    //   sessionStorage.setItem('medics', JSON.stringify(this.medicsFavorites));
+    // }
+    
   }
 
   medicsByCity() {
