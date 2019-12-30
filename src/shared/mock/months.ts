@@ -19,11 +19,12 @@ export const Info = {
     { detail: '19:00:00', state: 'No Disponible', color: 'rgb(197, 61, 61)' },
     { detail: '20:00:00', state: 'No Disponible', color: 'rgb(197, 61, 61)' }],
   categories: [
-    
-    { name: 'MIS RECETAS', logo: 'assets/icon/agenda.svg', text: 'Listado de recetas.', component: 'prescription-detail' },
-    { name: 'MIS CITAS', logo: 'assets/icon/citas.svg', text: 'Listado de tus citas agendadas.', component: 'meetings' },
-    //{ name: 'RECETAS', logo: 'assets/icon/receta.svg', text: 'Medicamentos recetados' },
+
     { name: 'MÉDICOS', logo: 'assets/icon/medic.svg', text: 'Agendamiento de citas.', component: 'search-medic' },
+    { name: 'MIS CITAS', logo: 'assets/icon/citas.svg', text: 'Listado de tus citas agendadas.', component: 'meetings' },
+    { name: 'MIS RECETAS', logo: 'assets/icon/agenda.svg', text: 'Listado de recetas.', component: 'prescription-detail' },
+
+    //{ name: 'RECETAS', logo: 'assets/icon/receta.svg', text: 'Medicamentos recetados' },
     { name: 'MIS DATOS', logo: 'assets/icon/receta.svg', text: 'Tu información personal', component: 'profile' }
     /* {name: 'Médicos', logo: 'https://englishlive.ef.com/es-mx/blog/wp-content/uploads/sites/8/2018/09/Vocabulario-en-ingl%C3%A9s-que-todo-m%C3%A9dico-debe-conocer.jpg', component: SearchMedicPage},
     {name: 'Especialidades', logo: 'https://eldiariodesalud.com/sites/default/files/inline-images/58-mejores-hospitales-clinicas-latinoamerica-23-hospitales-colombia-ranking.jpg', component: SpecialtiesPage},
