@@ -60,14 +60,10 @@
         </ion-item-options>
 
     </ion-item-sliding>
-
-
-
-
     <div class="form-group required" *ngIf="currentTab === 'step1'">
         <div class="container">
-            <ion-grid *ngIf="accepted">
-                <ion-row *ngFor="let val of accepted" class="row-container" (click)="goToDetails(val, 'Aceptada', false)">
+            <ion-grid *ngIf="acceptedMeetings">
+                <ion-row *ngFor="let val of acceptedMeetings" class="row-container" (click)="goToDetails(val, 'Aceptada', false)">
                     <ion-col size="3" class="state">
                         <img class="image" *ngIf="val.medico.fotoPerfil" [src]="val.medico.fotoPerfil">
                         <img class="image" *ngIf="!val.medico.fotoPerfil" src="assets/imgs/doctor.png">
@@ -76,11 +72,14 @@
                         <ion-row>
                             <ion-col size="12">
                                 <span class="label-up">
-                                    {{val.medico.priNombre}} &nbsp; {{val.medico.priApellido}}
+                                    Dr. {{val.medico.priNombre}} &nbsp; {{val.medico.priApellido}}
                                 </span>
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{val.fecha}} &#8212;&nbsp;{{val.hora}}
+                            </ion-col>
+                            <ion-col size="12" class="detail">
+                                {{val.medico.especialidad.nombre}}
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{val.centroMedico.nombre}}
@@ -92,7 +91,7 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <div *ngIf="!accepted || accepted.length == 0" class="empty-container">
+            <div *ngIf="!acceptedMeetings || acceptedMeetings.length == 0" class="empty-container">
                 <img src="assets/imgs/no-datos.png" class="empty-state">
                 <h3 class="text-center">Sin Contenido</h3>
             </div>
@@ -101,8 +100,8 @@
 
     <div class="form-group required" *ngIf="currentTab === 'step2'">
         <div class="container">
-            <ion-grid *ngIf="news">
-                <ion-row *ngFor="let cita of news" class="row-container" (click)="goToDetails(cita, 'Cancelada', false)">
+            <ion-grid *ngIf="newMeetings">
+                <ion-row *ngFor="let cita of newMeetings" class="row-container" (click)="goToDetails(cita, 'Cancelada', false)">
                     <ion-col size="3" class="state">
                         <img class="image" *ngIf="cita.medico.fotoPerfil" [src]="cita.medico.fotoPerfil">
                         <img class="image" *ngIf="!cita.medico.fotoPerfil" src="assets/imgs/doctor.png">
@@ -111,11 +110,14 @@
                         <ion-row>
                             <ion-col size="12">
                                 <span class="label-up">
-                                    {{cita.medico.priNombre}} &nbsp; {{cita.medico.priApellido}}
+                                    Dr. {{cita.medico.priNombre}} &nbsp; {{cita.medico.priApellido}}
                                 </span>
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{cita.fecha}} &#8212;&nbsp;{{cita.hora}}
+                            </ion-col>
+                            <ion-col size="12" class="detail">
+                                {{cita.medico.especialidad.nombre}}
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{cita.centroMedico.nombre}}
@@ -128,7 +130,7 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <div *ngIf="!news || news.length == 0 " class="empty-container">
+            <div *ngIf="!newMeetings || newMeetings.length == 0 " class="empty-container">
                 <img src="assets/imgs/no-datos.png" class="empty-state">
                 <h3 class="text-center">Sin Contenido</h3>
             </div>
@@ -138,8 +140,8 @@
 
     <div class="form-group required" *ngIf="currentTab === 'step3'">
         <div class="container">
-            <ion-grid *ngIf="postponed">
-                <ion-row *ngFor="let v of postponed" class="row-container" (click)="goToDetails(v, 'Pospuesta', true)">
+            <ion-grid *ngIf="postponedMeetings">
+                <ion-row *ngFor="let v of postponedMeetings" class="row-container" (click)="goToDetails(v, 'Pospuesta', true)">
                     <ion-col size="3" class="state">
                         <img class="image" *ngIf="v.medico.fotoPerfil" [src]="v.medico.fotoPerfil">
                         <img class="image" *ngIf="!v.medico.fotoPerfil" src="assets/imgs/doctor.png">
@@ -148,11 +150,14 @@
                         <ion-row>
                             <ion-col size="12">
                                 <span class="label-up">
-                                    {{v.medico.priNombre}} &nbsp; {{v.medico.priApellido}}
+                                   Dr. {{v.medico.priNombre}} &nbsp; {{v.medico.priApellido}}
                                 </span>
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{v.fecha}} &#8212;&nbsp;{{v.hora}}
+                            </ion-col>
+                            <ion-col size="12" class="detail">
+                                {{v.medico.especialidad.nombre}}
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{v.centroMedico.nombre}}
@@ -164,7 +169,7 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <div *ngIf="!postponed || postponed.length == 0 " class="empty-container">
+            <div *ngIf="!postponedMeetings || postponedMeetings.length == 0 " class="empty-container">
                 <img src="assets/imgs/no-datos.png" class="empty-state">
                 <h3 class="text-center">Sin Contenido</h3>
             </div>

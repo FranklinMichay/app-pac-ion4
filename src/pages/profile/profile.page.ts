@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 export class ProfilePage implements OnInit {
 
   data: any
+  timeDiff: any;
 
   constructor(
     private router: Router,
@@ -25,5 +26,6 @@ export class ProfilePage implements OnInit {
   goEditProfile() {
     this.router.navigate(['edit-profile'], { state: this.data });
   }
+
 
 }

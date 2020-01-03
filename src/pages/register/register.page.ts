@@ -61,9 +61,10 @@ export class RegisterPage implements OnInit {
   ) {
 
     this.slideOneForm = fb.group({
-
       priNombre: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      segNombre: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       priApellido: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      segApellido: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       email: ['', [Validators.email, Validators.required]],
       password: ['', Validators.required],
       identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
@@ -75,6 +76,7 @@ export class RegisterPage implements OnInit {
       //identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
       telefonoCelular: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
       ciudad: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      fechaNaci: ['', Validators.required],
 
     });
   }
@@ -129,27 +131,12 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  // imageCaptured() {
-  //   this.loadingCtrl.presentLoading();
-  //   const options: CameraOptions = {
-  //     quality: 70,
-  //     destinationType: this.camera.DestinationType.DATA_URL,
-  //     encodingType: this.camera.EncodingType.JPEG,
-  //     mediaType: this.camera.MediaType.PICTURE
-  //   }
-  //   this.camera.getPicture(options).then((ImageData => {
-  //     this.file = ImageData;
-  //     this.loadingCtrl.dismiss();
-  //   }), error => {
-  //     console.log(error);
-  //     this.loadingCtrl.dismiss()
-  //   })
-  // }
-
   onSubmit() {
     const {
       priNombre,
+      segNombre,
       priApellido,
+      segApellido,
       email,
       password,
       identificacion
@@ -164,12 +151,14 @@ export class RegisterPage implements OnInit {
       identificacion: identificacion,
     }
 
+    const fechaNac = new Date(this.slideTwoForm.value.fechaNaci).toISOString().slice(0, 10);
+    const edad = this.getEdad(fechaNac);
+
     const _dataVerify = {
       email: email,
       cedula: identificacion,
     }
     this.auth.verifyUser(_dataVerify).subscribe(verification => {
-
       if (verification.result === 'error') {
         this.presentToast();
       } else if (verification.result === 'success') {
@@ -188,11 +177,14 @@ export class RegisterPage implements OnInit {
               }
             )
             this.formData.append('user', data1[0].id);
-
+            this.formData.append('fechaNaci', fechaNac);
+            this.formData.append('edad', String(edad));
             this.auth.registerPaciente(this.formData).subscribe(data2 => {
               this.auth.getInfoPac(data1[0].id).subscribe(data3 => {
 
                 localStorage.setItem('user', JSON.stringify(data3[0]));
+                this.slideOneForm.reset();
+                this.slideTwoForm.reset();
                 this.router.navigate(['home']);
               })
             })
@@ -200,7 +192,7 @@ export class RegisterPage implements OnInit {
         }, (err) => {
           console.log(err, 'error en registro');
         });
-        
+
       }
 
     }, (err) => {
@@ -212,6 +204,19 @@ export class RegisterPage implements OnInit {
     this.router.navigate(['login']);
   }
 
+  getEdad(dateString) {
+    var hoy = new Date()
+    var fechaNacimiento = new Date(dateString)
+    var edad = hoy.getFullYear() - fechaNacimiento.getFullYear()
+    var diferenciaMeses = hoy.getMonth() - fechaNacimiento.getMonth()
+    if (
+      diferenciaMeses < 0 ||
+      (diferenciaMeses === 0 && hoy.getDate() < fechaNacimiento.getDate())
+    ) {
+      edad--
+    }
+    return edad
+  }
 
   async presentToast() {
     const toast = await this.tc.create({

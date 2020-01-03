@@ -81,12 +81,14 @@ export class PrescriptionDetailPage implements OnInit {
           datosPac:  this.datosPaciente,
           detalles: this.dataReceta,
           indicaciones: this.dataIndicaciones,
-          fecha: new Date(searchPrescription[index].fecha),
+          fecha: searchPrescription[index].fecha,
           codRece: searchPrescription[index].codiRece,
         }
         this.dataMedic.push( datos  )
       }
       console.log(this.dataMedic, 'dataaaaa medicccc');
+      
+      
 
       // this.datosMedico = this.auth.convertStringToArrayOfObjects(searchPrescription.datosMedico);
       // console.log(this.datosMedico, 'dta medico');
@@ -101,6 +103,7 @@ export class PrescriptionDetailPage implements OnInit {
       this.loadingCtrl.dismiss();
     }, (err) => {
       console.log(err, 'error recetas');
+
       this.loadingCtrl.dismiss();
     });
   }

@@ -146,6 +146,11 @@ export class AuthService {
     return this.httpClient.post<any>(this.url +  'paciente/verificaUser/', data);
   }
 
+  verifyUserEmail(data: any): Observable<any> {
+    console.log('verify user email', data)
+    return this.httpClient.post<any>(this.url +  'paciente/verificaUserEmail/', data);
+  }
+
   updateProfilePatient(data, id) {
 
     return this.httpClient.put<any>(this.url + 'paciente/updatePerfilPaciente/' + id + '/', data);
@@ -314,19 +319,33 @@ export class AuthService {
         });
     });
   }
+  getMeetingAccepted(data) {
+    const resource = `agenda/getData?model=Agenda&params=paciente_id=${data.idPaciente},estadoCita=accepted,fecha=${data.fecha}`;
+    return this.httpClient.get<any>(this.url + resource);
+  }
 
   getDataPostponed(data) {
-    console.log(data, ' for send');
-    return new Promise((resolve, reject) => {
-      this.httpClient.get(this.url + this.urlGetInfo + 'estadoCita=postponed,paciente_id=' + data)
-        .subscribe(res => {
-          console.log(res, 'data pospuestas');
-          resolve(res);
-        }, (err) => {
-          reject(err);
-        });
-    });
+    const resource = `agenda/getData?model=Agenda&params=paciente_id=${data.idPaciente},estadoCita=postponed,fecha=${data.fecha}`;
+    return this.httpClient.get<any>(this.url + resource);
   }
+
+  getDataCanceled(data) {
+    const resource = `agenda/getData?model=Agenda&params=paciente_id=${data.idPaciente},estadoCita=canceled,fecha=${data.fecha}`;
+    return this.httpClient.get<any>(this.url + resource);
+  }
+
+  // getDataPostponed(data) {
+  //   console.log(data, ' for send');
+  //   return new Promise((resolve, reject) => {
+  //     this.httpClient.get(this.url + this.urlGetInfo + 'estadoCita=postponed,paciente_id=' + data)
+  //       .subscribe(res => {
+  //         console.log(res, 'data pospuestas');
+  //         resolve(res);
+  //       }, (err) => {
+  //         reject(err);
+  //       });
+  //   });
+  // }
 
   getMeetingData(idPaciente): Observable<any> {
     return this.httpClient.get<any>(this.url + this.urlGetInfo + 'estadoCita=accepted,paciente_id=' + idPaciente);

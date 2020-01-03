@@ -50,6 +50,8 @@ export class HomePage implements OnInit {
   cita: any;
   worker: Subscription;
   backButtonSubscription;
+  hora: any;
+  fecha: any;
 
   constructor(
     public navCtrl: NavController,
@@ -65,18 +67,15 @@ export class HomePage implements OnInit {
 
 
   ) {
-
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem('user'));
     this.imageUrl = this.dataUser.fotoPerfil;
     this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
-    this.getDataPac();
+
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
-
-
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
       this.auth.removeListener('calendar');
@@ -90,7 +89,6 @@ export class HomePage implements OnInit {
       console.log(err, 'error getAlerts');
     });
 
-
     this.clickSub = this.localNotifications.on('click').subscribe(data => {
       this.presentAlert(
         'Médico:' + ' ' + data.data.medico + '<br>' +
@@ -103,7 +101,14 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-
+    let now = new Date();
+    this.fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
+    let h = new Date().getHours();
+    let min = new Date().getMinutes();
+    let seg = new Date().getSeconds();
+    this.hora = h + ':' + min + ':' + seg;
+    console.log(this.fecha, this.hora, 'hora y fecha');
+    this.getDataPac();
   }
 
   ionViewWillEnter() {
@@ -139,7 +144,7 @@ export class HomePage implements OnInit {
         });
     } else if (this.cita.estadoCita === 'canceled') {
       this.localNotifications.schedule({
-        
+
         id: this.cita.paciente.id,
         title: 'SU CITA FUE CANCELADA',
         text:
@@ -187,10 +192,9 @@ export class HomePage implements OnInit {
   getDataPac() {
     const user = JSON.parse(localStorage.getItem('user'));
     const idPaciente = user ? user.id : null;
+   
     this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
-      let now = new Date();
-      let fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
-      var citaByDate = _.filter(cita, { "fecha": fecha });
+      var citaByDate = _.filter(cita, { "fecha": this.fecha }, {"hora": this.hora});
       this.dataHome = _.first(citaByDate);
       console.log(this.dataHome, 'ultima cita agendada');
 

@@ -20,14 +20,16 @@
 
 p.validator {
     color: red;
-    margin-left: -30%;
+    font-size: 12px;
+    text-align: left;
+    //margin-left: -30%;
     // padding: -3px 0px -12px 1px;
     // margin-top: auto;
     // margin-bottom: auto;
 }
 
 .subir {
-    padding: 5px 10px;
+    padding: 10px 10px;
     background: lightcoral;
     color: #fff;
     border: 0px solid #fff;
@@ -37,11 +39,18 @@ p.validator {
     border-radius: 6px;
     width: 100%;
     text-align: center;
+    margin-top: 2%;
+    height: 40px;
 }
 
 .subir:hover {
     color: #fff;
     background: #f7cb15;
+    margin-top: 3%;
+}
+
+.radio-btn {
+    background-color: rgb(233, 233, 233);
 }
 
 .go-login {
@@ -76,18 +85,6 @@ p.validator {
     text-align: center;
 }
 
-// .password {
-//     width: 90%;
-//     height: 55px;
-//     font-size: 17px;
-//     border-radius: 3px;
-//     background-color: rgb(233, 233, 233);
-//     margin-top: 5%;
-//     font-weight: 500;
-//     margin-left: auto;
-//     margin-right: auto;
-//     display: flex;
-// }
 .icon-pass {
     font-size: 3rem !important;
     margin: 0 auto !important;
@@ -176,10 +173,22 @@ p.validator {
     margin-top: 20%;
 }
 
+.best-results {
+    font-family: Poppins;
+    font-size: 18px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: darkgreen;
+    margin-top: 5%;
+}
+
 .mail {
-    width: 90%;
-    height: 55px;
-    font-size: 17px;
+    width: 100%;
+    height: 40px;
+    font-size: 15px;
     border-radius: 3px;
     font-weight: 500;
     background-color: rgb(233, 233, 233);
@@ -191,8 +200,8 @@ p.validator {
 }
 
 .password {
-    width: 90%;
-    height: 55px;
+    width: 100%;
+    height: 40px;
     font-size: 17px;
     border-radius: 3px;
     background-color: rgb(233, 233, 233);
@@ -208,9 +217,10 @@ form {
 }
 
 .passwordIcon {
-    top: 15px !important;
-    right: 2%;
+    top: 10px !important;
+    right: 30%;
     position: absolute;
+    font-size: larger;
 }
 
 .pass {
@@ -252,21 +262,6 @@ form {
     background-color: rgb(233, 233, 233);
 }
 
-.input-pass {
-    height: initial;
-    background: transparent;
-    border: 0px solid;
-    margin-top: 5%;
-    font-family: Poppins;
-    font-weight: 800;
-}
-
-// .passwordIcon {
-//     font-size: 3rem !important;
-//     position: relative !important;
-//     top: 11px !important;
-//     margin: 0 auto !important;
-// }
 .register {
     width: 90%;
     height: 50px;

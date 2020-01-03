@@ -34,11 +34,11 @@
     <div>
         <button class="label-content ">
             <ion-row>
-                <button class="state " *ngIf="state "> {{state}} </button>
+                <button class="state" *ngIf="state "> {{state}} </button>
         <ion-col class="name " size="12 ">
-            Cita médica con &nbsp;{{ medic.medico.priNombre }}&nbsp;{{ medic.medico.priApellido }}
+            Cita médica con &nbsp; Dr. {{ medic.medico.priNombre }}&nbsp;{{ medic.medico.priApellido }}
         </ion-col>
-        <ion-col *ngIf="medic.estadoCita === 'canceled'" class="name " size="12 ">
+        <ion-col *ngIf="medic.estadoCita === 'canceled'" class="detail" size="12 ">
             Motivo: &nbsp;{{ medic.detalleCancelado }}
         </ion-col>
         <ion-col class="fecha " size="12 ">

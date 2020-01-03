@@ -47,6 +47,7 @@ export class SchedulePage implements OnInit {
     currentDate: new Date()
   }
   idMed: any
+  hora: any;
 
   constructor(
     private router: Router,
@@ -93,14 +94,19 @@ export class SchedulePage implements OnInit {
     };
     this.disableBack(year, month, day);
     this.getDataDay(formatDate(this.today, 'yyyy-MM-dd', 'en-US'));
+    let h = new Date().getHours();
+    let min = new Date().getMinutes();
+    let seg = new Date().getSeconds();
+    this.hora = h + ':' + min + ':' + seg;
+    console.log(this.hora, 'hora normal ');
+    console.log(this.hora.toString(), 'hora para shedule string');
 
-  
   }
 
   // ngOnDestroy() {
   //   this.connection.unsubscribe();
   //   this.auth.removeListener('calendar');
-    
+
   // }
 
   returnHome() {
@@ -158,11 +164,11 @@ export class SchedulePage implements OnInit {
   getDataDay(date) {
     this.loadingCtrl.presentLoading();
     this.hoursAvailable = [];
-    console.log(this.medic, 'verificar id');
     let url = 'estadoAgenda=available,estadoCita=hold,fecha=' + date + ',medico_id=' + this.medic.id;
     this.auth.getByUrlCustom(url).subscribe((result: any) => {
-      console.log(result, 'data del dia');
-      this.hoursAvailable = result;
+      console.log(result, 'citas del dia');
+      this.hoursAvailable = result.filter(word => word.hora >= this.hora);
+      console.log(this.hoursAvailable, 'citas con hora actual');
       this.loadingCtrl.dismiss();
       const _info = {
         medico_id: this.medic.id,
@@ -174,7 +180,7 @@ export class SchedulePage implements OnInit {
         this.auth.removeListener('calendar');
       }
       this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
-        console.log(result, 'agenda from api in day');
+        console.log(result, 'citas del dia socket');
         if (result.estadoCita === 'accepted') {
           this.deleteHourDay(result.hora);
         } else if (result.estadoCita === 'hold') {
@@ -188,14 +194,13 @@ export class SchedulePage implements OnInit {
   }
 
   controlExpressShedule(data) {
-    if (data.estadoAgenda === 'available') {
+    if (data.estadoAgenda === 'available' && data.hora >= this.hora) {
       this.hoursAvailable.push(data);
       this.hoursAvailable = _.uniqBy(this.hoursAvailable, function (d) {
         return d.hora;
       });
       this.hoursAvailable = _.orderBy(this.hoursAvailable, ['hora'], ['asc']);
     } else if (data.estadoAgenda === 'unavailable') {
-      console.log('unavailable');
       this.deleteHourDay(data.hora);
     }
   }
@@ -339,6 +344,6 @@ export class SchedulePage implements OnInit {
     });
   }
 
-  
+
 
 }

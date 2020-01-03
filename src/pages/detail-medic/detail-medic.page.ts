@@ -34,6 +34,9 @@ export class DetailMedicPage implements OnInit {
     this.medic = this.router.getCurrentNavigation().extras.state;
     
     this.state = this.route.snapshot.paramMap.get('state')
+    // if (this.state === 'canceled') {
+    //   classList.add("bg-sunday");
+    // }
     this.posponed = this.route.snapshot.paramMap.get('posponed')
     console.log(this.posponed,'postponed');
     
