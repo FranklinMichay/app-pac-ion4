@@ -94,12 +94,13 @@ export class SchedulePage implements OnInit {
     };
     this.disableBack(year, month, day);
     this.getDataDay(formatDate(this.today, 'yyyy-MM-dd', 'en-US'));
-    let h = new Date().getHours();
-    let min = new Date().getMinutes();
-    let seg = new Date().getSeconds();
-    this.hora = h + ':' + min + ':' + seg;
-    console.log(this.hora, 'hora normal ');
-    console.log(this.hora.toString(), 'hora para shedule string');
+    var hora = ('0' + new Date().getHours()).substr(-2);
+    var min = ('0' + new Date().getMinutes()).substr(-2);
+    var seg = ('0' + new Date().getSeconds()).substr(-2);
+    this.hora = hora + ':' + min + ':' + seg;
+    console.log(this.hora, 'hora para actual');
+
+
 
   }
 
@@ -111,6 +112,10 @@ export class SchedulePage implements OnInit {
 
   returnHome() {
     this.router.navigate(['home']);
+  }
+
+  addZeroBefore(n) {
+    return (n < 10 ? '0' : '') + n;
   }
 
   showCalendar(year, month) {
@@ -167,7 +172,9 @@ export class SchedulePage implements OnInit {
     let url = 'estadoAgenda=available,estadoCita=hold,fecha=' + date + ',medico_id=' + this.medic.id;
     this.auth.getByUrlCustom(url).subscribe((result: any) => {
       console.log(result, 'citas del dia');
-      this.hoursAvailable = result.filter(word => word.hora >= this.hora);
+      this.hoursAvailable = _.filter(result, item => item.hora >= this.hora);
+      //this.hoursAvailable = result.filter(word => word.hora >= this.hora.toString());
+
       console.log(this.hoursAvailable, 'citas con hora actual');
       this.loadingCtrl.dismiss();
       const _info = {

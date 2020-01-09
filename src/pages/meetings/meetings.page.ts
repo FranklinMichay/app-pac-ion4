@@ -1,6 +1,6 @@
 import { Router, ActivatedRoute } from '@angular/router';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { AlertController } from '@ionic/angular';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { AlertController, IonSlides } from '@ionic/angular';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { Info } from '../../shared/mock/months';
 import * as _ from 'lodash';
@@ -17,7 +17,7 @@ import { formatDate } from '@angular/common';
 })
 export class MeetingsPage implements OnInit {
 
-
+  @ViewChild('slider', { static: true }) slider: IonSlides;
   newMeetings: any;
   acceptedMeetings: any;
   currentTab: string = 'step1';
@@ -50,6 +50,9 @@ export class MeetingsPage implements OnInit {
   dataDelete: any;
   url: any;
 
+  numbers = [-1, 0, 1, 2];
+  firstLoad = true;
+
   daysWeek = [
     { label: 'Dom.', selected: false, day: '' },
     { label: 'Lun.', selected: true, day: '' },
@@ -58,6 +61,10 @@ export class MeetingsPage implements OnInit {
     { label: 'Jue.', selected: false, day: '' },
     { label: 'Vie.', selected: false, day: '' },
     { label: 'Sab.', selected: false, day: '' }];
+
+  slideOpts = {
+    initialSlide: 0
+  };
 
   constructor(
     private router: Router,
@@ -87,7 +94,30 @@ export class MeetingsPage implements OnInit {
       this.auth.removeListener('calendar');
     }
 
-
+    if (this.connection !== undefined) {
+      this.connection.unsubscribe();
+      this.auth.removeListener('calendar');
+    }
+    this.connection = this.auth.getLastAppointment().subscribe((result: any) => {
+      if (result.medico.fotoPerfil[0] !== 'h') {
+        let foto = this.url + result.medico.fotoPerfil;
+        result.medico.fotoPerfil = foto;
+      }
+      console.log(result, 'cita para pushear');
+      if (result.estadoCita === 'accepted') {
+        this.acceptedMeetings.push(result);
+      } else if (result.estadoCita === 'canceled') {
+        this.newMeetings.push(result);
+        this.removeData(result.id);
+      } else if (result.estadoCita === 'postponed') {
+        this.postponedMeetings.push(result);
+        this.removeData(result.id);
+        this.changeDay(this.day)
+      }
+    }, (err) => {
+      console.log(err, 'errores');
+      console.log(err);
+    });
   }
 
   ngOnInit() {
@@ -95,7 +125,10 @@ export class MeetingsPage implements OnInit {
     //this.getAllData(this.idPaciente);
     //this.changeDay(this.day)
     const currentDate = this.getCurrentDate(this.day);
+    console.log(currentDate, 'current date');
+
     this.getData(currentDate);
+    this.slider.slideTo(1, 0, false);
   }
 
   ionViewWillEnter() {
@@ -115,9 +148,45 @@ export class MeetingsPage implements OnInit {
         this.dataService.idAcceptPosponed = {}
       }
     }
+    const currentDate = this.getCurrentDate(this.day);
+    console.log(currentDate, 'current date');
+    this.getData(currentDate);
+  }
+
+  nextSlide() {
+    let newIndex;
+    if (this.firstLoad) {
+      this.firstLoad = false;
+      return;
+    }
+    this.slider.getActiveIndex().then((index) => {
+      newIndex = index;
+      console.log(newIndex, 'active index next');
+      newIndex--;
+      this.numbers.push(this.numbers[this.numbers.length - 1] + 1);
+      this.numbers.shift();
+      this.slider.slideTo(newIndex, 0, false);
+      console.log(`New status: ${this.numbers}`);
+    });
+  }
+
+  prevSlide() {
+
+    let newIndex;
+    this.slider.getActiveIndex().then((index) => {
+      newIndex = index;
+      console.log(newIndex, 'active index prev');
+      newIndex++;
+      this.numbers.unshift(this.numbers[0] - 1);
+      console.log(this.numbers.unshift(this.numbers[0] - 1), 'unshift');
+      this.numbers.pop();
+      this.slider.slideTo(newIndex, 0, false);
+      console.log(`New status: ${this.numbers}`);
+    });
   }
 
   deleteData(id) {
+    //debugger
     console.log(this.accepted, 'datos ANTES DELETE');
     _.remove(this.accepted, function (n) {
       console.log(id, 'DELETE');
@@ -184,35 +253,7 @@ export class MeetingsPage implements OnInit {
       });
     });
 
- 
-
-    if (this.connection !== undefined) {
-      this.connection.unsubscribe();
-      this.auth.removeListener('calendar');
-    }
-    this.connection = this.auth.getDataAlerts().subscribe((result: any) => {
-      if (result.medico.fotoPerfil[0] !== 'h') {
-        let foto = this.url + result.medico.fotoPerfil;
-        result.medico.fotoPerfil = foto;
-      }
-      //debugger;
-      console.log(result, 'cita para pushear');
-      if (result.estadoCita === 'accepted') {
-        this.acceptedMeetings.push(result);
-        //this.accepted.push(result);
-      } else if (result.estadoCita === 'canceled') {
-        this.newMeetings.push(result);
-        //this.news.push(result);
-        this.removeData(result.id);
-      } else if (result.estadoCita === 'postponed') {
-        this.postponedMeetings.push(result);
-        //this.postponed.push(result);
-        this.removeData(result.id);
-      }
-    }, (err) => {
-      console.log(err, 'errores');
-      console.log(err);
-    });
+  
   }
 
   getAllData(patientId) {
@@ -295,10 +336,17 @@ export class MeetingsPage implements OnInit {
     _.filter(this.postponedMeetings, (o: any) => { return o.fecha === date; });
   }
 
+  onSlideChanged() {
+    let currentIndex = this.slider.getActiveIndex();
+    console.log("Current index is", currentIndex);
+  }
+
   previousWeek() {
+    this.prevSlide();
     const currentFirstDay = this.lastDataShowed.firstDay.value;
     if (currentFirstDay === 1 && this.currentMonth === 0) {
-      this.currentYear - 1
+      //this.currentYear - 1
+      this.currentYear = this.currentYear - 1
       this.currentMonth = 12;
     }
     this.currentMonth = (currentFirstDay === 1) ? this.currentMonth - 1 : this.currentMonth;
@@ -306,10 +354,11 @@ export class MeetingsPage implements OnInit {
     const newIndex = this.lastDataShowed.firstDay.index === 0 ? 6 : this.lastDataShowed.firstDay.index - 1;
     this.setWeek(newDay, newIndex);
     this.changeDay(this.daysWeek[3].day || this.daysWeek[0].day || this.daysWeek[6].day);
+
   }
 
   nextWeek() {
-
+    this.nextSlide();
     const currentLastDay = this.lastDataShowed.lastDay.value;
     if (currentLastDay === this.lastDay && this.currentMonth === 11) {
       this.currentYear = this.currentYear + 1;
@@ -320,6 +369,7 @@ export class MeetingsPage implements OnInit {
     this.setWeek(newDay, newIndex);
 
     this.changeDay(this.daysWeek[3].day || this.daysWeek[0].day || this.daysWeek[6].day);
+
   }
 
   setWeek(day, index) {

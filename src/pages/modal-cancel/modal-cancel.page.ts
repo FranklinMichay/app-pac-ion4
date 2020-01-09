@@ -35,7 +35,6 @@ export class ModalCancelPage implements OnInit {
   cancelAppointment(dataCita) {
     this.loadingCtrl.presentLoading();
     const _info = {
-
       id: dataCita.id,
       hora: dataCita.hora,
       fecha: dataCita.fecha,
@@ -43,7 +42,6 @@ export class ModalCancelPage implements OnInit {
       centroMedico_id: dataCita.medico.centroMedico[0].id,
       origin: 'canceledByPatient',
       estadoCita: 'canceled'
-      
     };
     this.auth.partialUpdate(_info).subscribe(result => {
       console.log(result, 'resul de la eliminacion');

@@ -11,6 +11,7 @@ import { Socket } from 'ngx-socket-io';
 import { fn } from '@angular/compiler/src/output/output_ast';
 import { LocalNotifications, ILocalNotificationActionType } from '@ionic-native/local-notifications/ngx';
 import { Subscription } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +20,7 @@ import { Subscription } from 'rxjs';
 })
 export class HomePage implements OnInit {
 
+  url: any;
   data: any;
   alert = false;
   dataUser: any;
@@ -37,16 +39,15 @@ export class HomePage implements OnInit {
     }];
   connection: any;
   dataHome: any;
+  dataHomeDelete: any;
   imageUrl: any;
   clickSub: any;
   subscription: any;
-
   slideOptsOne = {
     // initialSlide: 0,
     // slidesPerView: 1,
     autoplay: true
   };
-
   cita: any;
   worker: Subscription;
   backButtonSubscription;
@@ -64,31 +65,29 @@ export class HomePage implements OnInit {
     private localNotifications: LocalNotifications,
     public menuControler: MenuController,
     public alertController: AlertController,
-
-
   ) {
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem('user'));
     this.imageUrl = this.dataUser.fotoPerfil;
     this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
-
+    this.url = environment.url;
     const user = JSON.parse(localStorage.getItem('user'));
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
+    //this.getDataPac();
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
       this.auth.removeListener('calendar');
     }
-
     this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
       this.cita = cita;
+      console.log('entro en socket alerta');
       this.getDataPac();
       this.notification();
     }, (err) => {
       console.log(err, 'error getAlerts');
     });
-
     this.clickSub = this.localNotifications.on('click').subscribe(data => {
       this.presentAlert(
         'Médico:' + ' ' + data.data.medico + '<br>' +
@@ -101,24 +100,27 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    
     let now = new Date();
     this.fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
-    let h = new Date().getHours();
-    let min = new Date().getMinutes();
-    let seg = new Date().getSeconds();
-    this.hora = h + ':' + min + ':' + seg;
+    var hora = ('0' + new Date().getHours()).substr(-2);
+    var min = ('0' + new Date().getMinutes()).substr(-2);
+    var seg = ('0' + new Date().getSeconds()).substr(-2);
+    this.hora = hora + ':' + min + ':' + seg;
     console.log(this.fecha, this.hora, 'hora y fecha');
-    this.getDataPac();
+    this.getDataPac(); 
   }
 
   ionViewWillEnter() {
-    // this.backButtonSubscription = this.platform.backButton.subscribe(async () => {
-    //   navigator['app'].exitApp();
-    // });
+    console.log('entro will enter');
+    this.getDataPac();
+
   }
 
   ionViewDidLeave() {
-    // this.backButtonSubscription.unsubscribe();
+    console.log('entro did leav');
+
+    //this.getDataPac();
   }
 
   notification() {
@@ -163,7 +165,6 @@ export class HomePage implements OnInit {
         foreground: true,
       });
     }
-
   }
 
   async presentAlert(data) {
@@ -192,14 +193,65 @@ export class HomePage implements OnInit {
   getDataPac() {
     const user = JSON.parse(localStorage.getItem('user'));
     const idPaciente = user ? user.id : null;
-   
-    this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
-      var citaByDate = _.filter(cita, { "fecha": this.fecha }, {"hora": this.hora});
-      this.dataHome = _.first(citaByDate);
-      console.log(this.dataHome, 'ultima cita agendada');
+    // this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
+    //   var citaByDate = _.filter(cita, { "fecha": this.fecha }, { "hora": this.hora });
+    //   this.dataHome = _.first(citaByDate);
+    //   console.log(this.dataHome, 'ultima cita agendada');
+    // }, (err) => {
+    //   console.log(err, 'error ultima cita');
+    // });
 
+    this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
+      console.log(cita, 'citas para home');
+      var citaFilter = _.filter(cita, { "fecha": this.fecha });
+      console.log(citaFilter, 'citas filtradas');
+      console.log(this.hora, 'hora actual');
+      this.dataHomeDelete = _.filter(citaFilter, item => item.hora >= this.hora);
+      this.dataHome = _.first(this.dataHomeDelete);
+      console.log(this.dataHome, 'ultima cita agendada');
     }, (err) => {
       console.log(err, 'error ultima cita');
+    });
+  }
+
+  // this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
+  //   console.log(cita, 'citas para home');
+  //   var citaFilter = _.filter(cita, { "fecha": this.fecha });
+  //   console.log(citaFilter, 'citas filtradas');
+  //   console.log(this.hora, 'hora actual');
+  //   this.dataHomeDelete = _.filter(citaFilter, item => item.hora >= this.hora);
+  //   this.dataHome = _.first(this.dataHomeDelete);
+  //   console.log(this.dataHome, 'ultima cita agendada');
+  // }, (err) => {
+  //   console.log(err, 'error ultima cita');
+  // });
+
+  // if (this.connection !== undefined) {
+  //   this.connection.unsubscribe();
+  //   this.auth.removeListener('calendar');
+  // }
+  // this.connection = this.auth.getLastAppointment().subscribe((result: any) => {
+  //   if (result.medico.fotoPerfil[0] !== 'h') {
+  //     let foto = this.url + result.medico.fotoPerfil;
+  //     result.medico.fotoPerfil = foto;
+  //   }
+  //   //debugger;
+  //   console.log(result, 'cita a remover');
+  //   if (result.estadoCita === 'canceled') {
+  //     this.removeData(result.id);
+  //   } else {
+  //     console.log('no hagas nada');
+
+  //   }
+  // }, (err) => {
+  //   console.log(err, 'errores');
+  //   console.log(err);
+  // });
+  // }
+
+  removeData(id) {
+    _.remove(this.dataHome, function (n) {
+      return n.id === id;
     });
   }
 
@@ -225,8 +277,6 @@ export class HomePage implements OnInit {
     localStorage.removeItem('user');
     this.unsub();
     this.router.navigate(['login']);
-
-
   }
 
   // OnDestroy() {
@@ -234,8 +284,6 @@ export class HomePage implements OnInit {
   //   this.auth.removeListener('calendar');
 
   // }
-
-
 
   // async  loginWithGoogle() {
   //   this.dataGoogle = await this.afAuth.auth.signInWithPopup(new auth.GoogleAuthProvider())

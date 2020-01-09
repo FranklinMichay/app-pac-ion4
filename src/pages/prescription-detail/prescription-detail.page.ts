@@ -49,7 +49,7 @@ export class PrescriptionDetailPage implements OnInit {
     this.dni = this.dataUser.identificacion;
     console.log(this.dni, 'cedula paciente');
     // console.log(this.dataReceta, 'data receta');
-    this.getPrescription();
+   this.getPrescription();
   }
 
   returnHome() {
@@ -67,15 +67,21 @@ export class PrescriptionDetailPage implements OnInit {
   }
 
   getPrescription() {
+
     this.loadingCtrl.presentLoading();
+
     this.auth.getPrescription(this.dni).subscribe(searchPrescription => {
       console.log(searchPrescription, 'dta trecet');
       this.prescriptions = searchPrescription;
       for (let index = 0; index < searchPrescription.length; index++) {
-        this.datosMedico = this.auth.convertStringToArrayOfObjects(searchPrescription[index].datosMedico);
-        this.datosPaciente = this.auth.convertStringToArrayOfObjects(searchPrescription[index].datosPaciente);
-        this.dataIndicaciones = this.auth.convertStringToArrayOfObjects(searchPrescription[index].indicaciones);
-        this.dataReceta = this.auth.convertStringToArrayOfObjects(searchPrescription[index].detalles);
+        this.datosMedico = JSON.parse(searchPrescription[index].datosMedico);
+        this.datosPaciente = JSON.parse(searchPrescription[index].datosPaciente);
+        this.dataIndicaciones = JSON.parse(searchPrescription[index].indicaciones);
+        this.dataReceta = JSON.parse(searchPrescription[index].detalles);
+        // this.datosMedico = this.auth.convertStringToArrayOfObjects(searchPrescription[index].datosMedico);
+        // this.datosPaciente = this.auth.convertStringToArrayOfObjects(searchPrescription[index].datosPaciente);
+        // this.dataIndicaciones = this.auth.convertStringToArrayOfObjects(searchPrescription[index].indicaciones);
+        // this.dataReceta = this.auth.convertStringToArrayOfObjects(searchPrescription[index].detalles);
         let datos = {
           datosMed:  this.datosMedico,
           datosPac:  this.datosPaciente,

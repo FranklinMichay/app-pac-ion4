@@ -78,33 +78,26 @@ export class PrescriptionPage implements OnInit {
     this.loadingCtrl.presentLoading();
     this.auth.getDesp(this.dataReceta.codRece).subscribe(searchPrescription => {
       for (let index = 0; index < searchPrescription.length; index++) {
-        this.dataDespacho = this.auth.convertStringToArrayOfObjects(searchPrescription[index].detalles);
+        this.dataDespacho = this.auth.convertStringToArrayOfObjects(searchPrescription[index].datosReceta.detalles);
         let datos = {
           fecha: new Date(searchPrescription[index].fecha),
           idReceta: searchPrescription[index].idReceta,
           totalDesp: searchPrescription[index].totalDespacho,
-          dataDespacho: this.dataDespacho,
-        }
+          datosReceta: this.dataDespacho,
+        }  
         this.dataListDesp.push(datos)
       }
-      console.log(this.dataReceta.detalles, 'dat receta detalles');
-      
       this.idForRequest = this.removeSquareBracket(_.map(this.dataReceta.detalles, 'id'));
-      console.log(this.idForRequest, 'dataaaa');
-      
-      //this.getInfoProductByListId(this.idForRequest, 'dataaa');
       this.auth.getInfoProducts(this.idForRequest).subscribe((resultGetInfoProducts: any) => {
         this.dataForView = resultGetInfoProducts;
         if (this.dataDespacho) {
           this.dataDespacho.map((item, index) => {
             if (item.id == this.dataForView[index]._id) {
-              //console.log('mensaje data for view', this.dataForView[index]);
               this.dataListDesp[index].detalles = this.dataForView[index];
             }
           });
         }
-
-        console.log(this.dataListDesp, 'despachos pusheados');
+        console.log(this.dataListDesp, 'despachos formateados ');
       });
       this.loadingCtrl.dismiss();
     }, (err) => {
