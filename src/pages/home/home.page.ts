@@ -27,15 +27,15 @@ export class HomePage implements OnInit {
   slides: any = [
     {
       src: 'https://png.pngtree.com/png-clipart/20190517/original/pngtree-dna-logo-with-chemical-structure-vector-template-icon-for-biotechnology-png-image_3654529.jpg',
-      medicalCenter: 'CLÍNICA SAN JOSÉ', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
+      medicalCenter: 'CLÍNICA MEDIPHARM', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
     },
     {
       src: 'https://png.pngtree.com/png-clipart/20190516/original/pngtree-abstract-hexagon-background--technology-polygonal-concept-vector-illustration-png-image_3786359.jpg',
-      medicalCenter: 'CLÍNICA SAN JOSÉ', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
+      medicalCenter: 'FARMACIA SAN DANIEL', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
     },
     {
       src: 'https://png.pngtree.com/png-clipart/20190516/original/pngtree-pills-polygonal-two-capsule-pills-made-of-line-png-image_3786353.jpg',
-      medicalCenter: 'CLÍNICA SAN JOSÉ', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
+      medicalCenter: 'LABORATORIO CLINICO LOJA', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
     }];
   connection: any;
   dataHome: any;
