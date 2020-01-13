@@ -285,18 +285,18 @@ export class SearchMedicPage implements OnInit {
     console.log(event);
   }
 
-  async presentModal() {
-    const modal = await this.mdlCtrl.create({
-      component: SearchFilterPage,
-      cssClass: 'css-modal',
-    });
-    modal.onDidDismiss()
-      .then((data) => {
-        console.log(data, 'data del dismis modal ok');
-        this.router.navigate(['search-medic'], { state: data });
-      });
-    return await modal.present();
-  }
+  // async presentModal() {
+  //   const modal = await this.mdlCtrl.create({
+  //     component: SearchFilterPage,
+  //     cssClass: 'css-modal',
+  //   });
+  //   modal.onDidDismiss()
+  //     .then((data) => {
+  //       console.log(data, 'data del dismis modal ok');
+  //       this.router.navigate(['search-medic'], { state: data });
+  //     });
+  //   return await modal.present();
+  // }
 
   filterMedicalCenter(cMedico) {
     console.log('in medical center filter', this.medics);

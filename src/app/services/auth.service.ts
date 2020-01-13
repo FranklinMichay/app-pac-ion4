@@ -400,6 +400,11 @@ export class AuthService {
     return this.httpClient.get<any>(this.urlMongoDB + 'despacho/searchDespa/' + ids);
   }
 
+  getInfoPrescription(ids: any): Observable<any> {
+    return this.httpClient.get<any>(this.urlMongoDB + 'inventario/listarInventarios/' + ids);
+  }
+
+
   // despachos(ids: any): Observable<any> {
   //   return this.httpClient.get<any>(this.urlMongoDB + 'despacho/searchDespa/' + ids);
   // }

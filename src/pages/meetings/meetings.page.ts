@@ -89,10 +89,6 @@ export class MeetingsPage implements OnInit {
     console.log(this.idPaciente, 'id del paciente')
     console.log(this.day, 'dia para presentar');
     this.url = environment.url;
-    if (this.connection !== undefined) {
-      this.connection.unsubscribe();
-      this.auth.removeListener('calendar');
-    }
 
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
@@ -256,49 +252,49 @@ export class MeetingsPage implements OnInit {
   
   }
 
-  getAllData(patientId) {
-    this.loadingCtrl.presentLoading();
-    const url = `paciente_id=${patientId},estadoCita=newORacceptedORpostponedORcanceled`;
-    this.auth.getByUrlCustom(url).subscribe(result => {
-      console.log(result, 'todas las horas del paciente');
-      this.acceptedMeetings = _.filter(result, function (o) { return o.estadoCita === 'accepted'; });
-      this.newMeetings = _.filter(result, function (o) { return o.estadoCita === 'canceled'; });
-      this.postponedMeetings = _.filter(result, function (o) { return o.estadoCita === 'postponed'; });
-      this.filterData(this.currentYear, this.currentMonth, this.day);
-      // console.log(this.acceptedMeetings, 'aceptadas');
-      console.log(this.newMeetings, 'canceled');
-      // console.log(this.postponedMeetings, 'postponed');
-      this.loadingCtrl.dismiss();
-    });
+  // getAllData(patientId) {
+  //   this.loadingCtrl.presentLoading();
+  //   const url = `paciente_id=${patientId},estadoCita=newORacceptedORpostponedORcanceled`;
+  //   this.auth.getByUrlCustom(url).subscribe(result => {
+  //     console.log(result, 'todas las horas del paciente');
+  //     this.acceptedMeetings = _.filter(result, function (o) { return o.estadoCita === 'accepted'; });
+  //     this.newMeetings = _.filter(result, function (o) { return o.estadoCita === 'canceled'; });
+  //     this.postponedMeetings = _.filter(result, function (o) { return o.estadoCita === 'postponed'; });
+  //     this.filterData(this.currentYear, this.currentMonth, this.day);
+  //     // console.log(this.acceptedMeetings, 'aceptadas');
+  //     console.log(this.newMeetings, 'canceled');
+  //     // console.log(this.postponedMeetings, 'postponed');
+  //     this.loadingCtrl.dismiss();
+  //   });
 
-    if (this.connection !== undefined) {
-      this.connection.unsubscribe();
-      this.auth.removeListener('calendar');
-    }
-    this.connection = this.auth.getDataAlerts().subscribe((result: any) => {
-      if (result.medico.fotoPerfil[0] !== 'h') {
-        let foto = this.url + result.medico.fotoPerfil;
-        result.medico.fotoPerfil = foto;
-      }
-      //debugger;
-      console.log(result, 'cita para pushear');
-      if (result.estadoCita === 'accepted') {
-        this.acceptedMeetings.push(result);
-        this.accepted.push(result);
-      } else if (result.estadoCita === 'canceled') {
-        this.newMeetings.push(result);
-        this.news.push(result);
-        this.removeData(result.id);
-      } else if (result.estadoCita === 'postponed') {
-        this.postponedMeetings.push(result);
-        this.postponed.push(result);
-        this.removeData(result.id);
-      }
-    }, (err) => {
-      console.log(err, 'errores');
-      console.log(err);
-    });
-  }
+  //   if (this.connection !== undefined) {
+  //     this.connection.unsubscribe();
+  //     this.auth.removeListener('calendar');
+  //   }
+  //   this.connection = this.auth.getDataAlerts().subscribe((result: any) => {
+  //     if (result.medico.fotoPerfil[0] !== 'h') {
+  //       let foto = this.url + result.medico.fotoPerfil;
+  //       result.medico.fotoPerfil = foto;
+  //     }
+  //     //debugger;
+  //     console.log(result, 'cita para pushear');
+  //     if (result.estadoCita === 'accepted') {
+  //       this.acceptedMeetings.push(result);
+  //       this.accepted.push(result);
+  //     } else if (result.estadoCita === 'canceled') {
+  //       this.newMeetings.push(result);
+  //       this.news.push(result);
+  //       this.removeData(result.id);
+  //     } else if (result.estadoCita === 'postponed') {
+  //       this.postponedMeetings.push(result);
+  //       this.postponed.push(result);
+  //       this.removeData(result.id);
+  //     }
+  //   }, (err) => {
+  //     console.log(err, 'errores');
+  //     console.log(err);
+  //   });
+  // }
 
   removeData(result) {
     // _.remove(this.accepted, function (n) {

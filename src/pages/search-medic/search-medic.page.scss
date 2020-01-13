@@ -433,28 +433,55 @@ ion-auto-complete {
     font-size: 20px;
 }
 
-@media (min-width: 619px) {
-    .name {
-        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .fecha {
-        font-size: calc(16px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .cm {
-        font-size: calc(16px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .name {
-        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .filtros {
-        font-size: calc(17px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .funnel {
-        font-size: calc(21px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .searchbar-input {
-        background: rgba(0, 0, 0, 0.08);
-        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-        height: calc(45px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-}
+// @media (min-width: 619px) {
+//     .elige-opcion {
+//         font-size: calc(25px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .info {
+//         font-size: calc(30px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .div-head {
+//         height: calc(14% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     // .header-info {
+//     //     //margin: calc(-4% 0% 4% 2% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     //     margin: -4% 0% 4% 2%;
+//     // }
+//     .container-product-detail {
+//         height: calc(28% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         border-radius: calc(16px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         margin-bottom: calc(4% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .crop {
+//         width: calc(28% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .image {
+//         height: 25%;
+//     }
+//     .header-home {
+//         height: 15%;
+//     }
+//     .header-info {
+//         margin-top: calc(-4% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .datos {
+//         font-size: calc(22px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .slide-name-medical-center {
+//         margin-top: calc(-10% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         font-size: calc(22px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     // }
+// .slide-text {
+//     margin-top: calc(-14% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+// }
+// .explore-title {
+//     font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+// }
+// .explore-text {
+//     font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+// }
+// .container {
+//     height: calc(200px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+// }
+// }

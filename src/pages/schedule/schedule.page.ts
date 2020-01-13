@@ -1,3 +1,4 @@
+import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Info } from '../../shared/mock/months';
@@ -48,6 +49,7 @@ export class SchedulePage implements OnInit {
   }
   idMed: any
   hora: any;
+  diaHoy: any;
 
   constructor(
     private router: Router,
@@ -94,6 +96,8 @@ export class SchedulePage implements OnInit {
     };
     this.disableBack(year, month, day);
     this.getDataDay(formatDate(this.today, 'yyyy-MM-dd', 'en-US'));
+    this.diaHoy = formatDate(this.today, 'yyyy-MM-dd', 'en-US');
+
     var hora = ('0' + new Date().getHours()).substr(-2);
     var min = ('0' + new Date().getMinutes()).substr(-2);
     var seg = ('0' + new Date().getSeconds()).substr(-2);
@@ -170,12 +174,19 @@ export class SchedulePage implements OnInit {
     this.loadingCtrl.presentLoading();
     this.hoursAvailable = [];
     let url = 'estadoAgenda=available,estadoCita=hold,fecha=' + date + ',medico_id=' + this.medic.id;
+
     this.auth.getByUrlCustom(url).subscribe((result: any) => {
       console.log(result, 'citas del dia');
       this.hoursAvailable = _.filter(result, item => item.hora >= this.hora);
-      //this.hoursAvailable = result.filter(word => word.hora >= this.hora.toString());
+      // if (result.fecha === this.diaHoy) {
 
-      console.log(this.hoursAvailable, 'citas con hora actual');
+      //   this.hoursAvailable = _.filter(result, item => item.hora >= this.hora);
+      //   console.log(this.hoursAvailable, 'citas de hoy');
+      // } else {
+      //   this.hoursAvailable = result;
+      //   console.log(this.hoursAvailable, 'citas otro dia');
+      // }
+
       this.loadingCtrl.dismiss();
       const _info = {
         medico_id: this.medic.id,

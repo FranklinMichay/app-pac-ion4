@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, NavParams } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ActivatedRoute } from '@angular/router';
@@ -17,19 +17,25 @@ export class SearchFilterPage implements OnInit {
   medicalCenter: any;
   medicsByCity: any;
   medicalC: any;
+  prescription: any;
 
   constructor(
+    navParams: NavParams,
     private modalCtrl: ModalController,
     private auth: AuthService,
     private loadingCtrl: LoadingService,
     private route: ActivatedRoute,
     private dataService: DataService
-  ) { }
+  ) {
+    this.prescription = navParams.get('prescription');
+    console.log(this.prescription, 'receta en modal');
+    
+   }
 
   ngOnInit() {
   
-    this.getMedicalCenter();
-    this.getSpecialities();
+    // this.getMedicalCenter();
+    // this.getSpecialities();
   }
 
   closeModal() {

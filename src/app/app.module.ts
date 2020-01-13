@@ -1,4 +1,4 @@
-import { SearchFilterPage } from './../pages/search-filter/search-filter.page';
+
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
@@ -25,6 +25,7 @@ import { ModalAcceptPostponedPage } from 'src/pages/modal-accept-postponed/modal
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 // import { AppMinimize } from '@ionic-native/app-minimize/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
+import { SearchFilterPage } from './../pages/search-filter/search-filter.page';
 
 
 @NgModule({
