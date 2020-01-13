@@ -80,6 +80,7 @@ export class HomePage implements OnInit {
       this.connection.unsubscribe();
       this.auth.removeListener('calendar');
     }
+
     this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
       this.cita = cita;
       console.log('entro en socket alerta');
@@ -88,6 +89,7 @@ export class HomePage implements OnInit {
     }, (err) => {
       console.log(err, 'error getAlerts');
     });
+    
     this.clickSub = this.localNotifications.on('click').subscribe(data => {
       this.presentAlert(
         'Médico:' + ' ' + data.data.medico + '<br>' +

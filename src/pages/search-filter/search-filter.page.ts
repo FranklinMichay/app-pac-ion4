@@ -4,6 +4,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-search-filter',
@@ -18,6 +19,8 @@ export class SearchFilterPage implements OnInit {
   medicsByCity: any;
   medicalC: any;
   prescription: any;
+  idForRequest: any;
+  dataForView: any;
 
   constructor(
     navParams: NavParams,
@@ -29,11 +32,12 @@ export class SearchFilterPage implements OnInit {
   ) {
     this.prescription = navParams.get('prescription');
     console.log(this.prescription, 'receta en modal');
+    //this.getInventarioById();
     
-   }
+  }
 
   ngOnInit() {
-  
+
     // this.getMedicalCenter();
     // this.getSpecialities();
   }
@@ -44,17 +48,36 @@ export class SearchFilterPage implements OnInit {
     });
   }
 
-  // getMedics() {
-  //   this.loadingCtrl.presentLoading();
-  //   let url = 'medico/getData?model=userMedico&fields=';
-  //   this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
-  //     console.log(result, 'medicos lista');
-  //     this.medic = result;
-  //     this.loadingCtrl.dismiss();
-  //   }, (err) => {
-  //     console.log(err, 'errores');
-  //   });
-  // }
+  getInventarioById() {
+    this.loadingCtrl.presentLoading();
+    this.idForRequest = this.removeSquareBracket(_.map(this.prescription.detalles, 'id'));
+    console.log(this.idForRequest, 'ids para consulta');
+    
+    this.auth.getInfoProducts(this.idForRequest).subscribe((resultGetInfoProducts: any) => {
+      this.dataForView = resultGetInfoProducts;
+      if (this.prescription) {
+        this.prescription.map((item, index) => {
+          if (item.id == this.dataForView[index]._id) {
+            this.prescription[index].dataProduct = this.dataForView[index];
+          }
+        });
+      }
+      console.log(this.prescription, 'NUEVA DATA');
+      this.loadingCtrl.dismiss();
+    }, (err) => {
+      console.log(err, 'error data inventario');
+      this.loadingCtrl.dismiss();
+    });
+  }
+
+  removeSquareBracket(array: []) {
+    let resultRemove = '';
+    array.map(function (elememnt: any) {
+      resultRemove += `${elememnt},`;
+    });
+    return (resultRemove.slice(0, (resultRemove.length - 1)));
+  }
+
 
   getSpecialities() {
     this.loadingCtrl.presentLoading();
@@ -93,7 +116,7 @@ export class SearchFilterPage implements OnInit {
   // }
 
   codeSelected() {
-    console.log( this.medicalC, 'dta del select');
-    
+    console.log(this.medicalC, 'dta del select');
+
   }
 }

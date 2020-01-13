@@ -87,6 +87,7 @@ export class PrescriptionPage implements OnInit {
         }  
         this.dataListDesp.push(datos)
       }
+      console.log(this.dataReceta, 'data receta');
       console.log(this.dataReceta.detalles, 'dataReceta detalles');
       
       this.idForRequest = this.removeSquareBracket(_.map(this.dataReceta.detalles, 'id'));
