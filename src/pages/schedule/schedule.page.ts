@@ -96,8 +96,6 @@ export class SchedulePage implements OnInit {
     };
     this.disableBack(year, month, day);
     this.getDataDay(formatDate(this.today, 'yyyy-MM-dd', 'en-US'));
-    this.diaHoy = formatDate(this.today, 'yyyy-MM-dd', 'en-US');
-
     var hora = ('0' + new Date().getHours()).substr(-2);
     var min = ('0' + new Date().getMinutes()).substr(-2);
     var seg = ('0' + new Date().getSeconds()).substr(-2);
@@ -173,42 +171,67 @@ export class SchedulePage implements OnInit {
   getDataDay(date) {
     this.loadingCtrl.presentLoading();
     this.hoursAvailable = [];
+    console.log(date, 'la fecha seleccionada');
+    let now = new Date();
+    this.diaHoy = formatDate(now, 'yyyy-MM-dd', 'en-US')
+    console.log(this.diaHoy, 'la fecha  de hoy');
     let url = 'estadoAgenda=available,estadoCita=hold,fecha=' + date + ',medico_id=' + this.medic.id;
-
-    this.auth.getByUrlCustom(url).subscribe((result: any) => {
-      console.log(result, 'citas del dia');
-      this.hoursAvailable = _.filter(result, item => item.hora >= this.hora);
-      // if (result.fecha === this.diaHoy) {
-
-      //   this.hoursAvailable = _.filter(result, item => item.hora >= this.hora);
-      //   console.log(this.hoursAvailable, 'citas de hoy');
-      // } else {
-      //   this.hoursAvailable = result;
-      //   console.log(this.hoursAvailable, 'citas otro dia');
-      // }
-
-      this.loadingCtrl.dismiss();
-      const _info = {
-        medico_id: this.medic.id,
-        fecha: formatDate(this.today, 'yyyy-MM-dd', 'en-US'),
-        paciente_id: this.pacienteId
-      };
-      if (this.connection !== undefined) {
-        this.connection.unsubscribe();
-        this.auth.removeListener('calendar');
-      }
-      this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
-        console.log(result, 'citas del dia socket');
-        if (result.estadoCita === 'accepted') {
-          this.deleteHourDay(result.hora);
-        } else if (result.estadoCita === 'hold') {
-          this.controlExpressShedule(result);
+    if (date === this.diaHoy) {
+      this.auth.getByUrlCustom(url).subscribe((result: any) => {
+        console.log(result, 'citas del dia');
+        this.hoursAvailable = _.filter(result, item => item.hora >= this.hora);
+        console.log('HORAS DE HOY');
+        this.loadingCtrl.dismiss();
+        const _info = {
+          medico_id: this.medic.id,
+          fecha: formatDate(this.today, 'yyyy-MM-dd', 'en-US'),
+          paciente_id: this.pacienteId
+        };
+        if (this.connection !== undefined) {
+          this.connection.unsubscribe();
+          this.auth.removeListener('calendar');
         }
-      }, (err) => {
-        console.log(err, 'errores');
-        console.log(err);
+        this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
+          console.log(result, 'citas del dia socket');
+          if (result.estadoCita === 'accepted') {
+            this.deleteHourDay(result.hora);
+          } else if (result.estadoCita === 'hold') {
+            this.controlExpressShedule(result);
+          }
+        }, (err) => {
+          console.log(err, 'errores');
+          console.log(err);
+        });
       });
-    });
+    } else {
+      this.auth.getByUrlCustom(url).subscribe((result: any) => {
+        console.log(result, 'citas del dia');
+        this.hoursAvailable = result;
+        console.log('HORAS DE OTRO DIA');
+        this.loadingCtrl.dismiss();
+        const _info = {
+          medico_id: this.medic.id,
+          fecha: formatDate(this.today, 'yyyy-MM-dd', 'en-US'),
+          paciente_id: this.pacienteId
+        };
+        if (this.connection !== undefined) {
+          this.connection.unsubscribe();
+          this.auth.removeListener('calendar');
+        }
+        this.connection = this.auth.getDataDay(_info).subscribe((result: any) => {
+          console.log(result, 'citas del dia socket');
+          if (result.estadoCita === 'accepted') {
+            this.deleteHourDay(result.hora);
+          } else if (result.estadoCita === 'hold') {
+            this.controlExpressShedule(result);
+          }
+        }, (err) => {
+          console.log(err, 'errores');
+          console.log(err);
+        });
+      });
+    }
+
   }
 
   controlExpressShedule(data) {

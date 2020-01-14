@@ -51,30 +51,29 @@
 
     <div *ngIf="dataMedic">
         <ion-grid>
-            <ion-row *ngFor="let medic of dataMedic">
+            <ion-row *ngFor="let prescription of dataMedic">
                 <ion-col class="container-info-medic ">
                     <ion-row class="container-medic">
                         <ion-col class="name " size="12 ">
-                            Código: {{ medic.codRece}}
-
+                            Código: {{ prescription.codRece}}
                         </ion-col>
 
                         <ion-col class="cm " size="12 ">
-                            {{ medic.fecha | date : 'yyyy-MM-dd'}}
+                            {{ prescription.fecha | date : 'yyyy-MM-dd'}}
                         </ion-col>
                         <ion-col class="cm " size="12 ">
-                            DR: {{ medic.datosMed.priNombre | uppercase}} {{ medic.datosMed.priApellido | uppercase}}
+                            DR: {{ prescription.datosMed.priNombre | uppercase}} {{ prescription.datosMed.priApellido | uppercase}}
                         </ion-col>
                         <ion-col class="fecha" size="12">
-                            {{ medic.datosMed.especialidad}}
+                            {{ prescription.datosMed.especialidad}}
                         </ion-col>
                         <ion-row class="content-actions-appointment">
                             <ion-col size="6">
-                                <button class="botton-detail" (click)="goDetailAppointment(medic)"> DETALLES</button>
+                                <button class="botton-detail" (click)="prepareIdsRequest(prescription)"> DETALLES</button>
 
                             </ion-col>
                             <ion-col size="6">
-                                <button class="botton-desp" (click)="goDetails(medic)"> DESPACHOS</button>
+                                <button class="botton-desp" (click)="goDetails(prescription)"> COMPRAR</button>
                             </ion-col>
                         </ion-row>
                     </ion-row>

@@ -27,15 +27,15 @@ export class HomePage implements OnInit {
   slides: any = [
     {
       src: 'https://png.pngtree.com/png-clipart/20190517/original/pngtree-dna-logo-with-chemical-structure-vector-template-icon-for-biotechnology-png-image_3654529.jpg',
-      medicalCenter: 'CLÍNICA SAN JOSÉ', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
+      medicalCenter: 'CLÍNICA MEDIPHARM', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
     },
     {
       src: 'https://png.pngtree.com/png-clipart/20190516/original/pngtree-abstract-hexagon-background--technology-polygonal-concept-vector-illustration-png-image_3786359.jpg',
-      medicalCenter: 'CLÍNICA SAN JOSÉ', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
+      medicalCenter: 'FARMACIA SAN DANIEL', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
     },
     {
       src: 'https://png.pngtree.com/png-clipart/20190516/original/pngtree-pills-polygonal-two-capsule-pills-made-of-line-png-image_3786353.jpg',
-      medicalCenter: 'CLÍNICA SAN JOSÉ', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
+      medicalCenter: 'LABORATORIO CLINICO LOJA', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
     }];
   connection: any;
   dataHome: any;
@@ -80,6 +80,7 @@ export class HomePage implements OnInit {
       this.connection.unsubscribe();
       this.auth.removeListener('calendar');
     }
+
     this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
       this.cita = cita;
       console.log('entro en socket alerta');
@@ -88,6 +89,7 @@ export class HomePage implements OnInit {
     }, (err) => {
       console.log(err, 'error getAlerts');
     });
+    
     this.clickSub = this.localNotifications.on('click').subscribe(data => {
       this.presentAlert(
         'Médico:' + ' ' + data.data.medico + '<br>' +
@@ -193,14 +195,6 @@ export class HomePage implements OnInit {
   getDataPac() {
     const user = JSON.parse(localStorage.getItem('user'));
     const idPaciente = user ? user.id : null;
-    // this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
-    //   var citaByDate = _.filter(cita, { "fecha": this.fecha }, { "hora": this.hora });
-    //   this.dataHome = _.first(citaByDate);
-    //   console.log(this.dataHome, 'ultima cita agendada');
-    // }, (err) => {
-    //   console.log(err, 'error ultima cita');
-    // });
-
     this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
       console.log(cita, 'citas para home');
       var citaFilter = _.filter(cita, { "fecha": this.fecha });
@@ -213,41 +207,6 @@ export class HomePage implements OnInit {
       console.log(err, 'error ultima cita');
     });
   }
-
-  // this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
-  //   console.log(cita, 'citas para home');
-  //   var citaFilter = _.filter(cita, { "fecha": this.fecha });
-  //   console.log(citaFilter, 'citas filtradas');
-  //   console.log(this.hora, 'hora actual');
-  //   this.dataHomeDelete = _.filter(citaFilter, item => item.hora >= this.hora);
-  //   this.dataHome = _.first(this.dataHomeDelete);
-  //   console.log(this.dataHome, 'ultima cita agendada');
-  // }, (err) => {
-  //   console.log(err, 'error ultima cita');
-  // });
-
-  // if (this.connection !== undefined) {
-  //   this.connection.unsubscribe();
-  //   this.auth.removeListener('calendar');
-  // }
-  // this.connection = this.auth.getLastAppointment().subscribe((result: any) => {
-  //   if (result.medico.fotoPerfil[0] !== 'h') {
-  //     let foto = this.url + result.medico.fotoPerfil;
-  //     result.medico.fotoPerfil = foto;
-  //   }
-  //   //debugger;
-  //   console.log(result, 'cita a remover');
-  //   if (result.estadoCita === 'canceled') {
-  //     this.removeData(result.id);
-  //   } else {
-  //     console.log('no hagas nada');
-
-  //   }
-  // }, (err) => {
-  //   console.log(err, 'errores');
-  //   console.log(err);
-  // });
-  // }
 
   removeData(id) {
     _.remove(this.dataHome, function (n) {

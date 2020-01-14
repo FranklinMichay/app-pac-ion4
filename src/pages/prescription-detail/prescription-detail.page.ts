@@ -29,7 +29,7 @@ export class PrescriptionDetailPage implements OnInit {
   listProducts: any = [];
   dataForView: any = [];
   prescription: any;
-  prescriptionList: any;
+  prescriptionList: any = [];
 
   constructor(
     //navParams: NavParams,
@@ -54,7 +54,7 @@ export class PrescriptionDetailPage implements OnInit {
     this.dni = this.dataUser.identificacion;
     console.log(this.dni, 'cedula paciente');
     // console.log(this.dataReceta, 'data receta');
-   this.getPrescription();
+    this.getPrescription();
   }
 
   returnHome() {
@@ -75,7 +75,7 @@ export class PrescriptionDetailPage implements OnInit {
 
     this.loadingCtrl.presentLoading();
     this.auth.getPrescription(this.dni).subscribe(searchPrescription => {
-      console.log(searchPrescription, 'Recetas');
+      //console.log(searchPrescription, 'Recetas');
       this.prescriptions = searchPrescription;
       for (let index = 0; index < searchPrescription.length; index++) {
         this.datosMedico = JSON.parse(searchPrescription[index].datosMedico);
@@ -87,37 +87,51 @@ export class PrescriptionDetailPage implements OnInit {
         // this.dataIndicaciones = this.auth.convertStringToArrayOfObjects(searchPrescription[index].indicaciones);
         // this.dataReceta = this.auth.convertStringToArrayOfObjects(searchPrescription[index].detalles);
         let datos = {
-          datosMed:  this.datosMedico,
-          datosPac:  this.datosPaciente,
+          datosMed: this.datosMedico,
+          datosPac: this.datosPaciente,
           detalles: this.dataReceta,
           indicaciones: this.dataIndicaciones,
           fecha: searchPrescription[index].fecha,
           codRece: searchPrescription[index].codiRece,
         }
-        this.dataMedic.push( datos  )
+        this.dataMedic.push(datos)
       }
 
-      console.log(this.dataMedic, 'recetas format');
-      
-      this.idForRequest = this.removeSquareBracket(_.map(this.dataMedic.detalles, 'id'));
-      console.log(this.idForRequest, 'ids para la consulta');
-      this.auth.getInfoPrescription(this.idForRequest).subscribe((resultGetInfoProducts: any) => {
-        this.dataForView = resultGetInfoProducts;
-        if (this.dataReceta) {
-          this.dataReceta.map((item, index) => {
-            if (item.id == this.dataForView[index]._id) {
-              this.prescriptionList[index].detalles = this.dataForView[index];
-            }
-          });
-        }
-        console.log(this.prescriptionList, 'recetas formateados ');
-      });
-      
+      // console.log(this.dataMedic, 'recetas formateadas');
+      // this.idForRequest = this.removeSquareBracket(_.map(this.dataReceta, 'id'));
+      // console.log(this.idForRequest, 'ids para la consulta');
+
+      // this.auth.getInfoPrescription(this.idForRequest).subscribe((resultGetInfoProducts: any) => {
+      //   this.dataForView = resultGetInfoProducts;
+      //   console.log(this.dataForView, 'data for view');
+        
+      //   if (this.dataReceta) {
+      //     this.dataReceta.map((item, index) => {
+      //       if (item.id == this.dataForView[index]._id) {
+      //         this.dataMedic[index].dataProduct = this.dataForView[index];
+      //       }
+      //     });
+      //   }
+        
+      // });
+      console.log(this.dataMedic, 'RECETAS');
       this.loadingCtrl.dismiss();
     }, (err) => {
       console.log(err, 'error recetas');
-
       this.loadingCtrl.dismiss();
+    });
+  }
+
+  prepareIdsRequest(dataPrescription: any) {
+    this.idForRequest = this.removeSquareBracket(_.map(dataPrescription.detalles, 'id'));
+    this.getProductPrescription(this.removeSquareBracket(_.map(dataPrescription.detalles, 'id')));
+  }
+
+  getProductPrescription(ids: string) {
+    this.auth.getInfoProducts(ids).subscribe(prescription => {
+      this.prescriptionList = prescription;
+      console.log(this.prescriptionList, 'PRODUCTOS');
+      this.presentModal();
     });
   }
 
@@ -130,7 +144,7 @@ export class PrescriptionDetailPage implements OnInit {
   }
 
   goDetails(prescription) {
-    this.router.navigate(['prescription'],{ state: prescription });
+    this.router.navigate(['prescription'], { state: prescription });
   }
 
   goDetailAppointment(prescription) {
@@ -143,14 +157,14 @@ export class PrescriptionDetailPage implements OnInit {
       component: SearchFilterPage,
       cssClass: 'css-modal',
       componentProps: {
-        prescription: this.prescription
+        prescription: this.prescriptionList
       }
     });
-    modal.onDidDismiss()
-      .then((data) => {
-        console.log(data, 'appointment del modal dismiss');
-        
-      });
+    // modal.onDidDismiss()
+    //   .then((data) => {
+    //     console.log(data, 'appointment del modal dismiss');
+
+    //   });
     return await modal.present();
   }
 }

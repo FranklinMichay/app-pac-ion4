@@ -114,17 +114,17 @@ export class MeetingsPage implements OnInit {
       console.log(err, 'errores');
       console.log(err);
     });
+    
   }
 
   ngOnInit() {
     //debugger
     //this.getAllData(this.idPaciente);
     //this.changeDay(this.day)
+    this.slider.slideTo(1, 0, false);
     const currentDate = this.getCurrentDate(this.day);
     console.log(currentDate, 'current date');
-
     this.getData(currentDate);
-    this.slider.slideTo(1, 0, false);
   }
 
   ionViewWillEnter() {
@@ -222,34 +222,36 @@ export class MeetingsPage implements OnInit {
   }
 
   getData(currentDate) {
+    
+    
     console.log(currentDate, 'la fecha de consulta ');
-
     this.acceptedMeetings = undefined;
     this.newMeetings = undefined;
     this.postponedMeetings = undefined;
-    this.loadingCtrl.presentLoading();
     const fields: any = {
       idPaciente: this.idPaciente,
       fecha: currentDate
     };
+    this.loadingCtrl.presentLoading();
+    this.auth.getDataCanceled(fields).subscribe(d => {
+      this.newMeetings = d;
+      console.log(this.newMeetings, 'canceled');
+      
+    });
+    this.loadingCtrl.dismiss();
 
-    this.auth.getMeetingAccepted(fields).subscribe((d: any) => {
+    this.auth.getDataPostponed(fields).subscribe(d => {
+      this.postponedMeetings = d;
+      console.log(this.postponedMeetings, 'pospuestas');
+      
+    });
+    this.loadingCtrl.dismiss();
+    this.auth.getMeetingAccepted(fields).subscribe(d => {
       this.acceptedMeetings = d;
       console.log(this.acceptedMeetings, 'aceptadas');
-
-      this.auth.getDataPostponed(fields).subscribe((d: any) => {
-        this.postponedMeetings = d;
-        console.log(this.postponedMeetings, 'pospuestas');
-        this.auth.getDataCanceled(fields).subscribe((d: any) => {
-          this.newMeetings = d;
-          console.log(this.newMeetings, 'canceled');
-          this.loadingCtrl.dismiss();
-        });
-
-      });
+      
     });
-
-  
+    this.loadingCtrl.dismiss();
   }
 
   // getAllData(patientId) {
