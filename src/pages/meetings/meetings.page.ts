@@ -222,8 +222,6 @@ export class MeetingsPage implements OnInit {
   }
 
   getData(currentDate) {
-    
-    
     console.log(currentDate, 'la fecha de consulta ');
     this.acceptedMeetings = undefined;
     this.newMeetings = undefined;
@@ -236,22 +234,17 @@ export class MeetingsPage implements OnInit {
     this.auth.getDataCanceled(fields).subscribe(d => {
       this.newMeetings = d;
       console.log(this.newMeetings, 'canceled');
-      
+      this.auth.getDataPostponed(fields).subscribe(d => {
+        this.postponedMeetings = d;
+        console.log(this.postponedMeetings, 'pospuestas');
+        this.auth.getMeetingAccepted(fields).subscribe(d => {
+          this.acceptedMeetings = d;
+          console.log(this.acceptedMeetings, 'aceptadas');
+          this.loadingCtrl.dismiss();
+        });
+      });
     });
-    this.loadingCtrl.dismiss();
-
-    this.auth.getDataPostponed(fields).subscribe(d => {
-      this.postponedMeetings = d;
-      console.log(this.postponedMeetings, 'pospuestas');
-      
-    });
-    this.loadingCtrl.dismiss();
-    this.auth.getMeetingAccepted(fields).subscribe(d => {
-      this.acceptedMeetings = d;
-      console.log(this.acceptedMeetings, 'aceptadas');
-      
-    });
-    this.loadingCtrl.dismiss();
+    
   }
 
   // getAllData(patientId) {
