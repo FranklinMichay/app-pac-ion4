@@ -240,10 +240,11 @@ export class MeetingsPage implements OnInit {
         this.auth.getMeetingAccepted(fields).subscribe(d => {
           this.acceptedMeetings = d;
           console.log(this.acceptedMeetings, 'aceptadas');
-          this.loadingCtrl.dismiss();
+          
         });
       });
     });
+    this.loadingCtrl.dismiss();
     
   }
 
