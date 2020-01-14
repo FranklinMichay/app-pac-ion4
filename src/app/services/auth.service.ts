@@ -320,8 +320,8 @@ export class AuthService {
     });
   }
   getMeetingAccepted(data) {
-    const resource = `agenda/getData?model=Agenda&params=paciente_id=${data.idPaciente},estadoCita=accepted,fecha=${data.fecha}`;
-    return this.httpClient.get<any>(this.url + resource);
+    //const resource = `agenda/getData?model=Agenda&params=paciente_id=${data.idPaciente},estadoCita=accepted,fecha=${data.fecha}`;
+    return this.httpClient.get<any>(this.url + `agenda/getData?model=Agenda&params=paciente_id=${data.idPaciente},estadoCita=accepted,fecha=${data.fecha}`);
   }
 
   getDataPostponed(data) {

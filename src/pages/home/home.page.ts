@@ -195,14 +195,6 @@ export class HomePage implements OnInit {
   getDataPac() {
     const user = JSON.parse(localStorage.getItem('user'));
     const idPaciente = user ? user.id : null;
-    // this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
-    //   var citaByDate = _.filter(cita, { "fecha": this.fecha }, { "hora": this.hora });
-    //   this.dataHome = _.first(citaByDate);
-    //   console.log(this.dataHome, 'ultima cita agendada');
-    // }, (err) => {
-    //   console.log(err, 'error ultima cita');
-    // });
-
     this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
       console.log(cita, 'citas para home');
       var citaFilter = _.filter(cita, { "fecha": this.fecha });
@@ -215,41 +207,6 @@ export class HomePage implements OnInit {
       console.log(err, 'error ultima cita');
     });
   }
-
-  // this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
-  //   console.log(cita, 'citas para home');
-  //   var citaFilter = _.filter(cita, { "fecha": this.fecha });
-  //   console.log(citaFilter, 'citas filtradas');
-  //   console.log(this.hora, 'hora actual');
-  //   this.dataHomeDelete = _.filter(citaFilter, item => item.hora >= this.hora);
-  //   this.dataHome = _.first(this.dataHomeDelete);
-  //   console.log(this.dataHome, 'ultima cita agendada');
-  // }, (err) => {
-  //   console.log(err, 'error ultima cita');
-  // });
-
-  // if (this.connection !== undefined) {
-  //   this.connection.unsubscribe();
-  //   this.auth.removeListener('calendar');
-  // }
-  // this.connection = this.auth.getLastAppointment().subscribe((result: any) => {
-  //   if (result.medico.fotoPerfil[0] !== 'h') {
-  //     let foto = this.url + result.medico.fotoPerfil;
-  //     result.medico.fotoPerfil = foto;
-  //   }
-  //   //debugger;
-  //   console.log(result, 'cita a remover');
-  //   if (result.estadoCita === 'canceled') {
-  //     this.removeData(result.id);
-  //   } else {
-  //     console.log('no hagas nada');
-
-  //   }
-  // }, (err) => {
-  //   console.log(err, 'errores');
-  //   console.log(err);
-  // });
-  // }
 
   removeData(id) {
     _.remove(this.dataHome, function (n) {
