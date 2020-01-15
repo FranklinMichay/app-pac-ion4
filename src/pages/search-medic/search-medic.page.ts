@@ -88,8 +88,6 @@ export class SearchMedicPage implements OnInit {
     private formBuilder: FormBuilder,
     private dataService: DataService,
     private sanitizer: DomSanitizer,
-
-
   ) {
 
     this.url = environment.url
@@ -104,7 +102,6 @@ export class SearchMedicPage implements OnInit {
     this.options.type = 'search';
     this.dataPaciente = JSON.parse(localStorage.getItem('user'));
     this.medicsByCity();
-
   }
 
   ngOnInit() {

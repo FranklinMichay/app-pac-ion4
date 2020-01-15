@@ -21,6 +21,7 @@ export class SearchFilterPage implements OnInit {
   prescription: any;
   idForRequest: any;
   dataForView: any;
+  dataReceta: any;
 
   constructor(
     navParams: NavParams,
@@ -31,15 +32,14 @@ export class SearchFilterPage implements OnInit {
     private dataService: DataService
   ) {
     this.prescription = navParams.get('prescription');
-    console.log(this.prescription, 'receta en modal');
+    console.log(this.prescription, 'PRODUCTOS EN MODAL');
+    this.dataReceta = navParams.get('dataReceta');
+    console.log(this.dataReceta, 'DATOS DE RECETA EN MODAL');
     //this.getInventarioById();
-    
+
   }
 
   ngOnInit() {
-
-    // this.getMedicalCenter();
-    // this.getSpecialities();
   }
 
   closeModal() {
@@ -52,7 +52,7 @@ export class SearchFilterPage implements OnInit {
     this.loadingCtrl.presentLoading();
     this.idForRequest = this.removeSquareBracket(_.map(this.prescription.detalles, 'id'));
     console.log(this.idForRequest, 'ids para consulta');
-    
+
     this.auth.getInfoProducts(this.idForRequest).subscribe((resultGetInfoProducts: any) => {
       this.dataForView = resultGetInfoProducts;
       if (this.prescription) {
@@ -102,18 +102,6 @@ export class SearchFilterPage implements OnInit {
       console.log(err, 'errores');
     });
   }
-
-  // getMedicByCity() {
-  //   this.loadingCtrl.presentLoading();
-  //   let url = 'medico/getData?model=userMedico&params=ciudad=loja';
-  //   this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
-  //     console.log(result, 'ciudades medicos');
-  //     this.medicsByCity = result;
-  //     this.loadingCtrl.dismiss();
-  //   }, (err) => {
-  //     console.log(err, 'errores');
-  //   });
-  // }
 
   codeSelected() {
     console.log(this.medicalC, 'dta del select');

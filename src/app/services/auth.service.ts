@@ -384,6 +384,12 @@ export class AuthService {
     return this.httpClient.get<any>(this.urlMongoDB + 'receta/searchRecePac/' + dni);
   }
 
+  searchPrescriptionDate(date: any, dni: any): Observable<any> {
+    console.log(date, dni, 'DATOS PARA REQUEST');
+    
+    return this.httpClient.get<any>(`${this.urlMongoDB}receta/searchReceDate/${date},${dni}`);
+  }
+
   getInfoProducts(ids: any): Observable<any> {
     //console.log(ids);
 

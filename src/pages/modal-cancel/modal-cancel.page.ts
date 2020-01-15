@@ -26,7 +26,6 @@ export class ModalCancelPage implements OnInit {
   ) {
     this.hourCancel = navParams.get('hour');
     console.log(this.hourCancel, 'hora para cancelar');
-
   }
 
   ngOnInit() {

@@ -12,29 +12,6 @@
 </ion-header>
 
 <ion-content class="content-cites">
-
-    <!-- <div *ngIf="dataMedic">
-        <ion-grid>
-            <ion-row>
-                <ion-col size="6" *ngFor="let medic of dataMedic " (click)="goDetails(medic)">
-                    <div class="container ">
-                        <a>
-                            <img class="crop" src="assets/imgs/receta.png" />
-
-                            <p class="explore-title">{{ medic.fecha | date : 'yyyy-MM-dd'}}</p>
-                            <p class="explore-text">Código: {{ medic.codRece}}</p>
-                            <p class="explore-text">DR. {{ medic.datosMed.priNombre| uppercase}} {{ medic.datosMed.priApellido | uppercase}}</p>
-                            <p class="explore-text"> {{ medic.datosMed.especialidad}}</p>
-                            <!-- <img class="crop " src="assets/imgs/receta-img.jpg"> -->
-    <!-- </a>
-                    </div>
-
-                </ion-col>
-            </ion-row>
-        </ion-grid>
-    </div> -->
-
-
     <div class="ion-padding">
         <ion-row class="nav-tabs">
             <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
@@ -48,6 +25,68 @@
             </ion-col>
         </ion-row>
     </div>
+
+    <ion-slides #slider loop (ionSlideNextEnd)="nextWeek()" (ionSlidePrevEnd)="previousWeek()" [options]="slideOpts">
+        <ion-slide *ngFor="let n of numbers" class="content-header">
+            <ion-row>
+                <ion-col *ngFor=" let v of daysWeek">
+                    <span>
+                            {{v.label}}
+                        </span>
+                    <span *ngIf="v.day" class="day-number" [className]="v.selected ? 'today' : 'sn'" (click)="changeDay(v.day)">
+                            {{v.day}}
+                        </span>
+                </ion-col>
+                <ion-col size="12">
+                    <span class="text-center-day date-label"> {{dateLabel}}</span>
+                </ion-col>
+            </ion-row>
+
+        </ion-slide>
+    </ion-slides>
+
+    <!-- <ion-card>
+        <ion-item>
+            <ion-avatar slot="start">
+                <img src="assets/imgs/no-datos.png">
+            </ion-avatar>
+            <ion-label>
+                <h3>John Doe</h3>
+                <p>Dec 10, 2019</p>
+            </ion-label>
+        </ion-item>
+
+        <img src="assets/imgs/no-datos.pn" alt="ion">
+        <ion-card-header>
+            <ion-card-title>Hotel Panama Garden</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus iaculis mollis ligula sed ultrices.
+        </ion-card-content>
+
+        <ion-footer>
+            <ion-row>
+                <ion-col center class="ion-text-center">
+                    <button>
+                  <ion-icon name="thumbs-up"></ion-icon>
+                  <div>1.5k Likes</div>
+                </button>
+                </ion-col>
+                <ion-col center class="ion-text-center">
+                    <button>
+                  <ion-icon name="text"></ion-icon>
+                  <div>4 Comments</div>
+                </button>
+                </ion-col>
+                <ion-col center class="ion-text-center">
+                    <button>
+                  <ion-icon name="time"></ion-icon>
+                  <div>11h ago</div>
+                </button>
+                </ion-col>
+            </ion-row>
+        </ion-footer>
+    </ion-card> -->
 
     <div *ngIf="dataMedic">
         <ion-grid>

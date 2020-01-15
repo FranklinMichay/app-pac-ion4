@@ -75,7 +75,6 @@ export class HomePage implements OnInit {
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
-    //this.getDataPac();
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
       this.auth.removeListener('calendar');
@@ -97,12 +96,10 @@ export class HomePage implements OnInit {
         'hora:' + ' ' + data.data.hora + '<br>' +
         'motivo:' + ' ' + data.data.motivo
       );
-      //this.unsub();
     });
   }
 
   ngOnInit() {
-    
     let now = new Date();
     this.fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
     var hora = ('0' + new Date().getHours()).substr(-2);
@@ -114,15 +111,10 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    console.log('entro will enter');
     this.getDataPac();
-
   }
 
   ionViewDidLeave() {
-    console.log('entro did leav');
-
-    //this.getDataPac();
   }
 
   notification() {

@@ -493,6 +493,52 @@ ion-content {
     font-size: 20px;
 }
 
+//CSS PARA CALENDARIO
+.day-number {
+    display: block;
+}
+
+.text-center-day {
+    color: #657785;
+    text-align: center;
+}
+
+.today {
+    display: block;
+    background-color: #7461fc;
+    color: white;
+    border-radius: 32px;
+    font-size: 16px;
+    text-align: center;
+    padding: 9px;
+    margin-top: 4%;
+}
+
+.sn {
+    text-align: center;
+    display: block;
+    margin-top: 23%;
+    font-size: 18px;
+    font-weight: bold;
+    color: #4a4a4a;
+}
+
+.slide {
+    margin-top: 3%;
+    background-color: #597bf0;
+    color: white;
+}
+
+.content-header {
+    background: #f6f6f6 !important;
+    text-align: center;
+    font-weight: 300;
+    /* font-size: 13px; */
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
 @media (min-width: 619px) {
     /*  .content-body {
       width       : calc(80% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
