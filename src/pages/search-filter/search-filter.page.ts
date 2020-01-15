@@ -107,4 +107,10 @@ export class SearchFilterPage implements OnInit {
     console.log(this.medicalC, 'dta del select');
 
   }
+
+  close() {
+    this.modalCtrl.dismiss({
+      // 'data': dataCita
+    });
+  }
 }
