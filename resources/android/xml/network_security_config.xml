@@ -2,8 +2,8 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
-        <domain includeSubdomains="true">45.79.169.248</domain>
-        <domain includeSubdomains="true">45.79.169.248:8000</domain>
+        <!-- <domain includeSubdomains="true">45.79.169.248</domain>
+        <domain includeSubdomains="true">45.79.169.248:8000</domain> -->
         <!-- <domain includeSubdomains="true">157.245.123.192</domain>
         <domain includeSubdomains="true">157.245.123.192:3000</domain>  -->
     </domain-config>
