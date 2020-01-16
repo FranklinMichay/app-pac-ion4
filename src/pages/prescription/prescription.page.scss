@@ -153,3 +153,80 @@ ion-card-title {
     display: grid;
     align-items: center;
 }
+
+//PRODUCTOS
+.item-style {
+    border: solid 1px #dfe4e6;
+    margin-top: 2%;
+}
+
+ion-list-header {
+    margin-bottom: -2%;
+    border: solid 1px #dfe4e6;
+}
+
+.comprar {
+    width: 80px;
+    height: 30px;
+    border-radius: 5px;
+    border: solid 2px #ffb500;
+    background-color: rgba(255, 181, 0, 0.5);
+}
+
+.price {
+    width: 101px;
+    height: 22px;
+    font-family: Poppins;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #657785;
+}
+
+.precio-venta {
+    width: 268px;
+    height: 22px;
+    font-family: OpenSans;
+    font-size: 16px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: maroon;
+    margin-bottom: -20%;
+}
+
+.select-label {
+    font-size: smaller;
+}
+
+.row-price {
+    margin-left: -2%;
+}
+
+.row-cantidad {
+    margin-left: -7%;
+    margin-top: -5%;
+}
+
+// .line-input {
+//     margin-bottom: 0!important;
+//     ion-item {
+//         --border-color: transparent!important;
+//         --highlight-height: 0;
+//         border: 1px solid #dedede;
+//         border-radius: 4px;
+//         &.item-has-focus {
+//             border: 1px solid var(--ion-color-primary);
+//         }
+//         ion-label {
+//             color: #807e7e !important;
+//             font-weight: 200;
+//             font-size: 1rem !important;
+//         }
+//     }
+// }

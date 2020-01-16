@@ -1,4 +1,4 @@
-import { DataService } from './../../app/services/data.service';
+
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ModalController, AlertController, NavParams, IonSlides } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
@@ -8,6 +8,7 @@ import * as _ from 'lodash';
 import { SearchFilterPage } from './../search-filter/search-filter.page';
 import { Info } from '../../shared/mock/months';
 import { environment } from 'src/environments/environment';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-prescription-detail',
@@ -44,6 +45,7 @@ export class PrescriptionDetailPage implements OnInit {
   idPaciente: any;
   url: any;
   dataRecetaModal: any;
+  dataCompra: any;
 
   numbers = [-1, 0, 1, 2];
   firstLoad = true;
@@ -69,6 +71,7 @@ export class PrescriptionDetailPage implements OnInit {
     private loadingCtrl: LoadingService,
     private route: ActivatedRoute,
     public mdlCtrl: ModalController,
+    private dataService: DataService
 
   ) {
 
@@ -126,6 +129,10 @@ export class PrescriptionDetailPage implements OnInit {
     });
   }
 
+  goDetails(prescription) {
+    this.dataService.dataCompra = prescription;
+    this.getProductPrescriptionCompra(this.removeSquareBracket(_.map(prescription.detalles, 'id')));
+  }
   
   prepareIdsRequest(dataPrescription: any) {
     console.log(dataPrescription, 'DATOS RECETA');
@@ -133,7 +140,6 @@ export class PrescriptionDetailPage implements OnInit {
     this.idForRequest = this.removeSquareBracket(_.map(dataPrescription.detalles, 'id'));
     this.getProductPrescription(this.removeSquareBracket(_.map(dataPrescription.detalles, 'id')));
     console.log(this.idForRequest, 'ids para request');
-    
   }
 
   getProductPrescription(ids: string) {
@@ -141,6 +147,13 @@ export class PrescriptionDetailPage implements OnInit {
       this.prescriptionList = prescription;
       console.log(this.prescriptionList, 'PRODUCTOS');
       this.presentModal();
+    });
+  }
+
+  getProductPrescriptionCompra(ids: string) {
+    this.auth.getInfoProducts(ids).subscribe(prescription => {
+      this.prescriptionList = prescription;
+      this.router.navigate(['prescription'], { state: this.prescriptionList } );
     });
   }
 
@@ -288,7 +301,6 @@ export class PrescriptionDetailPage implements OnInit {
     }
   }
 
-
   getCurrentDate(day) {
     const month = this.currentMonth + 1;
     const m = (month < 10) ? ('0' + month) : month;
@@ -296,7 +308,6 @@ export class PrescriptionDetailPage implements OnInit {
     const date = this.currentYear + '-' + m + '-' + d;
     return date;
   }
-
 
   removeSquareBracket(array: []) {
     let resultRemove = '';
@@ -306,9 +317,7 @@ export class PrescriptionDetailPage implements OnInit {
     return (resultRemove.slice(0, (resultRemove.length - 1)));
   }
 
-  goDetails(prescription) {
-    this.router.navigate(['prescription'], { state: prescription });
-  }
+  
 
   goDetailAppointment(prescription) {
     this.prescription = prescription;

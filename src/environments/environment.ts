@@ -4,20 +4,18 @@
 
 export const environment = {
   production: false,
-  // apiUrl: 'http://45.79.169.248:8000/entidades/getData?model=',
-  // apiURL1: 'http://45.79.169.248:8000/',
-  //socketUrl: 'http://45.79.169.248:8080/',
-  // apiMongoDB: 'http://157.245.123.192:3000/',
-  // url: 'http://45.79.169.248:8000',
-  // paymentezAPI: 'https://ccapi-stg.paymentez.com'
-
-
-
-  apiUrl: 'http://192.168.0.102:9000/entidades/getData?model=',
-  apiURL1: 'http://192.168.0.102:9000/',
-  socketUrl: 'http://192.168.0.102:8080/',
-  apiMongoDB: 'http://192.168.0.102:3000/',
-  url: 'http://192.168.0.102:9000'
+  apiUrl: 'http://45.79.169.248:8000/entidades/getData?model=',
+  apiURL1: 'http://45.79.169.248:8000/',
+  socketUrl: 'http://45.79.169.248:8080/',
+  apiMongoDB: 'http://157.245.123.192:3000/',
+  url: 'http://45.79.169.248:8000',
+  //paymentezAPI: 'https://ccapi-stg.paymentez.com'
+  
+  // apiUrl: 'http://192.168.0.102:9000/entidades/getData?model=',
+  // apiURL1: 'http://192.168.0.102:9000/',
+  // socketUrl: 'http://192.168.0.102:8080/',
+  // apiMongoDB: 'http://192.168.0.102:3000/',
+  // url: 'http://192.168.0.102:9000'
 
   //apiUrl: 'http://9d8d5137.ngrok.io/entidades/getData?model=',
   // apiURL1: 'http://9d8d5137.ngrok.io/',

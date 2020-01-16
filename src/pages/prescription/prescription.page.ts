@@ -1,10 +1,11 @@
 import { map } from 'rxjs/operators';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { LoadingService } from '../../app/services/loading.service';
 import { ModalController, NavParams, AlertController } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import * as _ from 'lodash';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-prescription',
@@ -23,8 +24,10 @@ export class PrescriptionPage implements OnInit {
   dataForView: any;
   listProducts: any = [];
   dataListDesp: any = [];
+  dataCompra: any;
 
-
+  cantidad: any;
+ 
   constructor(
     public mdlCtrl: ModalController,
     //navParams: NavParams,
@@ -32,43 +35,23 @@ export class PrescriptionPage implements OnInit {
     private auth: AuthService,
     private alertCtrl: AlertController,
     private router: Router,
-    private loadingCtrl: LoadingService
+    private loadingCtrl: LoadingService,
+    private route: ActivatedRoute,
+    private dataService: DataService
   ) { }
 
   ngOnInit() {
-
-    // this.dataReceta = n.get('receta');
     this.dataReceta = this.router.getCurrentNavigation().extras.state;
-    console.log(this.dataReceta, 'recetaaa');
-    this.getDesp();
-
-
+    console.log(this.dataReceta, 'PRODUCTOS');
+    this.dataCompra = this.dataService.dataCompra;
+    console.log(this.dataCompra, 'RECETA');
+    
+    //this.getDesp();
   }
-
-  // despachos() {
-  //   this.auth.getInfoProducts().subscribe((resultGetInfoProducts: any) => {
-  //     console.log();
-      
-
-  //     //console.log(this.dataForView, 'despachos detalles');
-  //   });
-  // }
 
   returnHome() {
     this.router.navigate(['home']);
   }
-
-  // getPrescription() {
-  //   this.loadingCtrl.presentLoading();
-  //   this.auth.getPrescription(this.idPrescription).subscribe(result => {
-  //     console.log(result, 'Recetas');
-  //     this.prescriptions= result;
-  //     this.loadingCtrl.dismiss();
-  //   }, (err) => {
-  //     console.log(err, 'error recetas');
-  //     this.loadingCtrl.dismiss();
-  //   });
-  // }
 
   goDetails(prescription) {
     this.router.navigate(['prescription-detail'], { state: prescription });
@@ -84,12 +67,12 @@ export class PrescriptionPage implements OnInit {
           idReceta: searchPrescription[index].idReceta,
           totalDesp: searchPrescription[index].totalDespacho,
           datosReceta: this.dataDespacho,
-        }  
+        }
         this.dataListDesp.push(datos)
       }
       console.log(this.dataReceta, 'data receta');
       console.log(this.dataReceta.detalles, 'dataReceta detalles');
-      
+
       this.idForRequest = this.removeSquareBracket(_.map(this.dataReceta.detalles, 'id'));
       this.auth.getInfoProducts(this.idForRequest).subscribe((resultGetInfoProducts: any) => {
         this.dataForView = resultGetInfoProducts;
@@ -112,12 +95,8 @@ export class PrescriptionPage implements OnInit {
   getInfoProductByListId(ids: any) {
     this.auth.getInfoProducts(ids).subscribe((resultGetInfoProducts: any) => {
       this.dataForView = resultGetInfoProducts;
-
-      //console.log(this.dataForView, 'despachos detalles');
     });
   }
-
-
 
   removeSquareBracket(array: []) {
     let resultRemove = '';

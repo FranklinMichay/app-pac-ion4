@@ -7,12 +7,57 @@
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar">Despachos</ion-title>
+        <ion-title class="title-toolbar">Compra</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="dataListDesp">
-    <ion-card *ngFor="let desp of dataListDesp" color="medium-shade">
+<ion-content *ngIf="dataReceta" class="ion-padding">
+
+    <ion-list *ngFor="let producto of dataReceta; let i = index">
+        <ion-list-header color="light">
+            {{producto.codigoProducto.nombre | uppercase}}
+        </ion-list-header>
+
+        <ion-item class="item-style" *ngIf="dataCompra">
+            <!-- <ion-avatar slot="start">
+                <img src="assets/imgs/img-no-prod.png">
+            </ion-avatar> -->
+            <ion-label>
+                <h3>{{producto.codigoProducto.nombre | uppercase}} {{producto.codigoProducto.concentracion | uppercase}}
+                </h3>
+                <h3>{{producto.codigoProducto.formaFarmaceutica | uppercase}}</h3>
+                <h3>{{producto.codigoProducto.presentacion | uppercase}}</h3>
+                <ion-row class="row-price">
+                    <ion-col size="6">
+                        <p class="precio-venta"> $ {{producto.precioVenta }}</p><br />
+                        <label class="price">PRECIO</label>
+                    </ion-col>
+                    <ion-col size="6">
+                        <p class="precio-venta"> {{dataCompra.detalles[i].cantidad}}</p><br />
+                        <label class="price">CANTIDAD RECETADA</label>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row class="row-cantidad">
+                    <ion-col size="12">
+                        <!-- <label class="price">{{dataCompra.detalles[i].cantidad}}</label> -->
+                        <ion-item class="select-label">
+                            <ion-label>Cantidad:</ion-label>
+                            <ion-input type="number" placeholder="Ingrese Cantidad" class="select-label"></ion-input>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col size="12">
+                        <button class="comprar">
+                            AGREGAR
+                        </button>
+                    </ion-col>
+                </ion-row>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+    <!-- <ion-card *ngFor="let desp of dataListDesp" color="medium-shade">
         <ion-card-content>
             <ion-card-header>
                 <ion-item>
@@ -69,5 +114,5 @@
     <div *ngIf="!dataListDesp || dataListDesp.length==0 " class="empty-container ">
         <img src="assets/imgs/no-datos.png" class="empty-state ">
         <h3 class="text-center ">Sin Despachos</h3>
-    </div>
+    </div> -->
 </ion-content>
