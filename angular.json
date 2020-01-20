@@ -42,7 +42,10 @@
                                 "input": "src/global.scss"
                             }
                         ],
-                        "scripts": []
+                        "scripts": [                         
+                            
+                             "src/assets/js/paymentez.min.js"
+                            ]
                     },
                     "configurations": {
                         "production": {
