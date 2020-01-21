@@ -44,9 +44,13 @@
         "cordova-plugin-appminimize": "^1.0.1",
         "cordova-plugin-background-mode": "^0.7.3",
         "cordova-plugin-badge": "^0.8.8",
+        "cordova-plugin-camera": "^4.1.0",
+        "cordova-plugin-camera-preview": "^0.11.1",
+        "cordova-plugin-crop": "^0.4.0",
         "cordova-plugin-file": "^6.0.2",
         "cordova-plugin-file-transfer": "^1.7.1",
         "cordova-plugin-googleplus": "^8.1.1",
+        "cordova-plugin-local-notification": "^0.9.0-beta.2",
         "cordova-plugin-nativestorage": "^2.3.2",
         "cordova-plugin-telerik-imagepicker": "^2.3.3",
         "core-js": "^2.5.4",
@@ -108,7 +112,9 @@
             "cordova-plugin-statusbar": {},
             "cordova-plugin-device": {},
             "cordova-plugin-splashscreen": {},
-            "cordova-plugin-ionic-webview": {},
+            "cordova-plugin-ionic-webview": {
+                "ANDROID_SUPPORT_ANNOTATIONS_VERSION": "27.+"
+            },
             "cordova-plugin-ionic-keyboard": {},
             "cordova-plugin-googleplus": {
                 "REVERSED_CLIENT_ID": "606633412500-qpb3ioll8fbi40lqnr8e3c0pvh9hmitc.apps.googleusercontent.com",
@@ -119,7 +125,9 @@
             "cordova-plugin-camera-preview": {
                 "ANDROID_SUPPORT_LIBRARY_VERSION": "26+"
             },
-            "cordova-plugin-camera": {},
+            "cordova-plugin-camera": {
+                "ANDROID_SUPPORT_V4_VERSION": "27.+"
+            },
             "cordova-plugin-crop": {},
             "cordova-plugin-file-transfer": {},
             "cordova-plugin-file": {},
@@ -128,6 +136,8 @@
             },
             "cordova-plugin-local-notification": {}
         },
-        "platforms": []
+        "platforms": [
+            "android"
+        ]
     }
 }
