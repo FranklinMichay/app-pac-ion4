@@ -71,9 +71,7 @@ export class RegisterPage implements OnInit {
     });
 
     this.slideTwoForm = fb.group({
-
       sexo: ['', Validators.required],
-      //identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
       telefonoCelular: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
       ciudad: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       fechaNaci: ['', Validators.required],

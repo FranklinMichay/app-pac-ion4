@@ -201,6 +201,8 @@ export class AuthService {
   }
 
   medicsByCity(city) {
+    console.log(city, 'ciudad');
+    
     return this.httpClient.get(this.url + 'medico/getData?model=userMedico&params=ciudad=' + city);
   }
 
@@ -384,8 +386,14 @@ export class AuthService {
     return this.httpClient.get<any>(this.urlMongoDB + 'receta/searchRecePac/' + dni);
   }
 
+  searchPrescriptionDate(date: any, dni: any): Observable<any> {
+    console.log(date, dni, 'DATOS PARA REQUEST');
+    
+    return this.httpClient.get<any>(`${this.urlMongoDB}receta/searchReceDate/${date},${dni}`);
+  }
+
   getInfoProducts(ids: any): Observable<any> {
-    //console.log(ids);
+    console.log(ids);
 
     return this.httpClient.get<any>(this.urlMongoDB + 'inventario/listarInventarios/' + ids);
   }

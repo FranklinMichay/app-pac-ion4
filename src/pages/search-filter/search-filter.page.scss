@@ -105,3 +105,74 @@
     width: 25%;
     height: 30px;
 }
+
+// MEDICAMENTOS
+.label-content {
+    font-size: smaller;
+    font-weight: 700 !important;
+    height: auto;
+}
+
+.row-content {
+    font-size: smaller;
+    text-align: left;
+}
+
+.cantidad {
+    margin-left: -7%;
+}
+
+.titulo-receta {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #f3f4f8;
+    margin-top: 2%;
+}
+
+.bg-receta {
+    background-color: #13ccb3;
+    height: 96px;
+}
+
+.es-med {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #f3f4f8;
+    margin-top: -5%;
+}
+
+.cm-med {
+    font-family: Poppins;
+    font-size: 12px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #f3f4f8;
+    margin-top: -5%;
+}
+
+.cerrar {
+    width: 127px;
+    height: 28px;
+    border-radius: 25px;
+    border: solid 1px #555a5e;
+    background-color: white;
+    font-family: Poppins;
+    text-align: center;
+}
+
+.content-div {
+    text-align: center;
+}

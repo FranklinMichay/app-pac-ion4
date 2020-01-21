@@ -3,16 +3,80 @@
         <ion-back-button class="title-toolbar" slot="start">
         </ion-back-button>
         <ion-buttons slot="end">
-            <ion-button (click)="returnHome()" slot="end">
+            <!-- <ion-button (click)="returnHome()" slot="end">
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
+            </ion-button> -->
+            <ion-button (click)="goCart()" slot="end">
+                <ion-icon class="style-icon-logout" slot="icon-only" name="cart"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar">Despachos</ion-title>
+        <ion-title class="title-toolbar">Compra</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="dataListDesp">
-    <ion-card *ngFor="let desp of dataListDesp" color="medium-shade">
+<ion-content *ngIf="dataForView" class="ion-padding">
+
+    <ion-row>
+        <ion-col size="12">
+            <ion-button class="comprar" (click)="buyTotalPrescription()">
+                COMPRAR TODO
+            </ion-button>
+        </ion-col>
+    </ion-row>
+    <ion-list *ngFor="let producto of dataForView; let i = index">
+        <ion-list-header color="light">
+            {{producto.product | uppercase}}
+        </ion-list-header>
+
+        <ion-item class="item-style">
+            <!-- <ion-avatar slot="start">
+                <img src="assets/imgs/img-no-prod.png">
+            </ion-avatar> -->
+            <ion-label>
+                <h3>{{producto.pharmacyForm | uppercase}} - {{producto.concentration | uppercase}}</h3>
+                <h3>{{producto.presentation | uppercase}}</h3>
+                <ion-row class="row-price">
+                    <ion-col size="6">
+                        <p class="precio-venta"> $ {{producto.price }}</p><br />
+                        <label class="price">PRECIO</label>
+
+                    </ion-col>
+                    <ion-col size="6">
+                        <p class="precio-venta"> {{producto.totalPrescription}}</p><br />
+                        <label class="price">CANTIDAD RECETADA</label>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col size="8">
+                        <label class="price">INGRESAR CANTIDAD:</label>&nbsp;
+                        <input class="style-input" type="number" [(ngModel)]="producto.totalDispatch" min="0" (change)="calculateTotal($event, i)" (keyup)="calculateTotal($event, i)">
+                    </ion-col>
+                </ion-row>
+                <!-- <ion-row *ngIf="total > 0">
+                    <ion-col size="12">
+                        <label class="price">IVA:</label>&nbsp;
+                        <label class="precio-venta">{{iva * 100}} %</label>
+                    </ion-col>
+                </ion-row> -->
+                <ion-row *ngIf="total > 0">
+                    <ion-col size="12">
+                        <label class="price">TOTAL DESPACHO:</label>&nbsp;
+                        <label class="precio-venta">{{ producto.totalDispatch * producto.price | currency }}</label>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row>
+                    <ion-col size="12">
+                        <ion-button class="comprar" (click)="addToCart()" [disabled]="producto.totalDispatch * producto.price == 0">
+                            AGREGAR AL CARRITO
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ion-label>
+        </ion-item>
+    </ion-list>
+    <!-- <ion-card *ngFor="let desp of dataListDesp" color="medium-shade">
         <ion-card-content>
             <ion-card-header>
                 <ion-item>
@@ -51,7 +115,7 @@
                                     <ion-label>{{desp.detalles.cantidad}}</ion-label>
                                 </ion-col>
                                 <ion-col size="2">
-                                    <!-- <ion-button fill="outline" class="price">{{item.cantidad}}</ion-button> -->
+
                                     <ion-label>{{desp.detalles.precioVenta}}</ion-label>
                                 </ion-col>
                                 <ion-col size="3">
@@ -69,5 +133,5 @@
     <div *ngIf="!dataListDesp || dataListDesp.length==0 " class="empty-container ">
         <img src="assets/imgs/no-datos.png" class="empty-state ">
         <h3 class="text-center ">Sin Despachos</h3>
-    </div>
+    </div> -->
 </ion-content>

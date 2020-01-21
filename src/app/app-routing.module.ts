@@ -25,6 +25,8 @@ const routes: Routes = [
   // tslint:disable-next-line: max-line-length
   { path: 'modal-accept-postponed', loadChildren: () => import('../pages/modal-accept-postponed/modal-accept-postponed.module').then(m => m.ModalAcceptPostponedPageModule) },
   { path: 'payment', loadChildren: () => import('../pages/payment/payment.module').then(m => m.PaymentPageModule) },
+  { path: 'cart', loadChildren: () => import('../pages/cart/cart.module').then(m => m.CartPageModule) },
+
 ];
 @NgModule({
   imports: [

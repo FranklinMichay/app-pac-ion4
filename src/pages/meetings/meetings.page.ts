@@ -68,7 +68,6 @@ export class MeetingsPage implements OnInit {
 
   constructor(
     private router: Router,
-    //public loadingCtrl: LoadingController,
     public alertCtrl: AlertController,
     private auth: AuthService,
     private socket: Socket,
@@ -114,13 +113,9 @@ export class MeetingsPage implements OnInit {
       console.log(err, 'errores');
       console.log(err);
     });
-    
   }
 
   ngOnInit() {
-    //debugger
-    //this.getAllData(this.idPaciente);
-    //this.changeDay(this.day)
     this.slider.slideTo(1, 0, false);
     const currentDate = this.getCurrentDate(this.day);
     console.log(currentDate, 'current date');
@@ -167,7 +162,6 @@ export class MeetingsPage implements OnInit {
   }
 
   prevSlide() {
-
     let newIndex;
     this.slider.getActiveIndex().then((index) => {
       newIndex = index;
@@ -182,7 +176,6 @@ export class MeetingsPage implements OnInit {
   }
 
   deleteData(id) {
-    //debugger
     console.log(this.accepted, 'datos ANTES DELETE');
     _.remove(this.accepted, function (n) {
       console.log(id, 'DELETE');
@@ -192,7 +185,6 @@ export class MeetingsPage implements OnInit {
       console.log(id, 'DELETE');
       return n.id === id;
     });
-    //console.log(this.acceptedMeetings, 'datos delete filtrados');
   }
 
   deleteDataPosponed(id) {
@@ -206,18 +198,13 @@ export class MeetingsPage implements OnInit {
       console.log(id, 'DELETE');
       return n.id === id;
     });
-    //console.log(this.acceptedMeetings, 'datos delete filtrados');
   }
 
   getCurrentDate(day) {
-    // const day = this.lastDataShowed.firstDay.value;´
-    // const day = this.today.getDate();
     const month = this.currentMonth + 1;
     const m = (month < 10) ? ('0' + month) : month;
     const d = (day < 10) ? ('0' + day) : day;
     const date = this.currentYear + '-' + m + '-' + d;
-    // const _lastDay = this.lastDataShowed.lastDay.value;
-    // const dateEnd = this.currentYear + '-' + m + '-' + _lastDay;
     return date;
   }
 
@@ -240,7 +227,6 @@ export class MeetingsPage implements OnInit {
         this.auth.getMeetingAccepted(fields).subscribe(d => {
           this.acceptedMeetings = d;
           console.log(this.acceptedMeetings, 'aceptadas');
-          
         });
       });
     });
@@ -248,57 +234,8 @@ export class MeetingsPage implements OnInit {
     
   }
 
-  // getAllData(patientId) {
-  //   this.loadingCtrl.presentLoading();
-  //   const url = `paciente_id=${patientId},estadoCita=newORacceptedORpostponedORcanceled`;
-  //   this.auth.getByUrlCustom(url).subscribe(result => {
-  //     console.log(result, 'todas las horas del paciente');
-  //     this.acceptedMeetings = _.filter(result, function (o) { return o.estadoCita === 'accepted'; });
-  //     this.newMeetings = _.filter(result, function (o) { return o.estadoCita === 'canceled'; });
-  //     this.postponedMeetings = _.filter(result, function (o) { return o.estadoCita === 'postponed'; });
-  //     this.filterData(this.currentYear, this.currentMonth, this.day);
-  //     // console.log(this.acceptedMeetings, 'aceptadas');
-  //     console.log(this.newMeetings, 'canceled');
-  //     // console.log(this.postponedMeetings, 'postponed');
-  //     this.loadingCtrl.dismiss();
-  //   });
-
-  //   if (this.connection !== undefined) {
-  //     this.connection.unsubscribe();
-  //     this.auth.removeListener('calendar');
-  //   }
-  //   this.connection = this.auth.getDataAlerts().subscribe((result: any) => {
-  //     if (result.medico.fotoPerfil[0] !== 'h') {
-  //       let foto = this.url + result.medico.fotoPerfil;
-  //       result.medico.fotoPerfil = foto;
-  //     }
-  //     //debugger;
-  //     console.log(result, 'cita para pushear');
-  //     if (result.estadoCita === 'accepted') {
-  //       this.acceptedMeetings.push(result);
-  //       this.accepted.push(result);
-  //     } else if (result.estadoCita === 'canceled') {
-  //       this.newMeetings.push(result);
-  //       this.news.push(result);
-  //       this.removeData(result.id);
-  //     } else if (result.estadoCita === 'postponed') {
-  //       this.postponedMeetings.push(result);
-  //       this.postponed.push(result);
-  //       this.removeData(result.id);
-  //     }
-  //   }, (err) => {
-  //     console.log(err, 'errores');
-  //     console.log(err);
-  //   });
-  // }
-
   removeData(result) {
-    // _.remove(this.accepted, function (n) {
-
-    //   return n.id === result;
-    // });
     _.remove(this.acceptedMeetings, function (n) {
-
       return n.id === result;
     });
   }
@@ -314,8 +251,6 @@ export class MeetingsPage implements OnInit {
       return v;
     });
     this.day = day;
-    // console.log(this.day, 'dia seleccionado');
-    //this.filterData(this.currentYear, this.currentMonth, day);
   }
 
   filterData(year, month, day) {
@@ -359,7 +294,6 @@ export class MeetingsPage implements OnInit {
     const newDay = this.lastDay === currentLastDay ? 1 : currentLastDay + 1;
     const newIndex = this.lastDataShowed.lastDay.index === 6 ? 0 : this.lastDataShowed.lastDay.index + 1;
     this.setWeek(newDay, newIndex);
-
     this.changeDay(this.daysWeek[3].day || this.daysWeek[0].day || this.daysWeek[6].day);
 
   }
@@ -502,7 +436,6 @@ export class MeetingsPage implements OnInit {
       this.hours = this.hourCopy;
       console.log(err);
     });
-    //this.auth.sendNotify({ fecha: date, client: this.pacienteId, idMedico: _info.idMedico });
   }
 
   setData(data: any) {
@@ -512,7 +445,6 @@ export class MeetingsPage implements OnInit {
     } else {
       _.forEach(data, (element) => {
         console.log(element, 'element');
-
         let newData: any = element;
         if (!element.id) {
           newData.state = 'Disponible'
@@ -538,7 +470,6 @@ export class MeetingsPage implements OnInit {
     console.log(medic, state, posponed, 'info para agendar');
     this.router.navigate(['detail-medic', state, posponed], { state: medic });
   }
-
 
   initSockets(day) {
     this.day = day;

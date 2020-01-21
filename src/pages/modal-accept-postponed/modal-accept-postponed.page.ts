@@ -27,11 +27,10 @@ export class ModalAcceptPostponedPage implements OnInit {
   ) {
     this.hourAccept = navParams.get('data');
     console.log(this.hourAccept, 'hora para aceptar');
-
   }
 
   ngOnInit() {
-     
+
   }
 
   AcceptPosponed(horaAccept) {
@@ -40,9 +39,7 @@ export class ModalAcceptPostponedPage implements OnInit {
       id: horaAccept.id,
       estadoCita: 'accepted'
     };
-    
     console.log(horaAccept.id, 'ide para aceptar');
-
     this.auth.update(_info).subscribe(result => {
       console.log(result, 'data Nueva');
       this.auth.sendNotify(result[0]);
@@ -55,8 +52,5 @@ export class ModalAcceptPostponedPage implements OnInit {
     this.modalCtrl.dismiss({
       'data': horaAccept
     });
-
-
   }
-
 }

@@ -26,15 +26,15 @@ export class HomePage implements OnInit {
   dataUser: any;
   slides: any = [
     {
-      src: 'https://png.pngtree.com/png-clipart/20190517/original/pngtree-dna-logo-with-chemical-structure-vector-template-icon-for-biotechnology-png-image_3654529.jpg',
+      src: 'assets/imgs/slide2.jpg',
       medicalCenter: 'CLÍNICA MEDIPHARM', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
     },
     {
-      src: 'https://png.pngtree.com/png-clipart/20190516/original/pngtree-abstract-hexagon-background--technology-polygonal-concept-vector-illustration-png-image_3786359.jpg',
+      src: 'assets/imgs/slide6.jpg',
       medicalCenter: 'FARMACIA SAN DANIEL', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
     },
     {
-      src: 'https://png.pngtree.com/png-clipart/20190516/original/pngtree-pills-polygonal-two-capsule-pills-made-of-line-png-image_3786353.jpg',
+      src: 'assets/imgs/slide3.jpg',
       medicalCenter: 'LABORATORIO CLINICO LOJA', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
     }];
   connection: any;
@@ -75,7 +75,6 @@ export class HomePage implements OnInit {
     console.log(user, 'user');
     const idPaciente = user ? user.id : 1;
     const fields: any = idPaciente;
-    //this.getDataPac();
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
       this.auth.removeListener('calendar');
@@ -97,12 +96,10 @@ export class HomePage implements OnInit {
         'hora:' + ' ' + data.data.hora + '<br>' +
         'motivo:' + ' ' + data.data.motivo
       );
-      //this.unsub();
     });
   }
 
   ngOnInit() {
-    
     let now = new Date();
     this.fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
     var hora = ('0' + new Date().getHours()).substr(-2);
@@ -114,15 +111,10 @@ export class HomePage implements OnInit {
   }
 
   ionViewWillEnter() {
-    console.log('entro will enter');
     this.getDataPac();
-
   }
 
   ionViewDidLeave() {
-    console.log('entro did leav');
-
-    //this.getDataPac();
   }
 
   notification() {
