@@ -130,8 +130,10 @@ export class PrescriptionDetailPage implements OnInit {
   }
 
   goDetails(prescription) {
+    this.loadingCtrl.presentLoading();
     this.dataService.dataCompra = prescription;
     this.getProductPrescriptionCompra(this.removeSquareBracket(_.map(prescription.detalles, 'id')));
+    this.loadingCtrl.dismiss();
   }
   
   prepareIdsRequest(dataPrescription: any) {

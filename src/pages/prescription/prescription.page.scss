@@ -166,11 +166,23 @@ ion-list-header {
 }
 
 .comprar {
-    width: 80px;
-    height: 30px;
+    width: 212px;
     border-radius: 5px;
-    border: solid 2px #ffb500;
-    background-color: rgba(255, 181, 0, 0.5);
+    background-color: dimgrey;
+    color: white;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.cantidad {
+    width: 133px;
+    height: 22px;
+    border-radius: 5px;
+    border: solid 2px black;
+    background-color: white;
+    color: maroon;
+    font-weight: 700;
 }
 
 .price {
@@ -205,12 +217,16 @@ ion-list-header {
 }
 
 .row-price {
-    margin-left: -2%;
+    //margin-left: -2%;
 }
 
 .row-cantidad {
     margin-left: -7%;
     margin-top: -5%;
+}
+
+.style-input {
+    width: 85%;
 }
 
 // .line-input {

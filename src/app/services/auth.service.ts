@@ -201,6 +201,8 @@ export class AuthService {
   }
 
   medicsByCity(city) {
+    console.log(city, 'ciudad');
+    
     return this.httpClient.get(this.url + 'medico/getData?model=userMedico&params=ciudad=' + city);
   }
 
@@ -391,7 +393,7 @@ export class AuthService {
   }
 
   getInfoProducts(ids: any): Observable<any> {
-    //console.log(ids);
+    console.log(ids);
 
     return this.httpClient.get<any>(this.urlMongoDB + 'inventario/listarInventarios/' + ids);
   }

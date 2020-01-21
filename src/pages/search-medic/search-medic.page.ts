@@ -349,7 +349,8 @@ export class SearchMedicPage implements OnInit {
 
   medicsByCity() {
     this.loadingCtrl.presentLoading();
-    let city = this.dataPaciente.ciudad.toUpperCase();
+    //let city = this.dataPaciente.ciudad.toUpperCase();
+    let city = this.dataPaciente.ciudad;
     this.auth.medicsByCity(city).subscribe((result: any) => {
       this.medics = result;
       this.medicFiltered = result;
