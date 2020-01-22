@@ -67,4 +67,7 @@ export class CartPage implements OnInit {
   }
 
 
+  pay() {
+    this.router.navigate(['payment']);
+  }
 }

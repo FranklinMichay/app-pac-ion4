@@ -35,7 +35,7 @@ export class PaymentPage implements OnInit {
 
   mapbox = (mapboxgl as typeof mapboxgl);
   map: mapboxgl.Map;
-  style = `mapbox://styles/mapbox/streets-v11`;
+  style = 'mapbox://styles/mapbox/streets-v11';
   // Coordenadas de la localización donde queremos centrar el mapa
   lat = -3.994628;
   lng = -79.204416;
@@ -74,7 +74,7 @@ export class PaymentPage implements OnInit {
       attributionControl: false
     });
 
-    const marker = new mapboxgl.Marker({
+    var marker = new mapboxgl.Marker({
       draggable: true
     }).setLngLat([this.lng, this.lat]).addTo(this.map);
 
@@ -85,14 +85,6 @@ export class PaymentPage implements OnInit {
       console.log(`Current Map Center: ${this.map.getCenter()}`);
       console.log('Longitude: ' + lngLat.lng + ' Latitude: ' + lngLat.lat);
     }
-
-
-
-
-    
-
-
-
   }
 
   initForms() {
@@ -104,8 +96,6 @@ export class PaymentPage implements OnInit {
       email: ['', [Validators.email, Validators.required]],
       identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
     });
-
-
 
     this.direccionForm = this.fb.group({
 
