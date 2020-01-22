@@ -8,7 +8,7 @@ export const environment = {
   apiURL1: 'https://medipharmec.com/api/',
   socketUrl: 'https://medipharmec.com/',
   apiMongoDB: 'https://medipharmec.com/backNode/',
-  url: 'https://medipharmec.com/api',
+  url: 'https://medipharmec.com/api/',
   mapbox: {
     accessToken: 'pk.eyJ1IjoiYnlqb3NlMDA3IiwiYSI6ImNqdzZ3NXFqbDBkZ3o0YXM1bzBlNzlsZDUifQ.H4Y5vm4i3ong8SaW1XUWNw'
  }
