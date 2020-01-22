@@ -9,6 +9,7 @@ declare var Paymentez: any;
 declare var PaymentezCheckout: any;
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 
 
 
@@ -22,6 +23,7 @@ export class PaymentPage implements OnInit {
   isDatosPersonales: boolean;
   isDireccion = false;
   isPago = false;
+  marker:any;
 
   myForm: FormGroup;
   formData = new FormData();
@@ -37,11 +39,11 @@ export class PaymentPage implements OnInit {
   map: mapboxgl.Map;
   style = `mapbox://styles/mapbox/streets-v11`;
   // Coordenadas de la localización donde queremos centrar el mapa
-  lat = -3.994628;
-  lng = -79.204416;
+  lat: number;
+  lng: number;
   zoom = 15;
 
-  constructor(public fb: FormBuilder) {
+  constructor(public fb: FormBuilder,public geolocation: Geolocation ) {
     this.isDatosPersonales = true;
 
   }
@@ -53,47 +55,69 @@ export class PaymentPage implements OnInit {
 
   }
 
-  ngAfterViewInit() {
-    this.loadMap();
+  ionViewDidEnter() {
+    this.getCurrentPosition();
   }
 
 
-  ngAfterContentInit() {
-    // this.loadMap();
-  }
+  async getCurrentPosition() {  
 
-  loadMap() {
-    console.log('ngAfterContentInit');
-
-    this.mapbox.accessToken = environment.mapbox.accessToken;
-    this.map = new mapboxgl.Map({
-      container: this.mapElement.nativeElement,
-      style: 'mapbox://styles/mapbox/bright-v9',
-      zoom: this.zoom,
-      center: [this.lng, this.lat],
-      attributionControl: false
-    });
-
-    const marker = new mapboxgl.Marker({
-      draggable: true
-    }).setLngLat([this.lng, this.lat]).addTo(this.map);
-
-    marker.on('dragend', onDragEnd);
-
-    function onDragEnd() {
-      let lngLat = marker.getLngLat();
-      console.log(`Current Map Center: ${this.map.getCenter()}`);
-      console.log('Longitude: ' + lngLat.lng + ' Latitude: ' + lngLat.lat);
-    }
-
-
-
+      this.geolocation.getCurrentPosition().then((coordinates) => {
+      console.log('getCurrentPosition', coordinates);
+        this.lat = coordinates.coords.latitude;
+        this.lng = coordinates.coords.longitude;
+        this.loadMap();
+      // resp.coords.latitude
+      // resp.coords.longitude
+     }).catch((error) => {
+       console.log('Error getting location', error);
+     });
 
     
-
-
-
   }
+
+
+  loadMap() {
+  
+    this.mapbox.accessToken = environment.mapbox.accessToken;
+    // this.map = new mapboxgl.Map({
+    //   container: this.mapElement.nativeElement,
+    //   style: 'mapbox://styles/mapbox/bright-v9',
+    //   zoom: this.zoom,
+    //   center: [this.lng, this.lat],
+    //   attributionControl: false
+    // });
+
+    this.map = new mapboxgl.Map({
+      container: this.mapElement.nativeElement,
+      style: 'mapbox://styles/mapbox/streets-v9',
+      center: [this.lng, this.lat],
+      zoom: 2
+    });
+    
+    this.marker = new mapboxgl.Marker()
+      .setLngLat([this.lng, this.lat])
+      .addTo(this.map);
+    
+    console.log(`Current Map Center: ${this.map.getCenter()}`);
+    
+    this.map.on('movestart', () => {
+      console.log('dragstart');
+      console.log(`Current Map Center: ${this.map.getCenter()}`);
+      this.marker.setLngLat(this.map.getCenter());
+    });
+    this.map.on('moveend', () => {
+      console.log('dragend');
+      console.log(`Current Map Center: ${this.map.getCenter()}`);
+      this.marker.setLngLat(this.map.getCenter());
+    });
+
+    
+  }
+
+
+
+
 
   initForms() {
 
