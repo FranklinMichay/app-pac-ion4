@@ -20,9 +20,7 @@
     </form>
   </div> -->
 
-
     <div *ngIf="isDatosPersonales">
-
         <form [formGroup]="datosPersonalesFrom">
             <ion-list-header>
                 <ion-label class="best-results">Datos Personales</ion-label>
@@ -37,16 +35,91 @@
                     </ion-label>
                 </ion-col>
 
-                <ion-col size="6">
-                    <ion-input class="mail" type="text" formControlName="apellidos" placeholder="Apellidos">
-                    </ion-input>
-                    <ion-label *ngIf="datosPersonalesFrom.get('apellidos').errors && datosPersonalesFrom.get('apellidos').dirty">
-                        <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('apellidos').hasError('required')">
-                            Este campo es requerido
-                        </p>
-                    </ion-label>
-                </ion-col>
+                <div *ngIf="isDatosPersonales">
 
+                    <form [formGroup]="datosPersonalesFrom">
+                        <ion-list-header>
+                            <ion-label class="best-results">Datos Personales</ion-label>
+                        </ion-list-header>
+                        <ion-row>
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="nombres" placeholder="Nombres"></ion-input>
+                                <ion-label *ngIf="datosPersonalesFrom.get('nombres').errors && datosPersonalesFrom.get('nombres').dirty">
+                                    <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('nombres').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                </ion-label>
+                            </ion-col>
+
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="apellidos" placeholder="Apellidos">
+                                </ion-input>
+                                <ion-label *ngIf="datosPersonalesFrom.get('apellidos').errors && datosPersonalesFrom.get('apellidos').dirty">
+                                    <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('apellidos').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                </ion-label>
+                            </ion-col>
+
+                        </ion-row>
+
+                        <ion-row>
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="email" placeholder="Email"></ion-input>
+                                <ion-label *ngIf="datosPersonalesFrom.get('email').errors && datosPersonalesFrom.get('email').dirty">
+                                    <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('email').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                    <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('email').hasError('email')">El email es inválido
+                                    </p>
+                                </ion-label>
+                            </ion-col>
+
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="telefono" placeholder="Telefono">
+                                </ion-input>
+                                <ion-label *ngIf="datosPersonalesFrom.get('telefono').errors && datosPersonalesFrom.get('telefono').dirty">
+                                    <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('telefono').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                </ion-label>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-row>
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="identificacion" placeholder="Identificación">
+                                </ion-input>
+                                <ion-label *ngIf="datosPersonalesFrom.get('identificacion').errors && datosPersonalesFrom.get('identificacion').dirty">
+                                    <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('identificacion').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                    <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('identificacion').hasError('pattern')">El campo debe contener 10 números
+                                    </p>
+
+                                </ion-label>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-button class="accept-edit" type="submit" (click)="goDireccion()" [disabled]="datosPersonalesFrom.invalid">
+                            Siguiente</ion-button>
+                    </form>
+                </div>
+
+
+
+
+
+                <div *ngIf="isPago">
+                    <ion-col size="6">
+                        <ion-input class="mail" type="text" formControlName="apellidos" placeholder="Apellidos">
+                        </ion-input>
+                        <ion-label *ngIf="datosPersonalesFrom.get('apellidos').errors && datosPersonalesFrom.get('apellidos').dirty">
+                            <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('apellidos').hasError('required')">
+                                Este campo es requerido
+                            </p>
+                        </ion-label>
+                    </ion-col>
             </ion-row>
 
             <ion-row>
@@ -56,7 +129,8 @@
                         <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('email').hasError('required')">
                             Este campo es requerido
                         </p>
-                        <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('email').hasError('email')">El email es inválido
+                        <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('email').hasError('email')">
+                            El email es inválido
                         </p>
                     </ion-label>
                 </ion-col>
@@ -80,37 +154,86 @@
                         <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('identificacion').hasError('required')">
                             Este campo es requerido
                         </p>
-                        <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('identificacion').hasError('pattern')">El campo debe contener 10 números
+                        <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('identificacion').hasError('pattern')">
+                            El campo debe contener 10 números
                         </p>
-
                     </ion-label>
                 </ion-col>
             </ion-row>
 
-            <ion-button class="accept-edit" type="submit" (click)="goDireccion()" [disabled]="datosPersonalesFrom.invalid">
+            <ion-button class="accept-edit" type="submit" (click)="goDireccion()" [disabled]="false">
                 Siguiente</ion-button>
         </form>
-    </div>
+        </div>
 
+        <div *ngIf="isPago">
+            <ion-row>
+                <ion-list-header>
+                    <ion-label class="best-results">Pago</ion-label>
+                </ion-list-header>
+            </ion-row>
+        </div>
 
+        <div [hidden]="!isDireccion">
+            <section>
+                <ion-col size="12">
+                    <form [formGroup]="direccionForm">
+                        <ion-list-header>
+                            <ion-label class="best-results">Direccion de entrega</ion-label>
+                        </ion-list-header>
+                        <ion-row>
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="callePrincipal" placeholder="Calle Principal"></ion-input>
+                                <ion-label *ngIf="direccionForm.get('callePrincipal').errors && direccionForm.get('callePrincipal').dirty">
+                                    <p class="validator" ion-text *ngIf="direccionForm.get('callePrincipal').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                </ion-label>
+                            </ion-col>
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="calleSecundaria" placeholder="Calle Secundaria"></ion-input>
+                                <ion-label *ngIf="direccionForm.get('calleSecundaria').errors && direccionForm.get('calleSecundaria').dirty">
+                                    <p class="validator" ion-text *ngIf="direccionForm.get('calleSecundaria').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                </ion-label>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="numCasa" placeholder="# Casa">
+                                </ion-input>
+                                <ion-label *ngIf="direccionForm.get('numCasa').errors && direccionForm.get('numCasa').dirty">
+                                    <p class="validator" ion-text *ngIf="direccionForm.get('numCasa').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                </ion-label>
+                            </ion-col>
 
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="referencia" placeholder="Referencia">
+                                </ion-input>
+                                <ion-label *ngIf="direccionForm.get('referencia').errors && direccionForm.get('referencia').dirty">
+                                    <p class="validator" ion-text *ngIf="direccionForm.get('referencia').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                </ion-label>
+                            </ion-col>
+                        </ion-row>
 
+                        <ion-row>
+                            <ion-col size="6">
+                                <ion-input class="mail" type="text" formControlName="ciudad" placeholder="Ciudad">
+                                </ion-input>
+                                <ion-label *ngIf="direccionForm.get('ciudad').errors && direccionForm.get('ciudad').dirty">
+                                    <p class="validator" ion-text *ngIf="direccionForm.get('ciudad').hasError('required')">
+                                        Este campo es requerido
+                                    </p>
+                                </ion-label>
+                            </ion-col>
+                        </ion-row>
 
-    <div *ngIf="isPago">
-
-        <ion-row>
-            <ion-list-header>
-                <ion-label class="best-results">Pago</ion-label>
-            </ion-list-header>
-        </ion-row>
-
-
-
-    </div>
-
-
-    <div [hidden]="!isDireccion">
-        <section>
+                        <!-- <ion-row>
             <ion-col size="12">
                 <form [formGroup]="direccionForm">
                     <ion-list-header>
@@ -179,14 +302,30 @@
 
                 </form>
             </ion-col>
-        </section>
+          </ion-row>  -->
+
+                        <ion-col size="12">
+
+                            <ion-row>
+                                <ion-col size="12">
+                                    <div class="mapbox">
+                                        <ion-fab (click)="getCurrentPosition()" vertical="center" horizontal="end" slot="">
+                                            <ion-fab-button>
+                                                <ion-icon name="locate"></ion-icon>
+                                            </ion-fab-button>
+                                        </ion-fab>
+                                        <div #map class="map-container"> </div>
+                                    </div>
+                                </ion-col>
+
+                            </ion-row>
+                        </ion-col>
 
 
-    </div>
-
-
-
-
+                    </form>
+                </ion-col>
+            </section>
+        </div>
 </ion-content>
 <section>
     <ion-row [hidden]="!isDireccion">
