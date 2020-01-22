@@ -57,6 +57,7 @@ export class PaymentPage implements OnInit {
 
   ionViewDidEnter() {
     this.getCurrentPosition();
+    this.loadMap();
   }
 
 
@@ -66,7 +67,7 @@ export class PaymentPage implements OnInit {
       console.log('getCurrentPosition', coordinates);
         this.lat = coordinates.coords.latitude;
         this.lng = coordinates.coords.longitude;
-        this.loadMap();
+       
       // resp.coords.latitude
       // resp.coords.longitude
      }).catch((error) => {
@@ -92,14 +93,13 @@ export class PaymentPage implements OnInit {
       container: this.mapElement.nativeElement,
       style: 'mapbox://styles/mapbox/streets-v9',
       center: [this.lng, this.lat],
-      zoom: 2
+      zoom: 15
     });
     
     this.marker = new mapboxgl.Marker()
       .setLngLat([this.lng, this.lat])
-      .addTo(this.map);
-    
-    console.log(`Current Map Center: ${this.map.getCenter()}`);
+      .addTo(this.map);    
+
     
     this.map.on('movestart', () => {
       console.log('dragstart');
