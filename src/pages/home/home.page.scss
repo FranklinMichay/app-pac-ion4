@@ -114,7 +114,17 @@
 .datos {
     //margin-top: 2%;
     //padding: 0px 30px 0 0;
-    padding: 11px 30px 0px 23px;
+    padding: 7px 16px 0px 0px;
+    font-size: large;
+    font-family: OpenSans;
+}
+
+.datos2 {
+    //margin-top: 2%;
+    //padding: 0px 30px 0 0;
+    padding: 26px 16px 0px 0px;
+    font-size: large;
+    font-family: OpenSans;
 }
 
 .div-head {
@@ -149,6 +159,21 @@
     text-align: left;
     padding-left: 3%;
     font-weight: 800;
+}
+
+::ng-deep .container-slide-text {
+    opacity: 0.7;
+    /* background-color: rgba(201, 76, 76, 0.3); */
+    width: 100%;
+    font-family: Poppins;
+    font-size: 14px;
+    color: #137ecc;
+    position: fixed;
+    top: 52%;
+    text-align: left;
+    padding-left: 3%;
+    font-weight: bold;
+    background: aliceblue;
 }
 
 .slide-name-medical-center {

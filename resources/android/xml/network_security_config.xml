@@ -2,9 +2,9 @@
 <network-security-config>
     <domain-config cleartextTrafficPermitted="true">
         <domain includeSubdomains="true">localhost</domain>
-        <domain includeSubdomains="true">https://medipharmec.com/api</domain>
+        <domain includeSubdomains="true">https://medipharmec.com/</domain>
         <!-- <domain includeSubdomains="true">45.79.169.248:8000</domain> -->
-        <domain includeSubdomains="true">https://medipharmec.com/backNode</domain>
+        <!-- <domain includeSubdomains="true">https://medipharmec.com/backNode/</domain> -->
         <!-- <domain includeSubdomains="true">157.245.123.192:3000</domain>  -->
     </domain-config>
 </network-security-config>

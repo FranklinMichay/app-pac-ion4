@@ -28,14 +28,14 @@
     <div *ngIf="dataHome" class="header-info">
         <label class="info-home">
             <img class="medic " src="assets/imgs/doc.svg">
-            <label class="datos">Tu proxima cita agendada es para el {{dataHome.fecha | date:'dd/MM/yyyy' }} a las
+            <label class="datos">Tu próxima cita agendada es para el {{dataHome.fecha | date:'d/MM/yyyy' }} a las
                 {{dataHome.hora.substring(0, 5)}} horas</label>
         </label>
     </div>
     <div *ngIf="!dataHome " class="header-info ">
         <label class="info-home ">
             <img class="medic " src="../../assets/imgs/doc.svg ">
-            <label class="datos ">Aún no tienes citas agendadas para hoy</label>
+            <label class="datos2 ">Aún no tienes citas agendadas</label>
         </label>
     </div>
     <!-- 
@@ -51,8 +51,11 @@
         <ion-slides [options]="slideOptsOne">
             <ion-slide *ngFor="let slide of slides ">
                 <img [src]="slide.src " class="img-product ">
-                <p class="slide-name-medical-center ">{{slide.medicalCenter}}</p>
-                <p class="slide-text">{{slide.detalle}}</p>
+                <label class="container-slide-text">
+                    <p>{{slide.medicalCenter}}</p>
+                    <p >{{slide.detalle}}</p>
+                </label>
+
             </ion-slide>
         </ion-slides>
     </div>

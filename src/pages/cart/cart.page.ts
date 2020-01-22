@@ -26,6 +26,8 @@ export class CartPage implements OnInit {
   ) {
     //debugger
     if (this.dataService.cart.length > 0) {
+      console.log(this.dataService.cart.length, 'longitud d');
+      
       console.log('data service');
       
       this.dataForView = this.dataService.cart;
@@ -48,7 +50,8 @@ export class CartPage implements OnInit {
 
   ionViewDidLeave() {
     this.dataForView = []
-    console.log(this.dataForView, 'ESTADO DE DATA FOR VIEW');
+    this.dataService.cart = []
+    console.log(this.dataForView, this.dataService.cart, 'ESTADO DE DATA FOR VIEW & data service');
 
   }
 

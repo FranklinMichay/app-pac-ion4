@@ -8,7 +8,7 @@ export const environment = {
   apiURL1: 'https://medipharmec.com/api/',
   socketUrl: 'https://medipharmec.com/',
   apiMongoDB: 'https://medipharmec.com/backNode/',
-  url: 'https://medipharmec.com/api/',
+  url: 'https://medipharmec.com/',
   //paymentezAPI: 'https://ccapi-stg.paymentez.com'
   
   // apiUrl: 'http://192.168.0.102:9000/entidades/getData?model=',
