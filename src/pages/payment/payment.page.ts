@@ -1,5 +1,16 @@
-import { Component, OnInit } from '@angular/core';
-import * as postscribe from 'postscribe'
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import * as $ from 'jquery';
+import { FormGroup, Validators, FormBuilder } from '@angular/forms';
+import { IonSlides } from '@ionic/angular';
+// import * as $ from '@types/jquery';
+// import * as postscribe from 'postscribe';
+import { UbicacionService } from '../../app/services/ubicacion.service';
+declare var Paymentez: any;
+declare var PaymentezCheckout: any;
+import * as mapboxgl from 'mapbox-gl';
+import { environment } from 'src/environments/environment';
+
+
 
 @Component({
   selector: 'app-payment',
@@ -8,69 +19,180 @@ import * as postscribe from 'postscribe'
 })
 export class PaymentPage implements OnInit {
 
-  constructor() { }
+  isDatosPersonales: boolean;
+  isDireccion = false;
+  isPago = false;
+
+  myForm: FormGroup;
+  formData = new FormData();
+  public datosPersonalesFrom: FormGroup;
+  public direccionForm: FormGroup;
+  public submitAttempt: boolean = false;
+  @ViewChild('map', { static: false }) mapElement: ElementRef;
+  @ViewChild('slider', { static: true }) slider: IonSlides;
+
+  // @ViewChild("map") public mapElement: ElementRef;
+
+  mapbox = (mapboxgl as typeof mapboxgl);
+  map: mapboxgl.Map;
+  style = `mapbox://styles/mapbox/streets-v11`;
+  // Coordenadas de la localización donde queremos centrar el mapa
+  lat = -3.994628;
+  lng = -79.204416;
+  zoom = 15;
+
+  constructor(public fb: FormBuilder) {
+    this.isDatosPersonales = true;
+
+  }
 
   ngOnInit() {
+    this.initForms();
 
-    postscribe('#my-card', `<script>
-    var paymentezCheckout = new PaymentezCheckout.modal({
-        client_app_code: 'PAYMENTEZ_CLIENT_APP_CODE', // Client Credentials Provied by Paymentez
-        client_app_key: 'PAYMENTEZ_CLIENT_APP_KEY', // Client Credentials Provied by Paymentez
-        locale: 'es', // User's preferred language (es, en, pt). English will be used by default.
-        env_mode: 'stg', // 'prod', 'stg', 'dev', 'local' to change environment. Default is 'stg'
-        onOpen: function() {
-            console.log('modal open');
-        },
-        onClose: function() {
-            console.log('modal closed');
-        },
-        onResponse: function(response) { // The callback to invoke when the Checkout process is completed
 
-            /*
-                  In Case of an error, this will be the response.
-                  response = {
-                    "error": {
-                      "type": "Server Error",
-                      "help": "Try Again Later",
-                      "description": "Sorry, there was a problem loading Checkout."
-                    }
-                  }
 
-                  When the User completes all the Flow in the Checkout, this will be the response.
-                  response = {
-                    "transaction":{
-                        "status":"success", // success or failure
-                        "id":"CB-81011", // transaction_id
-                        "status_detail":3 // for the status detail please refer to: https://paymentez.github.io/api-doc/#status-details
-                    }
-                  }
-                */
-            console.log('modal response');
-            document.getElementById('response').innerHTML = JSON.stringify(response);
-        }
+  }
+
+  ngAfterViewInit() {
+    this.loadMap();
+  }
+
+
+  ngAfterContentInit() {
+    // this.loadMap();
+  }
+
+  loadMap() {
+    console.log('ngAfterContentInit');
+
+    this.mapbox.accessToken = environment.mapbox.accessToken;
+    this.map = new mapboxgl.Map({
+      container: this.mapElement.nativeElement,
+      style: 'mapbox://styles/mapbox/bright-v9',
+      zoom: this.zoom,
+      center: [this.lng, this.lat],
+      attributionControl: false
     });
 
-    var btnOpenCheckout = document.querySelector('.js-paymentez-checkout');
-    btnOpenCheckout.addEventListener('click', function() {
-        // Open Checkout with further options:
-        paymentezCheckout.open({
-            user_id: '1234',
-            user_email: 'eguillen@paymentez.com', //optional
-            user_phone: '7777777777', //optional
-            order_description: '1 Licencia Estándar (IVA y gastos adm. incluidos)',
-            order_taxable_amount: 1,
-            order_tax_percentage: 12,
-            order_amount: 5,
-            order_vat: 0.12,
-            order_reference: '#234323411',
-        });
+    const marker = new mapboxgl.Marker({
+      draggable: true
+    }).setLngLat([this.lng, this.lat]).addTo(this.map);
+
+    marker.on('dragend', onDragEnd);
+
+    function onDragEnd() {
+      let lngLat = marker.getLngLat();
+      console.log(`Current Map Center: ${this.map.getCenter()}`);
+      console.log('Longitude: ' + lngLat.lng + ' Latitude: ' + lngLat.lat);
+    }
+
+
+
+
+    
+
+
+
+  }
+
+  initForms() {
+
+    this.datosPersonalesFrom = this.fb.group({
+      nombres: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      apellidos: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      telefono: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[0-9]*'), Validators.required])],
+      email: ['', [Validators.email, Validators.required]],
+      identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
     });
 
-    // Close Checkout on page navigation:
-    window.addEventListener('popstate', function() {
-        paymentezCheckout.close();
+
+
+    this.direccionForm = this.fb.group({
+
+      callePrincipal: ['', Validators.required],
+      calleSecundaria: ['', Validators.required],
+      ciudad: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      numCasa: ['', Validators.required],
+      referencia: ['', Validators.required],
+
     });
-</script>`)
+
+  }
+
+  goDireccion() {
+    this.isDatosPersonales = false;
+    this.isDireccion = true;
+  }
+
+  gotoPagos() {
+
+    this.isDireccion = false;
+    this.isPago = true;
+
+  }
+
+  next() {
+
+  }
+
+  goDatos() {
+    this.isDatosPersonales = true;
+    this.isDireccion = false;
+    this.isPago = false;
+
+  }
+
+  save() {
+
+    this.submitAttempt = true;
+    if (!this.datosPersonalesFrom.valid) {
+      this.slider.slideTo(0);
+    }
+    else if (!this.direccionForm.valid) {
+      this.slider.slideTo(1);
+    }
+    else {
+      console.log("success!")
+      console.log(this.datosPersonalesFrom.value);
+      console.log(this.direccionForm.value);
+    }
+  }
+
+  hideShowPassword() {
+
+  }
+
+  changeListener($event): void {
+
+  }
+
+  upload() {
+
+  }
+
+  onSubmit() {
+    const {
+      priNombre,
+      segNombre,
+      priApellido,
+      segApellido,
+      email,
+      password,
+      identificacion
+    } = this.datosPersonalesFrom.value;
+
+    const dataInf = {
+      first_name: priNombre,
+      last_name: priApellido,
+      email: email,
+      username: email,
+      password,
+      identificacion: identificacion,
+    }
+
   }
 
 }
+
+
+
