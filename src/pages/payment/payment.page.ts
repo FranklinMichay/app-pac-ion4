@@ -10,7 +10,7 @@ declare var PaymentezCheckout: any;
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
-
+import { faCreditCard, faMoneyCheckAlt, faMoneyBill} from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -20,10 +20,16 @@ import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 })
 export class PaymentPage implements OnInit {
 
+  faCreditCard = faCreditCard;
+  faMoneyCheckAlt = faMoneyCheckAlt;
+  faMoneyBill = faMoneyBill;
+  metodoPago:any
+
   isDatosPersonales: boolean;
   isDireccion = false;
   isPago = false;
   marker: any;
+
 
   myForm: FormGroup;
   formData = new FormData();
@@ -31,9 +37,6 @@ export class PaymentPage implements OnInit {
   public direccionForm: FormGroup;
   public submitAttempt: boolean = false;
   @ViewChild('map', { static: false }) mapElement: ElementRef;
-  @ViewChild('slider', { static: true }) slider: IonSlides;
-
-  // @ViewChild("map") public mapElement: ElementRef;
 
   mapbox = (mapboxgl as typeof mapboxgl);
   map: mapboxgl.Map;
@@ -43,13 +46,17 @@ export class PaymentPage implements OnInit {
   lng = -79.2434842;
   zoom = 13;
 
+  user: any;
+
   constructor(public fb: FormBuilder, public geolocation: Geolocation) {
     this.isDatosPersonales = true;
+    this.user = JSON.parse(localStorage.getItem('user'));
 
   }
 
   ngOnInit() {
     this.initForms();
+
   }
 
   ionViewDidEnter() {
@@ -64,11 +71,12 @@ export class PaymentPage implements OnInit {
       console.log('getCurrentPosition', coordinates);
       this.lat = coordinates.coords.latitude;
       this.lng = coordinates.coords.longitude;
+      this.loadMap();
     }).catch((error) => {
       console.log('Error getting location', error);
     });
 
-    this.loadMap();
+
 
 
   }
@@ -98,10 +106,10 @@ export class PaymentPage implements OnInit {
     el.style.backgroundImage = "url('assets/markers/location.png')";
     el.style.backgroundSize = 'cover';
     el.style.width = '40px';
-    el.style.height = '40px'; 
+    el.style.height = '40px';
 
     let centerMap = this.map.getCenter();
-    this.marker = new mapboxgl.Marker(el ,{
+    this.marker = new mapboxgl.Marker(el, {
       draggable: false
     }).setLngLat([centerMap.lng, centerMap.lat])
       .addTo(this.map);
@@ -111,18 +119,18 @@ export class PaymentPage implements OnInit {
   initForms() {
 
     this.datosPersonalesFrom = this.fb.group({
-      nombres: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      apellidos: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
-      telefono: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[0-9]*'), Validators.required])],
-      email: ['', [Validators.email, Validators.required]],
-      identificacion: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
+      nombres: [this.user.priNombre, Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      apellidos: [this.user.priApellido, Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      telefono: [this.user.telefonoCelular, Validators.compose([Validators.maxLength(30), Validators.pattern('[0-9]*'), Validators.required])],
+      email: [this.user.user.username, [Validators.email, Validators.required]],
+      identificacion: [this.user.identificacion, Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
     });
 
     this.direccionForm = this.fb.group({
 
       callePrincipal: ['', Validators.required],
       calleSecundaria: ['', Validators.required],
-      ciudad: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
+      ciudad: [this.user.ciudad, Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       numCasa: ['', Validators.required],
       referencia: ['', Validators.required],
 
@@ -157,10 +165,10 @@ export class PaymentPage implements OnInit {
 
     this.submitAttempt = true;
     if (!this.datosPersonalesFrom.valid) {
-      this.slider.slideTo(0);
+      // this.slider.slideTo(0);
     }
     else if (!this.direccionForm.valid) {
-      this.slider.slideTo(1);
+      // this.slider.slideTo(1);
     }
     else {
       console.log("success!")
