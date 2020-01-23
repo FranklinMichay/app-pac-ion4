@@ -39,9 +39,11 @@ export class PaymentPage implements OnInit {
   map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
   // Coordenadas de la localización donde queremos centrar el mapa
-  lat: number;
-  lng: number;
-  zoom = 15;
+  lat =  -4.0075088;
+  lng = -79.2434842;
+
+ 
+  zoom = 13;
 
   constructor(public fb: FormBuilder,public geolocation: Geolocation ) {
     this.isDatosPersonales = true;
@@ -57,11 +59,11 @@ export class PaymentPage implements OnInit {
 
   ionViewDidEnter() {
     this.getCurrentPosition();
-    this.loadMap();
+    
   }
 
 
-  async getCurrentPosition() {  
+  getCurrentPosition() {  
 
       this.geolocation.getCurrentPosition().then((coordinates) => {
       console.log('getCurrentPosition', coordinates);
@@ -73,6 +75,8 @@ export class PaymentPage implements OnInit {
      }).catch((error) => {
        console.log('Error getting location', error);
      });
+
+     this.loadMap();
 
     
   }
@@ -90,15 +94,28 @@ export class PaymentPage implements OnInit {
     // });
 
     this.map = new mapboxgl.Map({
-      container: this.mapElement.nativeElement,
-      style: 'mapbox://styles/mapbox/streets-v9',
+      container: 'map',
+      style: 'mapbox://styles/mapbox/streets-v11',
       center: [this.lng, this.lat],
       zoom: 15
     });
-    
-    this.marker = new mapboxgl.Marker()
+
+    let el = document.createElement('div');
+    el.className = 'marker';
+    el.style.backgroundImage = "url('assets/markers/mark.png')";
+    el.style.backgroundSize = 'cover';
+    el.style.width = '90px';
+    el.style.height = '90px';
+
+
+    // make a marker for each feature and add to the map
+    this.marker = new mapboxgl.Marker(el)
       .setLngLat([this.lng, this.lat])
-      .addTo(this.map);    
+      .addTo(this.map);
+    
+    // this.marker = new mapboxgl.Marker()
+    //   .setLngLat([this.lng, this.lat])
+    //   .addTo(this.map);    
 
     
     this.map.on('movestart', () => {
@@ -114,6 +131,24 @@ export class PaymentPage implements OnInit {
 
     
   }
+
+  addMarker() {
+    let el = document.createElement('div');
+    el.className = 'marker';
+    el.style.backgroundImage = "url('assets/markers/mark.png')";
+    el.style.backgroundSize = 'cover';
+    el.style.width = '90px';
+    el.style.height = '90px';
+
+
+    // make a marker for each feature and add to the map
+    new mapboxgl.Marker(el)
+      .setLngLat([this.lng, this.lat])
+      .addTo(this.map);
+
+
+  }
+
 
 
 
