@@ -1,10 +1,10 @@
 <ion-header>
-  <ion-toolbar color="primary">
-    <ion-back-button class="title-toolbar" slot="start"> </ion-back-button>
+    <ion-toolbar color="primary">
+        <ion-back-button class="title-toolbar" slot="start"> </ion-back-button>
 
-    <ion-title class="title-toolbar">Pago</ion-title>
-  </ion-toolbar>
-  <!-- <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' /> -->
+        <ion-title class="title-toolbar">Pago</ion-title>
+    </ion-toolbar>
+    <!-- <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' /> -->
 </ion-header>
 
 
@@ -203,17 +203,17 @@
 </section>
 
 <ion-content class="noScroll">
-  <div [hidden]="!isDireccion">
-  <div class="map" id="map"></div>
+    <div [hidden]="!isDireccion">
+        <div class="map" id="map"></div>
 
-  <ion-fab (click)="getCurrentPosition()" vertical="center" horizontal="end" slot="">
+        <ion-fab (click)="getCurrentPosition()" vertical="center" horizontal="end" slot="">
 
-    <ion-fab-button>
-      <ion-icon color="light" name="locate"></ion-icon>
-    </ion-fab-button>
-  </ion-fab>
-</div>
-  <!-- <ion-button size="large" [routerLink]="['/directions']"> Cómo llegar</ion-button> -->
+            <ion-fab-button>
+                <ion-icon color="light" name="locate"></ion-icon>
+            </ion-fab-button>
+        </ion-fab>
+    </div>
+    <!-- <ion-button size="large" [routerLink]="['/directions']"> Cómo llegar</ion-button> -->
 
 </ion-content>
 

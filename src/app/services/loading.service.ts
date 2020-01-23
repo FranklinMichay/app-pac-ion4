@@ -15,7 +15,7 @@ export class LoadingService {
     async presentLoading() {
         this.isLoading = true;
         return await this.loadingCtrl.create({
-            message: 'cargando datos',
+            message: 'Obteniendo Datos',
             spinner: 'circles'
         }).then(a => {
             a.present().then(() => {

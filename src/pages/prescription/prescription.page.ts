@@ -9,6 +9,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import * as _ from 'lodash';
 import { DataService } from 'src/app/services/data.service';
 import { formatDate } from '@angular/common';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-prescription',
@@ -44,7 +45,8 @@ export class PrescriptionPage implements OnInit {
   cdRef: any;
   valor: any;
   ctrlView: boolean = true;
-  
+  count: any;
+
 
   constructor(
     public mdlCtrl: ModalController,
@@ -55,19 +57,35 @@ export class PrescriptionPage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingService,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    public toastController: ToastController
   ) { }
 
   ngOnInit() {
     this.exportData(this.dataService.dataCompra);
-
+    this.dataForView
+    console.log();
   }
 
   goCart() {
-    console.log('algo');
-    this.router.navigate(['cart']);
-    
-    
+    var dataCart =  _.filter(this.dataForView, item => item.totalDispatch > 0);
+    if (dataCart.length > 0){
+      this.router.navigate(['cart']);
+    }else{
+      this.presentToast();
+    }
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'NO HAS AGREGADO PRODUCTOS',
+      duration: 3000
+    });
+    toast.present();
+  }
+
+  ionViewWillEnter() {
+    this.count = 0;
   }
 
   getMax() {
@@ -190,13 +208,13 @@ export class PrescriptionPage implements OnInit {
   }
 
   // ionViewDidLeave() {
-   
+
   // }
 
   // ionViewWillEnter() {
   //   this.dataForView= []
   //   console.log(this.dataForView, 'ESTADO DE DATA FOR VIEW');
-    
+
   // }
 
   /************************************* FUNCIONES DE PROCESOS **************************************/
@@ -208,8 +226,8 @@ export class PrescriptionPage implements OnInit {
       this.dataForView[index].totalDispatch = 0;
     }
     if (parseInt(this.dataForView[index].remaining, 10) < event.target.value) {
-      console.log(parseInt(this.dataForView[index].remaining, 10),event.target.value, 'datos compare' );
-      
+      console.log(parseInt(this.dataForView[index].remaining, 10), event.target.value, 'datos compare');
+
       event.target.value = this.dataForView[index].remaining;
       this.dataForView[index].totalDispatch = event.target.value;
     }
@@ -223,14 +241,20 @@ export class PrescriptionPage implements OnInit {
     this.total = parseFloat(this.total).toFixed(2);
     console.log(this.total, 'total despacho');
     console.log(this.dataForView, 'tl despao');
-    
-    
+
+
     this.calculateTotalDispatch();
   }
 
   addToCart() {
-    this.dataService.cart = this.dataForView;
-    console.log(this.dataService.cart, 'datos en service');
+    if (this.dataForView) {
+      this.dataService.cart = this.dataForView;
+      console.log(this.dataService.cart, 'datos en service');
+      var contador = _.filter(this.dataForView, item => item.totalDispatch > 0); 
+      this.count = contador.length;
+      console.log(this.count, 'contador');
+    }
+
   }
 
   processDataInfoProducts() {

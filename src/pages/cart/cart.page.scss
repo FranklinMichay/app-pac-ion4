@@ -80,3 +80,17 @@ ion-list-header {
 .style-input {
     width: 85%;
 }
+
+.center-img {
+    text-align: center;
+    align-items: center;
+    img {
+        max-width: 40%;
+        padding-top: 20%;
+    }
+}
+
+.text {
+    font-family: Poppins;
+    font-size: 100%;
+}

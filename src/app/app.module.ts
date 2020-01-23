@@ -18,16 +18,14 @@ import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TagInputModule } from 'ngx-chips';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
-import { FileTransfer, FileUploadOptions, FileTransferObject } from '@ionic-native/file-transfer/ngx';
+import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl };
 import { WebView } from '@ionic-native/ionic-webview/ngx';
 import { ModalAcceptPostponedPage } from 'src/pages/modal-accept-postponed/modal-accept-postponed.page';
 import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-// import { AppMinimize } from '@ionic-native/app-minimize/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SearchFilterPage } from './../pages/search-filter/search-filter.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-
 
 @NgModule({
   declarations: [
@@ -62,14 +60,13 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     ImagePicker,
     SplashScreen,
     BackgroundMode,
-    //AppMinimize,
     LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FileTransfer,
     FileTransferObject,
     WebView,
     Geolocation
-    //{provide: Camera, useClass: CameraMock},
+    
   ],
 
   bootstrap: [AppComponent],

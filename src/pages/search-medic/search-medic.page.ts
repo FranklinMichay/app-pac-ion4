@@ -1,18 +1,14 @@
-import { map } from 'rxjs/operators';
-import { SearchFilterPage } from './../search-filter/search-filter.page';
+
 import { LoadingService } from '../../app/services/loading.service';
-import { ProfileMedicPage } from './../profile-medic/profile-medic.page';
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../src/app/services/auth.service'
-import * as _ from 'lodash';  // tslint:disable-line
-//import 'rxjs/add/operator/debounceTime';
-import { NavController, NavParams, LoadingController, ModalController, ToastController } from '@ionic/angular';
+import * as _ from 'lodash'; 
+import { NavController, ModalController, ToastController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
-import { FormGroup, Validators, FormControl, FormBuilder } from '@angular/forms'
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms'
 import { SimpleFunction } from '../../app/services/simple-function.service';
 import { AutoCompleteOptions } from 'ionic4-auto-complete';
-import { logWarnings } from 'protractor/built/driverProviders';
 import { DomSanitizer } from '@angular/platform-browser';
 import { environment } from '../../environments/environment';
 
@@ -56,7 +52,7 @@ export class SearchMedicPage implements OnInit {
 
   param = '';
   medicalCenter: any;
-  searchTerm: string = '';
+  // searchTerm: string = '';
   searchControl: FormControl;
   item: any;
   loading: any;
@@ -111,12 +107,12 @@ export class SearchMedicPage implements OnInit {
     //this.getDataList();
   }
 
-  filterItems(searchTerm) {
-    return this.medics.filter(item => {
-      return item.priNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1,
-        item.priNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
-    });
-  }
+  // filterItems(searchTerm) {
+  //   return this.medics.filter(item => {
+  //     return item.priNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1,
+  //       item.priNombre.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+  //   });
+  // }
 
 
   on(output, event): void {

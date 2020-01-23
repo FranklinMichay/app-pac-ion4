@@ -229,6 +229,25 @@ ion-list-header {
     width: 85%;
 }
 
+.cart-btn {
+    position: relative;
+}
+
+.cart-badge {
+    position: absolute;
+    top: 6px;
+    right: 4px;
+    background: darkred;
+    color: white;
+    font-size: 12px;
+    border-radius: 25px;
+    border: white solid 1px;
+}
+
+.style-icon-cart {
+    color: white;
+}
+
 // .line-input {
 //     margin-bottom: 0!important;
 //     ion-item {
