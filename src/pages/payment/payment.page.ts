@@ -23,7 +23,7 @@ export class PaymentPage implements OnInit {
   isDatosPersonales: boolean;
   isDireccion = false;
   isPago = false;
-  marker:any;
+  marker: any;
 
   myForm: FormGroup;
   formData = new FormData();
@@ -39,119 +39,73 @@ export class PaymentPage implements OnInit {
   map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
   // Coordenadas de la localización donde queremos centrar el mapa
-  lat =  -4.0075088;
+  lat = -4.0075088;
   lng = -79.2434842;
-
- 
   zoom = 13;
 
-  constructor(public fb: FormBuilder,public geolocation: Geolocation ) {
+  constructor(public fb: FormBuilder, public geolocation: Geolocation) {
     this.isDatosPersonales = true;
 
   }
 
   ngOnInit() {
     this.initForms();
-
-
-
   }
 
   ionViewDidEnter() {
     this.getCurrentPosition();
-    
+
   }
 
 
-  getCurrentPosition() {  
+  getCurrentPosition() {
 
-      this.geolocation.getCurrentPosition().then((coordinates) => {
+    this.geolocation.getCurrentPosition().then((coordinates) => {
       console.log('getCurrentPosition', coordinates);
-        this.lat = coordinates.coords.latitude;
-        this.lng = coordinates.coords.longitude;
-       
-      // resp.coords.latitude
-      // resp.coords.longitude
-     }).catch((error) => {
-       console.log('Error getting location', error);
-     });
+      this.lat = coordinates.coords.latitude;
+      this.lng = coordinates.coords.longitude;
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
 
-     this.loadMap();
+    this.loadMap();
 
-    
+
   }
 
 
   loadMap() {
-  
     this.mapbox.accessToken = environment.mapbox.accessToken;
-    // this.map = new mapboxgl.Map({
-    //   container: this.mapElement.nativeElement,
-    //   style: 'mapbox://styles/mapbox/bright-v9',
-    //   zoom: this.zoom,
-    //   center: [this.lng, this.lat],
-    //   attributionControl: false
-    // });
-
     this.map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [this.lng, this.lat],
       zoom: 15
     });
+    this.addMarker();
 
-    let el = document.createElement('div');
-    el.className = 'marker';
-    el.style.backgroundImage = "url('assets/markers/mark.png')";
-    el.style.backgroundSize = 'cover';
-    el.style.width = '90px';
-    el.style.height = '90px';
-
-
-    // make a marker for each feature and add to the map
-    this.marker = new mapboxgl.Marker(el)
-      .setLngLat([this.lng, this.lat])
-      .addTo(this.map);
-    
-    // this.marker = new mapboxgl.Marker()
-    //   .setLngLat([this.lng, this.lat])
-    //   .addTo(this.map);    
-
-    
-    this.map.on('movestart', () => {
-      console.log('dragstart');
+    this.map.on('move', () => {
       console.log(`Current Map Center: ${this.map.getCenter()}`);
-      this.marker.setLngLat(this.map.getCenter());
+      const centerMap = this.map.getCenter();
+      this.marker.setLngLat([centerMap.lng, centerMap.lat])
+        .addTo(this.map);
     });
-    this.map.on('moveend', () => {
-      console.log('dragend');
-      console.log(`Current Map Center: ${this.map.getCenter()}`);
-      this.marker.setLngLat(this.map.getCenter());
-    });
-
-    
   }
 
   addMarker() {
     let el = document.createElement('div');
     el.className = 'marker';
-    el.style.backgroundImage = "url('assets/markers/mark.png')";
+    el.style.backgroundImage = "url('assets/markers/location.png')";
     el.style.backgroundSize = 'cover';
-    el.style.width = '90px';
-    el.style.height = '90px';
+    el.style.width = '40px';
+    el.style.height = '40px'; 
 
-
-    // make a marker for each feature and add to the map
-    new mapboxgl.Marker(el)
-      .setLngLat([this.lng, this.lat])
+    let centerMap = this.map.getCenter();
+    this.marker = new mapboxgl.Marker(el ,{
+      draggable: false
+    }).setLngLat([centerMap.lng, centerMap.lat])
       .addTo(this.map);
-
-
   }
-
-
-
-
 
 
   initForms() {
