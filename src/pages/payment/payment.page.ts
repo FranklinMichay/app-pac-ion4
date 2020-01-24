@@ -161,6 +161,11 @@ export class PaymentPage implements OnInit {
 
   }
 
+  goPay(){
+    console.log('pagar');
+    
+  }
+
   save() {
 
     this.submitAttempt = true;
