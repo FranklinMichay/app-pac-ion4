@@ -198,16 +198,39 @@
   </ion-list>
   <pre>
     {{metodoPago}}
-
   </pre>
-</section>
+  <ion-list *ngIf="metodoPago=='tarjeta'">
+    <ion-item>
+        <ion-label position="stacked">Número tarjeta</ion-label>
+        <ion-input placeholder="xxxxxxxxxxxxxx" type="text">
+        </ion-input>
+    </ion-item>
 
+
+    <ion-item>
+        <ion-label position="stacked">Fecha de expiración</ion-label>
+        <ion-input placeholder=".. /...." type="text">
+        </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="stacked">CVC</ion-label>
+      <ion-input placeholder="..." type="text">
+      </ion-input>
+  </ion-item>
+
+</ion-list>
+<ion-row > 
+  <ion-col class="ion-text-center" size="12">
+    <ion-button class="accept-edit" (click)="goPay()">
+      Pagar</ion-button>
+  </ion-col>
+</ion-row>
+</section>
 <ion-content class="noScroll">
     <div [hidden]="!isDireccion">
         <div class="map" id="map"></div>
-
         <ion-fab (click)="getCurrentPosition()" vertical="center" horizontal="end" slot="">
-
             <ion-fab-button>
                 <ion-icon color="light" name="locate"></ion-icon>
             </ion-fab-button>
@@ -216,7 +239,6 @@
     <!-- <ion-button size="large" [routerLink]="['/directions']"> Cómo llegar</ion-button> -->
 
 </ion-content>
-
 <ion-row [hidden]="!isDireccion">
   <ion-col size="6">
     <ion-button class="accept-edit" (click)="goDatos()">Atrás</ion-button>
