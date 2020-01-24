@@ -64,7 +64,7 @@ export class ForgotPasswordPage implements OnInit {
 
   async presentToast() {
     const toast = await this.tc.create({
-      message: 'correo no registrado',
+      message: 'CORREO NO REGISTRADO',
       duration: 4000
     });
     toast.present();

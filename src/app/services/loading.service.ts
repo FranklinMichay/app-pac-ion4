@@ -15,7 +15,7 @@ export class LoadingService {
     async presentLoading() {
         this.isLoading = true;
         return await this.loadingCtrl.create({
-            message: 'Obteniendo Datos',
+            message: 'Actualizando Datos',
             spinner: 'circles'
         }).then(a => {
             a.present().then(() => {
@@ -32,25 +32,25 @@ export class LoadingService {
         return await this.loadingCtrl.dismiss().then(() => console.log('dismissed'));
     }
 
-    async loadingPresent() {
-        this.isLoading = true;
-        return await this.loadingCtrl.create({
-            message: 'Please wait ...',
-            spinner: 'circles'
-        }).then(a => {
-            a.present().then(() => {
-                console.log('loading presented');
-                if (!this.isLoading) {
-                    a.dismiss().then(() => console.log('abort laoding'));
-                }
-            });
-        });
-    }
+    // async loadingPresent() {
+    //     this.isLoading = true;
+    //     return await this.loadingCtrl.create({
+    //         message: 'Please wait ...',
+    //         spinner: 'circles'
+    //     }).then(a => {
+    //         a.present().then(() => {
+    //             console.log('loading presented');
+    //             if (!this.isLoading) {
+    //                 a.dismiss().then(() => console.log('abort laoding'));
+    //             }
+    //         });
+    //     });
+    // }
 
-    async loadingDismiss() {
-        this.isLoading = false;
-        return await this.loadingCtrl.dismiss().then(() => console.log('loading dismissed'));
-    }
+    // async loadingDismiss() {
+    //     this.isLoading = false;
+    //     return await this.loadingCtrl.dismiss().then(() => console.log('loading dismissed'));
+    // }
 
 
 }

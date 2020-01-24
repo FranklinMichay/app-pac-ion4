@@ -72,7 +72,7 @@
                             <img class="crop" *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] === 'h'" src="{{medic.fotoPerfil}}" />
                             <img class="crop" *ngIf="!medic.fotoPerfil" src="assets/imgs/doctor.png " />
                             <!-- <img class="crop " src="assets/imgs/doctor.png"> -->
-                            <p class="explore-title">{{ medic.priNombre | uppercase}} {{ medic.priApellido | uppercase}}</p>
+                            <p class="explore-title">{{ medic.priNombre}} {{ medic.priApellido}}</p>
                             <p class="explore-text">{{ medic.especialidad.nombre }}</p>
                             <p *ngFor="let cm of medic.centroMedico " class="c-medico">{{ cm.nombre }}</p>
                         </a>

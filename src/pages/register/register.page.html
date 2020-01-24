@@ -19,6 +19,7 @@
                 </ion-list-header>
                 <ion-row>
                     <ion-col size="6">
+                        <!-- <label class="label-forms">Primer Nombre</label> -->
                         <input class="mail" type="text" formControlName="priNombre" placeholder="Primer Nombre">
                         <ion-label *ngIf="slideOneForm.get('priNombre').errors && slideOneForm.get('priNombre').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('priNombre').hasError('required')">
@@ -27,6 +28,7 @@
                         </ion-label>
                     </ion-col>
                     <ion-col size="6">
+                        <!-- <label class="label-forms">Segundo Nombre</label> -->
                         <input class="mail" type="text" formControlName="segNombre" placeholder="Segundo Nombre">
                         <ion-label *ngIf="slideOneForm.get('segNombre').errors && slideOneForm.get('segNombre').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('segNombre').hasError('required')">
@@ -38,6 +40,7 @@
                 </ion-row>
                 <ion-row>
                     <ion-col size="6">
+                        <!-- <label class="label-forms">Primer Apellido</label> -->
                         <input class="mail" type="text" formControlName="priApellido" placeholder="Primer Apellido">
                         <ion-label *ngIf="slideOneForm.get('priApellido').errors && slideOneForm.get('priApellido').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('priApellido').hasError('required')">
@@ -46,6 +49,7 @@
                         </ion-label>
                     </ion-col>
                     <ion-col size="6">
+                        <!-- <label class="label-forms">Segundo Apellido</label> -->
                         <input class="mail" type="text" formControlName="segApellido" placeholder="Segundo Apellido">
                         <ion-label *ngIf="slideOneForm.get('segApellido').errors && slideOneForm.get('segApellido').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('segApellido').hasError('required')">
@@ -54,9 +58,11 @@
                         </ion-label>
                     </ion-col>
                 </ion-row>
+
                 <ion-row>
                     <ion-col size="6">
-                        <input class="mail" type="text" formControlName="email" placeholder="Correo Electrónico">
+                        <!-- <label class="label-forms">E-mail</label> -->
+                        <input class="mail" type="text" formControlName="email" placeholder="E-mail">
                         <ion-label *ngIf="slideOneForm.get('email').errors && slideOneForm.get('email').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('email').hasError('required')">Este campo es requerido
                             </p>
@@ -65,6 +71,7 @@
                         </ion-label>
                     </ion-col>
                     <ion-col size="6">
+                        <!-- <label class="label-forms">Contraseña</label> -->
                         <ion-row class="mail">
                             <ion-col size="10">
                                 <input [type]="passwordType" formControlName="password" clearOnEdit="true" placeholder="Contraseña" class="input-pass">
@@ -83,7 +90,9 @@
                 </ion-row>
 
                 <ion-row>
+                    <!-- <label class="label-forms">Identificación</label> -->
                     <ion-col size="12">
+
                         <input class="mail" type="text" formControlName="identificacion" placeholder="Identificación">
                         <ion-label *ngIf="slideOneForm.get('identificacion').errors && slideOneForm.get('identificacion').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('identificacion').hasError('required')">
@@ -107,6 +116,7 @@
                 </ion-list-header>
                 <ion-row>
                     <ion-col size="6">
+
                         <input class="mail" type="text" formControlName="telefonoCelular" placeholder="Teléfono">
                         <ion-label *ngIf="slideTwoForm.get('telefonoCelular').errors && slideTwoForm.get('telefonoCelular').dirty">
                             <p class="validator" ion-text *ngIf="slideTwoForm.get('telefonoCelular').hasError('required')">
@@ -180,7 +190,7 @@
     </ion-slides>
     <ion-label class="go-login" (click)="goToLogin()"> Ya tengo cuenta </ion-label>
 
-    <p class="politicas">Acepto las <a href="http://medipharm.com.ec/sistema-medico/#/politicas">condiciones de uso y politica de provacidad</a> de Medipharm </p>
+    <p class="politicas">Acepto las <a href="http://medipharm.com.ec/sistema-medico/#/politicas">condiciones de uso y políticas de privacidad</a> de Medipharm </p>
 
     <!-- <ion-item>
         <ion-grid fixed>

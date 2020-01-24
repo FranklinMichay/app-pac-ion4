@@ -64,15 +64,13 @@
 }
 
 .accept-edit {
-    width: 46%;
-    height: 40px;
+    width: 50%;
+    height: 36px;
     --border-radius: 25px;
-    --background: linear-gradient(104deg, #ffc185, #fd5f54);
+    --background: linear-gradient(280deg, #645aff 103%, #a573ff -12%);
     margin-left: auto;
     margin-right: auto;
     display: -webkit-box;
-    display: -webkit-flex;
-    display: -ms-flexbox;
     display: flex;
     margin-bottom: 5%;
     color: white;

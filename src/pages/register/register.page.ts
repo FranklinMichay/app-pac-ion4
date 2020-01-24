@@ -157,6 +157,8 @@ export class RegisterPage implements OnInit {
       cedula: identificacion,
     }
     this.auth.verifyUser(_dataVerify).subscribe(verification => {
+      console.log(verification, 'verification');
+      
       if (verification.result === 'error') {
         this.presentToast();
       } else if (verification.result === 'success') {

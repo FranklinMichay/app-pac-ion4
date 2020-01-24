@@ -55,7 +55,7 @@ p.validator {
 
 .go-login {
     text-align: center;
-    margin-top: 5px;
+    margin-top: 6%;
     display: block;
     font-family: Poppins;
     font-size: 16px;
@@ -64,21 +64,25 @@ p.validator {
     font-stretch: normal;
     line-height: normal;
     letter-spacing: 0.2px;
-    color: #3880ff; //map-get($colors, tertiary);
+    color: #3880ff;
+    margin-bottom: 3%;
 }
 
-.politicas{
+.politicas {
     text-align: center;
     margin-top: 5px;
     display: block;
     font-family: Poppins;
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     font-style: normal;
     font-stretch: normal;
     line-height: normal;
     letter-spacing: 0.2px;
-    
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    color: #597bf0;
 }
 
 .contain-register {
@@ -188,15 +192,21 @@ p.validator {
 }
 
 .best-results {
-    font-family: Poppins;
+    // width: 119px;
+    // height: 24px;
+    font-family: OpenSans;
     font-size: 18px;
-    font-weight: 500;
+    font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: darkgreen;
+    color: black;
     margin-top: 5%;
+    margin-bottom: 3%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
 }
 
 .mail {
@@ -205,12 +215,27 @@ p.validator {
     font-size: 15px;
     border-radius: 3px;
     font-weight: 500;
-    background-color: rgb(233, 233, 233);
+    background-color: #f6f6f6;
     margin-top: 3%;
     margin-left: auto;
     margin-right: auto;
+    display: -webkit-box;
     display: flex;
-    border: 0px solid;
+    border: solid 1px #dfe4e6;
+}
+
+.label-forms {
+    width: 268px;
+    height: 22px;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+    //margin-left: -62%;
 }
 
 .password {

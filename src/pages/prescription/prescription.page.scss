@@ -236,12 +236,13 @@ ion-list-header {
 .cart-badge {
     position: absolute;
     top: 6px;
-    right: 4px;
+    right: 3px;
     background: darkred;
     color: white;
     font-size: 12px;
     border-radius: 25px;
     border: white solid 1px;
+    height: 19px;
 }
 
 .style-icon-cart {

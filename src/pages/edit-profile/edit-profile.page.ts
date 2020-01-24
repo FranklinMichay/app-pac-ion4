@@ -103,6 +103,7 @@ export class EditProfilePage implements OnInit {
   }
 
   updateProfilePatient() {
+    this.loadingCtrl.presentLoading();
     Object.entries(this.formEditProfile.value).forEach(
       ([key, value]: any[]) => {
         this.formData.set(key, value);
@@ -120,9 +121,11 @@ export class EditProfilePage implements OnInit {
       //console.log(data, 'DATA NUEVA');
 
       localStorage.setItem('user', JSON.stringify(data));
+      this.loadingCtrl.dismiss();
       this.router.navigate(['home']);
     }, (err) => {
       console.log(err, 'errores');
+      this.loadingCtrl.dismiss();
     });
   }
 
