@@ -26,6 +26,7 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SearchFilterPage } from './../pages/search-filter/search-filter.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     SocketIoModule.forRoot(config),
     AutoCompleteModule,
     TagInputModule,
+   
 
   ],
 
@@ -65,7 +67,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     FileTransfer,
     FileTransferObject,
     WebView,
-    Geolocation
+    Geolocation,
+    Network
     
   ],
 

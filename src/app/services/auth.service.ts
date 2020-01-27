@@ -45,8 +45,8 @@ export class AuthService {
   }
 
   initSocketIo() {
-    const user = JSON.parse(localStorage.getItem('user')) ?
-      JSON.parse(localStorage.getItem('user')) : {};
+    const user = JSON.parse(localStorage.getItem('user')) || {};
+    // ? JSON.parse(localStorage.getItem('user')) : {};
 
     this.socket = socketIo(this.urlSocket);
     console.log(this.urlSocket, 'url enviada');

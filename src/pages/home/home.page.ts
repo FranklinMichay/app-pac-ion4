@@ -12,6 +12,8 @@ import { fn } from '@angular/compiler/src/output/output_ast';
 import { LocalNotifications, ILocalNotificationActionType } from '@ionic-native/local-notifications/ngx';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { NetworkService } from 'src/app/services/network-service.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +22,7 @@ import { environment } from 'src/environments/environment';
 })
 export class HomePage implements OnInit {
 
+  isConnected = false;
   url: any;
   data: any;
   alert = false;
@@ -65,6 +68,8 @@ export class HomePage implements OnInit {
     private localNotifications: LocalNotifications,
     public menuControler: MenuController,
     public alertController: AlertController,
+    private networkService: NetworkService,
+    private toastService: ToastService,
   ) {
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem('user'));
@@ -100,6 +105,7 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.testNetwork();
     let now = new Date();
     this.fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
     var hora = ('0' + new Date().getHours()).substr(-2);
@@ -108,6 +114,16 @@ export class HomePage implements OnInit {
     this.hora = hora + ':' + min + ':' + seg;
     console.log(this.fecha, this.hora, 'hora y fecha');
     this.getDataPac(); 
+  }
+
+
+  testNetwork(){
+    this.networkService.getNetworkStatus().subscribe((connected: boolean) => {
+      this.isConnected = connected;
+      if (!this.isConnected) {
+          console.log('Por favor enciende tu conexión a Internet');
+      }
+});
   }
 
   ionViewWillEnter() {
