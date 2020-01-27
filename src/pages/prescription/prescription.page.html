@@ -8,7 +8,7 @@
             </ion-button> -->
             <ion-button (click)="goCart()" slot="end" class="cart-btn">
                 <ion-icon class="style-icon-cart" slot="icon-only" name="cart"></ion-icon>
-                <ion-badge class="cart-badge">{{count}}</ion-badge>
+                <ion-badge *ngIf="count > 0" class="cart-badge">{{count}}</ion-badge>
             </ion-button>
         </ion-buttons>
         <ion-title class="title-toolbar">Compra</ion-title>
