@@ -13,8 +13,13 @@
 <ion-content class="ion-padding">
 
     <div *ngIf="dataForView === undefined " class="center-img">
-        <img src="assets/imgs/no-datos.png" class="center-img">
-        <h2 class="text">Sin Contenido</h2>
+        <img src="assets/imgs/cart.png" class="center-img">
+        <h2 class="text">Tu carrito está vacío</h2>
+    </div>
+
+    <div *ngIf="total === 0 " class="center-img">
+        <img src="assets/imgs/cart.png" class="center-img">
+        <h2 class="text">Tu carrito está vacío</h2>
     </div>
 
     <div *ngIf="dataForView">
@@ -65,7 +70,7 @@
                 </label>
             </ion-col>
         </ion-row>
-        <ion-row>
+        <ion-row *ngIf="total > 0">
             <ion-col size="12">
                 <ion-button class="comprar" (click)="pay()">
                     PAGAR

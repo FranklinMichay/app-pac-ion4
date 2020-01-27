@@ -71,15 +71,8 @@ export class HomePage implements OnInit {
     private networkService: NetworkService,
     private toastService: ToastService,
   ) {
-    this.data = Info.categories;
-    this.dataUser = JSON.parse(localStorage.getItem('user'));
-    this.imageUrl = this.dataUser.fotoPerfil;
-    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
-    this.url = environment.url;
-    const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user, 'user');
-    const idPaciente = user ? user.id : 1;
-    const fields: any = idPaciente;
+    
+    
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
       this.auth.removeListener('calendar');

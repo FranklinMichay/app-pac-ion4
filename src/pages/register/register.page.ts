@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { NavController, NavParams, AlertController, ToastController, IonSlide, IonSlides } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
@@ -75,7 +75,7 @@ export class RegisterPage implements OnInit {
       telefonoCelular: ['', Validators.compose([Validators.required, Validators.pattern('^(?:[0-9]{10},)*[0-9]{10}$')])],
       ciudad: ['', Validators.compose([Validators.maxLength(30), Validators.pattern('[a-zA-Z ]*'), Validators.required])],
       fechaNaci: ['', Validators.required],
-
+      cboxPoliticas:  [false, RegisterPage.mustBeTruthy]
     });
   }
 
@@ -109,6 +109,14 @@ export class RegisterPage implements OnInit {
       console.log(this.slideOneForm.value);
       console.log(this.slideTwoForm.value);
     }
+  }
+
+  static mustBeTruthy(c: AbstractControl): { [key: string]: boolean } {
+    let rv: { [key: string]: boolean } = {};
+    if (!c.value) {
+      rv['notChecked'] = true;
+    }
+    return rv;
   }
 
   hideShowPassword() {

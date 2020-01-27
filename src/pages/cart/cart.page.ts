@@ -19,6 +19,7 @@ export class CartPage implements OnInit {
   totalFinal: any;
   total1: any;
   totalFinal1: any;
+  
 
   constructor(
     private dataService: DataService,
@@ -35,10 +36,13 @@ export class CartPage implements OnInit {
       this.dataForView = this.dataService.cart;
       this.dataForView = _.filter(this.dataForView, item => item.totalDispatch > 0);
       console.log(this.dataForView, 'data carrito');
+      
     } else {
       this.dataForView = this.router.getCurrentNavigation().extras.state;
       console.log(this.dataForView, 'data para compra total');
+      
     }
+
   }
 
   ngOnInit() {
@@ -62,10 +66,11 @@ export class CartPage implements OnInit {
     toast.present();
   }
 
-  ionViewDidLeave() {
+  ionViewWillLeave() {
     this.dataForView = []
     this.dataService.cart = []
-    console.log(this.dataForView, this.dataService.cart, 'ESTADO DE DATA FOR VIEW & data service');
+    this.total = 0;
+    console.log(this.dataForView, this.dataService.cart,this.total, 'ESTADO DE DATA FOR VIEW & data service');
 
   }
 

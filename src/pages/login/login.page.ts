@@ -115,8 +115,9 @@ export class LoginPage implements OnInit {
       console.log('DATOS PACIENTE', dataPaciente[0]);
       localStorage.setItem('user', JSON.stringify(dataPaciente[0]));
       this.form_login.reset();
-      this.router.navigate(['home']);
       this.loadingCtrl.dismiss();
+      this.router.navigate(['home']);
+
     })
   }
 
