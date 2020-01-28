@@ -79,10 +79,14 @@ p.validator {
     font-stretch: normal;
     line-height: normal;
     letter-spacing: 0.2px;
-    width: 70%;
+    width: 100%;
     margin-left: auto;
     margin-right: auto;
     color: #597bf0;
+}
+
+.cbox {
+    margin-top: 10%;
 }
 
 .contain-register {
@@ -128,10 +132,12 @@ p.validator {
 }
 
 .input-pass {
-    height: initial;
+    height: 100%;
     background: transparent;
     border: 0px solid;
-    margin-top: 5%;
+    margin-top: 0%;
+    width: 100%;
+    margin-left: -3%;
 }
 
 .scroll-content {
@@ -195,18 +201,20 @@ p.validator {
     // width: 119px;
     // height: 24px;
     font-family: OpenSans;
-    font-size: 18px;
+    font-size: 12px;
     font-weight: bold;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: black;
+    color: red;
     margin-top: 5%;
     margin-bottom: 3%;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    /* display: -webkit-box; */
+    /* display: flex; */
+    margin-left: -3%;
 }
 
 .mail {
@@ -225,8 +233,8 @@ p.validator {
 }
 
 .label-forms {
-    width: 268px;
-    height: 22px;
+    // width: 268px;
+    // height: 22px;
     font-family: OpenSans;
     font-size: 14px;
     font-weight: bold;
@@ -235,6 +243,37 @@ p.validator {
     line-height: 1.57;
     letter-spacing: 0.22px;
     color: black;
+    margin-left: -25%;
+    //margin-left: -62%;
+}
+
+.label-forms-email {
+    // width: 268px;
+    // height: 22px;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+    margin-left: -62%;
+    //margin-left: -62%;
+}
+
+.label-forms-short {
+    // width: 268px;
+    // height: 22px;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+    margin-left: -38%;
     //margin-left: -62%;
 }
 

@@ -33,7 +33,12 @@ export class AppComponent {
       this.statusBar.styleDefault();
       this.splashScreen.hide();
       this.backgroundMode.enable();
-      this.backgroundMode.setDefaults({ silent: true });
+      this.backgroundMode.on('enable').subscribe(() => {
+        console.log('enabled')
+      });
+      this.backgroundMode.on('activate').subscribe(() => {
+        console.log('activated')
+      })
       this.backgroundMode.disableWebViewOptimizations();
     });
 
