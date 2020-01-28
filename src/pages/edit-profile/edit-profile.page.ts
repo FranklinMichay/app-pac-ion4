@@ -111,16 +111,15 @@ export class EditProfilePage implements OnInit {
     )
     this.formData.append('user_id', this.data.user.id);
     this.auth.updateProfilePatient(this.formData, this.data.id).subscribe(data => {
-      if (data.fotoPerfil !== null) {
-        if (data.fotoPerfil[0] !== 'h') {
-          let foto = this.url + data.fotoPerfil;
-          data.fotoPerfil = foto;
+      this.auth.getInfoPaciente1(data.user).subscribe(data1 => {
+        localStorage.setItem('user', JSON.stringify(data1[0]));
+        if (data.fotoPerfil !== null) {
+          if (data.fotoPerfil[0] !== 'h') {
+            let foto = this.url + data.fotoPerfil;
+            data.fotoPerfil = foto;
+          }
         }
-      }
-
-      //console.log(data, 'DATA NUEVA');
-
-      localStorage.setItem('user', JSON.stringify(data));
+      });
       this.loadingCtrl.dismiss();
       this.router.navigate(['home']);
     }, (err) => {

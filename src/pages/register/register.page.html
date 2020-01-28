@@ -15,33 +15,36 @@
         <ion-slide>
             <form [formGroup]="slideOneForm">
                 <ion-list-header>
-                    <ion-label class="best-results">Todos los campos son obligatorios</ion-label>
+                    <ion-label class="best-results">Campo(s) Requerido(s)[*]</ion-label>
                 </ion-list-header>
                 <ion-row>
+
                     <ion-col size="6">
-                        <!-- <label class="label-forms">Primer Nombre</label> -->
-                        <input class="mail" type="text" formControlName="priNombre" placeholder="Primer Nombre">
+                        <label class="label-forms">Primer Nombre</label> *
+                        <input class="mail" type="text" formControlName="priNombre">
                         <ion-label *ngIf="slideOneForm.get('priNombre').errors && slideOneForm.get('priNombre').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('priNombre').hasError('required')">
                                 Este campo es requerido
                             </p>
                         </ion-label>
                     </ion-col>
+
                     <ion-col size="6">
-                        <!-- <label class="label-forms">Segundo Nombre</label> -->
-                        <input class="mail" type="text" formControlName="segNombre" placeholder="Segundo Nombre">
-                        <ion-label *ngIf="slideOneForm.get('segNombre').errors && slideOneForm.get('segNombre').dirty">
+                        <label class="label-forms">Segundo Nombre</label>
+                        <input class="mail" type="text" formControlName="segNombre">
+                        <!-- <ion-label *ngIf="slideOneForm.get('segNombre').errors && slideOneForm.get('segNombre').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('segNombre').hasError('required')">
                                 Este campo es requerido
                             </p>
-                        </ion-label>
+                        </ion-label> -->
 
                     </ion-col>
                 </ion-row>
                 <ion-row>
                     <ion-col size="6">
-                        <!-- <label class="label-forms">Primer Apellido</label> -->
-                        <input class="mail" type="text" formControlName="priApellido" placeholder="Primer Apellido">
+                        <label class="label-forms">Primer Apellido </label> *
+
+                        <input class="mail" type="text" formControlName="priApellido">
                         <ion-label *ngIf="slideOneForm.get('priApellido').errors && slideOneForm.get('priApellido').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('priApellido').hasError('required')">
                                 Este campo es requerido
@@ -49,20 +52,16 @@
                         </ion-label>
                     </ion-col>
                     <ion-col size="6">
-                        <!-- <label class="label-forms">Segundo Apellido</label> -->
-                        <input class="mail" type="text" formControlName="segApellido" placeholder="Segundo Apellido">
-                        <ion-label *ngIf="slideOneForm.get('segApellido').errors && slideOneForm.get('segApellido').dirty">
-                            <p class="validator" ion-text *ngIf="slideOneForm.get('segApellido').hasError('required')">
-                                Este campo es requerido
-                            </p>
-                        </ion-label>
+                        <label class="label-forms">Segundo Apellido</label>
+                        <input class="mail" type="text" formControlName="segApellido">
+
                     </ion-col>
                 </ion-row>
 
                 <ion-row>
                     <ion-col size="6">
-                        <!-- <label class="label-forms">E-mail</label> -->
-                        <input class="mail" type="text" formControlName="email" placeholder="E-mail">
+                        <label class="label-forms-email">E-mail</label> *
+                        <input class="mail" type="text" formControlName="email">
                         <ion-label *ngIf="slideOneForm.get('email').errors && slideOneForm.get('email').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('email').hasError('required')">Este campo es requerido
                             </p>
@@ -71,10 +70,10 @@
                         </ion-label>
                     </ion-col>
                     <ion-col size="6">
-                        <!-- <label class="label-forms">Contraseña</label> -->
+                        <label class="label-forms-short">Contraseña</label> *
                         <ion-row class="mail">
                             <ion-col size="10">
-                                <input [type]="passwordType" formControlName="password" clearOnEdit="true" placeholder="Contraseña" class="input-pass">
+                                <input [type]="passwordType" formControlName="password" clearOnEdit="true" class="input-pass">
                             </ion-col>
                             <ion-col size="2">
                                 <ion-icon end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'>
@@ -90,10 +89,10 @@
                 </ion-row>
 
                 <ion-row>
-                    <!-- <label class="label-forms">Identificación</label> -->
-                    <ion-col size="12">
 
-                        <input class="mail" type="text" formControlName="identificacion" placeholder="Identificación">
+                    <ion-col size="6">
+                        <label class="label-forms-short">Identificación</label>
+                        <input class="mail" type="text" formControlName="identificacion">
                         <ion-label *ngIf="slideOneForm.get('identificacion').errors && slideOneForm.get('identificacion').dirty">
                             <p class="validator" ion-text *ngIf="slideOneForm.get('identificacion').hasError('required')">
                                 Este campo es requerido
@@ -124,7 +123,7 @@
         <ion-slide>
             <form [formGroup]="slideTwoForm">
                 <ion-list-header>
-                    <ion-label class="best-results">Todos los campos son obligatorios</ion-label>
+                    <ion-label class="best-results">Campo(s) Requerido(s)[*]</ion-label>
                 </ion-list-header>
                 <ion-row>
                     <ion-col size="6">
@@ -187,13 +186,12 @@
                 </ion-row>
 
                 <ion-row>
-                    <ion-col size="12">
-
-                        <ion-item>
-                            <ion-checkbox formControlName="cboxPoliticas"></ion-checkbox>
-                            <p class="politicas">Acepto las <a href="http://medipharm.com.ec/sistema-medico/#/politicas">condiciones de uso y políticas de privacidad</a> de Medipharm </p>
-                            <!-- <ion-label item-right>mandatory</ion-label> -->
-                        </ion-item>
+                    <ion-col size="2">
+                        <ion-checkbox class="cbox" formControlName="cboxPoliticas"></ion-checkbox>
+                    </ion-col>
+                    <ion-col size="10">
+                        <p class="politicas">Acepto las <a href="http://medipharm.com.ec/sistema-medico/#/politicas">condiciones de uso y políticas
+                                de privacidad</a> de Medipharm </p>
                     </ion-col>
                 </ion-row>
 

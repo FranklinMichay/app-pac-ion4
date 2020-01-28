@@ -83,7 +83,7 @@ export class MeetingsPage implements OnInit {
     const index = this.today.getDay();
     this.setWeek(this.day, index);
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user, 'user');
+    console.log(user, 'user meeting');
     this.idPaciente = user ? user.id : 1;
     console.log(this.idPaciente, 'id del paciente')
     console.log(this.day, 'dia para presentar');

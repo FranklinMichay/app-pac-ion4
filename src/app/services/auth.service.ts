@@ -177,10 +177,16 @@ export class AuthService {
     return this.httpClient.get<any>(this.url + 'medico/getData?model=userMedico&params=user_id=' + data.jsonPk);
   }
 
+
   getInfoPaciente(data: any): Observable<any> {
     console.log(data, ' data');
     console.log(data.jsonPk, ' data');
     return this.httpClient.get<any>(this.url + 'paciente/getData?model=userPaciente&params=user_id=' + data.jsonPk);
+  }
+
+  getInfoPaciente1(data: any): Observable<any> {
+    console.log(data, 'data danny1');
+    return this.httpClient.get<any>(this.url + 'paciente/getData?model=userPaciente&params=user_id=' + data);
   }
 
   getMedics() {

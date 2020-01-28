@@ -17,6 +17,8 @@ export class ProfilePage implements OnInit {
 
   ngOnInit() {
     this.data = JSON.parse(localStorage.getItem('user'))
+    console.log(this.data, 'DATOS EN EL PERFIL');
+    
   }
 
   returnHome() {
