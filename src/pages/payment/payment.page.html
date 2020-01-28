@@ -172,33 +172,40 @@
 
 <section *ngIf="isPago">
   <ion-list>
-    <ion-radio-group  [(ngModel)]="metodoPago"> 
+    <ion-radio-group  [(ngModel)]="metodoPago" (ionSelect)="selectmetodo()"> 
       <ion-list-header>
         <ion-label>Método de pago</ion-label>
       </ion-list-header>
   
       <ion-item>
         <fa-icon slot="start" [icon]="faCreditCard"></fa-icon>         
-        <ion-label>Tarjeta de Crédito/Débito</ion-label>
-        <ion-radio slot="end" value="tarjeta" checked></ion-radio>
+        <ion-label>Tarjeta de Crédito/Débito </ion-label>
+        <ion-radio [disabled]="true" slot="end" value="tarjeta"></ion-radio>
       </ion-item>
   
       <ion-item>
         <fa-icon slot="start" [icon]=" faMoneyCheckAlt"></fa-icon>
         <ion-label>Trasnferencia Bancaria</ion-label>
-        <ion-radio slot="end" value="transferencia"></ion-radio>
+        <ion-radio [disabled]="true" slot="end" value="transferencia"></ion-radio>
       </ion-item>
   
       <ion-item>
         <fa-icon slot="start" [icon]=" faMoneyBill"></fa-icon>
         <ion-label>Pagar en la entrega</ion-label>
-        <ion-radio slot="end" value="entrega"></ion-radio>
+        <ion-radio slot="end" value="entrega" checked></ion-radio>
       </ion-item>
     </ion-radio-group>
   </ion-list>
-  <pre>
-    {{metodoPago}}
-  </pre>
+
+
+  <div   class="ion-padding entrega" *ngIf="metodoPago=='entrega'">
+    <h5>Ten presente los siguientes consejos: </h5>
+    <p> 1. Estar presente al horario establecido de entrega. </p>
+    <p> 2. Tener el dinero a la mano cuando se entregue tu pedido. </p>
+    <p> 3. Revisar si tu pedido esta completo. </p>
+    <p> 4. Confirmar que tu pedido ha sido entregado con exito para terminar la compra. </p>
+  </div>
+
   <ion-list *ngIf="metodoPago=='tarjeta'">
     <ion-item>
         <ion-label position="stacked">Número tarjeta</ion-label>
@@ -220,12 +227,30 @@
   </ion-item>
 
 </ion-list>
+.
+<section>
+
+  <ion-row>
+    <ion-col size="2">             
+            <ion-checkbox class="ion-text-left" [(ngModel)]="cboxPoliticas"></ion-checkbox>     
+       
+    </ion-col>
+    <ion-col size="10">
+      <p  class="politicas">Acepto las <a href="http://medipharm.com.ec/sistema-medico/#/politicas">condiciones de uso y políticas de privacidad</a> de Medipharm </p> 
+
+    </ion-col>  
+</ion-row>
+
 <ion-row > 
   <ion-col class="ion-text-center" size="12">
-    <ion-button class="accept-edit" (click)="goPay()">
+    <ion-button [disabled]="(!cboxPoliticas || !selectMetodo)" class="accept-edit" (click)="goPay()">
       Pagar</ion-button>
   </ion-col>
 </ion-row>
+</section>
+
+
+
 </section>
 <ion-content class="noScroll">
     <div [hidden]="!isDireccion">
@@ -239,6 +264,9 @@
     <!-- <ion-button size="large" [routerLink]="['/directions']"> Cómo llegar</ion-button> -->
 
 </ion-content>
+
+
+
 <ion-row [hidden]="!isDireccion">
   <ion-col size="6">
     <ion-button class="accept-edit" (click)="goDatos()">Atrás</ion-button>

@@ -98,7 +98,15 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
-    this.testNetwork();
+    this.data = Info.categories;
+    this.dataUser = JSON.parse(localStorage.getItem('user'));
+    this.imageUrl = this.dataUser.fotoPerfil;
+    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
+    this.url = environment.url;
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user, 'user');
+    const idPaciente = user ? user.id : 1;
+    
     let now = new Date();
     this.fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
     var hora = ('0' + new Date().getHours()).substr(-2);

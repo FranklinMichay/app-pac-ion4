@@ -413,6 +413,11 @@ export class AuthService {
   }
 
 
+  createDispatch(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.urlMongoDB}despacho/crearDespa`, data);
+  }
+
+
   // despachos(ids: any): Observable<any> {
   //   return this.httpClient.get<any>(this.urlMongoDB + 'despacho/searchDespa/' + ids);
   // }
