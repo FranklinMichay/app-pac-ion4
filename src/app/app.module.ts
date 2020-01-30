@@ -27,6 +27,7 @@ import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SearchFilterPage } from './../pages/search-filter/search-filter.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { FCM } from '@ionic-native/fcm/ngx';
+import { Network } from '@ionic-native/network/ngx';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { FCM } from '@ionic-native/fcm/ngx';
     SocketIoModule.forRoot(config),
     AutoCompleteModule,
     TagInputModule,
+   
 
   ],
 
@@ -67,7 +69,8 @@ import { FCM } from '@ionic-native/fcm/ngx';
     FileTransfer,
     FileTransferObject,
     WebView,
-    Geolocation
+    Geolocation,
+    Network
     
   ],
 

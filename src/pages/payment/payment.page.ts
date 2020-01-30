@@ -11,6 +11,7 @@ import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { faCreditCard, faMoneyCheckAlt, faMoneyBill} from '@fortawesome/free-solid-svg-icons';
+import { ToastService } from '../../app/services/toast.service';
 
 
 @Component({
@@ -24,11 +25,13 @@ export class PaymentPage implements OnInit {
   faMoneyCheckAlt = faMoneyCheckAlt;
   faMoneyBill = faMoneyBill;
   metodoPago:any
+  selectMetodo = false;
 
   isDatosPersonales: boolean;
   isDireccion = false;
   isPago = false;
   marker: any;
+  cboxPoliticas = false;
 
 
   myForm: FormGroup;
@@ -48,7 +51,7 @@ export class PaymentPage implements OnInit {
 
   user: any;
 
-  constructor(public fb: FormBuilder, public geolocation: Geolocation) {
+  constructor(public fb: FormBuilder, public geolocation: Geolocation, public toast:ToastService) {
     this.isDatosPersonales = true;
     this.user = JSON.parse(localStorage.getItem('user'));
 
@@ -191,6 +194,15 @@ export class PaymentPage implements OnInit {
   }
 
   upload() {
+
+  }
+
+  selectmetodo(){
+    this.selectMetodo = true;
+    console.log(this.selectMetodo);
+
+    // this.toast.presentToast('Proximamente');
+
 
   }
 

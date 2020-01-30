@@ -15,6 +15,8 @@ import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { FCM } from '@ionic-native/fcm/ngx';
 
+import { NetworkService } from 'src/app/services/network-service.service';
+import { ToastService } from 'src/app/services/toast.service';
 
 @Component({
   selector: 'app-home',
@@ -23,6 +25,7 @@ import { FCM } from '@ionic-native/fcm/ngx';
 })
 export class HomePage implements OnInit {
 
+  isConnected = false;
   url: any;
   data: any;
   alert = false;
@@ -71,7 +74,9 @@ export class HomePage implements OnInit {
     public alertController: AlertController,
     private route: ActivatedRoute,
     private fcm: FCM,
-    public plt: Platform
+    public plt: Platform,
+    private networkService: NetworkService,
+    private toastService: ToastService,
   ) {
 
     this.price = this.route.snapshot.params['price'];
@@ -109,6 +114,15 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.data = Info.categories;
+    this.dataUser = JSON.parse(localStorage.getItem('user'));
+    this.imageUrl = this.dataUser.fotoPerfil;
+    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
+    this.url = environment.url;
+    const user = JSON.parse(localStorage.getItem('user'));
+    console.log(user, 'user');
+    const idPaciente = user ? user.id : 1;
+    
     let now = new Date();
     this.fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
     var hora = ('0' + new Date().getHours()).substr(-2);
@@ -120,6 +134,15 @@ export class HomePage implements OnInit {
   }
 
   
+
+  testNetwork(){
+    this.networkService.getNetworkStatus().subscribe((connected: boolean) => {
+      this.isConnected = connected;
+      if (!this.isConnected) {
+          console.log('Por favor enciende tu conexión a Internet');
+      }
+});
+  }
 
   ionViewWillEnter() {
     this.getDataPac();

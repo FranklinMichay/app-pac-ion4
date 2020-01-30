@@ -45,8 +45,8 @@ export class AuthService {
   }
 
   initSocketIo() {
-    const user = JSON.parse(localStorage.getItem('user')) ?
-      JSON.parse(localStorage.getItem('user')) : {};
+    const user = JSON.parse(localStorage.getItem('user')) || {};
+    // ? JSON.parse(localStorage.getItem('user')) : {};
 
     this.socket = socketIo(this.urlSocket);
     console.log(this.urlSocket, 'url enviada');
@@ -418,6 +418,11 @@ export class AuthService {
 
   getInfoPrescription(ids: any): Observable<any> {
     return this.httpClient.get<any>(this.urlMongoDB + 'inventario/listarInventarios/' + ids);
+  }
+
+
+  createDispatch(data: any): Observable<any> {
+    return this.httpClient.post<any>(`${this.urlMongoDB}despacho/crearDespa`, data);
   }
 
 
