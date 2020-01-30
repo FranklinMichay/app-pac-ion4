@@ -1,6 +1,7 @@
+import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { AlertController, IonSlides } from '@ionic/angular';
+import { AlertController, IonSlides, IonInfiniteScroll } from '@ionic/angular';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { Info } from '../../shared/mock/months';
 import * as _ from 'lodash';
@@ -10,6 +11,7 @@ import { DataService } from 'src/app/services/data.service';
 import { environment } from 'src/environments/environment';
 import { formatDate } from '@angular/common';
 
+
 @Component({
   selector: 'app-meetings',
   templateUrl: './meetings.page.html',
@@ -18,11 +20,15 @@ import { formatDate } from '@angular/common';
 export class MeetingsPage implements OnInit {
 
   @ViewChild('slider', { static: true }) slider: IonSlides;
-  newMeetings: any;
-  acceptedMeetings: any;
+
+  @ViewChild('IonInfiniteScroll', { static: true }) infiniteScroll: IonInfiniteScroll;
+
+
+  newMeetings = [];
+  acceptedMeetings = [];
   currentTab: string = 'step1';
   idPaciente: any;
-  postponedMeetings: any;
+  postponedMeetings = [];
   connection: any;
   pkCentroMed: any = 1;
   monthLabel: string;
@@ -65,6 +71,13 @@ export class MeetingsPage implements OnInit {
   slideOpts = {
     initialSlide: 0
   };
+  dataList = [];
+  offset = 1;
+  offsetc = 1;
+  offsetp = 1;
+  contScrollAccepted: any;
+  contScrollCanceled: any;
+  contScrollPostponed: any;
 
   constructor(
     private router: Router,
@@ -76,6 +89,9 @@ export class MeetingsPage implements OnInit {
     private dataService: DataService
 
   ) {
+
+
+
     this.currentYear = this.today.getFullYear();
     this.monthLabel = Info.months[this.today.getMonth()];
     this.currentMonth = this.today.getMonth();
@@ -113,14 +129,96 @@ export class MeetingsPage implements OnInit {
       console.log(err, 'errores');
       console.log(err);
     });
+
+
   }
 
   ngOnInit() {
-    this.slider.slideTo(1, 0, false);
+
+    // infinite scroll
+    this.loadDataAccepted();
+    //this.slider.slideTo(1, 0, false);
     const currentDate = this.getCurrentDate(this.day);
     console.log(currentDate, 'current date');
-    this.getData(currentDate);
+    //this.getData(currentDate);
   }
+
+  loadDataAccepted(loadMore = false, event?) {
+    setTimeout(() => {
+      if (loadMore) {
+        this.offset++;
+      }
+      const fields: any = {
+        idPaciente: this.idPaciente,
+        offset: this.offset,
+        state: 'accepted'
+      };
+      this.loadingCtrl.presentLoading();
+      this.auth.getDataScroolAccepted(fields).subscribe(d => {
+        console.log(d, 'DATA SCROLL ACEPTED');
+        this.contScrollAccepted = d;
+        d.map((el) => {
+          this.acceptedMeetings.push(el);
+        });
+      });
+      this.loadingCtrl.dismiss();
+      console.log(this.acceptedMeetings, 'accepted');
+      if (event) {
+        event.target.complete();
+      }
+      if (this.contScrollAccepted.length == 0) {
+        console.log('no hay mas citas = ', this.contScrollAccepted.length);
+        event.target.disabled = true;
+      }
+    }, 1000);
+  }
+
+  loadDataPostponed(loadMore = false, event?) {
+    if (loadMore) {
+      this.offsetc++;
+    }
+    const fields: any = {
+      idPaciente: this.idPaciente,
+      offset: this.offset,
+        state: 'postponed'
+    };
+    this.auth.getDataScroolCanceled(fields).subscribe(d => {
+      console.log(d, 'DATA SCROLL CANCELED');
+      d.map((el) => {
+        this.postponedMeetings.push(el);
+      });
+    });
+    console.log(this.postponedMeetings, 'pospuestas');
+    if (event) {
+      event.target.complete();
+    }
+  }
+
+  loadDataCanceled(loadMore = false, event?) {
+    if (loadMore) {
+      this.offsetc++;
+    }
+    const fields: any = {
+      idPaciente: this.idPaciente,
+      offset: this.offset,
+      state: 'canceled'
+    };
+    this.auth.getDataScroolPostponed(fields).subscribe(d => {
+      console.log(d, 'DATA SCROLL POSPONED');
+      d.map((el) => {
+        this.newMeetings.push(el);
+      });
+    });
+    console.log(this.newMeetings, 'canceled');
+    if (event) {
+      event.target.complete();
+    }
+  }
+  
+  toggleInfiniteScroll() {
+    this.infiniteScroll.disabled = !this.infiniteScroll.disabled;
+  }
+  // FINALIZA INFITE SCROLL
 
   ionViewWillEnter() {
 
@@ -141,7 +239,7 @@ export class MeetingsPage implements OnInit {
     }
     const currentDate = this.getCurrentDate(this.day);
     console.log(currentDate, 'current date');
-    this.getData(currentDate);
+    //this.getData(currentDate);
   }
 
   nextSlide() {
@@ -208,31 +306,31 @@ export class MeetingsPage implements OnInit {
     return date;
   }
 
-  getData(currentDate) {
-    console.log(currentDate, 'la fecha de consulta ');
-    this.acceptedMeetings = undefined;
-    this.newMeetings = undefined;
-    this.postponedMeetings = undefined;
-    const fields: any = {
-      idPaciente: this.idPaciente,
-      fecha: currentDate
-    };
-    this.loadingCtrl.presentLoading();
-    this.auth.getDataCanceled(fields).subscribe(d => {
-      this.newMeetings = d;
-      console.log(this.newMeetings, 'canceled');
-      this.auth.getDataPostponed(fields).subscribe(d => {
-        this.postponedMeetings = d;
-        console.log(this.postponedMeetings, 'pospuestas');
-        this.auth.getMeetingAccepted(fields).subscribe(d => {
-          this.acceptedMeetings = d;
-          console.log(this.acceptedMeetings, 'aceptadas');
-        });
-      });
-    });
-    this.loadingCtrl.dismiss();
-    
-  }
+  // getData(currentDate) {
+  //   console.log(currentDate, 'la fecha de consulta ');
+  //   this.acceptedMeetings = undefined;
+  //   this.newMeetings = undefined;
+  //   this.postponedMeetings = undefined;
+  //   const fields: any = {
+  //     idPaciente: this.idPaciente,
+  //     fecha: currentDate
+  //   };
+  //   this.loadingCtrl.presentLoading();
+  //   this.auth.getDataCanceled(fields).subscribe(d => {
+  //     this.newMeetings = d;
+  //     console.log(this.newMeetings, 'canceled');
+  //     this.auth.getDataPostponed(fields).subscribe(d => {
+  //       this.postponedMeetings = d;
+  //       console.log(this.postponedMeetings, 'pospuestas');
+  //       this.auth.getMeetingAccepted(fields).subscribe(d => {
+  //         this.acceptedMeetings = d;
+  //         console.log(this.acceptedMeetings, 'aceptadas');
+  //       });
+  //     });
+  //   });
+  //   this.loadingCtrl.dismiss();
+
+  // }
 
   removeData(result) {
     _.remove(this.acceptedMeetings, function (n) {
@@ -245,7 +343,7 @@ export class MeetingsPage implements OnInit {
     this.setLabel(day, this.currentMonth, this.currentYear);
     this.getDaysInMonth(this.currentMonth, this.currentYear);
     const currentDate = this.getCurrentDate(day);
-    this.getData(currentDate);
+    //this.getData(currentDate);
     this.daysWeek = _.map(this.daysWeek, (v, i) => {
       v.selected = (day === v.day) ? true : false
       return v;

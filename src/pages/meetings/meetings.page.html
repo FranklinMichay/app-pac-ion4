@@ -13,7 +13,7 @@
 
 <ion-content class="content-cites">
 
-    <div class="ion-padding">
+    <div class="ion-padding div-menu">
         <ion-row class="nav-tabs">
             <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
                 <label class="text-center">Aceptadas</label>
@@ -27,41 +27,7 @@
         </ion-row>
     </div>
 
-
-    <!-- <ion-slides pager="true" [options]="slideOpts">
-        <ion-slide *ngFor="let item of 5">
-            <h1>item</h1>
-        </ion-slide>
-    </ion-slides> -->
-
-
-    <!-- <ion-item-sliding>
-        <ion-item class="days-week">
-            <ion-row class="content-header">
-                <ion-col class="content-col" *ngFor=" let v of daysWeek">
-                    <span>
-                        {{v.label}}
-                    </span>
-                    <span *ngIf="v.day" class="day-number" [className]="v.selected ? 'today' : 'sn'" (click)="changeDay(v.day)">
-                        {{v.day}}
-                    </span>
-                </ion-col>
-                <ion-col size="12">
-                    <span class="text-center-day date-label"> {{dateLabel}} </span>
-                </ion-col>
-            </ion-row>
-        </ion-item>
-        <ion-item-options side="start">
-            <ion-item-option (click)="previousWeek()" class="slide">Anterior</ion-item-option>
-        </ion-item-options>
-
-        <ion-item-options side="end">
-            <ion-item-option (click)="nextWeek()" class="slide">Siguiente</ion-item-option>
-        </ion-item-options>
-
-    </ion-item-sliding> -->
-
-    <ion-slides #slider loop (ionSlideNextEnd)="nextWeek()" (ionSlidePrevEnd)="previousWeek()" [options]="slideOpts">
+    <!-- <ion-slides #slider loop (ionSlideNextEnd)="nextWeek()" (ionSlidePrevEnd)="previousWeek()" [options]="slideOpts">
         <ion-slide *ngFor="let n of numbers" class="content-header">
             <ion-row>
                 <ion-col *ngFor=" let v of daysWeek">
@@ -78,7 +44,13 @@
             </ion-row>
 
         </ion-slide>
-    </ion-slides>
+    </ion-slides> -->
+
+    <!-- <ion-list>
+        <ion-item *ngFor="let item of dataList">
+            <ion-label>{{item}}</ion-label>
+        </ion-item>
+    </ion-list> -->
 
     <div class="form-group required" *ngIf="currentTab === 'step1'">
         <div class="container">
@@ -106,15 +78,15 @@
                             </ion-col>
                         </ion-row>
                     </ion-col>
-                    <ion-col size="1">
+                    <ion-col size="1" class="icon-medic">
                         <ion-icon name="ios-arrow-forward"></ion-icon>
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <div *ngIf="!acceptedMeetings || acceptedMeetings.length == 0" class="empty-container">
+            <!-- <div *ngIf="!acceptedMeetings || acceptedMeetings.length == 0" class="empty-container">
                 <img src="assets/imgs/no-datos.png" class="empty-state">
                 <h3 class="text-center">Sin Contenido</h3>
-            </div>
+            </div> -->
         </div>
     </div>
 
@@ -144,19 +116,18 @@
                             </ion-col>
                         </ion-row>
                     </ion-col>
-                    <ion-col size="1">
-                        <!-- <ion-icon name="close-circle" class="close"></ion-icon> -->
+                    <ion-col size="1" class="icon-medic">
+
                         <ion-icon name="ios-arrow-forward"></ion-icon>
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <div *ngIf="!newMeetings || newMeetings.length == 0 " class="empty-container">
+            <!-- <div *ngIf="!newMeetings || newMeetings.length == 0 " class="empty-container">
                 <img src="assets/imgs/no-datos.png" class="empty-state">
                 <h3 class="text-center">Sin Contenido</h3>
-            </div>
+            </div> -->
         </div>
     </div>
-
 
     <div class="form-group required" *ngIf="currentTab === 'step3'">
         <div class="container">
@@ -184,42 +155,33 @@
                             </ion-col>
                         </ion-row>
                     </ion-col>
-                    <ion-col size="1">
+                    <ion-col size="1" class="icon-medic">
                         <ion-icon name="ios-arrow-forward"></ion-icon>
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <div *ngIf="!postponedMeetings || postponedMeetings.length == 0 " class="empty-container">
+            <!-- <div *ngIf="!postponedMeetings || postponedMeetings.length == 0 " class="empty-container">
                 <img src="assets/imgs/no-datos.png" class="empty-state">
                 <h3 class="text-center">Sin Contenido</h3>
-            </div>
+            </div> -->
         </div>
     </div>
+
+
+
+    <ion-infinite-scroll *ngIf="acceptedMeetings" threshold="100px" (ionInfinite)="loadDataAccepted(true, $event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando Nuevos Datos...!">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+    <ion-infinite-scroll *ngIf="newMeetings" threshold="100px" (ionInfinite)="loadDataCanceled(true, $event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando Nuevos Datos...!">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+    <ion-infinite-scroll *ngIf="postponedMeetings" threshold="100px" (ionInfinite)="loadDataPostponed(true, $event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando Nuevos Datos...!">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+
 </ion-content>
-
-<!-- if (Object.keys(this.dataService.dataDelete).length !== 0) {
-    this.dataDelete = this.dataService.dataDelete;
-    console.log(this.dataDelete, 'data para delete posponed');
-
-    const idDelete = this.dataDelete.data.data.id
-    console.log(idDelete, 'ide para eliminar');
-    this.deleteData(idDelete);
-    this.dataService.dataDelete = {}
-  } else if (Object.keys(this.dataService.dataCancelPosponed).length !== 0) {
-    console.log(this.dataService.dataCancelPosponed, 'id canceled');
-
-    this.dataDelete = this.dataService.dataCancelPosponed;
-    console.log(this.dataDelete, 'data que no llega');
-    const idDelete = this.dataDelete.data.data.id
-    console.log(idDelete, 'ide cancel posponed para eliminar');
-    this.deleteDataPosponed(idDelete);
-    this.dataService.dataCancelPosponed = {}
-  } else if (Object.keys(this.dataService.idAcceptPosponed).length !== 0) {
-    console.log(this.dataService.idAcceptPosponed, 'id Accepted');
-
-    this.dataDelete = this.dataService.idAcceptPosponed;
-    const idDelete = this.dataDelete.data.data
-    console.log(idDelete, 'ide de posponed para eliminar');
-    this.deleteDataPosponed(idDelete);
-    this.dataService.idAcceptPosponed = {}
-  } -->

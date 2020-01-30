@@ -116,50 +116,114 @@
 .row-content {
     font-size: smaller;
     text-align: left;
+    background-color: #f3f4f8;
 }
 
 .cantidad {
     margin-left: -7%;
 }
 
+.title-data {
+    height: 37px;
+    opacity: 0.99;
+    background-color: #dfe4e6;
+}
+
+.col-name {
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+}
+
+.col-forma {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #657785;
+}
+
+.col-ind {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: black;
+}
+
+.col-ind-text {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #657785;
+}
+
+.medicamentos {
+    opacity: 0.99;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: #140e2c;
+}
+
 .titulo-receta {
     font-family: Poppins;
-    font-size: 12px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 600;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    color: #f3f4f8;
-    margin-top: 2%;
+    color: black;
+    margin-top: 7%;
+    margin-bottom: 2%;
 }
 
 .bg-receta {
-    background-color: #13ccb3;
+    //background-color: #13ccb3;
     height: 96px;
 }
 
 .es-med {
-    font-family: Poppins;
-    font-size: 12px;
-    font-weight: 500;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #f3f4f8;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
     margin-top: -5%;
 }
 
 .cm-med {
-    font-family: Poppins;
-    font-size: 12px;
-    font-weight: 500;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
     font-stretch: normal;
     font-style: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #f3f4f8;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
     margin-top: -5%;
 }
 

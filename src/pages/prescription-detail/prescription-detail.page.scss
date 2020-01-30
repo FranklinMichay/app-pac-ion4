@@ -8,6 +8,14 @@
 .title-toolbar {
     color: white;
     text-align: center;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    text-align: center;
 }
 
 // content {
@@ -26,17 +34,6 @@
 }
 
 .botton-detail {
-    //   width: 140px;
-    //   height: 33px;
-    //   border-radius: 10px;
-    //   background-image: linear-gradient(285deg, #645aff 103%, #a573ff -12%);
-    //   color: white;
-    //   //background-color: #d4cfff;
-    //   margin-left: auto;
-    //   margin-right: auto;
-    //   display: block;
-    //   text-align: center;
-    //   font-weight: 600;
     width: 127px;
     height: 28px;
     border-radius: 25px;
@@ -45,17 +42,6 @@
 }
 
 .botton-desp {
-    //   width: 140px;
-    //   height: 33px;
-    //   border-radius: 10px;
-    //   background-color: #ff5b5b;
-    //   color: white;
-    //   //background-color: #d4cfff;
-    //   margin-left: auto;
-    //   margin-right: auto;
-    //   display: block;
-    //   text-align: center;
-    //   font-weight: 600;
     width: 127px;
     height: 29px;
     border-radius: 25px;
@@ -68,7 +54,7 @@
     background-color: #f3f4f8;
     height: 6%;
     border-radius: 14px;
-    margin-top: 5%;
+    margin-top: 1%;
     text-align: -webkit-center;
 }
 
@@ -76,6 +62,11 @@
     background: #597bf0;
     color: white !important;
     border-radius: initial;
+    height: 40px;
+}
+
+.div-menu {
+    background: #dfe4e6;
 }
 
 .col-center {
@@ -125,7 +116,7 @@
 .text-center {
     text-align: center;
     font-family: Poppins;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
 }
 
@@ -295,14 +286,27 @@ ion-content {
 }
 
 .name {
-    font-family: Poppins;
-    font-size: 16px;
+    font-family: OpenSans;
+    font-size: 12.8px;
     font-weight: bold;
     font-style: normal;
     font-stretch: normal;
     line-height: 1.57;
     letter-spacing: 0.22px;
     color: black;
+    margin-left: -8%;
+}
+
+.codReceta {
+    font-family: OpenSans;
+    font-size: 12.8px;
+    font-weight: bold;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+    margin-left: 8%;
 }
 
 .esp {
@@ -325,8 +329,9 @@ ion-content {
     font-stretch: normal;
     line-height: 1.72;
     letter-spacing: normal;
-    margin-top: -6%;
+    margin-top: -3%;
     color: #657785;
+    margin-left: -8%;
 }
 
 .bg-card {
@@ -341,8 +346,9 @@ ion-content {
     font-stretch: normal;
     line-height: 1.72;
     letter-spacing: normal;
-    margin-top: -5%;
-    color: black;
+    margin-top: 2%;
+    color: #8c8c8c;
+    margin-left: -8%;
 }
 
 .time {
@@ -371,11 +377,12 @@ ion-content {
 
 .container-medic {
     width: 98%;
-    border-radius: 7px;
+    border-radius: 5px;
     background-color: #f6f6f6;
+    //margin-top: 2%;
+    /* border-left: solid 8px #4c69cc; */
+    height: 100px;
     margin-top: 2%;
-    border-left: solid 8px #4c69cc;
-    height: 122px;
     .line {
         background-color: #695cff;
     }
@@ -383,10 +390,13 @@ ion-content {
         //left: -14%;
     }
     .image {
-        width: 7vh;
-        height: 7vh;
-        border-radius: 4vh;
-        margin-top: 15%;
+        width: 4vh;
+        height: 4vh;
+        border-radius: 25px;
+        margin-top: 6%;
+        margin-left: 5%;
+        /* border: solid 2px white; */
+        background: #dfe4e6;
     }
     .medical-center {
         font-family: Poppins;
@@ -411,7 +421,7 @@ ion-content {
 .icon-medic {
     margin-top: 10%;
     font-size: 20px;
-    color: cornflowerblue;
+    color: #dfe4e6;
 }
 
 //prueba medicos home

@@ -20,7 +20,7 @@
 <ion-content class="bg-content">
 
 
-    <div class="ion-padding" class="bg-content">
+    <div>
         <ion-list>
             <ion-list-header>
                 <ion-label class="best-results">Seleccione un parámetro para la Búsqueda </ion-label>
@@ -39,7 +39,7 @@
                 <ion-label class="keyword">Puedes seleccionar hasta 3 parámetros </ion-label>
             </ion-list-header>
             <ion-item>
-                <tag-input [(ngModel)]="selected" [placeholder]="'Seleccione otro parámetro'" [secondaryPlaceholder]="'Seleccione un parámetro'" [onlyFromAutocomplete]="true" (onTextChange)="onTextChange($event)" [maxItems]='3'>
+                <tag-input [(ngModel)]="selected" [placeholder]="'Seleccione otro parámetro'" [secondaryPlaceholder]="'Ingrese un parámetro'" [onlyFromAutocomplete]="true" (onTextChange)="onTextChange($event)" [maxItems]='3'>
                     <tag-input-dropdown [showDropdownIfEmpty]="true" [displayBy]="'nombre'" [identifyBy]="'id'" [autocompleteItems]="tags">
                         <ng-template let-item="item" let-index="index">
                             {{ item.nombre }}
@@ -57,12 +57,12 @@
 
     </ion-searchbar>
 
-    <div *ngIf="medics && medics.length === 0 " class="center-img">
+    <div *ngIf="medics && medics.length === 0 " class="bg-medics center-img">
         <img src="assets/imgs/no-datos.png" class="center-img">
         <h2 class="text">Sin Contenido</h2>
     </div>
 
-    <div *ngIf="medics" class="bg-medics">
+    <!-- <div *ngIf="medics" class="bg-medics">
         <ion-grid>
             <ion-row>
                 <ion-col size="6" *ngFor="let medic of medics | filter:searchText" (click)="goToDetails(medic)">
@@ -71,7 +71,7 @@
                             <img class="crop" *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] !== 'h'" src="{{url}}{{medic.fotoPerfil}}" />
                             <img class="crop" *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] === 'h'" src="{{medic.fotoPerfil}}" />
                             <img class="crop" *ngIf="!medic.fotoPerfil" src="assets/imgs/doctor.png " />
-                            <!-- <img class="crop " src="assets/imgs/doctor.png"> -->
+                           
                             <p class="explore-title">{{ medic.priNombre}} {{ medic.priApellido}}</p>
                             <p class="explore-text">{{ medic.especialidad.nombre }}</p>
                             <p *ngFor="let cm of medic.centroMedico " class="c-medico">{{ cm.nombre }}</p>
@@ -81,7 +81,7 @@
                 </ion-col>
             </ion-row>
         </ion-grid>
-    </div>
+    </div> -->
     <!-- <div *ngIf="medicsFav">
         medicos favoritos
         <ion-grid class="content-medic ">
@@ -115,15 +115,12 @@
     </div> -->
 
 
-    <!-- <div *ngIf="medics">
+    <div *ngIf="medics" class="bg-medics">
         <ion-grid class="content-medic ">
-            <ion-row *ngFor="let medic of medics | filter:searchText" (click)="goToDetails(medic) "
-                class="container-medic">
+            <ion-row *ngFor="let medic of medics | filter:searchText" (click)="goToDetails(medic) " class="container-medic">
                 <ion-col class="container-image" size="4">
-                    <img class="image " *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] !== 'h'"
-                        src="{{url}}{{medic.fotoPerfil}}" />
-                    <img class="image " *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] === 'h'"
-                        src="{{medic.fotoPerfil}}" />
+                    <img class="image " *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] !== 'h'" src="{{url}}{{medic.fotoPerfil}}" />
+                    <img class="image " *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] === 'h'" src="{{medic.fotoPerfil}}" />
                     <img class="image " *ngIf="!medic.fotoPerfil" src="assets/imgs/doctor.png " />
                 </ion-col>
                 <ion-col class="container-info-medic " size="7">
@@ -132,12 +129,18 @@
                             {{ medic.priNombre }} {{ medic.priApellido }} {{ medic.segApellido }}
                         </ion-col>
                         <ion-col class="fecha " size="12 ">
-                            {{ medic.especialidad.nombre }}
-                            
+                            {{ medic.especialidad.nombre }} - {{ medic.ciudad }}
+
                         </ion-col>
+
                         <ion-col class="cm" *ngFor="let cm of medic.centroMedico " size="12">
-                            {{ cm.nombre }}
+                            <div class="content-cm">
+                                {{ cm.nombre }}
+                            </div>
+
                         </ion-col>
+
+
                     </ion-row>
                 </ion-col>
                 <ion-col size="1" class="icon-medic">
@@ -146,7 +149,7 @@
                 </ion-col>
             </ion-row>
         </ion-grid>
-    </div> -->
+    </div>
 
 
 

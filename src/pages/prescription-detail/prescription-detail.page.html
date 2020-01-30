@@ -7,22 +7,22 @@
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar">Recetas</ion-title>
+        <ion-title class="title-toolbar">RECETAS</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content class="content-cites">
-    <div class="ion-padding">
+    <div class="ion-padding div-menu">
         <ion-row class="nav-tabs">
             <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
                 <label class="text-center">Nuevas</label>
             </ion-col>
             <ion-col class="col-center" [ngClass]="{'active': currentTab === 'step2'}" (click)="changeTab('step2')">
-                <label class="text-center">En Proceso</label>
+                <label class="text-center">Compradas</label>
             </ion-col>
-            <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step3'}" (click)="changeTab('step3')">
+            <!-- <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step3'}" (click)="changeTab('step3')">
                 <label class="text-center">Finalizada</label>
-            </ion-col>
+            </ion-col> -->
         </ion-row>
     </div>
 
@@ -31,11 +31,11 @@
             <ion-row>
                 <ion-col *ngFor=" let v of daysWeek">
                     <span>
-                            {{v.label}}
-                        </span>
+                        {{v.label}}
+                    </span>
                     <span *ngIf="v.day" class="day-number" [className]="v.selected ? 'today' : 'sn'" (click)="changeDay(v.day)">
-                            {{v.day}}
-                        </span>
+                        {{v.day}}
+                    </span>
                 </ion-col>
                 <ion-col size="12">
                     <span class="text-center-day date-label"> {{dateLabel}}</span>
@@ -88,25 +88,71 @@
         </ion-footer>
     </ion-card> -->
 
-    <div *ngIf="dataMedic">
+
+    <div *ngIf="dataMedic" class="bg-medics">
+        <ion-grid class="content-medic ">
+            <ion-row *ngFor="let prescription of dataMedic" (click)="prepareIdsRequest(prescription)" class="container-medic">
+                <ion-col class="container-image" size="2">
+                    <img class="image " src="assets/icon/receta.svg " />
+                </ion-col>
+                <ion-col class="container-info-medic " size="9">
+                    <ion-row>
+                        <ion-col class="name" size="8">
+                            DR: {{ prescription.datosMed.priNombre | uppercase}} {{ prescription.datosMed.priApellido | uppercase}}
+                        </ion-col>
+                        <ion-col class="codReceta" size="4">
+                            COD#:{{ prescription.codRece }}
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="fecha" size="12">
+                            {{ prescription.fecha | date : 'yyyy-MM-dd'}}
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col class="cm" size="12">
+                            {{ prescription.datosMed.especialidad}}
+                        </ion-col>
+                    </ion-row>
+
+                </ion-col>
+                <ion-col size="1" class="icon-medic">
+                    <ion-icon name="ios-arrow-forward"></ion-icon>
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </div>
+
+
+    <!-- <div *ngIf="dataMedic">
         <ion-grid>
             <ion-row *ngFor="let prescription of dataMedic">
+                
                 <ion-col class="container-info-medic ">
                     <ion-row class="container-medic">
-                        <ion-col class="name " size="12 ">
+                        <ion-col>
+                            <ion-col class="name " size="9">
+                                DR: {{ prescription.datosMed.priNombre | uppercase}} {{ prescription.datosMed.priApellido | uppercase}}
+                            </ion-col>
+                            <ion-col class="codReceta " size="3">
+                                COD#:{{ prescription.codRece }}
+                            </ion-col>
+                        </ion-col>
+                        <!-- <ion-col class="name " size="12">
                             Código: {{ prescription.codRece}}
                         </ion-col>
 
                         <ion-col class="cm " size="12 ">
                             {{ prescription.fecha | date : 'yyyy-MM-dd'}}
-                        </ion-col>
-                        <ion-col class="cm " size="12 ">
+                        </ion-col> -->
+    <!-- <ion-col class="cm " size="12 ">
                             DR: {{ prescription.datosMed.priNombre | uppercase}} {{ prescription.datosMed.priApellido | uppercase}}
                         </ion-col>
                         <ion-col class="fecha" size="12">
                             {{ prescription.datosMed.especialidad}}
-                        </ion-col>
-                        <ion-row class="content-actions-appointment">
+                        </ion-col> -->
+    <!-- <ion-row class="content-actions-appointment">
                             <ion-col size="6">
                                 <button class="botton-detail" (click)="prepareIdsRequest(prescription)"> DETALLES</button>
 
@@ -114,14 +160,14 @@
                             <ion-col size="6">
                                 <button class="botton-desp" (click)="goDetails(prescription)"> COMPRAR</button>
                             </ion-col>
-                        </ion-row>
-                    </ion-row>
+                     </ion-row> -->
+    <!-- </ion-row>
                 </ion-col>
-            </ion-row>
-
+            </ion-row> -->
+    <!-- 
 
         </ion-grid>
-    </div>
+    </div>  -->
 
     <div *ngIf="dataMedic.length<=0 " class="empty-container ">
         <img src="assets/imgs/no-datos.png" class="empty-state ">

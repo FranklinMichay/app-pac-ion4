@@ -14,10 +14,10 @@
 
 
 <ion-content>
-    <div>
-        <img src="https://cdn.lavoz.com.ar/sites/default/files/styles/width_1072/public/nota_periodistica/cirujano_0.jpg">
-        <!-- <img *ngIf="medic.fotoPerfil" src="http://192.168.0.104:9000{{medic.fotoPerfil}}"> -->
-    </div>
+
+    <img [src]="medic.fotoPerfil || '/assets/imgs/doctor.png'">
+
+
 
     <button class="ver-agenda" id="previous" (click)="goToSchedule()">VER AGENDA</button>
     <div>
@@ -27,7 +27,7 @@
                     <label class="medico">Médico</label>
                 </ion-col>
                 <ion-col size="12">
-                    <p class="name-medic" *ngIf="medic">Dr. {{ medic.priNombre | uppercase }}&nbsp;{{ medic.priApellido | uppercase}}</p>
+                    <p class="name-medic" *ngIf="medic">DR. {{ medic.priNombre | uppercase }}&nbsp;{{ medic.priApellido | uppercase}}</p>
                 </ion-col>
                 <ion-col>
                     <h3 class="especialidad" *ngIf="medic">{{ medic.especialidad.nombre }}</h3>
@@ -38,7 +38,7 @@
 
 
     <label class="info">Realiza consultas médicas diarias a estudiantes y personal en general.
-      Diagnostica y prescribe tratamientos médicos a los pacientes.</label>
+        Diagnostica y prescribe tratamientos médicos a los pacientes.</label>
     <ion-list *ngIf="medic">
 
         <div class="container-locate">

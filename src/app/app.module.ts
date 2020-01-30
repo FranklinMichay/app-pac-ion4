@@ -26,6 +26,7 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SearchFilterPage } from './../pages/search-filter/search-filter.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { FCM } from '@ionic-native/fcm/ngx';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
     SplashScreen,
     BackgroundMode,
     LocalNotifications,
+    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FileTransfer,
     FileTransferObject,

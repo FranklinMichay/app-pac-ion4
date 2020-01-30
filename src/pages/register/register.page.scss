@@ -233,8 +233,6 @@ p.validator {
 }
 
 .label-forms {
-    // width: 268px;
-    // height: 22px;
     font-family: OpenSans;
     font-size: 14px;
     font-weight: bold;
@@ -244,12 +242,9 @@ p.validator {
     letter-spacing: 0.22px;
     color: black;
     margin-left: -25%;
-    //margin-left: -62%;
 }
 
 .label-forms-email {
-    // width: 268px;
-    // height: 22px;
     font-family: OpenSans;
     font-size: 14px;
     font-weight: bold;
@@ -258,13 +253,10 @@ p.validator {
     line-height: 1.57;
     letter-spacing: 0.22px;
     color: black;
-    margin-left: -62%;
-    //margin-left: -62%;
+    margin-left: -57%;
 }
 
 .label-forms-short {
-    // width: 268px;
-    // height: 22px;
     font-family: OpenSans;
     font-size: 14px;
     font-weight: bold;
@@ -274,7 +266,44 @@ p.validator {
     letter-spacing: 0.22px;
     color: black;
     margin-left: -38%;
-    //margin-left: -62%;
+}
+
+.label-forms-date {
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+    margin-left: -38%;
+}
+
+.label-forms-id {
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+    margin-left: -25%;
+    margin-left: -32%;
+}
+
+.label-forms-fecha {
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+    margin-left: -25%;
+    margin-left: -51%;
 }
 
 .password {

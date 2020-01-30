@@ -143,12 +143,12 @@ export class AuthService {
 
   verifyUser(data: any): Observable<any> {
     console.log('verify user', data)
-    return this.httpClient.post<any>(this.url +  'paciente/verificaUser/', data);
+    return this.httpClient.post<any>(this.url + 'paciente/verificaUser/', data);
   }
 
   verifyUserEmail(data: any): Observable<any> {
     console.log('verify user email', data)
-    return this.httpClient.post<any>(this.url +  'paciente/verificaUserEmail/', data);
+    return this.httpClient.post<any>(this.url + 'paciente/verificaUserEmail/', data);
   }
 
   updateProfilePatient(data, id) {
@@ -208,7 +208,7 @@ export class AuthService {
 
   medicsByCity(city) {
     console.log(city, 'ciudad');
-    
+
     return this.httpClient.get(this.url + 'medico/getData?model=userMedico&params=ciudad=' + city);
   }
 
@@ -233,11 +233,11 @@ export class AuthService {
     }
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data: any) => {
-        
+
         if (data.estadoCita !== 'hold') {
           if (data.paciente.id === this.idPaciente || data.paciente === this.idPaciente) {
             console.log(data, 'DATA SOCKET ALERTA');
-            
+
             observer.next(data);
           }
         }
@@ -263,29 +263,29 @@ export class AuthService {
   getDataDay(_data: any) {
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data) => {
-        
-          if (data.paciente === null || data.paciente === undefined
-            || data.medico === null || data.medico === undefined) {
-            if (_data.medico_id === data.medico || _data.medico_id === data.medico.id) {
-              if (_data.fecha === data.fecha) {
-                console.log(data, 'data socket if ');
-                await this.getDayData(_data).then(d => {
-                  data.result = d;
-                });
-                observer.next(data);
-              }
-            }
-          } else {
-            if (data.medico.id === this.user.id || data.paciente.id === this.user.id
-              || _data.medico_id === data.medico.id) {
+
+        if (data.paciente === null || data.paciente === undefined
+          || data.medico === null || data.medico === undefined) {
+          if (_data.medico_id === data.medico || _data.medico_id === data.medico.id) {
+            if (_data.fecha === data.fecha) {
+              console.log(data, 'data socket if ');
               await this.getDayData(_data).then(d => {
                 data.result = d;
               });
-              console.log(data, 'data socket else ');
               observer.next(data);
             }
           }
-        
+        } else {
+          if (data.medico.id === this.user.id || data.paciente.id === this.user.id
+            || _data.medico_id === data.medico.id) {
+            await this.getDayData(_data).then(d => {
+              data.result = d;
+            });
+            console.log(data, 'data socket else ');
+            observer.next(data);
+          }
+        }
+
       });
     });
     return observable;
@@ -342,18 +342,20 @@ export class AuthService {
     return this.httpClient.get<any>(this.url + resource);
   }
 
-  // getDataPostponed(data) {
-  //   console.log(data, ' for send');
-  //   return new Promise((resolve, reject) => {
-  //     this.httpClient.get(this.url + this.urlGetInfo + 'estadoCita=postponed,paciente_id=' + data)
-  //       .subscribe(res => {
-  //         console.log(res, 'data pospuestas');
-  //         resolve(res);
-  //       }, (err) => {
-  //         reject(err);
-  //       });
-  //   });
-  // }
+  getDataScroolAccepted(data) {
+    const resource = `agenda/getDiaryPatient/?id=${data.idPaciente}&page=${data.offset}&state=${data.state}`;
+    return this.httpClient.get<any>(this.url + resource);
+  }
+
+  getDataScroolCanceled(data) {
+    const resource = `agenda/getDiaryPatient/?id=${data.idPaciente}&page=${data.offset}&state=${data.state}`;
+    return this.httpClient.get<any>(this.url + resource);
+  }
+
+  getDataScroolPostponed(data) {
+    const resource = `agenda/getDiaryPatient/?id=${data.idPaciente}&page=${data.offset}&state=${data.state}`;
+    return this.httpClient.get<any>(this.url + resource);
+  }
 
   getMeetingData(idPaciente): Observable<any> {
     return this.httpClient.get<any>(this.url + this.urlGetInfo + 'estadoCita=accepted,paciente_id=' + idPaciente);
@@ -394,7 +396,7 @@ export class AuthService {
 
   searchPrescriptionDate(date: any, dni: any): Observable<any> {
     console.log(date, dni, 'DATOS PARA REQUEST');
-    
+
     return this.httpClient.get<any>(`${this.urlMongoDB}receta/searchReceDate/${date},${dni}`);
   }
 

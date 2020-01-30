@@ -16,90 +16,42 @@
                     </p>
                 </ion-col>
                 <ion-col size="12">
-                    <h3 class="es-med">{{dataReceta.datosMed.especialidad | uppercase}}</h3>
+                    <h3 class="es-med">{{dataReceta.datosMed.especialidad }}</h3>
                 </ion-col>
                 <ion-col size="12">
-                    <h3 class="cm-med">{{dataReceta.datosMed.centroMedico | uppercase}}</h3>
+                    <h3 class="cm-med">{{dataReceta.datosMed.centroMedico }}</h3>
                 </ion-col>
             </ion-row>
         </ion-grid>
     </ion-list-header>
 
-    <ion-grid *ngIf="dataReceta">
-        <ion-row>
-            <ion-col size="12">
-                <ion-list>
-                    <ion-list-header color="light">
-                        <ion-label>MEDICAMENTOS</ion-label>
-                    </ion-list-header>
+    <ion-grid *ngIf="dataReceta" class="ion-no-padding">
+        <ion-row color="primary">
+            <ion-list-header class="title-data">
+                <ion-label class="medicamentos">Medicamentos</ion-label>
+            </ion-list-header>
 
-                    <ion-row class="label-content">
-                        <ion-col size="2">
-                            <ion-label>Número</ion-label>
-                        </ion-col>
-                        <ion-col size="3">
-                            <ion-label>Nombre</ion-label>
-                        </ion-col>
-                        <ion-col size="4">
-                            <ion-label>Detalles</ion-label>
-                        </ion-col>
-                        <ion-col size="3" class="cantidad">
-                            <ion-label>Cantidad</ion-label>
-                        </ion-col>
-                    </ion-row>
+            <div class="ion-padding">
+                <ion-row *ngFor="let product of prescription; let i = index" class="row-content">
+                    <ion-col size="8">
+                        <ion-label class="col-name">{{product?.codigoProducto.nombre}}</ion-label><br>
+                        <ion-label class="col-forma">{{product?.codigoProducto.formaFarmaceutica}}</ion-label>
+                    </ion-col>
+                    <ion-col size="4" class="col-name">
+                        Cant. {{dataReceta.detalles[i].cantidad}}
+                    </ion-col>
+                    <ion-col size="12">
+                        <ion-label class="col-ind">Indicaciones:</ion-label><br>
+                        <ion-label class="col-ind-text">{{dataReceta.indicaciones[i].indicaciones}}</ion-label>
 
-                    <ion-row *ngFor="let product of prescription; let i = index" class="row-content">
-                        <ion-col size="2">
-                            <ion-label>{{i +1}}</ion-label>
-                        </ion-col>
-                        <ion-col size="3">
-                            <ion-label>{{product?.codigoProducto.nombre}}</ion-label>
-                        </ion-col>
-                        <ion-col size="4">
+                    </ion-col>
+                </ion-row>
+            </div>
 
-                            <ion-label>{{product?.codigoProducto.formaFarmaceutica}}</ion-label>
-                        </ion-col>
-                        <ion-col size="3">
-                            <!-- <ion-button fill="outline" class="price">${{ desp.detalles.cantidad * desp.detalles.precioVenta | number:'3.2-4'}}
-                            </ion-button> -->
-                            {{dataReceta.detalles[i].cantidad}}
-                        </ion-col>
-                    </ion-row>
-                </ion-list>
-            </ion-col>
         </ion-row>
     </ion-grid>
 
-    <ion-grid *ngIf="dataReceta">
-        <ion-row>
-            <ion-col size="12">
-                <ion-list>
-                    <ion-list-header color="light">
-                        <ion-label>INDICACIONES</ion-label>
-                    </ion-list-header>
 
-                    <ion-row class="label-content">
-                        <ion-col size="4">
-                            <ion-label>Medicamento</ion-label>
-                        </ion-col>
-                        <ion-col size="8">
-                            <ion-label>Indicaciones</ion-label>
-                        </ion-col>
-
-                    </ion-row>
-
-                    <ion-row *ngFor="let product of prescription; let i = index" class="row-content">
-                        <ion-col size="4">
-                            <ion-label>Medicamento{{i +1}}</ion-label>
-                        </ion-col>
-                        <ion-col size="8">
-                            {{dataReceta.indicaciones[i].indicaciones}}
-                        </ion-col>
-                    </ion-row>
-                </ion-list>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
     <div class="content-div">
         <button class="cerrar" (click)="close()">CERRAR</button>
     </div>

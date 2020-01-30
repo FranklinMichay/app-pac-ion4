@@ -12,6 +12,9 @@ import { fn } from '@angular/compiler/src/output/output_ast';
 import { LocalNotifications, ILocalNotificationActionType } from '@ionic-native/local-notifications/ngx';
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { ActivatedRoute } from '@angular/router';
+import { FCM } from '@ionic-native/fcm/ngx';
+
 
 @Component({
   selector: 'app-home',
@@ -53,6 +56,7 @@ export class HomePage implements OnInit {
   backButtonSubscription;
   hora: any;
   fecha: any;
+  price: any = '';
 
   constructor(
     public navCtrl: NavController,
@@ -65,8 +69,13 @@ export class HomePage implements OnInit {
     private localNotifications: LocalNotifications,
     public menuControler: MenuController,
     public alertController: AlertController,
+    private route: ActivatedRoute,
+    private fcm: FCM,
+    public plt: Platform
   ) {
-    
+
+    this.price = this.route.snapshot.params['price'];
+
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem('user'));
     this.imageUrl = this.dataUser.fotoPerfil;
@@ -107,8 +116,10 @@ export class HomePage implements OnInit {
     var seg = ('0' + new Date().getSeconds()).substr(-2);
     this.hora = hora + ':' + min + ':' + seg;
     console.log(this.fecha, this.hora, 'hora y fecha');
-    this.getDataPac(); 
+    this.getDataPac();   
   }
+
+  
 
   ionViewWillEnter() {
     this.getDataPac();
