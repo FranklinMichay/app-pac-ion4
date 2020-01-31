@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import * as $ from 'jquery';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { IonSlides } from '@ionic/angular';
+import { IonSlides, ToastController } from '@ionic/angular';
 // import * as $ from '@types/jquery';
 // import * as postscribe from 'postscribe';
 import { UbicacionService } from '../../app/services/ubicacion.service';
@@ -10,8 +10,11 @@ declare var PaymentezCheckout: any;
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
-import { faCreditCard, faMoneyCheckAlt, faMoneyBill} from '@fortawesome/free-solid-svg-icons';
+import { faCreditCard, faMoneyCheckAlt, faMoneyBill } from '@fortawesome/free-solid-svg-icons';
 import { ToastService } from '../../app/services/toast.service';
+import { DataService } from 'src/app/services/data.service';
+import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -24,7 +27,7 @@ export class PaymentPage implements OnInit {
   faCreditCard = faCreditCard;
   faMoneyCheckAlt = faMoneyCheckAlt;
   faMoneyBill = faMoneyBill;
-  metodoPago:any
+  metodoPago: any
   selectMetodo = false;
 
   isDatosPersonales: boolean;
@@ -48,28 +51,30 @@ export class PaymentPage implements OnInit {
   lat = -4.0075088;
   lng = -79.2434842;
   zoom = 13;
-
   user: any;
 
-  constructor(public fb: FormBuilder, public geolocation: Geolocation, public toast:ToastService) {
+  constructor(
+    public fb: FormBuilder,
+    public geolocation: Geolocation,
+    public toast: ToastService,
+    private dataService: DataService,
+    private router: Router,
+    public toastController: ToastController,
+    private auth: AuthService,
+  ) {
     this.isDatosPersonales = true;
     this.user = JSON.parse(localStorage.getItem('user'));
-
   }
 
   ngOnInit() {
     this.initForms();
-
   }
 
   ionViewDidEnter() {
     this.getCurrentPosition();
-
   }
 
-
   getCurrentPosition() {
-
     this.geolocation.getCurrentPosition().then((coordinates) => {
       console.log('getCurrentPosition', coordinates);
       this.lat = coordinates.coords.latitude;
@@ -78,12 +83,7 @@ export class PaymentPage implements OnInit {
     }).catch((error) => {
       console.log('Error getting location', error);
     });
-
-
-
-
   }
-
 
   loadMap() {
     this.mapbox.accessToken = environment.mapbox.accessToken;
@@ -147,10 +147,8 @@ export class PaymentPage implements OnInit {
   }
 
   gotoPagos() {
-
     this.isDireccion = false;
     this.isPago = true;
-
   }
 
   next() {
@@ -161,12 +159,36 @@ export class PaymentPage implements OnInit {
     this.isDatosPersonales = true;
     this.isDireccion = false;
     this.isPago = false;
+  }
+  
+  createCartP (data){
+    this.auth.createCart(data).subscribe(()=>{
+      this.presentToast();
+      this.router.navigate(['home']);
+    });
+  }
+
+  goPay() {
+
+    let dataForDB = this.dataService.dataForPay;
+    console.log(dataForDB, 'data forview');
+    dataForDB.push(this.dataService.dataCompra);
+    
+    console.log(dataForDB, 'data para guardar');
+    
+    this.createCartP({identiPac: this.user.identificacion, compra: dataForDB}); 
+   
+    
 
   }
 
-  goPay(){
-    console.log('pagar');
-    
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Transacción exitosa',
+      duration: 2000,
+      color: 'dark'
+    });
+    toast.present();
   }
 
   save() {
@@ -197,7 +219,7 @@ export class PaymentPage implements OnInit {
 
   }
 
-  selectmetodo(){
+  selectmetodo() {
     this.selectMetodo = true;
     console.log(this.selectMetodo);
 

@@ -70,6 +70,7 @@ export class CartPage implements OnInit {
     this.dataForView = []
     this.dataService.cart = []
     this.total = 0;
+    //this.dataService.dataForPay = [];
     console.log(this.dataForView, this.dataService.cart,this.total, 'ESTADO DE DATA FOR VIEW & data service');
 
   }
@@ -85,8 +86,10 @@ export class CartPage implements OnInit {
     this.router.navigate(['home']);
   }
 
-
   pay() {
+    this.dataService.dataForPay = this.dataForView;
+    console.log(this.dataService.dataForPay, 'data for view cart');
+    
     this.router.navigate(['payment']);
   }
 }

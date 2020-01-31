@@ -1,26 +1,38 @@
 <ion-header>
     <ion-toolbar color="primary">
         <ion-back-button class="title-toolbar" slot="start"> </ion-back-button>
-
         <ion-title class="title-toolbar">PAGO</ion-title>
     </ion-toolbar>
-    <!-- <link href='https://api.mapbox.com/mapbox-gl-js/v0.52.0/mapbox-gl.css' rel='stylesheet' /> -->
 </ion-header>
+<ion-content class="bg-section">
 
+    <div class="div-slide">
+        <ion-row class="row-slide">
+            <ion-col size="4" class="title-slide">
 
+                <p class="cart-badge">1</p>
+                <hr class="line"> FACTURACIÓN
+            </ion-col>
 
-<section>
-    <ion-row>
+            <ion-col size="4" class="title-slide">
 
+                <p class="cart-badge">1</p>
+                <hr class="line"> ENVÍO
+            </ion-col>
+            <ion-col size="4" class="title-slide">
+                <p class="cart-badge">1</p>
+                PAGO
+            </ion-col>
+        </ion-row>
+    </div>
+
+    <section>
         <div *ngIf="isDatosPersonales">
             <form [formGroup]="datosPersonalesFrom">
-                <ion-list-header>
-                    <ion-label class="best-results">Datos de facturación</ion-label>
-                </ion-list-header>
-                <ion-row>
-                    <ion-col size="6">
-                        <ion-label class="position-label">Nombres</ion-label>
-                        <ion-input class="mail" type="text" formControlName="nombres">
+                <ion-row class="row-data-fac">
+                    <ion-col size="12">
+                        <!-- <ion-label class="position-label">Nombres</ion-label> -->
+                        <ion-input class="mail" type="text" formControlName="nombres" placeholder="Nombre">
                         </ion-input>
                         <ion-label *ngIf="datosPersonalesFrom.get('nombres').errors && datosPersonalesFrom.get('nombres').dirty">
                             <p class="validator" ion-text *ngIf="datosPersonalesFrom.get('nombres').hasError('required')">
@@ -29,8 +41,8 @@
                         </ion-label>
                     </ion-col>
 
-                    <ion-col size="6">
-                        <ion-label class="position-label">Apellidos</ion-label>
+                    <ion-col size="12">
+                        <!-- <ion-label class="position-label">Apellidos</ion-label> -->
                         <ion-input class="mail" type="text" formControlName="apellidos">
                         </ion-input>
                         <ion-label *ngIf="datosPersonalesFrom.get('apellidos').errors && datosPersonalesFrom.get('apellidos').dirty">
@@ -38,13 +50,10 @@
                                 Este campo es requerido
                             </p>
                         </ion-label>
-
                     </ion-col>
-                </ion-row>
 
-                <ion-row>
-                    <ion-col size="6">
-                        <ion-label class="position-label">Email</ion-label>
+                    <ion-col size="12">
+                        <!-- <ion-label class="position-label">Email</ion-label> -->
                         <ion-input class="mail" type="text" formControlName="email" placeholder="Email">
                         </ion-input>
                         <ion-label *ngIf="datosPersonalesFrom.get('email').errors && datosPersonalesFrom.get('email').dirty">
@@ -57,8 +66,8 @@
                         </ion-label>
                     </ion-col>
 
-                    <ion-col size="6">
-                        <ion-label class="position-label">Teléfono</ion-label>
+                    <ion-col size="12">
+                        <!-- <ion-label class="position-label">Teléfono</ion-label> -->
                         <ion-input class="mail" type="text" formControlName="telefono" placeholder="Telefono">
                         </ion-input>
                         <ion-label *ngIf="datosPersonalesFrom.get('telefono').errors && datosPersonalesFrom.get('telefono').dirty">
@@ -67,11 +76,9 @@
                             </p>
                         </ion-label>
                     </ion-col>
-                </ion-row>
 
-                <ion-row>
-                    <ion-col size="6">
-                        <ion-label class="position-label">Identificación</ion-label>
+                    <ion-col size="12">
+                        <!-- <ion-label class="position-label">Identificación</ion-label> -->
                         <ion-input class="mail" type="text" formControlName="identificacion" placeholder="Identificación">
                         </ion-input>
                         <ion-label *ngIf="datosPersonalesFrom.get('identificacion').errors && datosPersonalesFrom.get('identificacion').dirty">
@@ -84,9 +91,11 @@
                         </ion-label>
                     </ion-col>
                 </ion-row>
+                <div class="div-button-footer">
+                    <button class="accept-edit" type="submit" (click)="goDireccion()" [disabled]="datosPersonalesFrom.invalid">
+                        PROCEDER A ENVÍO</button>
+                </div>
 
-                <ion-button class="accept-edit" type="submit" (click)="goDireccion()" [disabled]="datosPersonalesFrom.invalid">
-                    Siguiente</ion-button>
             </form>
         </div>
 
@@ -158,97 +167,94 @@
                         </ion-row>
                     </form>
                 </ion-col>
-
             </section>
-
-
         </div>
-    </ion-row>
-</section>
 
-<section *ngIf="isPago">
-    <ion-list>
-        <ion-radio-group [(ngModel)]="metodoPago" (ionSelect)="selectmetodo()">
-            <ion-list-header>
-                <ion-label>Método de pago</ion-label>
-            </ion-list-header>
-
-            <ion-item>
-                <fa-icon slot="start" [icon]="faCreditCard"></fa-icon>
-                <ion-label>Tarjeta de Crédito/Débito </ion-label>
-                <ion-radio [disabled]="true" slot="end" value="tarjeta"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <fa-icon slot="start" [icon]=" faMoneyCheckAlt"></fa-icon>
-                <ion-label>Trasnferencia Bancaria</ion-label>
-                <ion-radio [disabled]="true" slot="end" value="transferencia"></ion-radio>
-            </ion-item>
-
-            <ion-item>
-                <fa-icon slot="start" [icon]=" faMoneyBill"></fa-icon>
-                <ion-label>Pagar en la entrega</ion-label>
-                <ion-radio slot="end" value="entrega" checked></ion-radio>
-            </ion-item>
-        </ion-radio-group>
-    </ion-list>
-
-
-    <div class="ion-padding entrega" *ngIf="metodoPago=='entrega'">
-        <h5>Ten presente los siguientes consejos: </h5>
-        <p> 1. Estar presente al horario establecido de entrega. </p>
-        <p> 2. Tener el dinero a la mano cuando se entregue tu pedido. </p>
-        <p> 3. Revisar si tu pedido esta completo. </p>
-        <p> 4. Confirmar que tu pedido ha sido entregado con exito para terminar la compra. </p>
-    </div>
-
-    <ion-list *ngIf="metodoPago=='tarjeta'">
-        <ion-item>
-            <ion-label position="stacked">Número tarjeta</ion-label>
-            <ion-input placeholder="xxxxxxxxxxxxxx" type="text">
-            </ion-input>
-        </ion-item>
-
-
-        <ion-item>
-            <ion-label position="stacked">Fecha de expiración</ion-label>
-            <ion-input placeholder=".. /...." type="text">
-            </ion-input>
-        </ion-item>
-
-        <ion-item>
-            <ion-label position="stacked">CVC</ion-label>
-            <ion-input placeholder="..." type="text">
-            </ion-input>
-        </ion-item>
-
-    </ion-list>
-    .
-    <section>
-
-        <ion-row>
-            <ion-col size="2">
-                <ion-checkbox class="ion-text-left" [(ngModel)]="cboxPoliticas"></ion-checkbox>
-
-            </ion-col>
-            <ion-col size="10">
-                <p class="politicas">Acepto las <a href="http://medipharm.com.ec/sistema-medico/#/politicas">condiciones de uso y políticas de privacidad</a> de Medipharm </p>
-
-            </ion-col>
-        </ion-row>
-
-        <ion-row>
-            <ion-col class="ion-text-center" size="12">
-                <ion-button [disabled]="(!cboxPoliticas || !selectMetodo)" class="accept-edit" (click)="goPay()">
-                    Pagar</ion-button>
-            </ion-col>
-        </ion-row>
     </section>
 
+    <section *ngIf="isPago">
+        <ion-list>
+            <ion-radio-group [(ngModel)]="metodoPago" (ionSelect)="selectmetodo()">
+                <ion-list-header>
+                    <ion-label>Método de pago</ion-label>
+                </ion-list-header>
+
+                <ion-item>
+                    <fa-icon slot="start" [icon]="faCreditCard"></fa-icon>
+                    <ion-label>Tarjeta de Crédito/Débito </ion-label>
+                    <ion-radio [disabled]="true" slot="end" value="tarjeta"></ion-radio>
+                </ion-item>
+
+                <ion-item>
+                    <fa-icon slot="start" [icon]=" faMoneyCheckAlt"></fa-icon>
+                    <ion-label>Trasnferencia Bancaria</ion-label>
+                    <ion-radio [disabled]="true" slot="end" value="transferencia"></ion-radio>
+                </ion-item>
+
+                <ion-item>
+                    <fa-icon slot="start" [icon]=" faMoneyBill"></fa-icon>
+                    <ion-label>Pagar en la entrega</ion-label>
+                    <ion-radio slot="end" value="entrega" checked></ion-radio>
+                </ion-item>
+            </ion-radio-group>
+        </ion-list>
 
 
-</section>
-<ion-content class="noScroll">
+        <div class="ion-padding entrega" *ngIf="metodoPago=='entrega'">
+            <h5>Ten presente los siguientes consejos: </h5>
+            <p> 1. Estar presente al horario establecido de entrega. </p>
+            <p> 2. Tener el dinero a la mano cuando se entregue tu pedido. </p>
+            <p> 3. Revisar si tu pedido esta completo. </p>
+            <p> 4. Confirmar que tu pedido ha sido entregado con exito para terminar la compra. </p>
+        </div>
+
+        <ion-list *ngIf="metodoPago=='tarjeta'">
+            <ion-item>
+                <ion-label position="stacked">Número tarjeta</ion-label>
+                <ion-input placeholder="xxxxxxxxxxxxxx" type="text">
+                </ion-input>
+            </ion-item>
+
+
+            <ion-item>
+                <ion-label position="stacked">Fecha de expiración</ion-label>
+                <ion-input placeholder=".. /...." type="text">
+                </ion-input>
+            </ion-item>
+
+            <ion-item>
+                <ion-label position="stacked">CVC</ion-label>
+                <ion-input placeholder="..." type="text">
+                </ion-input>
+            </ion-item>
+
+        </ion-list>
+
+        <section>
+
+            <ion-row>
+                <ion-col size="2">
+                    <ion-checkbox class="ion-text-left" [(ngModel)]="cboxPoliticas"></ion-checkbox>
+
+                </ion-col>
+                <ion-col size="10">
+                    <p class="politicas">Acepto las <a href="http://medipharm.com.ec/sistema-medico/#/politicas">condiciones
+                            de uso y políticas de privacidad</a> de Medipharm </p>
+
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="ion-text-center" size="12">
+                    <ion-button [disabled]="(!cboxPoliticas || !selectMetodo)" class="accept-edit" (click)="goPay()">
+                        Pagar</ion-button>
+                </ion-col>
+            </ion-row>
+        </section>
+
+    </section>
+
+    <!-- MAPA UBICACION-->
     <div [hidden]="!isDireccion">
         <div class="map" id="map"></div>
         <ion-fab (click)="getCurrentPosition()" vertical="center" horizontal="end" slot="">
@@ -257,7 +263,6 @@
             </ion-fab-button>
         </ion-fab>
     </div>
-    <!-- <ion-button size="large" [routerLink]="['/directions']"> Cómo llegar</ion-button> -->
 
 </ion-content>
 

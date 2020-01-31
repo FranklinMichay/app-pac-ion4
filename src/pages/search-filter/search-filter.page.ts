@@ -118,10 +118,12 @@ export class SearchFilterPage implements OnInit {
   }
 
   getProductPrescriptionCompra(ids: string) {
+    this.loadingCtrl.presentLoading();
     this.auth.getInfoProducts(ids).subscribe(prescription => {
       this.prescriptionList = prescription;
       this.router.navigate(['prescription'], { state: this.prescriptionList } );
     });
+    this.loadingCtrl.dismiss();
     this.close();
   }
 

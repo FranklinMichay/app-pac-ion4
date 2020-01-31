@@ -406,6 +406,12 @@ export class AuthService {
     return this.httpClient.get<any>(this.urlMongoDB + 'inventario/listarInventarios/' + ids);
   }
 
+  createCart(data: any): Observable<any> {
+    console.log(data, 'json de payment');
+    
+    return this.httpClient.post<any>(`${this.urlMongoDB}despacho/createCart`, data);
+  }
+
   convertStringToArrayOfObjects(dataToConvert: any) {
     let newJson = dataToConvert.replace(/([a-zA-Z0-9]+?):/g, '"$1":');
     newJson = newJson.replace(/'/g, '"');

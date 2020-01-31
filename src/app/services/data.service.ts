@@ -14,6 +14,7 @@ export class DataService {
   dataCancelPosponed = {};
   cart = [];
   dataCompra = [];
+  dataForPay = [];
   constructor(
 
   ) { }

@@ -102,21 +102,84 @@ p.validator {
 }
 
 .accept-edit {
-    width: 100%;
-    height: 35px;
-    --border-radius: 25px;
-    --background: linear-gradient(104deg, #ffc185, #fd5f54);
-    margin-left: auto;
-    margin-right: auto;
-    display: -webkit-box;
-    display: flex;
+    width: 90%;
+    height: 50px;
+    border-radius: 25px;
+    background-image: linear-gradient(98deg, #ffc185, #fd5f54 100%);
+    position: absolute;
+    bottom: 0;
     margin-bottom: 5%;
+    margin-left: 5%;
     color: white;
-    margin-top: 5%;
+    font-size: 14px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 1.5px;
+    text-align: center;
+}
+
+.div-slide {
+    width: 100%;
+    height: 79px;
+    background-color: #f6f6f6;
+}
+
+.div-button-footer {
+    width: 100%;
+    height: 85px;
+    background-color: #f6f6f6;
+    position: absolute;
+    bottom: 0;
+}
+
+.title-slide {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    text-align: center;
+    color: #597bf0;
+    padding: 45px 0px 0px 26px;
+}
+
+.cart-badge {
+    position: absolute;
+    background: white;
+    color: #4c69cc;
+    font-size: 12px;
+    border-radius: 25px;
+    border: #4c69cc solid 1px;
+    height: 4vh;
+    margin-top: -27%;
+    width: 4vh;
+    margin-left: 28%;
+}
+
+.row-slide {
+    text-align: center;
+}
+
+.line {
+    background-color: #5e4fcc;
+    margin-top: -1%;
+    width: 10%;
+}
+
+.bg-section {
+    --background: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 91%);
 }
 
 .item-pass {
     background-color: rgb(233, 233, 233);
+}
+
+.row-data-fac {
+    margin-top: 6%;
 }
 
 .input-pass {
@@ -196,17 +259,14 @@ p.validator {
 }
 
 .mail {
+    height: 50px;
+    border-radius: 5px;
+    border: solid 1px #dfe4e6;
+    background-color: #f6f6f6;
+    text-align: initial;
+    margin-left: 4%;
     width: 100%;
-    height: 40px;
-    font-size: 15px;
-    border-radius: 3px;
-    font-weight: 500;
-    background-color: rgb(233, 233, 233);
-    margin-top: 3%;
-    margin-left: auto;
-    margin-right: auto;
-    display: flex;
-    border: 0px solid;
+    color: #8c8c8c;
 }
 
 .password {
