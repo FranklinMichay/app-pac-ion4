@@ -11,128 +11,74 @@
                 <ion-badge *ngIf="count > 0" class="cart-badge">{{count}}</ion-badge>
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar">Compra</ion-title>
+        <ion-title class="title-toolbar">MI CARRITO</ion-title>
     </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="dataForView" class="ion-padding">
+<ion-content *ngIf="dataForView" class="ion-padding bg-content">
 
-    <ion-row>
-        <ion-col size="12">
-            <ion-button class="comprar" (click)="buyTotalPrescription()">
-                COMPRAR TODO
-            </ion-button>
+    <ion-row *ngFor="let producto of dataForView; let i = index">
+        <ion-col size="1" class="eliminar">
+            X
         </ion-col>
+        <ion-col size="11">
+            <div class="container-prod">
+                <ion-label>
+                    <ion-label class="name-prod">{{producto.product | uppercase}}</ion-label>
+                    <h3 class="form-prod">{{producto.pharmacyForm }} - {{producto.concentration }}</h3>
+                    <h3 class="form-prod">{{producto.presentation }}</h3>
+                    <ion-row class="row-price">
+                        <ion-col size="6">
+                            <p class="precio-venta"> $ {{producto.price }}</p><br />
+                            <label class="price">PRECIO</label>
+
+                        </ion-col>
+                        <ion-col size="6">
+                            <p class="precio-venta"> {{producto.totalPrescription}}</p><br />
+                            <label class="price">CANTIDAD RECETADA</label>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-col size="8">
+                            <label class="price">INGRESAR CANTIDAD:</label>&nbsp;
+                            <input class="style-input" type="number" [(ngModel)]="producto.totalDispatch" min="0" (change)="calculateTotal($event, i)" (keyup)="calculateTotal($event, i)">
+                        </ion-col>
+                        <ion-col size="4">
+                            <ion-button class="comprar" (click)="addToCart()" [disabled]="producto.totalDispatch * producto.price == 0">
+                                Agregar
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row *ngIf="total > 0">
+                        <ion-col size="12">
+                            <label class="price">TOTAL DESPACHO:</label>&nbsp;
+                            <label class="precio-venta">{{ producto.totalDispatch * producto.price | currency }}</label>
+                        </ion-col>
+                    </ion-row>
+
+                    <!-- <ion-row>
+                        <ion-col size="12">
+                            <ion-button class="comprar" (click)="addToCart()" [disabled]="producto.totalDispatch * producto.price == 0">
+                                AGREGAR AL CARRITO
+                            </ion-button>
+                        </ion-col>
+                    </ion-row> -->
+                </ion-label>
+            </div>
+
+        </ion-col>
+
     </ion-row>
-    <ion-list *ngFor="let producto of dataForView; let i = index">
-        <ion-list-header color="light">
-            {{producto.product | uppercase}}
-        </ion-list-header>
-
-        <ion-item class="item-style">
-            <!-- <ion-avatar slot="start">
-                <img src="assets/imgs/img-no-prod.png">
-            </ion-avatar> -->
-            <ion-label>
-                <h3>{{producto.pharmacyForm | uppercase}} - {{producto.concentration | uppercase}}</h3>
-                <h3>{{producto.presentation | uppercase}}</h3>
-                <ion-row class="row-price">
-                    <ion-col size="6">
-                        <p class="precio-venta"> $ {{producto.price }}</p><br />
-                        <label class="price">PRECIO</label>
-
-                    </ion-col>
-                    <ion-col size="6">
-                        <p class="precio-venta"> {{producto.totalPrescription}}</p><br />
-                        <label class="price">CANTIDAD RECETADA</label>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row>
-                    <ion-col size="8">
-                        <label class="price">INGRESAR CANTIDAD:</label>&nbsp;
-                        <input class="style-input" type="number" [(ngModel)]="producto.totalDispatch" min="0" (change)="calculateTotal($event, i)" (keyup)="calculateTotal($event, i)">
-                    </ion-col>
-                </ion-row>
-                <!-- <ion-row *ngIf="total > 0">
-                    <ion-col size="12">
-                        <label class="price">IVA:</label>&nbsp;
-                        <label class="precio-venta">{{iva * 100}} %</label>
-                    </ion-col>
-                </ion-row> -->
-                <ion-row *ngIf="total > 0">
-                    <ion-col size="12">
-                        <label class="price">TOTAL DESPACHO:</label>&nbsp;
-                        <label class="precio-venta">{{ producto.totalDispatch * producto.price | currency }}</label>
-                    </ion-col>
-                </ion-row>
-
-                <ion-row>
-                    <ion-col size="12">
-                        <ion-button class="comprar" (click)="addToCart()" [disabled]="producto.totalDispatch * producto.price == 0">
-                            AGREGAR AL CARRITO
-                        </ion-button>
-                    </ion-col>
-                </ion-row>
-            </ion-label>
-        </ion-item>
-    </ion-list>
-    <!-- <ion-card *ngFor="let desp of dataListDesp" color="medium-shade">
-        <ion-card-content>
-            <ion-card-header>
-                <ion-item>
-                    <ion-card-title>{{ desp.fecha | date: 'yyyy-MM-dd'}}</ion-card-title>
-                    <ion-button fill="outline" slot="end">Total: ${{ desp.totalDesp }}</ion-button>
-                </ion-item>
-            </ion-card-header>
-            <ion-grid>
-                <ion-row>
-                    <ion-col size="12">
-                        <ion-list>
-                            <ion-list-header color="light">
-                                <ion-label class="fw700">Medicamentos</ion-label>
-                            </ion-list-header>
-
-                            <ion-row class="label-content">
-                                <ion-col size="5">
-                                    <ion-label>Nombre</ion-label>
-                                </ion-col>
-                                <ion-col size="2">
-                                    <ion-label>Cant.</ion-label>
-                                </ion-col>
-                                <ion-col size="2">
-                                    <ion-label>P.U</ion-label>
-                                </ion-col>
-                                <ion-col size="3">
-                                    <ion-label>Total</ion-label>
-                                </ion-col>
-                            </ion-row>
-
-                            <ion-row *ngIf="desp.detalles" class="row-content">
-                                <ion-col size="5">
-                                    <ion-label>{{desp.detalles.codigoProducto.nombre}}</ion-label>
-                                </ion-col>
-                                <ion-col size="2">
-                                    <ion-label>{{desp.detalles.cantidad}}</ion-label>
-                                </ion-col>
-                                <ion-col size="2">
-
-                                    <ion-label>{{desp.detalles.precioVenta}}</ion-label>
-                                </ion-col>
-                                <ion-col size="3">
-                                    <ion-button fill="outline" class="price">${{ desp.detalles.cantidad * desp.detalles.precioVenta | number:'3.2-4'}}
-                                    </ion-button>
-                                </ion-col>
-                            </ion-row>
-
-                        </ion-list>
-                    </ion-col>
-                </ion-row>
-            </ion-grid>
-        </ion-card-content>
-    </ion-card>
-    <div *ngIf="!dataListDesp || dataListDesp.length==0 " class="empty-container ">
-        <img src="assets/imgs/no-datos.png" class="empty-state ">
-        <h3 class="text-center ">Sin Despachos</h3>
-    </div> -->
 </ion-content>
+<ion-footer class="bg-footer">
+
+    <label class="subtotal">Subtotal:&nbsp; &nbsp; $45</label><br>
+    <label class="subtotal">IVA 12%:&nbsp; &nbsp; $13</label>
+    <hr class="line"><br>
+    <h4 class="total-pago">
+        TOTAL:&nbsp; $240
+    </h4>
+    <!-- <button class="pagar-orden" (click)="buyTotalPrescription()">PAGAR ORDEN</button> -->
+    <button class="pagar-orden" (click)="buyTotalPrescription()">COMPRAR TODO</button>
+</ion-footer>

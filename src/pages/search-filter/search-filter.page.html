@@ -25,34 +25,44 @@
         </ion-grid>
     </ion-list-header>
 
+
+
     <ion-grid *ngIf="dataReceta" class="ion-no-padding">
-        <ion-row color="primary">
-            <ion-list-header class="title-data">
-                <ion-label class="medicamentos">Medicamentos</ion-label>
-            </ion-list-header>
+        <ion-list-header class="title-data ">
+            <ion-label class="medicamentos">Medicamentos</ion-label>
+        </ion-list-header>
 
-            <div class="ion-padding">
-                <ion-row *ngFor="let product of prescription; let i = index" class="row-content">
-                    <ion-col size="8">
-                        <ion-label class="col-name">{{product?.codigoProducto.nombre}}</ion-label><br>
-                        <ion-label class="col-forma">{{product?.codigoProducto.formaFarmaceutica}}</ion-label>
-                    </ion-col>
-                    <ion-col size="4" class="col-name">
-                        Cant. {{dataReceta.detalles[i].cantidad}}
-                    </ion-col>
-                    <ion-col size="12">
-                        <ion-label class="col-ind">Indicaciones:</ion-label><br>
-                        <ion-label class="col-ind-text">{{dataReceta.indicaciones[i].indicaciones}}</ion-label>
+        <ion-row *ngFor="let product of prescription; let i = index" class="row-content">
+            <ion-col size="8">
+                <ion-label class="col-name">{{product?.codigoProducto.nombre}}</ion-label><br>
+                <ion-label class="col-forma">{{product?.codigoProducto.formaFarmaceutica}}</ion-label>
 
-                    </ion-col>
-                </ion-row>
-            </div>
+            </ion-col>
 
+            <ion-col size="4" class="col-name">
+                Cant. {{dataReceta.detalles[i].cantidad}}
+            </ion-col>
+
+            <ion-col size="12">
+                <hr class="line"><br>
+                <ion-label class="col-ind">Indicaciones:</ion-label><br>
+                <ion-label class="col-ind-text">{{dataReceta.indicaciones[i].indicaciones}}</ion-label>
+
+            </ion-col>
         </ion-row>
+
     </ion-grid>
 
 
-    <div class="content-div">
-        <button class="cerrar" (click)="close()">CERRAR</button>
-    </div>
+    <!-- <div class="content-div" class="ion-padding">
+        <button class="cerrar" (click)="goDetails(dataReceta)">COMPRAR RECETA</button>
+    </div> -->
 </ion-content>
+
+<ion-footer>
+    <ion-toolbar>
+
+        <button class="cerrar" (click)="goDetails(dataReceta)">COMPRAR RECETA</button>
+
+    </ion-toolbar>
+</ion-footer>

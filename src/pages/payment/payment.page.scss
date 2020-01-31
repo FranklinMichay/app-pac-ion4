@@ -1,16 +1,12 @@
 body {
-  margin: 0;
-  padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
- 
 .noScroll {
     overflow: hidden;
-  }
+}
 
-
-
-  
 p.validator {
     color: red;
     font-size: 12px;
@@ -60,7 +56,7 @@ p.validator {
     color: #3880ff; //map-get($colors, tertiary);
 }
 
-.politicas{
+.politicas {
     text-align: center;
     margin-top: 5px;
     display: block;
@@ -71,7 +67,6 @@ p.validator {
     font-stretch: normal;
     line-height: normal;
     letter-spacing: 0.2px;
-    
 }
 
 .contain-register {
@@ -89,6 +84,14 @@ p.validator {
 
 .title-toolbar {
     color: white;
+    text-align: center;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
     text-align: center;
 }
 
@@ -326,15 +329,11 @@ form {
     }
 }
 
-
 .noScroll {
-  overflow: hidden;
-  }
+    overflow: hidden;
+}
 
-
-
-  
-  #map {
+#map {
     // position: absolute;
     // width: 100%;
     // height: 300px;
@@ -343,31 +342,28 @@ form {
     top: 0;
     bottom: 0;
     width: 100%;
-  }
+}
 
 //   .mapboxgl-ctrl-attrib-inner {
 //     --display: none !important;
 // }
-
 //   #map {
 //     position: absolute;
 //     top: 0;
 //     bottom: 0;
 //     width: 100%;
 //     // height: 100% ;
-  
 //   }
-
 .marker {
-  // background-image: url('../../assets/markers/marker.png');
-  // background-size: cover;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
+    // background-image: url('../../assets/markers/marker.png');
+    // background-size: cover;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
 }
-.position-label{
 
+.position-label {
     font-size: 12px;
     font-weight: 400;
 }
@@ -375,14 +371,11 @@ form {
 // .mapbox{
 //   height: 300px;
 //   width: 300px;
-
 // }
-
 // .map-container {
 //     width: 100%;
 //     height: 100%;
 //   }
-
 .politicas {
     text-align: center;
     margin-top: 5px;
@@ -400,14 +393,13 @@ form {
     color: #597bf0;
 }
 
-.entrega p{
+.entrega p {
     font-family: Poppins;
     font-size: 10px;
     font-weight: 500;
     font-style: normal;
-
 }
 
 ion-col {
-text-align: center;
+    text-align: center;
 }

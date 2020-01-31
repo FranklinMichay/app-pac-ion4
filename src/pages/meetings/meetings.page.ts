@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { AlertController, IonSlides, IonInfiniteScroll } from '@ionic/angular';
+import { AlertController, IonSlides, IonInfiniteScroll, ToastController } from '@ionic/angular';
 import { AuthService } from '../../../src/app/services/auth.service'
 import { Info } from '../../shared/mock/months';
 import * as _ from 'lodash';
@@ -86,7 +86,8 @@ export class MeetingsPage implements OnInit {
     private socket: Socket,
     private loadingCtrl: LoadingService,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    public toastController: ToastController
 
   ) {
 
@@ -137,6 +138,8 @@ export class MeetingsPage implements OnInit {
 
     // infinite scroll
     this.loadDataAccepted();
+    this.loadDataCanceled();
+    this.loadDataPostponed();
     //this.slider.slideTo(1, 0, false);
     const currentDate = this.getCurrentDate(this.day);
     console.log(currentDate, 'current date');
@@ -144,7 +147,9 @@ export class MeetingsPage implements OnInit {
   }
 
   loadDataAccepted(loadMore = false, event?) {
+    
     setTimeout(() => {
+      this.loadingCtrl.presentLoading();
       if (loadMore) {
         this.offset++;
       }
@@ -153,24 +158,38 @@ export class MeetingsPage implements OnInit {
         offset: this.offset,
         state: 'accepted'
       };
-      this.loadingCtrl.presentLoading();
+      
       this.auth.getDataScroolAccepted(fields).subscribe(d => {
+        
+        d.map((el) => {
+          if (el.medico.fotoPerfil[0] !== 'h') {
+            let foto = this.url + el.medico.fotoPerfil;
+            el.medico.fotoPerfil = foto;
+          }
+        });
         console.log(d, 'DATA SCROLL ACEPTED');
         this.contScrollAccepted = d;
         d.map((el) => {
           this.acceptedMeetings.push(el);
         });
+        this.loadingCtrl.dismiss();
       });
-      this.loadingCtrl.dismiss();
+      
       console.log(this.acceptedMeetings, 'accepted');
       if (event) {
         event.target.complete();
       }
-      if (this.contScrollAccepted.length == 0) {
-        console.log('no hay mas citas = ', this.contScrollAccepted.length);
-        event.target.disabled = true;
+
+      if(this.contScrollAccepted){
+        if (this.contScrollAccepted.length == 0) {
+          console.log('no hay mas citas aceptadas', this.contScrollAccepted.length);
+          this.presentToast();
+          event.target.disabled = true;
+        }
       }
+      
     }, 1000);
+    
   }
 
   loadDataPostponed(loadMore = false, event?) {
@@ -182,8 +201,15 @@ export class MeetingsPage implements OnInit {
       offset: this.offset,
         state: 'postponed'
     };
-    this.auth.getDataScroolCanceled(fields).subscribe(d => {
-      console.log(d, 'DATA SCROLL CANCELED');
+    this.auth.getDataScroolPostponed(fields).subscribe(d => {
+      d.map((el) => {
+        if (el.medico.fotoPerfil[0] !== 'h') {
+          let foto = this.url + el.medico.fotoPerfil;
+          el.medico.fotoPerfil = foto;
+        }
+      });
+      console.log(d, 'DATA SCROLL POSTPODEN');
+      this.contScrollPostponed = d;
       d.map((el) => {
         this.postponedMeetings.push(el);
       });
@@ -191,6 +217,14 @@ export class MeetingsPage implements OnInit {
     console.log(this.postponedMeetings, 'pospuestas');
     if (event) {
       event.target.complete();
+    }
+
+    if(this.contScrollPostponed){
+      if (this.contScrollPostponed.length == 0) {
+        console.log('no hay mas citas pospuestas ', this.contScrollPostponed.length);
+        this.presentToast();
+        event.target.disabled = true;
+      }
     }
   }
 
@@ -203,8 +237,15 @@ export class MeetingsPage implements OnInit {
       offset: this.offset,
       state: 'canceled'
     };
-    this.auth.getDataScroolPostponed(fields).subscribe(d => {
-      console.log(d, 'DATA SCROLL POSPONED');
+    this.auth.getDataScroolCanceled(fields).subscribe(d => {
+      d.map((el) => {
+        if (el.medico.fotoPerfil[0] !== 'h') {
+          let foto = this.url + el.medico.fotoPerfil;
+          el.medico.fotoPerfil = foto;
+        }
+      });
+      console.log(d, 'DATA SCROLL CANCELED');
+      this.contScrollCanceled = d;
       d.map((el) => {
         this.newMeetings.push(el);
       });
@@ -212,6 +253,14 @@ export class MeetingsPage implements OnInit {
     console.log(this.newMeetings, 'canceled');
     if (event) {
       event.target.complete();
+    }
+
+    if(this.contScrollCanceled){
+      if (this.contScrollCanceled.length == 0) {
+        console.log('no hay mas citas canceladas', this.contScrollCanceled.length);
+        this.presentToast();
+        event.target.disabled = true;
+      }
     }
   }
   
@@ -582,5 +631,14 @@ export class MeetingsPage implements OnInit {
     this.connection = this.auth.getDataDay(dataConfig).subscribe((result: any) => {
       console.log(result, 'socket....');
     });
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'No hay mas citas',
+      duration: 2000,
+      color: 'dark'
+    });
+    toast.present();
   }
 }

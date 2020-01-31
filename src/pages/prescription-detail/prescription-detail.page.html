@@ -17,12 +17,12 @@
             <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
                 <label class="text-center">Nuevas</label>
             </ion-col>
-            <ion-col class="col-center" [ngClass]="{'active': currentTab === 'step2'}" (click)="changeTab('step2')">
+            <!-- <ion-col class="col-center" [ngClass]="{'active': currentTab === 'step2'}" (click)="changeTab('step2')">
+                <label class="text-center">Compradas</label>
+            </ion-col> -->
+            <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step3'}" (click)="changeTab('step3')">
                 <label class="text-center">Compradas</label>
             </ion-col>
-            <!-- <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step3'}" (click)="changeTab('step3')">
-                <label class="text-center">Finalizada</label>
-            </ion-col> -->
         </ion-row>
     </div>
 

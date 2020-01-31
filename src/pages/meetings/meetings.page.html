@@ -7,7 +7,7 @@
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar">Mis Citas</ion-title>
+        <ion-title class="title-toolbar">MIS CITAS</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -170,16 +170,16 @@
 
 
     <ion-infinite-scroll *ngIf="acceptedMeetings" threshold="100px" (ionInfinite)="loadDataAccepted(true, $event)">
-        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando Nuevos Datos...!">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Actualizando datos">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
     <ion-infinite-scroll *ngIf="newMeetings" threshold="100px" (ionInfinite)="loadDataCanceled(true, $event)">
-        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando Nuevos Datos...!">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Actualizando datos">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
 
     <ion-infinite-scroll *ngIf="postponedMeetings" threshold="100px" (ionInfinite)="loadDataPostponed(true, $event)">
-        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Cargando Nuevos Datos...!">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Actualizando datos">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
 

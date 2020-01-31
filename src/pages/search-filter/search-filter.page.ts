@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, NavParams } from '@ionic/angular';
 import { AuthService } from 'src/app/services/auth.service';
 import { LoadingService } from 'src/app/services/loading.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
 import * as _ from 'lodash';
 
@@ -22,6 +22,7 @@ export class SearchFilterPage implements OnInit {
   idForRequest: any;
   dataForView: any;
   dataReceta: any;
+  prescriptionList: any = [];
 
   constructor(
     navParams: NavParams,
@@ -29,7 +30,8 @@ export class SearchFilterPage implements OnInit {
     private auth: AuthService,
     private loadingCtrl: LoadingService,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private router: Router,
   ) {
     this.prescription = navParams.get('prescription');
     console.log(this.prescription, 'PRODUCTOS EN MODAL');
@@ -106,6 +108,21 @@ export class SearchFilterPage implements OnInit {
   codeSelected() {
     console.log(this.medicalC, 'dta del select');
 
+  }
+
+  goDetails(prescription) {
+    this.loadingCtrl.presentLoading();
+    this.dataService.dataCompra = prescription;
+    this.getProductPrescriptionCompra(this.removeSquareBracket(_.map(prescription.detalles, 'id')));
+    this.loadingCtrl.dismiss();
+  }
+
+  getProductPrescriptionCompra(ids: string) {
+    this.auth.getInfoProducts(ids).subscribe(prescription => {
+      this.prescriptionList = prescription;
+      this.router.navigate(['prescription'], { state: this.prescriptionList } );
+    });
+    this.close();
   }
 
   close() {
