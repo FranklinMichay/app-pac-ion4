@@ -5,6 +5,7 @@ body {
 
 .noScroll {
     overflow: hidden;
+    height: 200px;
 }
 
 p.validator {
@@ -104,26 +105,21 @@ p.validator {
 .accept-edit {
     width: 90%;
     height: 50px;
-    border-radius: 25px;
-    background-image: linear-gradient(98deg, #ffc185, #fd5f54 100%);
-    position: absolute;
-    bottom: 0;
-    margin-bottom: 5%;
-    margin-left: 5%;
+    --border-radius: 25px;
+    --background: linear-gradient(104deg, #ffc185, #fd5f54);
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    margin-top: 8%;
     color: white;
-    font-size: 14px;
-    font-weight: 600;
-    font-stretch: normal;
-    font-style: normal;
-    line-height: normal;
-    letter-spacing: 1.5px;
-    text-align: center;
+    font-size: 16px;
 }
 
 .div-slide {
     width: 100%;
-    height: 79px;
+    height: 85px;
     background-color: #f6f6f6;
+    margin-top: 0%;
 }
 
 .div-button-footer {
@@ -174,12 +170,24 @@ p.validator {
     --background: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 91%);
 }
 
+ion-content {
+    --background: #ecf0f5;
+}
+
+.bg-form {
+    background: #ecf0f5;
+}
+
 .item-pass {
     background-color: rgb(233, 233, 233);
 }
 
 .row-data-fac {
-    margin-top: 6%;
+    margin-top: 3%;
+}
+
+.row-data-dir {
+    margin-top: 9%;
 }
 
 .input-pass {
@@ -187,6 +195,83 @@ p.validator {
     background: transparent;
     border: 0px solid;
     margin-top: 5%;
+}
+
+.title-metodo {
+    height: 37px;
+    opacity: 0.99;
+    background-color: #dfe4e6;
+    //margin-top: -4%;
+}
+
+.title-tarjeta {
+    height: 37px;
+    opacity: 0.99;
+    background-color: #dfe4e6;
+    //margin-top: 5%;
+}
+
+.content-data {
+    width: 94%;
+    height: 203px;
+    border-radius: 5px;
+    background-color: white;
+    margin-bottom: 5%;
+    margin-left: 3%;
+    padding: 13px 0px 0px 0px;
+}
+
+.content-consejo {
+    width: 94%;
+    height: 200px;
+    border-radius: 5px;
+    background-color: white;
+    margin-bottom: 5%;
+    margin-left: 3%;
+    padding: 1px 2px 3px 15px;
+    margin-top: 3%;
+    .text-consejo {
+        font-family: Poppins;
+        font-size: 12.8px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.72;
+        letter-spacing: normal;
+        color: var(--black);
+    }
+}
+
+.input-col6 {
+    height: 50px;
+    border-radius: 5px;
+    border: solid 1px #dfe4e6;
+    background-color: #f6f6f6;
+    text-align: initial;
+    margin-left: 9%;
+    width: 83%;
+    color: #8c8c8c;
+}
+
+.medicamentos {
+    opacity: 0.99;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: #140e2c;
+}
+
+.list-card {
+    height: 87px;
+    margin-top: 4%;
+}
+
+.option {
+    height: 194px;
 }
 
 .scroll-content {
@@ -266,6 +351,17 @@ p.validator {
     text-align: initial;
     margin-left: 4%;
     width: 100%;
+    color: #8c8c8c;
+}
+
+.input-tarjeta {
+    height: 50px;
+    border-radius: 5px;
+    border: solid 1px #dfe4e6;
+    background-color: #f6f6f6;
+    text-align: initial;
+    margin-left: 4%;
+    width: 92%;
     color: #8c8c8c;
 }
 
@@ -362,6 +458,225 @@ form {
     margin-top: 12%;
 }
 
+.section-hero {
+    margin: -3% 0% 0% 3%;
+    width: 94%;
+}
+
+.container {
+    height: 152px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    background: #f6f6f6;
+    margin-top: 10%;
+    border-radius: 20px;
+    //border: solid 2px #597bf0;
+}
+
+.metodo-pago {
+    height: 152px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    background: white;
+    margin-top: 10%;
+    border-radius: 20px;
+    //border: solid 2px #597bf0;
+    .select-button {
+        width: 24.8px;
+        height: 26.8px;
+        color: #9db0b8;
+        position: absolute;
+        right: 8%;
+        top: 8%;
+    }
+}
+
+.metodo-pago-a {
+    height: 152px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 10px;
+    background: white;
+    margin-top: 10%;
+    border-radius: 20px;
+    border: solid 2px #597bf0;
+    .select-button {
+        width: 24.8px;
+        height: 26.8px;
+        color: #597bf0;
+        position: absolute;
+        right: 8%;
+        top: 8%;
+    }
+}
+
+.explore-title {
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: #140e2c;
+    padding: 50px 0px 0px 10px;
+    text-align: initial;
+}
+
+.explore-text {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #728391;
+    text-align: initial;
+    padding: 10px;
+    margin-top: -13%;
+}
+
+ion-card-content {
+    border-radius: 20px;
+    border: solid 2px #597bf0;
+    background-color: white;
+}
+
+.content-card {
+    width: 147px;
+    height: 68px;
+    border-radius: 20px;
+    //border: solid 2px #597bf0;
+    background-color: white;
+    .select-button {
+        width: 24.8px;
+        height: 26.8px;
+        color: #9db0b8;
+        position: absolute;
+        right: 13%;
+        top: 8%;
+    }
+}
+
+.content-card-a {
+    width: 147px;
+    height: 68px;
+    border-radius: 20px;
+    border: solid 2px #597bf0;
+    background-color: white;
+    .select-button {
+        width: 24.8px;
+        height: 26.8px;
+        color: #597bf0;
+        position: absolute;
+        right: 13%;
+        top: 8%;
+    }
+}
+
+.imgs-card {
+    width: 56px;
+    height: 34px;
+    margin-top: 10%;
+}
+
+//slide pasos
+// $number-of-steps: 3;
+// $line-width: 2px;
+// $bullet-size: 2em;
+// $background-color: #4c69cc;
+// $foreground-color: #4c69cc;
+// $active-background-color: #4c69cc;
+// $active-foreground-color: #f6f6f6;
+// default
+$number-of-steps: 3;
+$line-width: 2px;
+$bullet-size: 2em;
+$background-color: #f6f6f6;
+$foreground-color: #6a8bf8;
+$active-background-color: #4c69cc;
+$active-foreground-color: #ffffff;
+ol {
+    background-color: #f6f6f6;
+    position: relative;
+    //overflow: hidden;
+    counter-reset: wizard;
+    width: 100%;
+    padding-left: 5px;
+    margin-top: 1%;
+    height: 82px;
+}
+
+ol li {
+    list-style-type: none;
+}
+
+li {
+    position: relative;
+    float: left;
+    width: 100% / $number-of-steps;
+    text-align: center;
+    color: $active-background-color;
+    height: 79px;
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: 0.18px;
+    margin-top: 3%;
+}
+
+.current~li {
+    color: $foreground-color;
+}
+
+li:before {
+    counter-increment: wizard;
+    content: counter(wizard);
+    display: block;
+    color: $active-foreground-color;
+    background-color: $active-background-color;
+    border: $line-width solid $active-background-color;
+    text-align: center;
+    width: $bullet-size;
+    height: $bullet-size;
+    line-height: $bullet-size;
+    border-radius: $bullet-size;
+    position: relative;
+    left: 50%;
+    margin-bottom: $bullet-size / 2;
+    margin-left: $bullet-size * -0.5;
+    z-index: 1;
+    .current~& {
+        background-color: $background-color;
+        color: $foreground-color;
+        border-color: $foreground-color;
+    }
+}
+
+li+li {
+    &:after {
+        content: "";
+        display: block;
+        width: 100%;
+        background-color: $active-background-color;
+        height: $line-width;
+        position: absolute;
+        left: -50%;
+        top: $bullet-size / 2;
+        z-index: 0;
+    }
+}
+
+.current~li:after {
+    background-color: $foreground-color;
+}
+
 @media (min-width: 619px) {
     //font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
     .name {
@@ -394,14 +709,20 @@ form {
 }
 
 #map {
-    // position: absolute;
-    // width: 100%;
-    // height: 300px;
-    // margin-left: -50%;
     position: absolute;
-    top: 0;
     bottom: 0;
-    width: 100%;
+    height: 100%;
+    width: 91%;
+    margin-left: 4.5%;
+    border: 1px solid white;
+    top: 2%;
+}
+
+.i-fab {
+    width: 5vh;
+    height: 5vh;
+    margin-left: -90%;
+    margin-top: -144%;
 }
 
 //   .mapboxgl-ctrl-attrib-inner {
@@ -426,6 +747,17 @@ form {
 .position-label {
     font-size: 12px;
     font-weight: 400;
+}
+
+.label {
+    font-family: OpenSans;
+    font-size: 10px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #979797;
 }
 
 // .mapbox{
@@ -455,7 +787,7 @@ form {
 
 .entrega p {
     font-family: Poppins;
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 500;
     font-style: normal;
 }

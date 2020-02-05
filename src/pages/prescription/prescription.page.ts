@@ -46,6 +46,8 @@ export class PrescriptionPage implements OnInit {
   valor: any;
   ctrlView: boolean = true;
   count: any;
+  totalPay: any;
+  valIva:any;
 
 
   constructor(
@@ -59,12 +61,15 @@ export class PrescriptionPage implements OnInit {
     private route: ActivatedRoute,
     private dataService: DataService,
     public toastController: ToastController
-  ) { }
+  ) { 
+    
+  }
 
   ngOnInit() {
     this.exportData(this.dataService.dataCompra);
     this.dataForView
     console.log();
+    //this.buyTotalPrescription();
   }
 
   goCart() {
@@ -84,8 +89,11 @@ export class PrescriptionPage implements OnInit {
     toast.present();
   }
 
-  ionViewWillEnter() {
-    this.count = 0;
+  ionViewDidEnter() {
+    //this.count = 0;
+    this.buyTotalPrescription();
+    console.log('metodosss');
+    
   }
 
   getMax() {
@@ -204,7 +212,7 @@ export class PrescriptionPage implements OnInit {
       0);
     this.total = parseFloat(this.total).toFixed(2);
     this.calculateTotalDispatch();
-    this.router.navigate(['cart'], { state: this.dataForView });
+    //this.router.navigate(['cart'], { state: this.dataForView });
   }
 
   // ionViewDidLeave() {
@@ -381,8 +389,73 @@ export class PrescriptionPage implements OnInit {
 
   calculateTotalDispatch() {
     const sub = this.total * this.iva;
+    this.valIva = sub.toFixed(2);
     const result = parseFloat(this.total) + sub;
+    this.totalPay = result.toFixed(2);
     return result.toFixed(2);
   }
+
+  add(index){
+    this.dataForView[index].totalDispatch = this.dataForView[index].totalDispatch + 1;
+    if (this.dataForView[index].totalDispatch < 0) {
+      this.dataForView[index].totalDispatch = 0;
+      this.dataForView[index].totalDispatch = 0;
+    }
+    if (parseInt(this.dataForView[index].remaining, 10) < this.dataForView[index].totalDispatch) {
+      this.dataForView[index].totalDispatch = this.dataForView[index].remaining;
+      this.dataForView[index].totalDispatch = this.dataForView[index].totalDispatch;
+    }
+    let subC = this.dataForView[index].totalDispatch * this.dataForView[index].price;
+    this.dataForView[index].subtotal = subC.toFixed(2);
+    this.total = this.dataForView.reduce((
+      acc,
+      obj,
+    ) => acc + (obj.totalDispatch * obj.price),
+      0);
+    this.total = parseFloat(this.total).toFixed(2);
+    this.calculateTotalDispatch();
+  }
+  subtract(index) {
+    this.dataForView[index].totalDispatch = this.dataForView[index].totalDispatch - 1;
+    if (this.dataForView[index].totalDispatch < 0) {
+      this.dataForView[index].totalDispatch = 0;
+      this.dataForView[index].totalDispatch = 0;
+    }
+    if (parseInt(this.dataForView[index].remaining, 10) < this.dataForView[index].totalDispatch) {
+      this.dataForView[index].totalDispatch = this.dataForView[index].remaining;
+      this.dataForView[index].totalDispatch = this.dataForView[index].totalDispatch;
+    }
+    let subC = this.dataForView[index].totalDispatch * this.dataForView[index].price;
+    this.dataForView[index].subtotal = subC.toFixed(2);
+    this.total = this.dataForView.reduce((
+      acc,
+      obj,
+    ) => acc + (obj.totalDispatch * obj.price),
+      0);
+    this.total = parseFloat(this.total).toFixed(2);
+    this.calculateTotalDispatch();
+  }
+
+  deleteItem(id) {
+    this.dataForView = _.remove(this.dataForView, function(n) {
+      return n._id !== id;
+
+    });
+    this.total = this.dataForView.reduce((
+      acc,
+      obj,
+    ) => acc + (obj.totalDispatch * obj.price),
+      0);
+    this.total = parseFloat(this.total).toFixed(2);
+    this.calculateTotalDispatch();
+  }
+
+  pay() {
+    this.dataService.dataForPay = this.dataForView;
+    console.log(this.dataService.dataForPay, 'DATA PARA SERVICE');
+    this.router.navigate(['payment']);
+  }
+
+  
 
 }

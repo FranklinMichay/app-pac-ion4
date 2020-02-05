@@ -13,39 +13,25 @@
 </ion-header>
 
 <ion-content *ngIf="data">
-
-    <!-- <div>
-        <img src="https://cdn.lavoz.com.ar/sites/default/files/styles/width_1072/public/nota_periodistica/cirujano_0.jpg">
-        
-    </div> -->
-
-    <img [src]="data.fotoPerfil || '/assets/imgs/noavatar.png'">
+    <div class="logo-circle">
+        <img class="border-effect1" src="{{data.fotoPerfil}}" alt=" ">
+    </div>
     <button class="edit-profile" type="submit" (click)="goEditProfile()">EDITAR PERFIL</button>
     <div>
         <ion-grid>
             <ion-row>
                 <ion-col>
-                    <label class="medico">Paciente</label>
+                    <label class="tag-medic">Paciente</label>
                 </ion-col>
                 <ion-col size="12">
-                    <p class="name-medic" *ngIf="data">{{ data.priNombre | uppercase }}&nbsp;{{ data.priApellido | uppercase}}</p>
+                    <h1 class="name-medic">{{data.priNombre}} {{data.priApellido}}</h1>
                 </ion-col>
             </ion-row>
         </ion-grid>
     </div>
 
-    <!-- <ion-card class="ion-no-margin">
-            <ion-card-content class="bg-profile">
-                <img [src]="data.fotoPerfil || '/assets/imgs/noavatar.png'">
-                <h1 class="fw500">{{data.priNombre}} {{data.priApellido}}</h1>
-                <h2 color="light">{{data.ciudad}}</h2>
-                <ion-button class="edit-profile" type="submit" (click)="goEditProfile()">EDITAR PERFIL</ion-button>
-            </ion-card-content>
-        </ion-card> -->
-
-
-    <ion-list>
-        <ion-list-header color="light">
+    <ion-list class="info-personal">
+        <ion-list-header>
             <ion-label class="fw700">Información Personal</ion-label>
         </ion-list-header>
         <ion-item>
@@ -80,8 +66,8 @@
         </ion-item>
     </ion-list>
 
-    <ion-list>
-        <ion-list-header color="light">
+    <ion-list class="info-contacto">
+        <ion-list-header>
             <ion-label class="fw700">Contactos:</ion-label>
         </ion-list-header>
         <ion-item>

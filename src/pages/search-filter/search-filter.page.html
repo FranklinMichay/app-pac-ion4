@@ -62,7 +62,7 @@
 <ion-footer>
     <ion-toolbar>
 
-        <button class="cerrar" (click)="goDetails(dataReceta)">COMPRAR RECETA</button>
+        <button *ngIf="dataReceta.estadoReceta == 'nueva'" class="cerrar" (click)="goDetails(dataReceta)">COMPRAR RECETA</button>
 
     </ion-toolbar>
 </ion-footer>

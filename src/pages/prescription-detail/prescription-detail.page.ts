@@ -46,6 +46,8 @@ export class PrescriptionDetailPage implements OnInit {
   url: any;
   dataRecetaModal: any;
   dataCompra: any;
+  newAppointment: any;
+  finishedAppointment: any;
 
   numbers = [-1, 0, 1, 2];
   firstLoad = true;
@@ -90,16 +92,17 @@ export class PrescriptionDetailPage implements OnInit {
   }
 
   ngOnInit() {
-    this.slider.slideTo(1, 0, false);
+    //this.slider.slideTo(1, 0, false);
     this.dataUser = JSON.parse(localStorage.getItem('user'));
     this.dni = this.dataUser.identificacion;
     console.log(this.dni, 'cedula paciente');
     const currentDate = this.getCurrentDate(this.day);
     console.log(currentDate, 'current date');
-    this.getData(currentDate);
+    this.getAppointment(this.dni);
     //this.getPrescription();
   }
 
+  //CONSULTAR RECETAS POR DIA ESPECIFICO
   getData(currentDate) {
     console.log(currentDate, 'current date');
     this.dataMedic = [];
@@ -125,6 +128,44 @@ export class PrescriptionDetailPage implements OnInit {
       this.loadingCtrl.dismiss();
     }, (err) => {
       console.log(err, 'error recetas');
+      this.loadingCtrl.dismiss();
+    });
+  }
+
+
+   //CONSULTAR TODAS LAS RECETAS
+  getAppointment(dni) {
+    this.loadingCtrl.presentLoading();
+    this.auth.getRecetasPaciente(dni).subscribe(recetas => {
+      console.log(recetas);
+      
+      for (let index = 0; index < recetas.length; index++) {
+        this.datosMedico = JSON.parse(recetas[index].datosMedico);
+        this.datosPaciente = JSON.parse(recetas[index].datosPaciente);
+        this.dataIndicaciones = JSON.parse(recetas[index].indicaciones);
+        this.dataReceta = JSON.parse(recetas[index].detalles);
+        let datos = {
+          datosMed: this.datosMedico,
+          datosPac: this.datosPaciente,
+          detalles: this.dataReceta,
+          indicaciones: this.dataIndicaciones,
+          fecha: recetas[index].fecha,
+          codRece: recetas[index].codiRece,
+          estadoReceta: recetas[index].estadoReceta,
+
+        }
+        this.dataMedic.push(datos)
+      }
+      this.newAppointment = _.filter(this.dataMedic, { "estadoReceta": 'nueva' });
+      console.log(this.newAppointment, 'nuevas');
+      
+      this.finishedAppointment = _.filter(this.dataMedic, { "estadoReceta": 'finalizada' });
+      console.log(this.finishedAppointment, 'final');
+      this.dataMedic = _.orderBy(this.dataMedic, ['fecha'], ['desc']);
+      console.log(this.dataMedic, 'LISTA RECETAS');
+      this.loadingCtrl.dismiss();
+    }, (err) => {
+      console.log(err, 'ERROR AL TRAER RECETAS');
       this.loadingCtrl.dismiss();
     });
   }

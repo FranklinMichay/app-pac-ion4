@@ -1,58 +1,28 @@
-:host {
-    .user-photo ion-avatar {
-        margin: 0 auto;
-        width: 120px;
-        height: 120px;
-    }
-    ion-list {
-        margin-top: -8px;
-        p {
-            font-size: 12px;
-            font-weight: 400;
-            padding-bottom: 4px;
-        }
-        h2 {
-            font-weight: 400;
-            opacity: 0.5;
-        }
-    }
+.info-contacto {
+    margin-top: -3%;
+    background-color: #dfe4e6;
+}
+
+.info-personal {
+    margin-top: -12%;
+    background-color: #dfe4e6;
 }
 
 .fw700 {
-    font-weight: 700 !important;
+    opacity: 0.99;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: #140e2c;
 }
 
 .description {
     font-weight: 700 !important;
     font-size: smaller;
-}
-
-.profile {
-    ion-card {
-        width: 100%;
-        border-radius: 0;
-        background-color: #fff;
-        ion-card-content {
-            padding: 12px;
-            background-color: darkcyan;
-            color: white;
-            text-align: center;
-            img {
-                height: 158px;
-                width: 166px;
-                border-radius: 50%;
-                border: solid 4px #fff;
-                display: inline;
-                box-shadow: 0 0 28px rgba(255, 255, 255, 0.65);
-                // position: fixed;
-                // margin-top: -53%;
-                // margin-left: -23%;
-            }
-            h1 {
-                margin-top: 0.5rem;
-            }
-        }
-    }
 }
 
 img {
@@ -74,40 +44,9 @@ img {
     line-height: normal;
     letter-spacing: normal;
     color: #f3f4f8;
-    margin-top: -25%;
-}
-
-.especialidad {
-    position: absolute;
-    top: 23.5%;
-    left: 3%;
-    font-family: Poppins;
-    font-size: 14px;
-    font-weight: 500;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: white;
-    margin-top: -20%;
-}
-
-.medico {
-    width: 22%;
-    left: 3%;
-    position: absolute;
-    text-align: center;
-    font-family: Poppins;
-    font-size: 16px;
-    font-weight: 500;
-    border-radius: 5px;
-    color: #ffffff;
-    background-color: #35d6a7;
-    margin-top: -30%;
-}
-
-.content-imgs {
-    margin-top: 2%;
+    margin-top: -24%;
+    text-align: initial;
+    padding: 0px 0px 0px 8px;
 }
 
 .label-info {
@@ -129,15 +68,6 @@ img {
 
 .style-icon-logout {
     color: white;
-}
-
-.text-center {
-    color: white;
-}
-
-.portada {
-    width: -webkit-fill-available;
-    height: auto;
 }
 
 .edit-profile {
@@ -172,178 +102,83 @@ img {
     background-color: #13ccb3;
 }
 
-.container-inf-pac {
-    margin-right: -6%;
+// @media (min-width: 619px) {
+//     button {
+//         font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         >ion-title.text-center {
+//             font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         }
+//     }
+//     ion-item {
+//         font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     ion-label {
+//         font-size: calc(12px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .paciente {
+//         top: calc(30% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         width: calc(17% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .edad-paciente {
+//         top: calc(34% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .name-paciente {
+//         top: calc(31% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .style-label {
+//         font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .inf-pac {
+//         font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+//     .inf-title-pac {
+//         font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//         margin-left: calc(5% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
+//     }
+// }
+.logo-circle {
+    text-align: center;
+    background: linear-gradient(to bottom, rgba(43, 52, 82, 0.67) 0%, rgba(43, 52, 82, 0.88) 100%), url("../../assets/imgs/profile.jpg") no-repeat 0px 0px;
+    background-size: cover;
+    min-height: 300px;
+    padding: 4em 0 0;
+    img {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+    }
+    h3 {
+        color: #fff;
+        font-size: 2em;
+        font-weight: 600;
+    }
 }
 
-.style-label {
-    width: 66px;
-    height: 22px;
-    font-family: OpenSans;
-    font-size: 14px;
-    font-weight: bold;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: 1.57;
-    letter-spacing: 0.22px;
-    color: black;
-}
-
-.info {
-    width: 88%;
-    height: auto;
-    line-height: 1.63;
-    font-family: Poppins;
-    color: #1d1732;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    text-align: justify;
-}
-
-.container-locate {
-    display: flex;
-    margin-top: 5%;
-    font-family: Poppins;
-    font-size: 12.8px;
-    color: #657785;
-    margin-left: 3.5%;
-}
-
-.container-calendar {
-    display: flex;
-    margin-top: 2%;
-    font-family: Poppins;
-    font-size: 12.8px;
-    color: #657785;
-    margin-left: 3.5%;
-}
-
-.icon-location {
-    left: 5%;
-    padding-left: 3%;
-}
-
-.icon-calendar {
-    left: 5%;
-    padding-left: 3%;
-}
-
-.text-locate {
-    padding-left: 4%;
-    font-size: 15px;
-    margin-top: 0%;
-}
-
-.text-calendar {
-    padding-left: 4%;
-    font-size: 15px;
-    margin-top: 0%;
-}
-
-.inf-pac {
-    padding-left: 4%;
-    font-size: 15px;
-    margin-top: 0%;
-    display: flex;
-    margin-top: 2%;
-    font-family: Poppins;
-    font-size: 14px;
-    color: #657785;
-    margin-left: 3.5%;
-}
-
-.container-medic {
-    margin-top: 2%;
-}
-
-.name-paciente {
-    font-family: Poppins;
-    font-size: 16px;
-    font-weight: 700;
-    font-style: normal;
-    color: black;
+.border-effect1 {
+    border: 2px dotted var(--ion-color-secondary);
+    padding: 9px;
+    background-size: cover;
+    border-left: 2px dotted #d0d0d0;
+    border-bottom: 2px dotted #d0d0d0;
     text-align: center;
 }
 
-.edad-paciente {
-    position: fixed;
-    top: 25%;
-    left: 7%;
-    font-family: Poppins;
-    font-size: 16px;
-    font-weight: 700;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: #f3f4f8;
-}
-
-.style-content {
-    background-color: #f3f4f8;
-}
-
-.profile-picture {
+.tag-medic {
+    padding: 3px 15px;
+    color: white;
+    font-size: 13px;
+    background: var(--ion-color-primary);
     position: relative;
-    .profile-picture__image {
-        border-radius: 50%;
-        /* height: 128px; */
-        width: 128px;
-        margin-top: 3%;
-        margin-left: auto;
-        margin-right: auto;
-        display: flex;
-    }
-}
-
-.inf-title-pac {
-    font-family: Poppins;
-    font-size: 20px;
-    font-weight: 700;
-    font-style: normal;
-    font-stretch: normal;
-    line-height: normal;
-    letter-spacing: normal;
-    color: black;
-    margin-left: 3%;
-    margin-top: 5%;
-}
-
-@media (min-width: 619px) {
-    button {
-        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-        >ion-title.text-center {
-            font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-        }
-    }
-    ion-item {
-        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    ion-label {
-        font-size: calc(12px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .paciente {
-        top: calc(30% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-        width: calc(17% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .edad-paciente {
-        top: calc(34% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .name-paciente {
-        top: calc(31% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .style-label {
-        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .inf-pac {
-        font-size: calc(18px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
-    .inf-title-pac {
-        font-size: calc(20px + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-        margin-left: calc(5% + (24 - 14) * ((100vw - 300px) / (1200 - 300))) !important;
-    }
+    margin: 5px 40% 0px 0px;
+    border-radius: 20px;
+    text-align: left;
+    display: block;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
+    width: fit-content;
+    margin-left: 4%;
+    margin-top: -32%;
 }

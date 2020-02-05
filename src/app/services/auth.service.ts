@@ -400,6 +400,12 @@ export class AuthService {
     return this.httpClient.get<any>(`${this.urlMongoDB}receta/searchReceDate/${date},${dni}`);
   }
 
+  getRecetasPaciente(identificacion) {
+    console.log(identificacion, 'cedula paciente');
+    
+    return this.httpClient.get<any>(`${this.urlMongoDB}receta/searchRecePac/${identificacion}/`);
+  }
+
   getInfoProducts(ids: any): Observable<any> {
     console.log(ids);
 

@@ -13,42 +13,24 @@
 </ion-header>
 
 <ion-content>
-
-    <img [src]="data.fotoPerfil || '/assets/imgs/noavatar.png'">
     <div>
-        <ion-grid>
-            <ion-row>
-                <ion-col size="12">
+        <div class="logo-circle">
+            <img class="border-effect1" src="{{data.fotoPerfil}}" alt=" ">
+        </div>
+
+        <div>
+            <label for="file-upload" class="subir">
+                <ion-icon name="camera" class="icon-camera"></ion-icon><br>
+                <i class="fas fa-cloud-upload-alt"></i> Cambiar foto de perfil
+            </label>
+            <input id="file-upload" (change)="changeListener($event)" type="file" style='display: none;' />
+        </div>
 
 
-                    <p class="name-medic" *ngIf="data">
-
-                        <label for="file-upload" class="subir">
-                            <ion-icon name="camera" class="icon-camera"></ion-icon><br>
-                            <i class="fas fa-cloud-upload-alt"></i> Cambiar foto de perfil
-                        </label>
-                        <input id="file-upload" (change)="changeListener($event)" type="file" style='display: none;' />
-                    </p>
-                </ion-col>
-            </ion-row>
-        </ion-grid>
     </div>
-    <!-- <div class="profile">
-        <ion-card class="ion-no-margin">
-            <ion-card-content class="bg-profile">
-                <img [src]="data.fotoPerfil || '/assets/imgs/noavatar.png'">
-                <label for="file-upload" class="subir">
-                    <i class="fas fa-cloud-upload-alt"></i> Cambiar Foto
-                </label>
-                <input id="file-upload" (change)="changeListener($event)" type="file" style='display: none;' />
-                <h1 class="fw500">{{data.priNombre}} {{data.priApellido}}</h1>
-                <h2 color="light">{{data.ciudad}}</h2>
-            </ion-card-content>
-        </ion-card>
-    </div> -->
 
     <form [formGroup]="formEditProfile" (ngSubmit)="updateProfilePatient()">
-        <ion-grid>
+        <ion-grid class="ion-no-padding">
             <ion-row>
                 <ion-col size="12">
                     <ion-list>

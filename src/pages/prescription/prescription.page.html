@@ -7,8 +7,8 @@
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
             </ion-button> -->
             <ion-button (click)="goCart()" slot="end" class="cart-btn">
-                <ion-icon class="style-icon-cart" slot="icon-only" name="cart"></ion-icon>
-                <ion-badge *ngIf="count > 0" class="cart-badge">{{count}}</ion-badge>
+                <!-- <ion-icon class="style-icon-cart" slot="icon-only" name="cart"></ion-icon>
+                <ion-badge *ngIf="count > 0" class="cart-badge">{{count}}</ion-badge> -->
             </ion-button>
         </ion-buttons>
         <ion-title class="title-toolbar">MI CARRITO</ion-title>
@@ -16,54 +16,57 @@
 </ion-header>
 
 <ion-content *ngIf="dataForView" class="ion-padding bg-content">
-
     <ion-row *ngFor="let producto of dataForView; let i = index">
-        <ion-col size="1" class="eliminar">
-            <!-- X -->
+        <ion-col size="1" class="eliminar" (click)="deleteItem(producto._id)">
+            X
         </ion-col>
         <ion-col size="11">
             <div class="container-prod">
                 <ion-label>
-                    <ion-label class="name-prod">{{producto.product | uppercase}}</ion-label>
-                    <h3 class="form-prod">{{producto.pharmacyForm }} - {{producto.concentration }}</h3>
-                    <h3 class="form-prod">{{producto.presentation }}</h3>
-                    <ion-row class="row-price">
-                        <ion-col size="6">
-                            <p class="precio-venta"> $ {{producto.price }}</p><br />
-                            <label class="price">PRECIO</label>
-
-                        </ion-col>
-                        <ion-col size="6">
-                            <p class="precio-venta"> {{producto.totalPrescription}}</p><br />
-                            <label class="price">CANTIDAD RECETADA</label>
-                        </ion-col>
-                    </ion-row>
-
                     <ion-row>
-                        <ion-col size="8">
-                            <label class="price">INGRESAR CANTIDAD:</label>&nbsp;
-                            <input class="style-input" type="number" [(ngModel)]="producto.totalDispatch" min="0" (change)="calculateTotal($event, i)" (keyup)="calculateTotal($event, i)">
+                        <ion-col size="10">
+                            <ion-label class="name-prod">{{producto.product | uppercase}}</ion-label>
+                            <h3 class="form-prod">{{producto.pharmacyForm }} - {{producto.concentration }}</h3>
+                            <h3 class="form-prod">{{producto.presentation }}</h3>
                         </ion-col>
-                        <ion-col size="4">
-                            <ion-button class="comprar" (click)="addToCart()" [disabled]="producto.totalDispatch * producto.price == 0">
-                                Agregar
-                            </ion-button>
+                        <ion-col size="2">
+                            <ion-col size="12">
+                                <ion-col size="12">
+                                    <ion-icon name="add" class="cont-add" (click)="add(i)"></ion-icon>
+                                </ion-col>
+                                <ion-col size="12">
+                                    <ion-input class="style-input" type="number" on [(ngModel)]="producto.totalDispatch" (change)="calculateTotal($event, i)" (keyup)="calculateTotal($event, i)">
+                                    </ion-input>
+                                </ion-col>
+                                <ion-col size="12">
+                                    <ion-icon name="remove" class="cont-substract" (click)="subtract(i)"></ion-icon>
+                                </ion-col>
+                            </ion-col>
                         </ion-col>
                     </ion-row>
-                    <ion-row *ngIf="total > 0">
-                        <ion-col size="12">
-                            <label class="price">TOTAL DESPACHO:</label>&nbsp;
-                            <label class="precio-venta">{{ producto.totalDispatch * producto.price | currency }}</label>
-                        </ion-col>
+                    <ion-row class="row-price">
+                        <h3 class="form-prod"> Cantidad recetada: {{producto.totalPrescription }}</h3>
                     </ion-row>
+                    <hr class="line-m"><br>
+                    <div class="content-price">
+                        <ion-row>
+                            <ion-col size="6">
+                                <h3 class="info-total"> Precio Unit:</h3>
+                            </ion-col>
 
-                    <!-- <ion-row>
-                        <ion-col size="12">
-                            <ion-button class="comprar" (click)="addToCart()" [disabled]="producto.totalDispatch * producto.price == 0">
-                                AGREGAR AL CARRITO
-                            </ion-button>
-                        </ion-col>
-                    </ion-row> -->
+                            <ion-col size="6">
+                                <p class="val-total">${{ producto.price }}</p>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col size="6">
+                                <h3 class="info-total"> Total:</h3>
+                            </ion-col>
+                            <ion-col size="6">
+                                <p class="val-total">${{ producto.totalDispatch * producto.price | number: '1.2-4'}}</p>
+                            </ion-col>
+                        </ion-row>
+                    </div>
                 </ion-label>
             </div>
 
@@ -72,13 +75,16 @@
     </ion-row>
 </ion-content>
 <ion-footer class="bg-footer">
+    <div class="container-subtotal">
+        <label class="subtotal">Subtotal:&nbsp; &nbsp; {{ total | currency }}</label><br>
+        <label class="subtotal">IVA 12%:&nbsp; &nbsp; {{ this.valIva | currency}} </label>
+    </div>
 
-    <!-- <label class="subtotal">Subtotal:&nbsp; &nbsp; $45</label><br>
-    <label class="subtotal">IVA 12%:&nbsp; &nbsp; $13</label>
     <hr class="line"><br>
     <h4 class="total-pago">
-        TOTAL:&nbsp; $240
-    </h4> -->
-    <!-- <button class="pagar-orden" (click)="buyTotalPrescription()">PAGAR ORDEN</button> -->
-    <button class="pagar-orden" (click)="buyTotalPrescription()">COMPRAR TODO</button>
+        TOTAL:&nbsp; {{ totalPay | currency }}
+    </h4>
+    <ion-button class="pagar-orden" (click)="pay()" [disabled]="totalPay == 0 || totalPay == undefined">PAGAR ORDEN
+    </ion-button>
+    <!-- <button class="pagar-orden" (click)="buyTotalPrescription()">COMPRAR TODO</button> -->
 </ion-footer>

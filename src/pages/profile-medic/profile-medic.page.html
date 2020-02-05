@@ -3,7 +3,6 @@
         <ion-back-button class="title-toolbar" slot="start">
         </ion-back-button>
         <ion-buttons slot="end">
-
             <ion-button (click)="returnHome()" slot="end">
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
             </ion-button>
@@ -12,13 +11,10 @@
     </ion-toolbar>
 </ion-header>
 
-
 <ion-content>
-
-    <img [src]="medic.fotoPerfil || '/assets/imgs/doctor.png'">
-
-
-
+    <div class="logo-circle">
+        <img class="border-effect1" [src]="medic.fotoPerfil || '/assets/imgs/doctor.png'" alt=" ">
+    </div>
     <button class="ver-agenda" id="previous" (click)="goToSchedule()">VER AGENDA</button>
     <div>
         <ion-grid>
@@ -27,7 +23,7 @@
                     <label class="medico">Médico</label>
                 </ion-col>
                 <ion-col size="12">
-                    <p class="name-medic" *ngIf="medic">DR. {{ medic.priNombre | uppercase }}&nbsp;{{ medic.priApellido | uppercase}}</p>
+                    <p class="name-medic" *ngIf="medic">Dr. {{ medic.priNombre }}&nbsp;{{ medic.priApellido }}</p>
                 </ion-col>
                 <ion-col>
                     <h3 class="especialidad" *ngIf="medic">{{ medic.especialidad.nombre }}</h3>
@@ -35,7 +31,6 @@
             </ion-row>
         </ion-grid>
     </div>
-
 
     <label class="info">Realiza consultas médicas diarias a estudiantes y personal en general.
         Diagnostica y prescribe tratamientos médicos a los pacientes.</label>
@@ -71,6 +66,4 @@
             </ion-slide>
         </ion-slides>
     </div>
-
-
 </ion-content>
