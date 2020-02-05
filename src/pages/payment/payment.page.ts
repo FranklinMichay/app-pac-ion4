@@ -46,9 +46,16 @@ export class PaymentPage implements OnInit {
   isCard = false;
   isContraEntrega = false;
   dataForView: any;
-  prescription:any;
-  total:  any;
+  prescription: any;
+  total: any;
   iva = 0.12;
+  horario = [
+    { name: 'mañana' },
+    { name: 'tarde' },
+  ]
+
+  horarioSelected: any;
+
 
   myForm: FormGroup;
   formData = new FormData();
@@ -156,12 +163,13 @@ export class PaymentPage implements OnInit {
 
     this.direccionForm = this.fb.group({
       callePrincipal: [this.user.callePrincipal, Validators.required],
-      calleSecundaria: [this.user.calleSecundaria,  Validators.required],
+      calleSecundaria: [this.user.calleSecundaria, Validators.required],
       ciudad: [this.user.ciudad, Validators.required],
       numCasa: [this.user.numCasa, Validators.required],
-      referencia: [this.user.referencia,Validators.required],
+      referencia: [this.user.referencia, Validators.required],
       longitud: [''],
       latitud: [''],
+      horarioEntrega: [''],
     });
 
     this.datosPersonalesFrom = this.fb.group({
@@ -245,19 +253,24 @@ export class PaymentPage implements OnInit {
     console.log(this.selectMetodo);
   }
 
-  updateActive(category){
+  updateActive(category) {
     console.log(category, 'categoria selccionada');
     this.active = category;
-    if(category.name === 'TARJETA') {
+    if (category.name === 'TARJETA') {
       this.isCard = true;
       this.isContraEntrega = false;
-    }else{
+    } else {
       this.isCard = false;
       this.isContraEntrega = true;
     }
   }
 
-  updateActiveCard(card){
+  updateShedule(horario) {
+    console.log(horario, 'horario seleccionado');
+    this.horarioSelected = horario;
+  }
+
+  updateActiveCard(card) {
     this.activeCard = card;
   }
 
@@ -277,52 +290,51 @@ export class PaymentPage implements OnInit {
     });
   }
 
-  save1(pago){
+  save1(pago) {
     console.log(pago, 'tipopago');
-    
   }
 
-  // saveDispatch(statePayment: any) {
-   
-  //   const details = [];
-  //   let estadoPagoV = '';
-  //   let formaPagoV = '';
-  //   this.direccionForm.controls['longitud'].setValue(this.lng);
-  //   this.direccionForm.controls['latitud'].setValue(this.lat);
-  //   if (statePayment === 'contraPedido') {
-  //     estadoPagoV = 'impago';
-  //     formaPagoV = 'contraPedido';
-  //   }
-  //   this.dataForView.map(function (element) {
-  //     let dataPush = { id: element._id, cantidad: parseInt(element.totalDispatch, 10) };
-  //     details.push(dataPush);
-  //   });
-  //   const dataForDispatch = {
-  //     idReceta: this.prescription.codiRece,
-  //     datosReceta: this.prescription._id,
-  //     detalles: JSON.stringify(details),
-  //     fecha: formatDate(new Date(), 'yyyy-MM-dd', 'en-US'),
-  //     totalDespacho: this.calculateTotalDispatch(),
-  //     //horarioEntrega: this.secondFormGroup.controls['horarioEntrega'].value,
-  //     datosFactura: this.datosPersonalesFrom.value,
-  //     datosEntrega: this.direccionForm.value,
-  //     estadoPago: estadoPagoV,
-  //     formaPago: formaPagoV
-  //   };
-  //   this.createDispatchService(dataForDispatch);
-  // }
+  saveDispatch(statePayment: any) {
 
-  // calculateTotalDispatch() {
-  //   const sub = this.total * this.iva;
-  //   const result = parseFloat(this.total) + sub;
-  //   return result.toFixed(2);
-  // }
+    const details = [];
+    let estadoPagoV = '';
+    let formaPagoV = '';
+    this.direccionForm.controls['longitud'].setValue(this.lng);
+    this.direccionForm.controls['latitud'].setValue(this.lat);
+    if (statePayment === 'contraPedido') {
+      estadoPagoV = 'impago';
+      formaPagoV = 'contraPedido';
+    }
+    this.dataForView.map(function (element) {
+      let dataPush = { id: element._id, cantidad: parseInt(element.totalDispatch, 10) };
+      details.push(dataPush);
+    });
+    const dataForDispatch = {
+      idReceta: this.prescription.codiRece,
+      datosReceta: this.prescription._id,
+      detalles: JSON.stringify(details),
+      fecha: formatDate(new Date(), 'yyyy-MM-dd', 'en-US'),
+      totalDespacho: this.calculateTotalDispatch(),
+      horarioEntrega: this.direccionForm.controls['horarioEntrega'].value,
+      datosFactura: this.datosPersonalesFrom.value,
+      datosEntrega: this.direccionForm.value,
+      estadoPago: estadoPagoV,
+      formaPago: formaPagoV
+    };
+    //this.createDispatchService(dataForDispatch);
+  }
+
+  calculateTotalDispatch() {
+    const sub = this.total * this.iva;
+    const result = parseFloat(this.total) + sub;
+    return result.toFixed(2);
+  }
 
   // createDispatchService(data: any) {
   //   this.mongo.createDispatch(data).subscribe((resultCreate: any) => {
   //     console.log('Despacvho Guardado');
   //     this.exportData(this.prescription);
-      
+
   //     // this.deleteCartPatient(this.userData.identificacion);
   //   });
   // }
@@ -384,14 +396,14 @@ export class PaymentPage implements OnInit {
   //   console.log(this.dataForView);
   //   this.controlPrescription = this.verifyRemaining();
   //   if (this.controlPrescription === true) {
-  //     this.updatePrescription({id: this.prescription._id, estadoReceta: 'finalizada'});
+  //     this.updatePrescription({ id: this.prescription._id, estadoReceta: 'finalizada' });
   //   } else {
   //     this.spinner.hide();
   //     this.toastSuccess('', 'Se ha generado correctamente tu compra');
   //     this.router.navigate(['receta']);
   //   }
   //   console.log(this.controlPrescription, 'BANDERA');
-    
+
   // }
 
   // verifyRemaining() {
@@ -409,11 +421,11 @@ export class PaymentPage implements OnInit {
   //   this.mongo.updatePrescriptionService(dataPrescription).subscribe((resultUpdate: any) => {
   //     console.log('RECETA ACTUALIZADA');
   //     this.deleteCartPatient(this.userData.identificacion);
-      
+
   //   });
   // }
 
-  // deleteCartPatient (dni: any) {
+  // deleteCartPatient(dni: any) {
   //   this.mongo.deleteCartPatientService(dni).subscribe((result: any) => {
   //     this.toastSuccess('', 'Se ha generado correctamente tu compra');
   //     this.spinner.hide();

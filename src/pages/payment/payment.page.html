@@ -13,10 +13,21 @@
 </div>
 
 <ion-content class="bg-form">
-
     <div *ngIf="isDireccion">
         <form [formGroup]="direccionForm">
             <ion-row class="row-data-fac">
+                <ion-row class="row-horario">
+                    <ion-col size="6" *ngFor="let h of horario">
+                        <div class="horario" [ngClass]="{'horario-a': horarioSelected === h}" (click)="updateShedule(h)">
+                            <ion-icon name="radio-button-on" class="select-button"></ion-icon>
+                            <p class="label"> {{h.name}}</p>
+
+                        </div>
+                    </ion-col>
+                </ion-row>
+
+
+
                 <ion-col size="12">
                     <ion-input class="mail" type="text" formControlName="callePrincipal" placeholder="Calle Principal">
                     </ion-input>
@@ -219,7 +230,8 @@
             <p class="text-consejo"> 1. Estar presente al horario establecido de entrega. </p>
             <p class="text-consejo"> 2. Tener el dinero a la mano cuando se entregue tu pedido. </p>
             <p class="text-consejo"> 3. Revisar si tu pedido esta completo. </p>
-            <p class="text-consejo"> 4. Confirmar que tu pedido ha sido entregado con exito para terminar la compra. </p>
+            <p class="text-consejo"> 4. Confirmar que tu pedido ha sido entregado con exito para terminar la compra.
+            </p>
         </div>
         <ion-row>
             <ion-col size="2 ">
@@ -257,8 +269,7 @@
         PROCEDER A MÉTODO DE PAGO</ion-button>
 
     <ion-button *ngIf="isPago" [disabled]="!cboxPoliticas" class="accept-edit " type="submit ">
-        PAGAR</ion-button>
-
-
+        PAGAR
+    </ion-button>
 
 </ion-footer>

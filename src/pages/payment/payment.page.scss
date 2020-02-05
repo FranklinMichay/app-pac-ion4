@@ -577,21 +577,82 @@ ion-card-content {
     }
 }
 
+.horario {
+    height: 40px;
+    border-radius: 23px;
+    background-color: #f6f6f6;
+    margin-left: 9%;
+    width: 156px;
+    margin-top: 8%;
+    .label {
+        width: 88px;
+        height: 22px;
+        font-family: OpenSans;
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.57;
+        letter-spacing: 0.22px;
+        color: black;
+        padding: 8px 0px 2px 8px;
+        margin-top: 0%;
+    }
+    .select-button {
+        width: 24.8px;
+        height: 26.8px;
+        color: #9db0b8;
+        position: absolute;
+        right: 2%;
+        top: 36%;
+    }
+}
+
+.horario-a {
+    height: 40px;
+    border-radius: 23px;
+    border: solid 2px #597bf0;
+    background-color: white;
+    margin-left: 9%;
+    width: 156px;
+    margin-top: 8%;
+    .label {
+        width: 88px;
+        height: 22px;
+        font-family: OpenSans;
+        font-size: 14px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.57;
+        letter-spacing: 0.22px;
+        color: black;
+        padding: 8px 0px 2px 8px;
+        margin-top: 0%;
+    }
+    .select-button {
+        width: 24.8px;
+        height: 26.8px;
+        color: #597bf0;
+        position: absolute;
+        right: 2%;
+        top: 36%;
+    }
+}
+
+.row-horario {
+    margin-top: -2%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
 .imgs-card {
     width: 56px;
     height: 34px;
     margin-top: 10%;
 }
 
-//slide pasos
-// $number-of-steps: 3;
-// $line-width: 2px;
-// $bullet-size: 2em;
-// $background-color: #4c69cc;
-// $foreground-color: #4c69cc;
-// $active-background-color: #4c69cc;
-// $active-foreground-color: #f6f6f6;
-// default
 $number-of-steps: 3;
 $line-width: 2px;
 $bullet-size: 2em;
@@ -794,4 +855,15 @@ li+li {
 
 ion-col {
     text-align: center;
+}
+
+.items-horario {
+    padding: 2px 0px 3px 22px;
+    //background-color: #f3f4f8;
+}
+
+.bg-items {
+    background-color: #f3f4f8;
+    border: solid 1px #dfe4e6;
+    color: #8c8c8c;
 }
