@@ -184,13 +184,13 @@ export class RegisterPage implements OnInit {
                 this.formData.set(key, value);
               }
             )
-            this.formData.append('user', data1[0].id);
+            this.formData.append('userPaciente', data1[0].id);
             this.formData.append('fechaNaci', fechaNac);
             this.formData.append('edad', String(edad));
             this.auth.registerPaciente(this.formData).subscribe(data2 => {
               this.auth.getInfoPac(data1[0].id).subscribe(data3 => {
 
-                localStorage.setItem('user', JSON.stringify(data3[0]));
+                localStorage.setItem('userPaciente', JSON.stringify(data3[0]));
                 this.slideOneForm.reset();
                 this.slideTwoForm.reset();
                 this.router.navigate(['home']);

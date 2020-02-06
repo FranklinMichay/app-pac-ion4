@@ -58,7 +58,7 @@
                                 DR: {{ appointment.datosMed.priNombre | uppercase}} {{ appointment.datosMed.priApellido | uppercase}}
                             </ion-col>
                             <ion-col class="codReceta" size="4">
-                                COD#:{{ appointment.codRece }}
+                                COD#:{{ appointment.codiRece }}
                             </ion-col>
                         </ion-row>
                         <ion-row>
@@ -80,10 +80,10 @@
                 </ion-row>
             </ion-grid>
         </div>
-        <!-- <div *ngIf="newAppointment.length < = 0 " class="empty-container ">
-        <img src="assets/imgs/no-datos.png" class="empty-state ">
-        <h3 class="text-center ">Sin Contenido</h3>
-    </div> -->
+        <div *ngIf="!newAppointment" class="empty-container ">
+            <img src="assets/imgs/no-datos.png" class="empty-state ">
+            <h3 class="text-center ">Sin Contenido</h3>
+        </div>
     </div>
 
 
@@ -100,7 +100,7 @@
                                 DR: {{ appointment.datosMed.priNombre | uppercase}} {{ appointment.datosMed.priApellido | uppercase}}
                             </ion-col>
                             <ion-col class="codReceta" size="4">
-                                COD#:{{ appointment.codRece }}
+                                COD#:{{ appointment.codiRece }}
                             </ion-col>
                         </ion-row>
                         <ion-row>
@@ -122,10 +122,10 @@
                 </ion-row>
             </ion-grid>
         </div>
-        <!-- <div *ngIf="finishedAppointment.length<=0 " class="empty-container ">
-        <img src="assets/imgs/no-datos.png" class="empty-state ">
-        <h3 class="text-center ">Sin Contenido</h3>
-    </div> -->
+        <div *ngIf="!finishedAppointment" class="empty-container ">
+            <img src="assets/imgs/no-datos.png" class="empty-state ">
+            <h3 class="text-center ">Sin Contenido</h3>
+        </div>
     </div>
 
 

@@ -32,7 +32,7 @@ export class GetMeetingPage implements OnInit {
     console.log(navParams.get('hour'), 'DATOS EN EL MODAL');
     this.dataHour = navParams.get('hour');
     // console.log(hor, 'hora lista');
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('userPaciente'));
     console.log(user, 'user from local storage');
     this.idPaciente = user ? user.id : 1;
     console.log(this.idPaciente, 'id user ');

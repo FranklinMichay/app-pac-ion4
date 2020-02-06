@@ -16,6 +16,8 @@
     <div *ngIf="isDireccion">
         <form [formGroup]="direccionForm">
             <ion-row class="row-data-fac">
+                <h4 class="title-entrega">Elige un horario de entrega</h4>
+
                 <ion-row class="row-horario">
                     <ion-col size="6" *ngFor="let h of horario">
                         <div class="horario" [ngClass]="{'horario-a': horarioSelected === h}" (click)="updateShedule(h)">
@@ -25,9 +27,6 @@
                         </div>
                     </ion-col>
                 </ion-row>
-
-
-
                 <ion-col size="12">
                     <ion-input class="mail" type="text" formControlName="callePrincipal" placeholder="Calle Principal">
                     </ion-input>
@@ -86,6 +85,7 @@
 
         <form [formGroup]="datosPersonalesFrom">
             <ion-row class="row-data-fac">
+
                 <ion-col size="12">
                     <ion-input class="mail" type="text" formControlName="nombres" placeholder="Nombre">
                     </ion-input>
@@ -262,13 +262,13 @@
 </ion-content>
 <ion-footer class="bg-footer ">
 
-    <ion-button *ngIf="isDireccion " class="accept-edit " type="submit " (click)="goData() " [disabled]="direccionForm.invalid ">
+    <ion-button *ngIf="isDireccion" class="accept-edit " type="submit" (click)="goData() " [disabled]="direccionForm.invalid || !sel">
         PROCEDER A FACTURACIÓN</ion-button>
 
     <ion-button *ngIf="isDatosPersonales " class="accept-edit " type="submit " (click)="goDatos() " [disabled]="datosPersonalesFrom.invalid ">
         PROCEDER A MÉTODO DE PAGO</ion-button>
 
-    <ion-button *ngIf="isPago" [disabled]="!cboxPoliticas" class="accept-edit " type="submit ">
+    <ion-button *ngIf="isPago" [disabled]="!cboxPoliticas" class="accept-edit " type="submit " (click)="saveDispatch()">
         PAGAR
     </ion-button>
 

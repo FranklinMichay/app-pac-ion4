@@ -70,14 +70,14 @@ export class SchedulePage implements OnInit {
   }
 
   ngOnInit() {
-    this.userData = JSON.parse(localStorage.getItem('user'));
+    this.userData = JSON.parse(localStorage.getItem('userPaciente'));
     console.log(this.userData, 'datos del paciente');
     this.currentYear = this.today.getFullYear();
     this.monthLabel = Info.months[this.today.getMonth()];
     this.currentMonth = this.today.getMonth();
     this.showCalendar(this.currentYear, this.currentMonth);
-    const user: any = JSON.parse(localStorage.getItem('user'));
-    this.pacienteId = this.userData.user.id
+    const user: any = JSON.parse(localStorage.getItem('userPaciente'));
+    this.pacienteId = this.userData.user.id;
 
     const year = this.currentYear;
     const month = this.currentMonth;

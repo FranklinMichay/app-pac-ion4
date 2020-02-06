@@ -5,8 +5,8 @@ import { IonSlides, ToastController } from '@ionic/angular';
 // import * as $ from '@types/jquery';
 // import * as postscribe from 'postscribe';
 import { UbicacionService } from '../../app/services/ubicacion.service';
-declare var Paymentez: any;
-declare var PaymentezCheckout: any;
+// declare var Paymentez: any;
+// declare var PaymentezCheckout: any;
 import * as mapboxgl from 'mapbox-gl';
 import { environment } from 'src/environments/environment';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
@@ -17,7 +17,8 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { Options } from '../../shared/mock/option-pay';
 import { formatDate } from '@angular/common';
-
+import * as _ from 'lodash';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-payment',
@@ -49,12 +50,23 @@ export class PaymentPage implements OnInit {
   prescription: any;
   total: any;
   iva = 0.12;
+  data: any;
+  listDetails: any;
+  idForRequest: any;
+  dispatchs: any;
+  addDetails: any;
+  listProducts: any;
+  controlPrescription: any;
+  userData: any;
+
   horario = [
     { name: 'mañana' },
     { name: 'tarde' },
   ]
 
   horarioSelected: any;
+  sel =  false;
+  
 
 
   myForm: FormGroup;
@@ -88,17 +100,29 @@ export class PaymentPage implements OnInit {
     private router: Router,
     public toastController: ToastController,
     private auth: AuthService,
+    private loadingCtrl: LoadingService,
   ) {
     //this.isDatosPersonales = true;
     this.options = Options.options;
     this.cards = Options.cards;
     this.isDireccion = true;
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.user = JSON.parse(localStorage.getItem('userPaciente'));
+
+    this.dataForView = this.dataService.dataForPay;
+    this.prescription = this.dataService.dataCompra;
+    console.log(this.dataForView, 'DATA PARA DESPACHAR');
+    console.log(this.prescription, 'RECETA PARA DESPACHAR');
 
   }
 
   ngOnInit() {
-
+    this.total = this.dataForView.reduce((
+      acc,
+      obj,
+    ) => acc + (obj.totalDispatch * obj.price),
+      0);
+    this.total = parseFloat(this.total).toFixed(2);
+    this.calculateTotalDispatch();
     this.initForms();
   }
 
@@ -169,7 +193,7 @@ export class PaymentPage implements OnInit {
       referencia: [this.user.referencia, Validators.required],
       longitud: [''],
       latitud: [''],
-      horarioEntrega: [''],
+      //horarioEntrega: ['', Validators.required],
     });
 
     this.datosPersonalesFrom = this.fb.group({
@@ -254,9 +278,9 @@ export class PaymentPage implements OnInit {
   }
 
   updateActive(category) {
-    console.log(category, 'categoria selccionada');
+    console.log(category.tipo, 'categoria selccionada');
     this.active = category;
-    if (category.name === 'TARJETA') {
+    if (category.tipo === 'tarjeta') {
       this.isCard = true;
       this.isContraEntrega = false;
     } else {
@@ -266,8 +290,9 @@ export class PaymentPage implements OnInit {
   }
 
   updateShedule(horario) {
-    console.log(horario, 'horario seleccionado');
+    console.log(horario.name, 'horario seleccionado');
     this.horarioSelected = horario;
+    this.sel = true;
   }
 
   updateActiveCard(card) {
@@ -294,14 +319,13 @@ export class PaymentPage implements OnInit {
     console.log(pago, 'tipopago');
   }
 
-  saveDispatch(statePayment: any) {
-
+  saveDispatch() {
     const details = [];
     let estadoPagoV = '';
     let formaPagoV = '';
     this.direccionForm.controls['longitud'].setValue(this.lng);
     this.direccionForm.controls['latitud'].setValue(this.lat);
-    if (statePayment === 'contraPedido') {
+    if (this.active.tipo === 'contraPedido') {
       estadoPagoV = 'impago';
       formaPagoV = 'contraPedido';
     }
@@ -311,17 +335,17 @@ export class PaymentPage implements OnInit {
     });
     const dataForDispatch = {
       idReceta: this.prescription.codiRece,
-      datosReceta: this.prescription._id,
+      datosReceta: this.prescription._idReceta,
       detalles: JSON.stringify(details),
       fecha: formatDate(new Date(), 'yyyy-MM-dd', 'en-US'),
       totalDespacho: this.calculateTotalDispatch(),
-      horarioEntrega: this.direccionForm.controls['horarioEntrega'].value,
+      horarioEntrega: this.horarioSelected.name,
       datosFactura: this.datosPersonalesFrom.value,
       datosEntrega: this.direccionForm.value,
       estadoPago: estadoPagoV,
       formaPago: formaPagoV
     };
-    //this.createDispatchService(dataForDispatch);
+    this.createDispatchService(dataForDispatch);
   }
 
   calculateTotalDispatch() {
@@ -330,119 +354,167 @@ export class PaymentPage implements OnInit {
     return result.toFixed(2);
   }
 
-  // createDispatchService(data: any) {
-  //   this.mongo.createDispatch(data).subscribe((resultCreate: any) => {
-  //     console.log('Despacvho Guardado');
-  //     this.exportData(this.prescription);
+  //SE CREA DESPACHO
+  createDispatchService(data: any) {
+    this.auth.createDispatch(data).subscribe((resultCreate: any) => {
+      console.log('DESPACHO GUARDADO');
+      this.exportData(this.prescription);
 
-  //     // this.deleteCartPatient(this.userData.identificacion);
-  //   });
-  // }
+      // this.deleteCartPatient(this.userData.identificacion);
+    });
+  }
 
-  // exportData(event) {
-  //   this.data = { index: null, product: '', totalPrescription: '', remaining: null, totalDispatch: 0, price: null, subtotal: null };
-  //   this.dataForView = [];
-  //   this.total = null;
-  //   this.prescription = event;
-  //   this.listDetails = event.detalles;
-  //   this.idForRequest = this.removeSquareBracket(_.map(this.listDetails, 'id'));
-  //   this.getDispatchService(event.codiRece);
-  // }
+  exportData(event) {
+    console.log(event, 'RECETA');
+    
+    this.data = { index: null, product: '', totalPrescription: '', remaining: null, totalDispatch: 0, price: null, subtotal: null };
+    this.dataForView = [];
+    this.total = null;
+    this.prescription = event;
+    this.listDetails = event.detalles;
+    this.idForRequest = this.removeSquareBracket(_.map(this.listDetails, 'id'));
+    this.getDispatchService(event.codiRece);
+  }
 
-  // getDispatchService(id: any) {
-  //   this.mongo.getDispatchById(id).subscribe((resultDispatch: any) => {
-  //     console.log(resultDispatch, 'DESPACHOS');
-  //     this.dispatchs = resultDispatch;
-  //     this.addDetails = this.addDispatchPrescription();
-  //     this.getInfoProductByListId(this.idForRequest);
-  //   });
-  // }
+   removeSquareBracket(array: []) {
+    let resultRemove = '';
+    array.map(function (elememnt: any) {
+      resultRemove += `${elememnt},`;
+    });
+    return (resultRemove.slice(0, (resultRemove.length - 1)));
+  }
 
-  // getInfoProductByListId(ids: any) {
-  //   this.mongo.getInfoProducts(ids).subscribe((resultGetInfoProducts: any) => {
-  //     console.log(resultGetInfoProducts, 'PORDUCOTS');
-  //     this.listProducts = resultGetInfoProducts;
-  //     this.processDataInfoProducts();
-  //   });
-  // }
+  getDispatchService(id: any) {
+    this.auth.getDispatchById(id).subscribe((resultDispatch: any) => {
+      console.log(resultDispatch, 'DESPACHOS');
+      this.dispatchs = resultDispatch;
+      this.addDetails = this.addDispatchPrescription();
+      this.getInfoProductByListId(this.idForRequest);
+    });
+  }
 
-  // processDataInfoProducts() {
-  //   this.dataForView = [];
-  //   const quantityOfProducts = _.map(this.listDetails, 'cantidad');
-  //   const priceProduct = _.map(this.listProducts, 'precioDistribucion');
-  //   console.log(this.listProducts);
+  addDispatchPrescription() {
+    let resultAdd = null;
+    let allDetails = [];
+    this.dispatchs.map((elementMap: any) => {
+      console.log(this.auth.convertStringToArrayOfObjects(elementMap.detalles));
+      allDetails = this.concatDetailsDispatch(this.auth.convertStringToArrayOfObjects(elementMap.detalles), allDetails);
+    });
+    resultAdd = this.addListById(allDetails);
+    return resultAdd;
+  }
 
-  //   this.data = { index: null, product: '', totalPrescription: '', remaining: null, totalDispatch: 0, price: null, subtotal: null };
-  //   let i = 0;
-  //   for (const elemnt of this.listProducts) {
-  //     this.data.index = i;
-  //     this.data._id = elemnt._id;
-  //     this.data.product = this.listProducts[i].codigoProducto.nombre;
-  //     this.data.presentation = this.listProducts[i].codigoProducto.presentacion;
-  //     this.data.concentration = this.listProducts[i].codigoProducto.concentracion;
-  //     this.data.pharmacyForm = this.listProducts[i].codigoProducto.formaFarmaceutica;
-  //     this.data.totalPrescription = quantityOfProducts[i];
-  //     let quant = this.extractDataById(this.addDetails, elemnt._id);
-  //     if (quant.length === 0) {
-  //       this.data.remaining = quantityOfProducts[i];
-  //     } else {
-  //       this.data.remaining = (quantityOfProducts[i] - quant[0].cantidad);
-  //     }
-  //     this.data.price = priceProduct[i];
-  //     this.dataForView.push(this.data);
-  //     this.data = { index: null, product: '', totalPrescription: '', remaining: null, totalDispatch: 0, price: null, subtotal: null };
-  //     i++;
-  //   }
-  //   console.log(this.dataForView);
-  //   this.controlPrescription = this.verifyRemaining();
-  //   if (this.controlPrescription === true) {
-  //     this.updatePrescription({ id: this.prescription._id, estadoReceta: 'finalizada' });
-  //   } else {
-  //     this.spinner.hide();
-  //     this.toastSuccess('', 'Se ha generado correctamente tu compra');
-  //     this.router.navigate(['receta']);
-  //   }
-  //   console.log(this.controlPrescription, 'BANDERA');
+  concatDetailsDispatch(list1: any, list2: any) {
+    return _.concat(list2, list1);
+  }
 
-  // }
+  addListById(data: any) {
+    const summary = _.chain(data).reduce(function (acc, i) {
+      if (i.cantidad > 0) {
+        acc[i.id] = (acc[i.id] || 0) + i.cantidad;
+      }
+      return acc;
+    }, {}).toPairs().map(function (x) {
+      var tmp: any = {};
+      tmp.id = x[0];
+      tmp.cantidad = x[1];
+      return tmp;
+    }).value();
+    return summary;
+  }
 
-  // verifyRemaining() {
-  //   let band = true;
-  //   this.dataForView.map((object: any) => {
-  //     if (object.remaining > 0) {
-  //       band = false;
-  //     }
-  //   });
+  extractDataById(data, id) {
+    return _.filter(data, function (ob) { return ob.id === id; });
+  }
+ 
 
-  //   return band;
-  // }
+  getInfoProductByListId(ids: any) {
+    this.auth.getInfoProducts(ids).subscribe((resultGetInfoProducts: any) => {
+      console.log(resultGetInfoProducts, 'PORDUCOTS');
+      this.listProducts = resultGetInfoProducts;
+      this.processDataInfoProducts();
+    });
+  }
 
-  // updatePrescription(dataPrescription: any) {
-  //   this.mongo.updatePrescriptionService(dataPrescription).subscribe((resultUpdate: any) => {
-  //     console.log('RECETA ACTUALIZADA');
-  //     this.deleteCartPatient(this.userData.identificacion);
+  processDataInfoProducts() {
+    this.dataForView = [];
+    const quantityOfProducts = _.map(this.listDetails, 'cantidad');
+    const priceProduct = _.map(this.listProducts, 'precioDistribucion');
+    console.log(this.listProducts);
 
-  //   });
-  // }
+    this.data = { index: null, product: '', totalPrescription: '', remaining: null, totalDispatch: 0, price: null, subtotal: null };
+    let i = 0;
+    for (const elemnt of this.listProducts) {
+      this.data.index = i;
+      this.data._id = elemnt._id;
+      this.data.product = this.listProducts[i].codigoProducto.nombre;
+      this.data.presentation = this.listProducts[i].codigoProducto.presentacion;
+      this.data.concentration = this.listProducts[i].codigoProducto.concentracion;
+      this.data.pharmacyForm = this.listProducts[i].codigoProducto.formaFarmaceutica;
+      this.data.totalPrescription = quantityOfProducts[i];
+      let quant = this.extractDataById(this.addDetails, elemnt._id);
+      if (quant.length === 0) {
+        this.data.remaining = quantityOfProducts[i];
+      } else {
+        this.data.remaining = (quantityOfProducts[i] - quant[0].cantidad);
+      }
+      this.data.price = priceProduct[i];
+      this.dataForView.push(this.data);
+      this.data = { index: null, product: '', totalPrescription: '', remaining: null, totalDispatch: 0, price: null, subtotal: null };
+      i++;
+    }
+    console.log(this.dataForView);
+    this.controlPrescription = this.verifyRemaining();
+    if (this.controlPrescription === true) {
+      this.updatePrescription({ id: this.prescription._id, estadoReceta: 'finalizada' });
+    } else {
+      this.presentToastCompra();
+      this.router.navigate(['prescription-detail']);
+    }
+    console.log(this.controlPrescription, 'BANDERA');
 
-  // deleteCartPatient(dni: any) {
-  //   this.mongo.deleteCartPatientService(dni).subscribe((result: any) => {
-  //     this.toastSuccess('', 'Se ha generado correctamente tu compra');
-  //     this.spinner.hide();
-  //     this.router.navigate(['receta']);
-  //   });
-  // }
+  }
+
+  verifyRemaining() {
+    let band = true;
+    this.dataForView.map((object: any) => {
+      if (object.remaining > 0) {
+        band = false;
+      }
+    });
+
+    return band;
+  }
+
+  updatePrescription(dataPrescription: any) {
+    this.auth.updatePrescriptionService(dataPrescription).subscribe((resultUpdate: any) => {
+      console.log('RECETA ACTUALIZADA');
+      this.deleteCartPatient(this.user.identificacion);
+
+    });
+  }
+
+  deleteCartPatient(dni: any) {
+    this.auth.deleteCartPatientService(dni).subscribe((result: any) => {
+      this.presentToastCompra();
+      //this.loadingCtrl.presentLoading()
+      this.router.navigate(['prescription-detail']);
+    });
+  }
 
   // extractDataById(data, id) {
   //   return _.filter(data, function (ob) { return ob.id === id; });
   // }
-  // removeSquareBracket(array: []) {
-  //   let resultRemove = '';
-  //   array.map(function (elememnt: any) {
-  //     resultRemove += `${elememnt},`;
-  //   });
-  //   return (resultRemove.slice(0, (resultRemove.length - 1)));
-  // }
+
+  async presentToastCompra() {
+    const toast = await this.toastController.create({
+      message: 'Compra exitosa',
+      duration: 2000,
+      color: 'dark'
+    });
+    toast.present();
+  }
+ 
 
 }
 

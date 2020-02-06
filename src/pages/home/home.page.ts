@@ -82,12 +82,12 @@ export class HomePage implements OnInit {
     this.price = this.route.snapshot.params['price'];
 
     this.data = Info.categories;
-    this.dataUser = JSON.parse(localStorage.getItem('user'));
+    this.dataUser = JSON.parse(localStorage.getItem('userPaciente'));
     this.imageUrl = this.dataUser.fotoPerfil;
     this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
     this.url = environment.url;
-    const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user, 'user');
+    const user = JSON.parse(localStorage.getItem('userPaciente'));
+    console.log(user, 'userPaciente');
     const idPaciente = user ? user.id : 1;
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
@@ -115,12 +115,12 @@ export class HomePage implements OnInit {
 
   ngOnInit() {
     this.data = Info.categories;
-    this.dataUser = JSON.parse(localStorage.getItem('user'));
+    this.dataUser = JSON.parse(localStorage.getItem('userPaciente'));
     this.imageUrl = this.dataUser.fotoPerfil;
     this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
     this.url = environment.url;
-    const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user, 'user');
+    const user = JSON.parse(localStorage.getItem('userPaciente'));
+    console.log(user, 'userPaciente');
     const idPaciente = user ? user.id : 1;
     
     let now = new Date();
@@ -219,7 +219,7 @@ export class HomePage implements OnInit {
   }
 
   getDataPac() {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(localStorage.getItem('userPaciente'));
     const idPaciente = user ? user.id : null;
     this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
       console.log(cita, 'citas para home');
@@ -259,7 +259,7 @@ export class HomePage implements OnInit {
   logout() {
     this.connection.unsubscribe();
     this.auth.removeListener('calendar');
-    localStorage.removeItem('user');
+    localStorage.removeItem('userPaciente');
     this.unsub();
     this.router.navigate(['login']);
   }

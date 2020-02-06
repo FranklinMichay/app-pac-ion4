@@ -96,7 +96,7 @@ export class SearchMedicPage implements OnInit {
     this.options.placeholder = 'Ingrese parámetro para la búsqueda';
     this.options.searchIcon = 'assets/icons/add-user.svg';
     this.options.type = 'search';
-    this.dataPaciente = JSON.parse(localStorage.getItem('user'));
+    this.dataPaciente = JSON.parse(localStorage.getItem('userPaciente'));
     this.medicsByCity();
   }
 

@@ -83,8 +83,8 @@ export class PrescriptionDetailPage implements OnInit {
     this.day = this.today.getDate();
     const index = this.today.getDay();
     this.setWeek(this.day, index);
-    const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user, 'user');
+    const user = JSON.parse(localStorage.getItem('userPaciente'));
+    console.log(user, 'userPaciente');
     this.idPaciente = user ? user.id : 1;
     console.log(this.idPaciente, 'id del paciente')
     console.log(this.day, 'dia para presentar');
@@ -93,7 +93,7 @@ export class PrescriptionDetailPage implements OnInit {
 
   ngOnInit() {
     //this.slider.slideTo(1, 0, false);
-    this.dataUser = JSON.parse(localStorage.getItem('user'));
+    this.dataUser = JSON.parse(localStorage.getItem('userPaciente'));
     this.dni = this.dataUser.identificacion;
     console.log(this.dni, 'cedula paciente');
     const currentDate = this.getCurrentDate(this.day);
@@ -120,7 +120,7 @@ export class PrescriptionDetailPage implements OnInit {
           detalles: this.dataReceta,
           indicaciones: this.dataIndicaciones,
           fecha: recetas[index].fecha,
-          codRece: recetas[index].codiRece,
+          codiRece: recetas[index].codiRece,
         }
         this.dataMedic.push(datos)
       }
@@ -150,8 +150,9 @@ export class PrescriptionDetailPage implements OnInit {
           detalles: this.dataReceta,
           indicaciones: this.dataIndicaciones,
           fecha: recetas[index].fecha,
-          codRece: recetas[index].codiRece,
+          codiRece: recetas[index].codiRece,
           estadoReceta: recetas[index].estadoReceta,
+          _id : recetas[index]._id,
 
         }
         this.dataMedic.push(datos)

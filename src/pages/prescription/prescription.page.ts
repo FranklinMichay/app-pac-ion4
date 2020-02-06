@@ -47,7 +47,7 @@ export class PrescriptionPage implements OnInit {
   ctrlView: boolean = true;
   count: any;
   totalPay: any;
-  valIva:any;
+  valIva: any;
 
 
   constructor(
@@ -61,8 +61,8 @@ export class PrescriptionPage implements OnInit {
     private route: ActivatedRoute,
     private dataService: DataService,
     public toastController: ToastController
-  ) { 
-    
+  ) {
+
   }
 
   ngOnInit() {
@@ -73,10 +73,10 @@ export class PrescriptionPage implements OnInit {
   }
 
   goCart() {
-    var dataCart =  _.filter(this.dataForView, item => item.totalDispatch > 0);
-    if (dataCart.length > 0){
+    var dataCart = _.filter(this.dataForView, item => item.totalDispatch > 0);
+    if (dataCart.length > 0) {
       this.router.navigate(['cart']);
-    }else{
+    } else {
       this.presentToast();
     }
   }
@@ -93,7 +93,7 @@ export class PrescriptionPage implements OnInit {
     //this.count = 0;
     this.buyTotalPrescription();
     console.log('metodosss');
-    
+
   }
 
   getMax() {
@@ -258,7 +258,7 @@ export class PrescriptionPage implements OnInit {
     if (this.dataForView) {
       this.dataService.cart = this.dataForView;
       console.log(this.dataService.cart, 'datos en service');
-      var contador = _.filter(this.dataForView, item => item.totalDispatch > 0); 
+      var contador = _.filter(this.dataForView, item => item.totalDispatch > 0);
       this.count = contador.length;
       console.log(this.count, 'contador');
     }
@@ -292,6 +292,8 @@ export class PrescriptionPage implements OnInit {
       this.data = { index: null, product: '', totalPrescription: '', remaining: null, totalDispatch: 0, price: null, subtotal: null };
       i++;
     }
+
+    this.dataForView = _.filter(this.dataForView, item => item.remaining !== 0);
     console.log(this.dataForView, 'DATA DESPACHO PROCESADO');
 
     this.verifyRemaining();
@@ -395,7 +397,7 @@ export class PrescriptionPage implements OnInit {
     return result.toFixed(2);
   }
 
-  add(index){
+  add(index) {
     this.dataForView[index].totalDispatch = this.dataForView[index].totalDispatch + 1;
     if (this.dataForView[index].totalDispatch < 0) {
       this.dataForView[index].totalDispatch = 0;
@@ -437,7 +439,7 @@ export class PrescriptionPage implements OnInit {
   }
 
   deleteItem(id) {
-    this.dataForView = _.remove(this.dataForView, function(n) {
+    this.dataForView = _.remove(this.dataForView, function (n) {
       return n._id !== id;
 
     });
@@ -456,6 +458,6 @@ export class PrescriptionPage implements OnInit {
     this.router.navigate(['payment']);
   }
 
-  
+
 
 }

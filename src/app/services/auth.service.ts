@@ -35,7 +35,7 @@ export class AuthService {
     private toast: ToastService
   ) {
     this.initSocketIo();
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.user = JSON.parse(localStorage.getItem('userPaciente'));
     if (this.user) {
       this.idPaciente = this.user.id;
     }
@@ -45,7 +45,7 @@ export class AuthService {
   }
 
   initSocketIo() {
-    const user = JSON.parse(localStorage.getItem('user')) || {};
+    const user = JSON.parse(localStorage.getItem('userPaciente')) || {};
     // ? JSON.parse(localStorage.getItem('user')) : {};
 
     this.socket = socketIo(this.urlSocket);
@@ -227,7 +227,7 @@ export class AuthService {
   }
 
   getDataAlerts() {
-    this.user = JSON.parse(localStorage.getItem('user'));
+    this.user = JSON.parse(localStorage.getItem('userPaciente'));
     if (this.user) {
       this.idPaciente = this.user.id;
     }
@@ -390,6 +390,7 @@ export class AuthService {
     return this.httpClient.get<any>(this.url + 'historial/getData?model=HistorialMedico&params=paciente_id=' + idPaciente);
   }
 
+  //CONSULTAS MONGO
   getPrescription(dni): Observable<any> {
     return this.httpClient.get<any>(this.urlMongoDB + 'receta/searchRecePac/' + dni);
   }
@@ -418,11 +419,7 @@ export class AuthService {
     return this.httpClient.post<any>(`${this.urlMongoDB}despacho/createCart`, data);
   }
 
-  convertStringToArrayOfObjects(dataToConvert: any) {
-    let newJson = dataToConvert.replace(/([a-zA-Z0-9]+?):/g, '"$1":');
-    newJson = newJson.replace(/'/g, '"');
-    return JSON.parse(newJson);
-  }
+  
 
   getDesp(ids: any): Observable<any> {
     return this.httpClient.get<any>(this.urlMongoDB + 'despacho/searchDespa/' + ids);
@@ -434,14 +431,27 @@ export class AuthService {
 
 
   createDispatch(data: any): Observable<any> {
+    console.log(data, 'data para guardar en service');
     return this.httpClient.post<any>(`${this.urlMongoDB}despacho/crearDespa`, data);
   }
 
+  getDispatchById(id: any): Observable<any> {
+    console.log(id, 'id consulta');
+    
+    return this.httpClient.get<any>(`${this.urlMongoDB}despacho/searchDespa/${id}`);
+  }
 
-  // despachos(ids: any): Observable<any> {
-  //   return this.httpClient.get<any>(this.urlMongoDB + 'despacho/searchDespa/' + ids);
-  // }
+  convertStringToArrayOfObjects(dataToConvert: any) {
+    let newJson = dataToConvert.replace(/([a-zA-Z0-9]+?):/g, '"$1":');
+    newJson = newJson.replace(/'/g, '"');
+    return JSON.parse(newJson);
+  }
 
+  updatePrescriptionService(data: any): Observable<any> {
+    return this.httpClient.put<any>(`${this.urlMongoDB}receta/updateReceta`, data);
+  }
 
-
+  deleteCartPatientService(dni: any): Observable<any> {
+    return this.httpClient.delete<any>(`${this.urlMongoDB}despacho/deleteCart/${dni}`);
+  }
 }

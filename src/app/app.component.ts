@@ -40,7 +40,7 @@ export class AppComponent {
       // this.backgroundMode.on('activate').subscribe(() => {
       //   console.log('activated')
       // })
-      this.backgroundMode.disableWebViewOptimizations();
+      //this.backgroundMode.disableWebViewOptimizations();
 
       // this.fcm.getToken().then(token => {
       //   console.log(token, 'FIREBASE');

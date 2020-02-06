@@ -47,6 +47,9 @@
                     <ion-row class="row-price">
                         <h3 class="form-prod"> Cantidad recetada: {{producto.totalPrescription }}</h3>
                     </ion-row>
+                    <ion-row *ngIf="producto.remaining > 0" class="row-remaining">
+                        <h3 class="form-prod"> Cantidad faltante: {{producto.remaining }}</h3>
+                    </ion-row>
                     <hr class="line-m"><br>
                     <div class="content-price">
                         <ion-row>
@@ -69,9 +72,7 @@
                     </div>
                 </ion-label>
             </div>
-
         </ion-col>
-
     </ion-row>
 </ion-content>
 <ion-footer class="bg-footer">

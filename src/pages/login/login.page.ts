@@ -8,7 +8,7 @@ import { MenuController, AlertController } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ToastService } from '../../../src/app/services/toast.service'
 import { LoadingService } from '../../app/services/loading.service';
-
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-login',
@@ -42,18 +42,21 @@ export class LoginPage implements OnInit {
     private auth: AuthService,
     private toast: ToastService,
     private loadingCtrl: LoadingService,
+    public toastController: ToastController
   ) {
     this.form_login = this.fb.group({
       usuario: ['', [Validators.email, Validators.required]],
       // password: ['', [Validators.pattern(/^[a-z0-9_-]{6,18}$/)]],
       password: ['', [Validators.required]]
     });
+
+    if (localStorage.getItem('userPaciente')) {
+      this.router.navigate(['home']);
+    }
   }
 
   ngOnInit() {
-    if (localStorage.getItem('user')) {
-      this.router.navigate(['home']);
-    }
+
   }
 
   public onLoginHandler() {
@@ -112,11 +115,19 @@ export class LoginPage implements OnInit {
   getInfoPaciente(data) {
     this.loadingCtrl.presentLoading();
     this.auth.getInfoPaciente(data).subscribe(dataPaciente => {
-      console.log('DATOS PACIENTE', dataPaciente[0]);
-      localStorage.setItem('user', JSON.stringify(dataPaciente[0]));
-      this.form_login.reset();
-      this.loadingCtrl.dismiss();
-      this.router.navigate(['home']);
+
+      if (dataPaciente.length > 0) {
+        if (dataPaciente[0].tipoUsu === 'paciente') {
+          console.log('DATOS PACIENTE', dataPaciente[0]);
+          localStorage.setItem('userPaciente', JSON.stringify(dataPaciente[0]));
+          this.form_login.reset();
+          this.loadingCtrl.dismiss();
+          this.router.navigate(['home']);
+        }
+      } else {
+        this.presentToast();
+        this.loadingCtrl.dismiss();
+      }
 
     })
   }
@@ -132,6 +143,15 @@ export class LoginPage implements OnInit {
 
   goToForgotPass() {
     this.router.navigate(['forgot-password']);
+  }
+
+  async presentToast() {
+    const toast = await this.toastController.create({
+      message: 'Usuario no registrado',
+      duration: 2000,
+      color: 'dark'
+    });
+    toast.present();
   }
 
 

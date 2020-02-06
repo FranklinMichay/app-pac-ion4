@@ -1,7 +1,7 @@
 export const Options = {
 options: [
-    { name: 'TARJETA', logo: 'assets/icon/medic.svg', text: 'Tarjeta de crédito: Visa, MasterCard', clase: 'p1' },
-    { name: 'CONTRAENTREGA', logo: 'assets/icon/citas.svg', text: 'Pago al recibir la compra', clase: 'p2' },
+    { name: 'TARJETA', logo: 'assets/icon/medic.svg', text: 'Tarjeta de crédito: Visa, MasterCard', tipo: 'tarjeta' },
+    { name: 'CONTRAENTREGA', logo: 'assets/icon/citas.svg', text: 'Pago al recibir la compra', tipo: 'contraPedido' },
   ],
 
   cards: [

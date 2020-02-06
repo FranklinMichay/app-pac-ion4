@@ -41,7 +41,7 @@ export class DetailMedicPage implements OnInit {
     console.log(this.posponed,'postponed');
     
     console.log(this.medic, this.state, this.posponed, 'data desde meetings');
-    const idUser = JSON.parse(localStorage.getItem('user'));
+    const idUser = JSON.parse(localStorage.getItem('userPaciente'));
     this.idPaciente = idUser.id;
     console.log(this.idPaciente, 'ID del paciente');
     this.getDataNews();
