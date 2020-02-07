@@ -233,7 +233,6 @@ export class AuthService {
     }
     const observable = new Observable(observer => {
       this.socket.on('calendar', async (data: any) => {
-
         if (data.estadoCita !== 'hold') {
           if (data.paciente.id === this.idPaciente || data.paciente === this.idPaciente) {
             console.log(data, 'DATA SOCKET ALERTA');
@@ -409,7 +408,6 @@ export class AuthService {
 
   getInfoProducts(ids: any): Observable<any> {
     console.log(ids);
-
     return this.httpClient.get<any>(this.urlMongoDB + 'inventario/listarInventarios/' + ids);
   }
 

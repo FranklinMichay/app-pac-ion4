@@ -153,17 +153,17 @@ export class PrescriptionDetailPage implements OnInit {
           codiRece: recetas[index].codiRece,
           estadoReceta: recetas[index].estadoReceta,
           _id : recetas[index]._id,
-
         }
         this.dataMedic.push(datos)
       }
+      console.log(this.dataMedic, 'TODAS LAS RECETAS');
       this.newAppointment = _.filter(this.dataMedic, { "estadoReceta": 'nueva' });
-      console.log(this.newAppointment, 'nuevas');
+      this.newAppointment = _.orderBy(this.newAppointment, ['fecha'], ['desc']);
+      console.log(this.newAppointment, 'RECETAS NUEVAS ORDENADAS DESCENDENTEMENTE');
       
       this.finishedAppointment = _.filter(this.dataMedic, { "estadoReceta": 'finalizada' });
-      console.log(this.finishedAppointment, 'final');
-      this.dataMedic = _.orderBy(this.dataMedic, ['fecha'], ['desc']);
-      console.log(this.dataMedic, 'LISTA RECETAS');
+      this.finishedAppointment = _.orderBy(this.finishedAppointment, ['fecha'], ['desc']);
+      console.log(this.finishedAppointment, 'RECETAS COMPRADAS ORDENADAS DESCENDENTEMENTE');
       this.loadingCtrl.dismiss();
     }, (err) => {
       console.log(err, 'ERROR AL TRAER RECETAS');

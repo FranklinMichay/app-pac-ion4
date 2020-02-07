@@ -1,3 +1,4 @@
+import { Message } from './../../shared/model/message';
 import { Component, OnInit, ViewChild, ElementRef, ɵEMPTY_MAP } from '@angular/core';
 import * as $ from 'jquery';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
@@ -19,6 +20,7 @@ import { Options } from '../../shared/mock/option-pay';
 import { formatDate } from '@angular/common';
 import * as _ from 'lodash';
 import { LoadingService } from 'src/app/services/loading.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-payment',
@@ -335,7 +337,7 @@ export class PaymentPage implements OnInit {
     });
     const dataForDispatch = {
       idReceta: this.prescription.codiRece,
-      datosReceta: this.prescription._idReceta,
+      datosReceta: this.prescription._id,
       detalles: JSON.stringify(details),
       fecha: formatDate(new Date(), 'yyyy-MM-dd', 'en-US'),
       totalDespacho: this.calculateTotalDispatch(),
@@ -356,12 +358,15 @@ export class PaymentPage implements OnInit {
 
   //SE CREA DESPACHO
   createDispatchService(data: any) {
+    this.loadingCtrl.presentLoading();
     this.auth.createDispatch(data).subscribe((resultCreate: any) => {
+      
       console.log('DESPACHO GUARDADO');
       this.exportData(this.prescription);
 
       // this.deleteCartPatient(this.userData.identificacion);
     });
+    this.loadingCtrl.dismiss();
   }
 
   exportData(event) {
@@ -468,7 +473,7 @@ export class PaymentPage implements OnInit {
     if (this.controlPrescription === true) {
       this.updatePrescription({ id: this.prescription._id, estadoReceta: 'finalizada' });
     } else {
-      this.presentToastCompra();
+      this.presentToastCompra('COMPRA PARCIAL');
       this.router.navigate(['prescription-detail']);
     }
     console.log(this.controlPrescription, 'BANDERA');
@@ -482,22 +487,28 @@ export class PaymentPage implements OnInit {
         band = false;
       }
     });
-
     return band;
   }
 
   updatePrescription(dataPrescription: any) {
+    this.loadingCtrl.presentLoading();
     this.auth.updatePrescriptionService(dataPrescription).subscribe((resultUpdate: any) => {
-      console.log('RECETA ACTUALIZADA');
+      console.log(resultUpdate,'RECETA ACTUALIZADA');
       this.deleteCartPatient(this.user.identificacion);
-
     });
+    this.loadingCtrl.dismiss();
   }
+
+  // updateListPrescription(){
+  //   this.auth.deleteCartPatientService(dni).subscribe((result: any) => {
+  //     this.presentToastCompra('COMPRASTE TODA LA RECETA');
+  //     this.router.navigate(['prescription-detail']);
+  //   });
+  // }
 
   deleteCartPatient(dni: any) {
     this.auth.deleteCartPatientService(dni).subscribe((result: any) => {
-      this.presentToastCompra();
-      //this.loadingCtrl.presentLoading()
+      this.presentToastCompra('COMPRASTE TODA LA RECETA');
       this.router.navigate(['prescription-detail']);
     });
   }
@@ -506,9 +517,9 @@ export class PaymentPage implements OnInit {
   //   return _.filter(data, function (ob) { return ob.id === id; });
   // }
 
-  async presentToastCompra() {
+  async presentToastCompra(message) {
     const toast = await this.toastController.create({
-      message: 'Compra exitosa',
+      message: message,
       duration: 2000,
       color: 'dark'
     });

@@ -37,8 +37,6 @@ export class SearchFilterPage implements OnInit {
     console.log(this.prescription, 'PRODUCTOS EN MODAL');
     this.dataReceta = navParams.get('dataReceta');
     console.log(this.dataReceta, 'DATOS DE RECETA EN MODAL');
-    //this.getInventarioById();
-
   }
 
   ngOnInit() {
@@ -46,7 +44,6 @@ export class SearchFilterPage implements OnInit {
 
   closeModal() {
     this.modalCtrl.dismiss({
-      // 'data': dataCita
     });
   }
 
@@ -54,7 +51,6 @@ export class SearchFilterPage implements OnInit {
     this.loadingCtrl.presentLoading();
     this.idForRequest = this.removeSquareBracket(_.map(this.prescription.detalles, 'id'));
     console.log(this.idForRequest, 'ids para consulta');
-
     this.auth.getInfoProducts(this.idForRequest).subscribe((resultGetInfoProducts: any) => {
       this.dataForView = resultGetInfoProducts;
       if (this.prescription) {
@@ -80,34 +76,8 @@ export class SearchFilterPage implements OnInit {
     return (resultRemove.slice(0, (resultRemove.length - 1)));
   }
 
-
-  getSpecialities() {
-    this.loadingCtrl.presentLoading();
-    let url = 'administracion/especialidad';
-    this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
-      console.log(result, 'especialidades');
-      this.specilities = result;
-      this.loadingCtrl.dismiss();
-    }, (err) => {
-      console.log(err, 'errores');
-    });
-  }
-
-  getMedicalCenter() {
-    this.loadingCtrl.presentLoading();
-    let url = 'administracion/centroMedico';
-    this.auth.getDataByUrlCustom(url).subscribe((result: any) => {
-      console.log(result, 'centros medicos');
-      this.medicalCenter = result;
-      this.loadingCtrl.dismiss();
-    }, (err) => {
-      console.log(err, 'errores');
-    });
-  }
-
   codeSelected() {
     console.log(this.medicalC, 'dta del select');
-
   }
 
   goDetails(prescription) {
@@ -123,13 +93,12 @@ export class SearchFilterPage implements OnInit {
       this.prescriptionList = prescription;
       this.router.navigate(['prescription'], { state: this.prescriptionList } );
     });
-    this.loadingCtrl.dismiss();
     this.close();
+    this.loadingCtrl.dismiss();
   }
 
   close() {
     this.modalCtrl.dismiss({
-      // 'data': dataCita
     });
   }
 }

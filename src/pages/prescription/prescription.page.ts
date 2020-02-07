@@ -61,9 +61,7 @@ export class PrescriptionPage implements OnInit {
     private route: ActivatedRoute,
     private dataService: DataService,
     public toastController: ToastController
-  ) {
-
-  }
+  ) { }
 
   ngOnInit() {
     this.exportData(this.dataService.dataCompra);
@@ -89,12 +87,12 @@ export class PrescriptionPage implements OnInit {
     toast.present();
   }
 
-  ionViewDidEnter() {
-    //this.count = 0;
-    this.buyTotalPrescription();
-    console.log('metodosss');
-
-  }
+  // ionViewDidEnter() {
+  //   this.loadingCtrl.presentLoading();
+  //   this.buyTotalPrescription();
+  //   console.log('COMPRA TOTAL MEDICAMENTOS');
+  //   this.loadingCtrl.dismiss();
+  // }
 
   getMax() {
     if (this.valor >= 100) {
@@ -124,7 +122,6 @@ export class PrescriptionPage implements OnInit {
   }
 
   // LOGICA 
-
   exportData(event) {
     console.log(event, 'receag');
 
@@ -155,14 +152,10 @@ export class PrescriptionPage implements OnInit {
       fecha: formatDate(new Date(), 'yyyy-MM-dd', 'en-US'),
       totalDespacho: this.calculateTotalDispatch(),
       horarioEntrega: 'mañana',
-
     };
 
     this.router.navigate(['pagoReceta']);
-
     //this.createDispatchService(dataForDispatch);
-
-
   }
 
   addDispatchPrescription() {
@@ -214,19 +207,8 @@ export class PrescriptionPage implements OnInit {
     this.calculateTotalDispatch();
     //this.router.navigate(['cart'], { state: this.dataForView });
   }
-
-  // ionViewDidLeave() {
-
-  // }
-
-  // ionViewWillEnter() {
-  //   this.dataForView= []
-  //   console.log(this.dataForView, 'ESTADO DE DATA FOR VIEW');
-
-  // }
-
-  /************************************* FUNCIONES DE PROCESOS **************************************/
-
+  
+  //PROCESOS 
   calculateTotal(event, index) {
     //console.log(parseInt(this.dataForView[index].remaining, 10),event.target.value, 'datos compare' );
     if (event.target.value < 0) {
@@ -249,8 +231,6 @@ export class PrescriptionPage implements OnInit {
     this.total = parseFloat(this.total).toFixed(2);
     console.log(this.total, 'total despacho');
     console.log(this.dataForView, 'tl despao');
-
-
     this.calculateTotalDispatch();
   }
 
@@ -292,11 +272,10 @@ export class PrescriptionPage implements OnInit {
       this.data = { index: null, product: '', totalPrescription: '', remaining: null, totalDispatch: 0, price: null, subtotal: null };
       i++;
     }
-
     this.dataForView = _.filter(this.dataForView, item => item.remaining !== 0);
     console.log(this.dataForView, 'DATA DESPACHO PROCESADO');
-
     this.verifyRemaining();
+    this.buyTotalPrescription();
   }
 
   processDataDispatch() {

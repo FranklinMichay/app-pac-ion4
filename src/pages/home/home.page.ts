@@ -14,9 +14,9 @@ import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
 import { FCM } from '@ionic-native/fcm/ngx';
-
 import { NetworkService } from 'src/app/services/network-service.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { LoadingService } from 'src/app/services/loading.service';
 
 @Component({
   selector: 'app-home',
@@ -77,6 +77,7 @@ export class HomePage implements OnInit {
     public plt: Platform,
     private networkService: NetworkService,
     private toastService: ToastService,
+    private loadingCtrl: LoadingService
   ) {
 
     this.price = this.route.snapshot.params['price'];
@@ -221,16 +222,19 @@ export class HomePage implements OnInit {
   getDataPac() {
     const user = JSON.parse(localStorage.getItem('userPaciente'));
     const idPaciente = user ? user.id : null;
+    //this.loadingCtrl.presentLoading();
     this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
-      console.log(cita, 'citas para home');
-      var citaFilter = _.filter(cita, { "fecha": this.fecha });
-      console.log(citaFilter, 'citas filtradas');
-      console.log(this.hora, 'hora actual');
+      var citaFilter = _.filter(cita, item => item.fecha >= this.fecha);
+      citaFilter = _.orderBy(citaFilter, ['fecha'], ['asc']);
+      console.log(citaFilter, 'CITAS PACIENTE ACCEPTED');
+      //console.log(this.hora, 'hora actual');
       this.dataHomeDelete = _.filter(citaFilter, item => item.hora >= this.hora);
       this.dataHome = _.first(this.dataHomeDelete);
-      console.log(this.dataHome, 'ultima cita agendada');
+      console.log(this.dataHome, 'PROXIMA CITA PACIENTE');
+      //this.loadingCtrl.dismiss();
     }, (err) => {
       console.log(err, 'error ultima cita');
+      //this.loadingCtrl.dismiss();
     });
   }
 

@@ -88,11 +88,7 @@ export class MeetingsPage implements OnInit {
     private route: ActivatedRoute,
     private dataService: DataService,
     public toastController: ToastController
-
   ) {
-
-
-
     this.currentYear = this.today.getFullYear();
     this.monthLabel = Info.months[this.today.getMonth()];
     this.currentMonth = this.today.getMonth();
@@ -130,12 +126,9 @@ export class MeetingsPage implements OnInit {
       console.log(err, 'errores');
       console.log(err);
     });
-
-
   }
 
   ngOnInit() {
-
     // infinite scroll
     this.loadDataAccepted();
     this.loadDataCanceled();
@@ -147,9 +140,7 @@ export class MeetingsPage implements OnInit {
   }
 
   loadDataAccepted(loadMore = false, event?) {
-
     setTimeout(() => {
-      this.loadingCtrl.presentLoading();
       if (loadMore) {
         this.offset++;
       }
@@ -158,7 +149,7 @@ export class MeetingsPage implements OnInit {
         offset: this.offset,
         state: 'accepted'
       };
-
+      this.loadingCtrl.presentLoading();
       this.auth.getDataScroolAccepted(fields).subscribe(d => {
         console.log(d, 'DATA SCROLL ACEPTED');
         d.map((el) => {
@@ -168,7 +159,6 @@ export class MeetingsPage implements OnInit {
               el.medico.fotoPerfil = foto;
             }
           }
-
         });
         console.log(d, 'DATA SCROLL ACEPTED');
         this.contScrollAccepted = d;
@@ -190,9 +180,7 @@ export class MeetingsPage implements OnInit {
           event.target.disabled = true;
         }
       }
-
-    }, 1000);
-
+    }, 500);
   }
 
   loadDataPostponed(loadMore = false, event?) {
@@ -642,7 +630,7 @@ export class MeetingsPage implements OnInit {
 
   async presentToast() {
     const toast = await this.toastController.create({
-      message: 'No hay mas citas',
+      message: 'NO TIENES MAS CITAS',
       duration: 2000,
       color: 'dark'
     });
