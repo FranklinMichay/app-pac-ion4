@@ -64,7 +64,7 @@ export class PrescriptionPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.exportData(this.dataService.dataCompra);
+    this.exportData(this.dataService.dataReceta);
     this.dataForView
     console.log();
     //this.buyTotalPrescription();
@@ -123,7 +123,7 @@ export class PrescriptionPage implements OnInit {
 
   // LOGICA 
   exportData(event) {
-    console.log(event, 'receag');
+    console.log(event, 'RECETA PARA ORDENAR');
 
     this.data = { index: null, product: '', totalPrescription: 0, remaining: null, totalDispatch: 0, price: null, subtotal: null };
     this.dataForView = [];

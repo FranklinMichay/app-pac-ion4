@@ -26,8 +26,11 @@ import { BackgroundMode } from '@ionic-native/background-mode/ngx';
 import { LocalNotifications } from '@ionic-native/local-notifications/ngx';
 import { SearchFilterPage } from './../pages/search-filter/search-filter.page';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { FCM } from '@ionic-native/fcm/ngx';
 import { Network } from '@ionic-native/network/ngx';
+import { registerLocaleData } from '@angular/common';
+import localeEsAr from '@angular/common/locales/es-AR';
+registerLocaleData(localeEsAr);
+
 
 @NgModule({
   declarations: [
@@ -54,8 +57,6 @@ import { Network } from '@ionic-native/network/ngx';
     SocketIoModule.forRoot(config),
     AutoCompleteModule,
     TagInputModule,
-   
-
   ],
 
   providers: [
@@ -64,13 +65,13 @@ import { Network } from '@ionic-native/network/ngx';
     SplashScreen,
     BackgroundMode,
     LocalNotifications,
-    FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FileTransfer,
     FileTransferObject,
     WebView,
     Geolocation,
-    Network
+    Network,
+    { provide: LOCALE_ID, useValue: 'es-Ar' },
     
   ],
 

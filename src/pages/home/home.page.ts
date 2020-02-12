@@ -13,7 +13,6 @@ import { LocalNotifications, ILocalNotificationActionType } from '@ionic-native/
 import { Subscription } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ActivatedRoute } from '@angular/router';
-import { FCM } from '@ionic-native/fcm/ngx';
 import { NetworkService } from 'src/app/services/network-service.service';
 import { ToastService } from 'src/app/services/toast.service';
 import { LoadingService } from 'src/app/services/loading.service';
@@ -60,6 +59,8 @@ export class HomePage implements OnInit {
   hora: any;
   fecha: any;
   price: any = '';
+  v1: any;
+  v2: any;
 
   constructor(
     public navCtrl: NavController,
@@ -73,7 +74,6 @@ export class HomePage implements OnInit {
     public menuControler: MenuController,
     public alertController: AlertController,
     private route: ActivatedRoute,
-    private fcm: FCM,
     public plt: Platform,
     private networkService: NetworkService,
     private toastService: ToastService,
@@ -103,7 +103,7 @@ export class HomePage implements OnInit {
     }, (err) => {
       console.log(err, 'error getAlerts');
     });
-    
+
     this.clickSub = this.localNotifications.on('click').subscribe(data => {
       this.presentAlert(
         'Médico:' + ' ' + data.data.medico + '<br>' +
@@ -123,7 +123,7 @@ export class HomePage implements OnInit {
     const user = JSON.parse(localStorage.getItem('userPaciente'));
     console.log(user, 'userPaciente');
     const idPaciente = user ? user.id : 1;
-    
+
     let now = new Date();
     this.fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
     var hora = ('0' + new Date().getHours()).substr(-2);
@@ -131,18 +131,18 @@ export class HomePage implements OnInit {
     var seg = ('0' + new Date().getSeconds()).substr(-2);
     this.hora = hora + ':' + min + ':' + seg;
     console.log(this.fecha, this.hora, 'hora y fecha');
-    this.getDataPac();   
+    this.getDataPac();
   }
 
-  
 
-  testNetwork(){
+
+  testNetwork() {
     this.networkService.getNetworkStatus().subscribe((connected: boolean) => {
       this.isConnected = connected;
       if (!this.isConnected) {
-          console.log('Por favor enciende tu conexión a Internet');
+        console.log('Por favor enciende tu conexión a Internet');
       }
-});
+    });
   }
 
   ionViewWillEnter() {
@@ -227,7 +227,6 @@ export class HomePage implements OnInit {
       var citaFilter = _.filter(cita, item => item.fecha >= this.fecha);
       citaFilter = _.orderBy(citaFilter, ['fecha'], ['asc']);
       console.log(citaFilter, 'CITAS PACIENTE ACCEPTED');
-      //console.log(this.hora, 'hora actual');
       this.dataHomeDelete = _.filter(citaFilter, item => item.hora >= this.hora);
       this.dataHome = _.first(this.dataHomeDelete);
       console.log(this.dataHome, 'PROXIMA CITA PACIENTE');
@@ -237,6 +236,7 @@ export class HomePage implements OnInit {
       //this.loadingCtrl.dismiss();
     });
   }
+
 
   removeData(id) {
     _.remove(this.dataHome, function (n) {

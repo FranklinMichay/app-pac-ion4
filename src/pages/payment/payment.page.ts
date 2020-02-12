@@ -60,6 +60,7 @@ export class PaymentPage implements OnInit {
   listProducts: any;
   controlPrescription: any;
   userData: any;
+  
 
   horario = [
     { name: 'mañana' },
@@ -67,8 +68,8 @@ export class PaymentPage implements OnInit {
   ]
 
   horarioSelected: any;
-  sel =  false;
-  
+  sel = false;
+
 
 
   myForm: FormGroup;
@@ -109,9 +110,9 @@ export class PaymentPage implements OnInit {
     this.cards = Options.cards;
     this.isDireccion = true;
     this.user = JSON.parse(localStorage.getItem('userPaciente'));
-
+  
     this.dataForView = this.dataService.dataForPay;
-    this.prescription = this.dataService.dataCompra;
+    this.prescription = this.dataService.dataReceta;
     console.log(this.dataForView, 'DATA PARA DESPACHAR');
     console.log(this.prescription, 'RECETA PARA DESPACHAR');
 
@@ -345,7 +346,9 @@ export class PaymentPage implements OnInit {
       datosFactura: this.datosPersonalesFrom.value,
       datosEntrega: this.direccionForm.value,
       estadoPago: estadoPagoV,
-      formaPago: formaPagoV
+      formaPago: formaPagoV,
+      identiPac: this.user.identificacion,
+      celular: this.user.telefonoCelular
     };
     this.createDispatchService(dataForDispatch);
   }
@@ -360,7 +363,7 @@ export class PaymentPage implements OnInit {
   createDispatchService(data: any) {
     this.loadingCtrl.presentLoading();
     this.auth.createDispatch(data).subscribe((resultCreate: any) => {
-      
+
       console.log('DESPACHO GUARDADO');
       this.exportData(this.prescription);
 
@@ -371,7 +374,7 @@ export class PaymentPage implements OnInit {
 
   exportData(event) {
     console.log(event, 'RECETA');
-    
+
     this.data = { index: null, product: '', totalPrescription: '', remaining: null, totalDispatch: 0, price: null, subtotal: null };
     this.dataForView = [];
     this.total = null;
@@ -381,7 +384,7 @@ export class PaymentPage implements OnInit {
     this.getDispatchService(event.codiRece);
   }
 
-   removeSquareBracket(array: []) {
+  removeSquareBracket(array: []) {
     let resultRemove = '';
     array.map(function (elememnt: any) {
       resultRemove += `${elememnt},`;
@@ -431,7 +434,7 @@ export class PaymentPage implements OnInit {
   extractDataById(data, id) {
     return _.filter(data, function (ob) { return ob.id === id; });
   }
- 
+
 
   getInfoProductByListId(ids: any) {
     this.auth.getInfoProducts(ids).subscribe((resultGetInfoProducts: any) => {
@@ -493,7 +496,7 @@ export class PaymentPage implements OnInit {
   updatePrescription(dataPrescription: any) {
     this.loadingCtrl.presentLoading();
     this.auth.updatePrescriptionService(dataPrescription).subscribe((resultUpdate: any) => {
-      console.log(resultUpdate,'RECETA ACTUALIZADA');
+      console.log(resultUpdate, 'RECETA ACTUALIZADA');
       this.deleteCartPatient(this.user.identificacion);
     });
     this.loadingCtrl.dismiss();
@@ -525,7 +528,7 @@ export class PaymentPage implements OnInit {
     });
     toast.present();
   }
- 
+
 
 }
 

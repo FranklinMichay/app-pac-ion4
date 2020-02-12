@@ -14,7 +14,8 @@
 
 <ion-content *ngIf="data">
     <div class="logo-circle">
-        <img class="border-effect1" src="{{data.fotoPerfil}}" alt=" ">
+        <img class="border-effect1" [src]="data.fotoPerfil || '/assets/imgs/doctor.png'" alt=" ">
+        <!-- <img class="border-effect1" src="{{data.fotoPerfil}}" alt=" "> -->
     </div>
     <button class="edit-profile" type="submit" (click)="goEditProfile()">EDITAR PERFIL</button>
     <div>

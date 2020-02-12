@@ -28,7 +28,7 @@
     <div *ngIf="dataHome" class="header-info">
         <label class="info-home">
             <img class="medic " src="assets/imgs/doc.svg">
-            <label class="datos">Tu próxima cita es el {{dataHome.fecha | date:'d/MM/yyyy' }} a las
+            <label class="datos">Tu próxima cita es el {{dataHome.fecha | date: 'dd MMM y' | titlecase}} a las
                 {{dataHome.hora.substring(0, 5)}} horas con el médico {{dataHome.medico.priNombre}} 
                 {{dataHome.medico.priApellido}} - {{dataHome.medico.especialidad.nombre}}</label>
         </label>

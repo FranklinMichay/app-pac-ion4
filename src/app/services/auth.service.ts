@@ -402,7 +402,6 @@ export class AuthService {
 
   getRecetasPaciente(identificacion) {
     console.log(identificacion, 'cedula paciente');
-    
     return this.httpClient.get<any>(`${this.urlMongoDB}receta/searchRecePac/${identificacion}/`);
   }
 
@@ -417,10 +416,12 @@ export class AuthService {
     return this.httpClient.post<any>(`${this.urlMongoDB}despacho/createCart`, data);
   }
 
-  
-
   getDesp(ids: any): Observable<any> {
     return this.httpClient.get<any>(this.urlMongoDB + 'despacho/searchDespa/' + ids);
+  }
+
+  getDespById(dni: any): Observable<any> {
+    return this.httpClient.get<any>(this.urlMongoDB + 'despacho/getDespaIdPac/' + dni);
   }
 
   getInfoPrescription(ids: any): Observable<any> {
