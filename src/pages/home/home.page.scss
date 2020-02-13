@@ -34,7 +34,7 @@
 }
 
 .container {
-    height: 125px;
+    height: 9rem;
     overflow: hidden;
     position: relative;
     border-radius: 10px;
@@ -87,7 +87,7 @@
 
 .container-product-detail {
     width: 88%;
-    margin: 3% 0% 3% 6%;
+    margin: 3% 0% 5% 6%;
     overflow: hidden;
     border-radius: 5px;
     position: relative;
@@ -189,10 +189,8 @@
 
 .header-info {
     width: 95%;
-    margin: -8% 0% 4% 2%;
-    //overflow: hidden;
+    margin: -6% 0% 4% 2%;
     border-radius: 5px;
-    //position: relative;
 }
 
 .medic {
@@ -227,7 +225,6 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: center;
 }
 
 .color-logout {

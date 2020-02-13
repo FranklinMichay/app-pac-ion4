@@ -79,4 +79,26 @@ export class DetailAppointmentPage implements OnInit {
     return (resultRemove.slice(0, (resultRemove.length - 1)));
   }
 
+  getColor(estado) {
+    let color: string;
+    switch (estado) {
+      case 'nuevo':
+        color = 'primary';
+        break;
+      case 'camino':
+        color = 'warning';
+        break;
+      case 'entregado':
+        color = 'success';
+        break;
+      case 'cancelado':
+        color = 'danger';
+        break;
+      default:
+        color = 'dark';
+    }
+    return color;
+  }
+
+
 }

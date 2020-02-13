@@ -68,7 +68,7 @@
                                 </span>
                             </ion-col>
                             <ion-col size="12" class="detail">
-                                {{val.fecha}} &#8212;&nbsp;{{val.hora}}
+                                {{val.fecha | date: 'dd MMM y' | titlecase}} &#8212;&nbsp;{{val.hora.substring(0, 5)}}
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{val.medico.especialidad.nombre}}
@@ -106,7 +106,7 @@
                                 </span>
                             </ion-col>
                             <ion-col size="12" class="detail">
-                                {{cita.fecha}} &#8212;&nbsp;{{cita.hora}}
+                                {{cita.fecha | date: 'dd MMM y' | titlecase}} &#8212;&nbsp;{{cita.hora.substring(0, 5)}}
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{cita.medico.especialidad.nombre}}
@@ -145,7 +145,7 @@
                                 </span>
                             </ion-col>
                             <ion-col size="12" class="detail">
-                                {{v.fecha}} &#8212;&nbsp;{{v.hora}}
+                                {{v.fecha | date: 'dd MMM y' | titlecase}} &#8212;&nbsp;{{v.hora.substring(0, 5)}}
                             </ion-col>
                             <ion-col size="12" class="detail">
                                 {{v.medico.especialidad.nombre}}
