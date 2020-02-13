@@ -77,13 +77,13 @@
 </ion-content>
 <ion-footer class="bg-footer">
     <div class="container-subtotal">
-        <label class="subtotal">Subtotal:&nbsp; &nbsp; {{ total | currency }}</label><br>
-        <label class="subtotal">IVA 12%:&nbsp; &nbsp; {{ this.valIva | currency}} </label>
+        <label class="subtotal">Subtotal:&nbsp; $&nbsp; {{ total  }}</label><br>
+        <label class="subtotal">IVA 12%:&nbsp; $&nbsp; {{ this.valIva }} </label>
     </div>
 
     <hr class="line"><br>
     <h4 class="total-pago">
-        TOTAL:&nbsp; {{ totalPay | currency }}
+        TOTAL:&nbsp; $ {{ totalPay }}
     </h4>
     <ion-button class="pagar-orden" (click)="pay()" [disabled]="totalPay == 0 || totalPay == undefined">PAGAR ORDEN
     </ion-button>
