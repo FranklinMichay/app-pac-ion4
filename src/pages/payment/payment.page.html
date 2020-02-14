@@ -6,8 +6,10 @@
 </ion-header>
 <div class="div-slide">
     <ol>
-        <li [ngClass]="{'current': currentTab === 'step1'}" (click)="goDireccion()">ENVÍO</li>
-        <li [ngClass]="{'current': currentTab === 'step2'}" (click)="goFac()">FACTURACIÓN</li>
+        <li [ngClass]="{'current': currentTab === 'step1'}">ENVÍO</li>
+        <!-- <li [ngClass]="{'current': currentTab === 'step1'}" (click)="goDireccion()">ENVÍO</li> -->
+        <li [ngClass]="{'current': currentTab === 'step2'}">FACTURACIÓN</li>
+        <!-- <li [ngClass]="{'current': currentTab === 'step2'}" (click)="goFac()">FACTURACIÓN</li> -->
         <li [ngClass]="{'current': currentTab === 'step3'}">PAGO</li>
     </ol>
 </div>

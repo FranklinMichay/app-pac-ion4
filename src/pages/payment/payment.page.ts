@@ -84,8 +84,8 @@ export class PaymentPage implements OnInit {
   map: mapboxgl.Map;
   style = 'mapbox://styles/mapbox/streets-v11';
   // Coordenadas de la localización donde queremos centrar el mapa
-  lat = -4.0075088;
-  lng = -79.2434842;
+  lat;
+  lng;
   zoom = 13;
   user: any;
 
@@ -164,10 +164,16 @@ export class PaymentPage implements OnInit {
 
     this.map.on('move', () => {
       console.log(`Current Map Center: ${this.map.getCenter()}`);
+
       const centerMap = this.map.getCenter();
+      this.lng = centerMap.lng;
+      this.lat = centerMap.lat;
       this.marker.setLngLat([centerMap.lng, centerMap.lat])
         .addTo(this.map);
     });
+
+    
+    
   }
 
   addMarker() {
@@ -181,7 +187,7 @@ export class PaymentPage implements OnInit {
     let centerMap = this.map.getCenter();
     this.marker = new mapboxgl.Marker(el, {
       draggable: false
-    }).setLngLat([centerMap.lng, centerMap.lat])
+    }).setLngLat([this.lng, this.lat])
       .addTo(this.map);
   }
 
@@ -232,6 +238,7 @@ export class PaymentPage implements OnInit {
     this.isDireccion = false;
     this.isPago = false;
     this.changeTab('step2');
+    
   }
 
   goPayInformation() {
@@ -361,6 +368,7 @@ export class PaymentPage implements OnInit {
 
   //SE CREA DESPACHO
   createDispatchService(data: any) {
+    console.log(this.lng, this.lat, 'long y lat');
     this.loadingCtrl.presentLoading();
     this.auth.createDispatch(data).subscribe((resultCreate: any) => {
 

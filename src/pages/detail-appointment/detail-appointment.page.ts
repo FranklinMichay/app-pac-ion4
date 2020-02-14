@@ -26,6 +26,7 @@ export class DetailAppointmentPage implements OnInit {
   productoDespacho: any;
   prescriptionList: any = [];
   currentTab: string = 'step1';
+  estado: string = 'nuevo';
 
   constructor(
     //navParams: NavParams,
@@ -43,6 +44,8 @@ export class DetailAppointmentPage implements OnInit {
   }
 
   ngOnInit() {
+    this.estado = this.dataDespacho.estadoDespacho;
+    console.log(this.estado, 'estado');
   }
 
   changeTab(tab: string) {
@@ -100,5 +103,23 @@ export class DetailAppointmentPage implements OnInit {
     return color;
   }
 
+  changeCss(estado) {
+    let color: string;
+    switch (estado) {
+      case 'camino':
+        color = 'primary';
+        break;
+      case 'entregado':
+        color = 'btn-circle';
+       
+    }
+    return color;
+  }
+
+  clickear(es){
+    this.estado = es;
+    console.log(this.estado,  'estadoooo');
+    
+  }
 
 }

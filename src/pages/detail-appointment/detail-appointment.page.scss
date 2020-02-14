@@ -344,13 +344,14 @@ body {
     height: 64%;
     background-color: #ededed;
     z-order: 0;
-    margin-left: 4%;
+    margin-left: 3%;
     margin-bottom: 7%;
 }
 
 .stepwizard-step {
     display: block;
     position: relative;
+    margin-top: 30%;
 }
 
 .btn-circle {
@@ -365,15 +366,6 @@ body {
     background-color: white;
 }
 
-.bg-icon {
-    color: black;
-    /* padding: 0px 0px 1px 3px; */
-    width: 28px;
-    height: 28px;
-    margin-left: 15%;
-    margin-bottom: -1%;
-}
-
 .icon-button {
     width: 22px;
     height: 22px;
@@ -381,6 +373,45 @@ body {
     background-color: #b8e986;
     border-radius: 25px;
     color: white;
+}
+
+.icon-button1 {
+    width: 22px;
+    height: 22px;
+    margin-top: -15%;
+    background-color: #f5a623;
+    border-radius: 25px;
+    color: transparent;
+}
+
+.ic {
+    width: 22px;
+    height: 22px;
+    margin-top: -15%;
+    background-color: red;
+    border-radius: 25px;
+    color: transparent;
+}
+
+.description {
+    margin-left: 3%;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: black;
+}
+
+.bg-icon {
+    color: black;
+    /* padding: 0px 0px 1px 3px; */
+    width: 28px;
+    height: 28px;
+    margin-left: 15%;
+    margin-bottom: -1%;
 }
 
 .eta-desp {
