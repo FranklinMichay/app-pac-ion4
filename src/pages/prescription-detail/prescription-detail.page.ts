@@ -426,9 +426,11 @@ export class PrescriptionDetailPage implements OnInit {
         despacho[index].datosReceta.detalles = JSON.parse(despacho[index].datosReceta.detalles);
         despacho[index].datosReceta.indicaciones = JSON.parse(despacho[index].datosReceta.indicaciones);
       }
+      
       this.despachos = _.orderBy(this.despachos, ['fecha'], ['desc']);
       console.log(this.despachos, 'LISTA DESPACHOS');
-      this.dateDivider = this.removeSquareBracket(_.map(this.despachos, 'fecha'));
+      this.dateDivider = _.filter(this.despachos, item => item.estadoDespacho != 'nuevo');
+      this.dateDivider = this.removeSquareBracket(_.map(this.dateDivider, 'fecha'));
       console.log(this.dateDivider, 'fechas despachos');
       this.dateDivider = this.set(this.dateDivider.split(','));
       console.log(this.dateDivider, 'fechas despachos');

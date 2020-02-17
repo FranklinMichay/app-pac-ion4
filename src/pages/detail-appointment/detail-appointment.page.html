@@ -88,7 +88,7 @@
     </div>
 
     <div class="form-group required" *ngIf="currentTab === 'step3'">
-        <h3 *ngIf="dataDespacho.tiempoEstimado" class="eta-desp">Tiempo estimado: {{dataDespacho?.tiempoEstimado}}</h3>
+        <h3 *ngIf="dataDespacho.tiempoEstimado && dataDespacho.estadoDespacho === 'camino'" class="eta-desp">Tiempo estimado: {{dataDespacho?.tiempoEstimado}}</h3>
         <div class="stepwizard">
             <div class="stepwizard-row">
                 <div class="stepwizard-step">

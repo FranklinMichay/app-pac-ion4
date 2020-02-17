@@ -64,12 +64,12 @@ registerLocaleData(localeEsAr);
     ImagePicker,
     SplashScreen,
     BackgroundMode,
+    Geolocation,
     LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FileTransfer,
     FileTransferObject,
     WebView,
-    Geolocation,
     Network,
     { provide: LOCALE_ID, useValue: 'es-Ar' },
     

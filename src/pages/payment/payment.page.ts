@@ -171,9 +171,6 @@ export class PaymentPage implements OnInit {
       this.marker.setLngLat([centerMap.lng, centerMap.lat])
         .addTo(this.map);
     });
-
-    
-    
   }
 
   addMarker() {

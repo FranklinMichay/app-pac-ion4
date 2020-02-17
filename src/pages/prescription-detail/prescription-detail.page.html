@@ -62,11 +62,12 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
+            <div *ngIf="newAppointment.length === 0" class="empty-container ">
+                <img src="assets/icon/no-documents.svg" class="empty-state ">
+                <h3 class="text-center-no-desp">No hay recetas nuevas</h3>
+            </div>
         </div>
-        <div *ngIf="!newAppointment" class="empty-container ">
-            <img src="assets/imgs/no-datos.png" class="empty-state ">
-            <h3 class="text-center-no-desp">Sin Contenido</h3>
-        </div>
+
     </div>
 
     <div class="form-group required" *ngIf="currentTab === 'step3'">
