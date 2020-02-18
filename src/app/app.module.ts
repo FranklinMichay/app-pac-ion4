@@ -29,6 +29,8 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { Network } from '@ionic-native/network/ngx';
 import { registerLocaleData } from '@angular/common';
 import localeEsAr from '@angular/common/locales/es-AR';
+import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
+import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 registerLocaleData(localeEsAr);
 
 
@@ -65,6 +67,8 @@ registerLocaleData(localeEsAr);
     SplashScreen,
     BackgroundMode,
     Geolocation,
+    AndroidPermissions,
+    LocationAccuracy,
     LocalNotifications,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FileTransfer,
