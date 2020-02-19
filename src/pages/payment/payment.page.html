@@ -248,8 +248,10 @@
         </ion-row>
     </div>
 
+    <h4 *ngIf="isDireccion" class="title-entrega">Elige lugar para la entrega</h4>
 
     <ion-content *ngIf="isDireccion" class="noScroll">
+
         <!-- <div [hidden]="!isDireccion" class="bg-form"> -->
         <div class="map" id="map"></div>
         <ion-fab (click)="getCurrentPosition()" vertical="center" horizontal="end" slot="">
@@ -270,7 +272,7 @@
     <ion-button *ngIf="isDatosPersonales " class="accept-edit " type="submit " (click)="goDatos() " [disabled]="datosPersonalesFrom.invalid ">
         PROCEDER A MÉTODO DE PAGO</ion-button>
 
-    <ion-button *ngIf="isPago" [disabled]="!cboxPoliticas" class="accept-edit " type="submit " (click)="saveDispatch()">
+    <ion-button *ngIf="isPago && isContraEntrega" [disabled]="!cboxPoliticas" class="accept-edit " type="submit " (click)="saveDispatch()">
         PAGAR
     </ion-button>
 

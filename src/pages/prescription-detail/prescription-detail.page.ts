@@ -9,6 +9,7 @@ import { SearchFilterPage } from './../search-filter/search-filter.page';
 import { Info } from '../../shared/mock/months';
 import { environment } from 'src/environments/environment';
 import { DataService } from 'src/app/services/data.service';
+import { ToastController } from '@ionic/angular';
 
 @Component({
   selector: 'app-prescription-detail',
@@ -83,7 +84,8 @@ export class PrescriptionDetailPage implements OnInit {
     private loadingCtrl: LoadingService,
     private route: ActivatedRoute,
     public mdlCtrl: ModalController,
-    private dataService: DataService
+    private dataService: DataService,
+    public toastController: ToastController,
 
   ) {
     this.currentYear = this.today.getFullYear();
@@ -186,9 +188,13 @@ export class PrescriptionDetailPage implements OnInit {
     console.log(dataPrescription, 'DATOS RECETA');
     this.dataRecetaModal = dataPrescription;
     this.dataService.dataReceta = dataPrescription;
-    this.idForRequest = this.removeSquareBracket(_.map(dataPrescription.detalles, 'id'));
-    this.getProductPrescription(this.removeSquareBracket(_.map(dataPrescription.detalles, 'id')));
-    console.log(this.idForRequest, 'ids para request');
+    if (dataPrescription.detalles.length === 0){
+      this.presentToastCompra('LA RECETA NO TIENE PRODUCTOS');
+    }else{
+      this.idForRequest = this.removeSquareBracket(_.map(dataPrescription.detalles, 'id'));
+      this.getProductPrescription(this.removeSquareBracket(_.map(dataPrescription.detalles, 'id')));
+      console.log(this.idForRequest, 'ids para request');
+    }
   }
 
   getProductPrescription(ids: string) {
@@ -475,5 +481,14 @@ export class PrescriptionDetailPage implements OnInit {
         color = 'dark';
     }
     return color;
+  }
+
+  async presentToastCompra(message) {
+    const toast = await this.toastController.create({
+      message: message,
+      duration: 2000,
+      color: 'dark'
+    });
+    toast.present();
   }
 }

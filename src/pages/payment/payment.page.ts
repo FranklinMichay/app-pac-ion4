@@ -2,7 +2,7 @@ import { Message } from './../../shared/model/message';
 import { Component, OnInit, ViewChild, ElementRef, ɵEMPTY_MAP } from '@angular/core';
 import * as $ from 'jquery';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { IonSlides, ToastController } from '@ionic/angular';
+import { IonSlides, ToastController, AlertController  } from '@ionic/angular';
 // import * as $ from '@types/jquery';
 // import * as postscribe from 'postscribe';
 import { UbicacionService } from '../../app/services/ubicacion.service';
@@ -113,7 +113,8 @@ export class PaymentPage implements OnInit {
     private loadingCtrl: LoadingService,
     private androidPermissions: AndroidPermissions,
     private locationAccuracy: LocationAccuracy,
-    public platform: Platform
+    public platform: Platform,
+    public alertController: AlertController
   ) {
     //this.isDatosPersonales = true;
     this.options = Options.options;
@@ -185,6 +186,7 @@ export class PaymentPage implements OnInit {
               // call method to turn on GPS
               this.askToTurnOnGPS();
             },
+           
             error => {
               //Show alert if user click on 'No Thanks'
               alert('requestPermission Error requesting location permissions ' + error)
@@ -200,9 +202,31 @@ export class PaymentPage implements OnInit {
         // When GPS Turned ON call method to get Accurate location coordinates
         this.getCurrentPosition()
       },
-      error => alert('Error requesting location permissions ' + JSON.stringify(error))
+      err => {
+        console.log('error ' + JSON.stringify(err));
+        this.presentAlertConfirm();
+      }
+      //error => alert('Debes activar GPS para continuar' + JSON.stringify(error))
     );
   }
+
+  async presentAlertConfirm() {
+    const alert = await this.alertController.create({
+      header: 'Para continuar debes activar tu ubicación',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Entendido',
+          handler: () => {
+           this.askToTurnOnGPS();
+          }
+        },
+      ]
+    });
+
+    await alert.present();
+  }
+
 
   getCurrentPosition( ) {
     
@@ -358,6 +382,7 @@ export class PaymentPage implements OnInit {
     if (category.tipo === 'tarjeta') {
       this.isCard = true;
       this.isContraEntrega = false;
+      
     } else {
       this.isCard = false;
       this.isContraEntrega = true;
