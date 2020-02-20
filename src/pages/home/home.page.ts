@@ -177,12 +177,12 @@ export class HomePage implements OnInit {
     this.getDataPac();
   }
 
-  fullScreenMode() {
-    this.androidFullScreen
-      .isImmersiveModeSupported()
-      .then(() => console.log("El modo inmersivo está disponible"))
-      .catch(err => console.log(err, "full screen no es compatible"));
-  }
+  // fullScreenMode() {
+  //   this.androidFullScreen
+  //     .isImmersiveModeSupported()
+  //     .then(() => console.log("El modo inmersivo está disponible"))
+  //     .catch(err => console.log(err, "full screen no es compatible"));
+  // }
 
   testNetwork() {
     this.networkService.getNetworkStatus().subscribe((connected: boolean) => {
