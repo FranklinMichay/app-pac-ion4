@@ -1,29 +1,39 @@
-import { formatDate } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { LoadingController, ToastController, Platform, MenuController, NavController, AlertController } from '@ionic/angular';
-import { Info } from '../../shared/mock/months';
-import { AuthService } from '../../../src/app/services/auth.service';
-import { BackgroundMode } from '@ionic-native/background-mode/ngx';
-import { Router } from '@angular/router';
-import * as _ from 'lodash';
-import { DomSanitizer } from '@angular/platform-browser';
-import { Socket } from 'ngx-socket-io';
-import { fn } from '@angular/compiler/src/output/output_ast';
-import { LocalNotifications, ILocalNotificationActionType } from '@ionic-native/local-notifications/ngx';
-import { Subscription } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { ActivatedRoute } from '@angular/router';
-import { NetworkService } from 'src/app/services/network-service.service';
-import { ToastService } from 'src/app/services/toast.service';
-import { LoadingService } from 'src/app/services/loading.service';
+import { formatDate } from "@angular/common";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import {
+  LoadingController,
+  ToastController,
+  Platform,
+  MenuController,
+  NavController,
+  AlertController
+} from "@ionic/angular";
+import { Info } from "../../shared/mock/months";
+import { AuthService } from "../../../src/app/services/auth.service";
+import { BackgroundMode } from "@ionic-native/background-mode/ngx";
+import { Router } from "@angular/router";
+import * as _ from "lodash";
+import { DomSanitizer } from "@angular/platform-browser";
+import { Socket } from "ngx-socket-io";
+import { fn } from "@angular/compiler/src/output/output_ast";
+import {
+  LocalNotifications,
+  ILocalNotificationActionType
+} from "@ionic-native/local-notifications/ngx";
+import { Subscription } from "rxjs";
+import { environment } from "src/environments/environment";
+import { ActivatedRoute } from "@angular/router";
+import { NetworkService } from "src/app/services/network-service.service";
+import { ToastService } from "src/app/services/toast.service";
+import { LoadingService } from "src/app/services/loading.service";
+import { AndroidFullScreen } from "@ionic-native/android-full-screen/ngx";
 
 @Component({
-  selector: 'app-home',
-  templateUrl: 'home.page.html',
-  styleUrls: ['home.page.scss'],
+  selector: "app-home",
+  templateUrl: "home.page.html",
+  styleUrls: ["home.page.scss"]
 })
 export class HomePage implements OnInit {
-
   isConnected = false;
   url: any;
   data: any;
@@ -31,17 +41,21 @@ export class HomePage implements OnInit {
   dataUser: any;
   slides: any = [
     {
-      src: 'assets/imgs/slide2.jpg',
-      medicalCenter: 'CLÍNICA MEDIPHARM', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
+      src: "assets/imgs/slide2.jpg",
+      medicalCenter: "CLÍNICA MEDIPHARM",
+      detalle: "Expertos al cuidado de su salud Expertos al cuidado de su salud"
     },
     {
-      src: 'assets/imgs/slide6.jpg',
-      medicalCenter: 'FARMACIA SAN DANIEL', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
+      src: "assets/imgs/slide6.jpg",
+      medicalCenter: "FARMACIA SAN DANIEL",
+      detalle: "Expertos al cuidado de su salud Expertos al cuidado de su salud"
     },
     {
-      src: 'assets/imgs/slide3.jpg',
-      medicalCenter: 'LABORATORIO CLINICO LOJA', detalle: 'Expertos al cuidado de su salud Expertos al cuidado de su salud'
-    }];
+      src: "assets/imgs/slide3.jpg",
+      medicalCenter: "LABORATORIO CLINICO LOJA",
+      detalle: "Expertos al cuidado de su salud Expertos al cuidado de su salud"
+    }
+  ];
   connection: any;
   dataHome: any;
   dataHomeDelete: any;
@@ -58,7 +72,7 @@ export class HomePage implements OnInit {
   backButtonSubscription;
   hora: any;
   fecha: any;
-  price: any = '';
+  price: any = "";
   v1: any;
   v2: any;
 
@@ -77,70 +91,104 @@ export class HomePage implements OnInit {
     public plt: Platform,
     private networkService: NetworkService,
     private toastService: ToastService,
-    private loadingCtrl: LoadingService
+    private loadingCtrl: LoadingService,
+    private androidFullScreen: AndroidFullScreen
   ) {
-
-    this.price = this.route.snapshot.params['price'];
+    this.price = this.route.snapshot.params["price"];
 
     this.data = Info.categories;
-    this.dataUser = JSON.parse(localStorage.getItem('userPaciente'));
+    this.dataUser = JSON.parse(localStorage.getItem("userPaciente"));
     this.imageUrl = this.dataUser.fotoPerfil;
-    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
+    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      this.imageUrl
+    );
     this.url = environment.url;
-    const user = JSON.parse(localStorage.getItem('userPaciente'));
-    console.log(user, 'userPaciente');
+    const user = JSON.parse(localStorage.getItem("userPaciente"));
+    console.log(user, "userPaciente");
     const idPaciente = user ? user.id : 1;
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
-      this.auth.removeListener('calendar');
+      this.auth.removeListener("calendar");
     }
 
-    this.connection = this.auth.getDataAlerts().subscribe((cita: any) => {
-      this.cita = cita;
-      console.log('entro en socket alerta');
-      this.getDataPac();
-      this.notification();
-    }, (err) => {
-      console.log(err, 'error getAlerts');
-    });
+    this.connection = this.auth.getDataAlerts().subscribe(
+      (cita: any) => {
+        this.cita = cita;
+        console.log("entro en socket alerta");
+        this.getDataPac();
+        this.notification();
+        // this.backgroundMode.isScreenOff(function(bool) {
+        //   console.log(bool, 'estdo de isScreenOf');
 
-    this.clickSub = this.localNotifications.on('click').subscribe(data => {
+        //   if(bool === true){
+        //     this.backgroundMode.wakeUp();
+        //     this.backgroundMode.unlock();
+        //     this.notification();
+        //   }else{
+        //     this.notification();
+        //   }
+        // });
+      },
+      err => {
+        console.log(err, "error getAlerts");
+      }
+    );
+
+    this.clickSub = this.localNotifications.on("click").subscribe(data => {
       this.presentAlert(
-        'Médico:' + ' ' + data.data.medico + '<br>' +
-        'fecha:' + ' ' + data.data.fecha + '<br>' +
-        'hora:' + ' ' + data.data.hora + '<br>' +
-        'motivo:' + ' ' + data.data.motivo
+        "Médico:" +
+          " " +
+          data.data.medico +
+          "<br>" +
+          "fecha:" +
+          " " +
+          data.data.fecha +
+          "<br>" +
+          "hora:" +
+          " " +
+          data.data.hora +
+          "<br>" +
+          "motivo:" +
+          " " +
+          data.data.motivo
       );
     });
   }
 
   ngOnInit() {
     this.data = Info.categories;
-    this.dataUser = JSON.parse(localStorage.getItem('userPaciente'));
+    this.dataUser = JSON.parse(localStorage.getItem("userPaciente"));
     this.imageUrl = this.dataUser.fotoPerfil;
-    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageUrl);
+    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      this.imageUrl
+    );
     this.url = environment.url;
-    const user = JSON.parse(localStorage.getItem('userPaciente'));
-    console.log(user, 'userPaciente');
+    const user = JSON.parse(localStorage.getItem("userPaciente"));
+    console.log(user, "userPaciente");
     const idPaciente = user ? user.id : 1;
 
     let now = new Date();
-    this.fecha = formatDate(now, 'yyyy-MM-dd', 'en-US')
-    var hora = ('0' + new Date().getHours()).substr(-2);
-    var min = ('0' + new Date().getMinutes()).substr(-2);
-    var seg = ('0' + new Date().getSeconds()).substr(-2);
-    this.hora = hora + ':' + min + ':' + seg;
-    console.log(this.fecha, this.hora, 'hora y fecha');
+    this.fecha = formatDate(now, "yyyy-MM-dd", "en-US");
+    var hora = ("0" + new Date().getHours()).substr(-2);
+    var min = ("0" + new Date().getMinutes()).substr(-2);
+    var seg = ("0" + new Date().getSeconds()).substr(-2);
+    this.hora = hora + ":" + min + ":" + seg;
+    console.log(this.fecha, this.hora, "hora y fecha");
     this.getDataPac();
   }
 
-
+  fullScreenMode() {
+    this.androidFullScreen
+      .isImmersiveModeSupported()
+      .then(() => console.log("El modo inmersivo está disponible"))
+      .catch(err => console.log(err, "full screen no es compatible"));
+  }
 
   testNetwork() {
     this.networkService.getNetworkStatus().subscribe((connected: boolean) => {
       this.isConnected = connected;
       if (!this.isConnected) {
-        console.log('Por favor enciende tu conexión a Internet');
+        console.log("Por favor enciende tu conexión a Internet");
       }
     });
   }
@@ -149,65 +197,81 @@ export class HomePage implements OnInit {
     this.getDataPac();
   }
 
-  ionViewDidLeave() {
-  }
+  ionViewDidLeave() {}
 
   notification() {
-
-    if (this.cita.estadoCita === 'postponed') {
-      this.localNotifications.schedule(
-        {
-          id: this.cita.paciente.id,
-          title: 'SU CITA FUE POSPUESTA',
-          text:
-            'Fecha: ' + ' ' + this.cita.fecha + '\n'
-            + 'hora:' + ' ' + this.cita.hora,
-          data: {
-            medico: this.cita.medico.priNombre + ' ' + this.cita.medico.priApellido,
-            fecha: this.cita.fecha,
-            hora: this.cita.hora,
-            motivo: ''
-          },
-          sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
-          smallIcon: 'res://drawable-hdpi/ic_launcher.png',
-          icon: "res://drawable-hdpi/ic_launcher.png",
-          foreground: true,
-        });
-    } else if (this.cita.estadoCita === 'canceled') {
+    if (this.cita.estadoCita === "postponed") {
       this.localNotifications.schedule({
-
         id: this.cita.paciente.id,
-        title: 'SU CITA FUE CANCELADA',
+        title: "SU CITA FUE POSPUESTA",
         text:
-          'Motivo: ' + ' ' + this.cita.detalleCancelado + '\n'
-          + 'Fecha:' + ' ' + this.cita.fecha + '\n'
-          + 'hora:' + ' ' + this.cita.hora,
+          "Fecha: " +
+          " " +
+          this.cita.fecha +
+          "\n" +
+          "hora:" +
+          " " +
+          this.cita.hora,
         data: {
-          medico: this.cita.medico.priNombre + ' ' + this.cita.medico.priApellido,
+          medico:
+            this.cita.medico.priNombre + " " + this.cita.medico.priApellido,
+          fecha: this.cita.fecha,
+          hora: this.cita.hora,
+          motivo: ""
+        },
+        sound: this.platform.is("android")
+          ? "file://assets/sound/sound.mp3"
+          : "file://assets/sound/sorted.m4r",
+        smallIcon: "res://drawable-hdpi/ic_launcher.png",
+        icon: "res://drawable-hdpi/ic_launcher.png",
+        foreground: true
+      });
+    } else if (this.cita.estadoCita === "canceled") {
+      this.localNotifications.schedule({
+        id: this.cita.paciente.id,
+        title: "SU CITA FUE CANCELADA",
+        text:
+          "Motivo: " +
+          " " +
+          this.cita.detalleCancelado +
+          "\n" +
+          "Fecha:" +
+          " " +
+          this.cita.fecha +
+          "\n" +
+          "hora:" +
+          " " +
+          this.cita.hora,
+        data: {
+          medico:
+            this.cita.medico.priNombre + " " + this.cita.medico.priApellido,
           fecha: this.cita.fecha,
           hora: this.cita.hora,
           motivo: this.cita.detalleCancelado
         },
-        sound: this.platform.is('android') ? 'file://assets/sound/sound.mp3' : 'file://assets/sound/sorted.m4r',
-        smallIcon: 'res://drawable-hdpi/ic_launcher.png',
+        sound: this.platform.is("android")
+          ? "file://assets/sound/sound.mp3"
+          : "file://assets/sound/sorted.m4r",
+        smallIcon: "res://drawable-hdpi/ic_launcher.png",
         icon: "res://drawable-hdpi/ic_launcher.png",
-        foreground: true,
+        foreground: true
       });
     }
   }
 
   async presentAlert(data) {
     const alert = await this.alertController.create({
-      header: 'Detalles:',
+      header: "Detalles:",
       message: data,
       buttons: [
         {
-          text: 'OK',
-        }, {
-          text: 'Ir a mis Citas',
+          text: "OK"
+        },
+        {
+          text: "Ir a mis Citas",
           handler: () => {
-            this.router.navigate(['meetings']);
-            console.log('Ir a mis Citas');
+            this.router.navigate(["meetings"]);
+            console.log("Ir a mis Citas");
           }
         }
       ]
@@ -220,26 +284,31 @@ export class HomePage implements OnInit {
   }
 
   getDataPac() {
-    const user = JSON.parse(localStorage.getItem('userPaciente'));
+    const user = JSON.parse(localStorage.getItem("userPaciente"));
     const idPaciente = user ? user.id : null;
     //this.loadingCtrl.presentLoading();
-    this.auth.getMeetingData(idPaciente).subscribe((cita: any) => {
-      var citaFilter = _.filter(cita, item => item.fecha >= this.fecha);
-      citaFilter = _.orderBy(citaFilter, ['fecha'], ['asc']);
-      console.log(citaFilter, 'CITAS PACIENTE ACCEPTED');
-      this.dataHomeDelete = _.filter(citaFilter, item => item.hora >= this.hora);
-      this.dataHome = _.first(this.dataHomeDelete);
-      console.log(this.dataHome, 'PROXIMA CITA PACIENTE');
-      //this.loadingCtrl.dismiss();
-    }, (err) => {
-      console.log(err, 'error ultima cita');
-      //this.loadingCtrl.dismiss();
-    });
+    this.auth.getMeetingData(idPaciente).subscribe(
+      (cita: any) => {
+        var citaFilter = _.filter(cita, item => item.fecha >= this.fecha);
+        citaFilter = _.orderBy(citaFilter, ["fecha"], ["asc"]);
+        console.log(citaFilter, "CITAS PACIENTE ACCEPTED");
+        this.dataHomeDelete = _.filter(
+          citaFilter,
+          item => item.hora >= this.hora
+        );
+        this.dataHome = _.first(this.dataHomeDelete);
+        console.log(this.dataHome, "PROXIMA CITA PACIENTE");
+        //this.loadingCtrl.dismiss();
+      },
+      err => {
+        console.log(err, "error ultima cita");
+        //this.loadingCtrl.dismiss();
+      }
+    );
   }
 
-
   removeData(id) {
-    _.remove(this.dataHome, function (n) {
+    _.remove(this.dataHome, function(n) {
       return n.id === id;
     });
   }
@@ -254,18 +323,18 @@ export class HomePage implements OnInit {
 
   async presentToast() {
     let toast = await this.toast.create({
-      message: 'Componente en Construccion',
-      duration: 3000,
+      message: "Componente en Construccion",
+      duration: 3000
     });
     toast.present();
   }
 
   logout() {
     this.connection.unsubscribe();
-    this.auth.removeListener('calendar');
-    localStorage.removeItem('userPaciente');
+    this.auth.removeListener("calendar");
+    localStorage.removeItem("userPaciente");
     this.unsub();
-    this.router.navigate(['login']);
+    this.router.navigate(["login"]);
   }
 
   // OnDestroy() {

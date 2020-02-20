@@ -183,13 +183,13 @@
                         <label for="file-upload" class="subir">
                             <i class="fas fa-cloud-upload-alt"></i> Subir Foto
                         </label>
-                        <input id="file-upload" (change)="changeListener($event)" type="file" style='display: none;' />
+                        <input formControlName="fotoPerfil" id="file-upload" (change)="changeListener($event)" type="file" style='display: none;' />
                     </ion-col>
                 </ion-row>
 
                 <ion-row>
                     <ion-col size="2">
-                        <ion-checkbox class="cbox" formControlName="cboxPoliticas"></ion-checkbox>
+                        <ion-checkbox class="cbox"></ion-checkbox>
                     </ion-col>
                     <ion-col size="10">
                         <p class="politicas">Acepto las <a href="http://medipharm.com.ec/sistema-medico/#/politicas">condiciones de uso y políticas
@@ -203,7 +203,7 @@
                         <ion-button class="accept-edit" type="submit" (click)="prev()">Atrás</ion-button>
                     </ion-col>
                     <ion-col size="6">
-                        <ion-button class="accept-edit" type="submit" [disabled]="slideTwoForm.invalid" (click)="onSubmit()">Registrar
+                        <ion-button class="accept-edit" type="submit" [disabled]="slideTwoForm.invalid" (click)="registerUser()">Registrar
                         </ion-button>
                     </ion-col>
                 </ion-row>

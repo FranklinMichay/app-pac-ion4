@@ -31,6 +31,7 @@ import { registerLocaleData } from '@angular/common';
 import localeEsAr from '@angular/common/locales/es-AR';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
+import { AndroidFullScreen } from '@ionic-native/android-full-screen/ngx';
 registerLocaleData(localeEsAr);
 
 
@@ -67,6 +68,7 @@ registerLocaleData(localeEsAr);
     SplashScreen,
     BackgroundMode,
     Geolocation,
+    AndroidFullScreen,
     AndroidPermissions,
     LocationAccuracy,
     LocalNotifications,

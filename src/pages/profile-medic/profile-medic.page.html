@@ -13,7 +13,10 @@
 
 <ion-content>
     <div class="logo-circle">
-        <img class="border-effect1" [src]="medic.fotoPerfil || '/assets/imgs/doctor.png'" alt=" ">
+        <img class="border-effect1" *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] !== 'h'" src="{{url}}{{medic.fotoPerfil}}" />
+        <img class="border-effect1" *ngIf="medic.fotoPerfil !== null && medic.fotoPerfil[0] === 'h'" src="{{medic.fotoPerfil}}" />
+        <img class="border-effect1" *ngIf="!medic.fotoPerfil" src="assets/imgs/doctor.png " />
+
     </div>
     <button class="ver-agenda" id="previous" (click)="goToSchedule()">VER AGENDA</button>
     <div>
@@ -23,7 +26,7 @@
                     <label class="medico">Médico</label>
                 </ion-col>
                 <ion-col size="12">
-                    <p class="name-medic" *ngIf="medic">Dr. {{ medic.priNombre }}&nbsp;{{ medic.priApellido }}</p>
+                    <p class="name-medic" *ngIf="medic">{{ medic.priNombre }}&nbsp;{{ medic.priApellido }}</p>
                 </ion-col>
                 <ion-col>
                     <h3 class="especialidad" *ngIf="medic">{{ medic.especialidad.nombre }}</h3>

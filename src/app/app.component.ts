@@ -41,6 +41,7 @@ export class AppComponent {
       if (window.location.pathname === "/home" || window.location.pathname === "/login") {
         this.backgroundMode.moveToBackground();
         this.backgroundMode.overrideBackButton();
+        //this.backgroundMode.disable();
         navigator['app'].exitApp();
       }
     });

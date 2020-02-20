@@ -16,7 +16,7 @@
     <div class="ion-padding div-menu">
         <ion-row class="nav-tabs">
             <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
-                <label class="text-center">Aceptadas</label>
+                <label class="text-center">Agendadas</label>
             </ion-col>
             <ion-col class="col-center" [ngClass]="{'active': currentTab === 'step2'}" (click)="changeTab('step2')">
                 <label class="text-center">Canceladas</label>
@@ -83,10 +83,10 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <!-- <div *ngIf="!acceptedMeetings || acceptedMeetings.length == 0" class="empty-container">
-                <img src="assets/imgs/no-datos.png" class="empty-state">
-                <h3 class="text-center">Sin Contenido</h3>
-            </div> -->
+            <div *ngIf="acceptedMeetings.length === 0" class="empty-container">
+                <img src="assets/icon/no-documents.svg" class="empty-state">
+                <h3 class="text-center">Sin contenido</h3>
+            </div>
         </div>
     </div>
 
@@ -117,15 +117,14 @@
                         </ion-row>
                     </ion-col>
                     <ion-col size="1" class="icon-medic">
-
                         <ion-icon name="ios-arrow-forward"></ion-icon>
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <!-- <div *ngIf="!newMeetings || newMeetings.length == 0 " class="empty-container">
-                <img src="assets/imgs/no-datos.png" class="empty-state">
+            <div *ngIf="newMeetings.length == 0 " class="empty-container">
+                <img src="assets/icon/no-documents.svg" class="empty-state">
                 <h3 class="text-center">Sin Contenido</h3>
-            </div> -->
+            </div>
         </div>
     </div>
 
@@ -160,10 +159,10 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
-            <!-- <div *ngIf="!postponedMeetings || postponedMeetings.length == 0 " class="empty-container">
-                <img src="assets/imgs/no-datos.png" class="empty-state">
+            <div *ngIf="postponedMeetings.length == 0 " class="empty-container">
+                <img src="assets/icon/no-documents.svg" class="empty-state">
                 <h3 class="text-center">Sin Contenido</h3>
-            </div> -->
+            </div>
         </div>
     </div>
 

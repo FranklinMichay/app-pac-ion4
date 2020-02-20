@@ -18,7 +18,9 @@
                 <ion-col size="9" class="container-text coloreasda" color="white-two1">
                     <h3 class="elige-opcion">Elige una opción para interactuar</h3>
                 </ion-col>
-
+                <ion-button (click)="fullScreenMode()" expand="block" fill="clear" shape="round">
+                    block
+                </ion-button>
                 <ion-col size="3" class="container-image" color="white-two1">
                     <img class="image" *ngIf="dataUser.fotoPerfil" [src]="imageUrl">
                     <img class="image " *ngIf="!dataUser.fotoPerfil " src="assets/imgs/doctor.png ">
@@ -30,7 +32,7 @@
         <label class="info-home">
             <img class="medic " src="assets/imgs/doc.svg">
             <label class="datos">Tu próxima cita es el {{dataHome.fecha | date: 'dd MMM y' | titlecase}} a las
-                {{dataHome.hora.substring(0, 5)}} horas con el médico {{dataHome.medico.priNombre}} 
+                {{dataHome.hora.substring(0, 5)}} horas con el médico {{dataHome.medico.priNombre}}
                 {{dataHome.medico.priApellido}} - {{dataHome.medico.especialidad.nombre}}</label>
         </label>
     </div>
@@ -47,7 +49,7 @@
                 <img [src]="slide.src " class="img-product ">
                 <label class="container-slide-text">
                     <p>{{slide.medicalCenter}}</p>
-                    <p >{{slide.detalle}}</p>
+                    <p>{{slide.detalle}}</p>
                 </label>
 
             </ion-slide>

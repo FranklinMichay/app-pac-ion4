@@ -4,6 +4,7 @@ import { NavController } from '@ionic/angular';
 import { HomePage } from '../home/home.page';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from 'src/app/services/data.service';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-profile-medic',
@@ -13,6 +14,7 @@ import { DataService } from 'src/app/services/data.service';
 export class ProfileMedicPage implements OnInit {
 
   medic: any = { };
+  url: any;
   slides: any = [
     {
       src: 'https://static.dentalhuelin.com/media/images/instalaciones/6.jpg',
@@ -34,6 +36,7 @@ export class ProfileMedicPage implements OnInit {
     private activeRoute: ActivatedRoute,
     private dataService: DataService
   ) { 
+    this.url = environment.url
     // this.medic = this.router.getCurrentNavigation().extras.state;
     // console.log(this.medic, 'active params');
   }

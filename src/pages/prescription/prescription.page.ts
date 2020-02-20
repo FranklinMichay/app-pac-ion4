@@ -162,7 +162,7 @@ export class PrescriptionPage implements OnInit {
     let resultAdd = null;
     let allDetails = [];
     this.dispatchs.map((elementMap: any) => {
-      console.log(this.auth.convertStringToArrayOfObjects(elementMap.detalles));
+      //console.log(this.auth.convertStringToArrayOfObjects(elementMap.detalles));
 
       allDetails = this.concatDetailsDispatch(this.auth.convertStringToArrayOfObjects(elementMap.detalles), allDetails);
     });

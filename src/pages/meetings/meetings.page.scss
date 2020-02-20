@@ -50,6 +50,7 @@
 .col-center {
     display: grid;
     align-items: center;
+    padding: 7px 0px 0px 0px;
 }
 
 .col-left {
@@ -58,6 +59,7 @@
     border-right: 1px darkgrey;
     align-items: center;
     display: grid;
+    padding: 7px 0px 0px 0px;
 }
 
 .col-right {
@@ -66,6 +68,7 @@
     border-left: 1px darkgrey;
     align-items: center;
     display: grid;
+    padding: 7px 0px 0px 0px;
 }
 
 .row-container {
@@ -128,6 +131,8 @@
     font-stretch: normal;
     font-style: normal;
     font-weight: 600;
+    text-align: center;
+    margin-top: -8%;
 }
 
 .table-bordered {
