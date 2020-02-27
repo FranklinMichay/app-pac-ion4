@@ -151,8 +151,11 @@ export class PaymentPage implements OnInit {
     }
   }
 
-  ionViewDidLoad() {
-    debugger
+  // ionViewDidLoad() {
+  //   this.platform.ready().then(() => this.getCurrentPosition());
+  // }
+
+  ionViewDidEnter(){
     this.platform.ready().then(() => this.getCurrentPosition());
   }
 
@@ -239,6 +242,7 @@ export class PaymentPage implements OnInit {
   }
 
   getCurrentPosition() {
+    
     this.geolocation
       .getCurrentPosition({
         maximumAge: 1000,
