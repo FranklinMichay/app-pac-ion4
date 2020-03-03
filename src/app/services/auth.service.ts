@@ -626,4 +626,9 @@ export class AuthService {
     });
     return observable;
   }
+
+  senDataDispatch(data: any) {
+    console.log('DATA send Sokect', data);
+    this.socket.emit('dispatch', data);
+  }
 }

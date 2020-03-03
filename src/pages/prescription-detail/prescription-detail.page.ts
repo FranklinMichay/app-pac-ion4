@@ -602,7 +602,6 @@ export class PrescriptionDetailPage implements OnInit {
       console.log(result, "socket....");
       this.processData(result);
     });
-    
   }
 
   processData(result: any) {

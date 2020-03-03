@@ -241,7 +241,6 @@ export class PaymentPage implements OnInit {
         }
       ]
     });
-
     await alert.present();
   }
 
@@ -590,6 +589,8 @@ export class PaymentPage implements OnInit {
     const dataForDispatch = {
       idReceta: this.prescription.codiRece,
       datosReceta: this.prescription._id,
+      datosPaciente: this.prescription.datosPac,
+      estadoDespacho: 'nuevo',
       detalles: JSON.stringify(details),
       fecha: formatDate(new Date(), "yyyy-MM-dd", "en-US"),
       totalDespacho: this.calculateTotalDispatch(),
@@ -617,8 +618,8 @@ export class PaymentPage implements OnInit {
     this.loadingCtrl.presentLoading();
     this.auth.createDispatch(data).subscribe((resultCreate: any) => {
       console.log("DESPACHO GUARDADO");
+      this.auth.senDataDispatch(data);
       this.exportData(this.prescription);
-
       // this.deleteCartPatient(this.userData.identificacion);
     });
     this.loadingCtrl.dismiss();
@@ -789,6 +790,7 @@ export class PaymentPage implements OnInit {
         console.log(resultUpdate, "RECETA ACTUALIZADA");
         this.deleteCartPatient(this.user.identificacion);
       });
+      
     this.loadingCtrl.dismiss();
   }
 

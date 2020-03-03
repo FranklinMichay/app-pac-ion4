@@ -377,7 +377,6 @@ ion-content {
     padding: 9px 0px 0px 0px;
     width: 90px;
     margin-top: -7%;
-
 }
 
 .fecha {
@@ -445,8 +444,36 @@ ion-content {
     .line {
         background-color: #695cff;
     }
-    .container-info-medic {
-        //left: -14%;
+    .image {
+        width: 4vh;
+        height: 4vh;
+        border-radius: 25px;
+        margin-top: 6%;
+        margin-left: 5%;
+        /* border: solid 2px white; */
+        background: #dfe4e6;
+    }
+    .medical-center {
+        font-family: Poppins;
+        font-size: 12.8px;
+        font-weight: normal;
+        font-style: normal;
+        font-stretch: normal;
+        line-height: 1.72;
+        letter-spacing: normal;
+        color: black;
+    }
+}
+
+.container-medic-hist {
+    width: 94%;
+    border-radius: 5px;
+    background-color: #f6f6f6;
+    height: 100px;
+    margin-top: 2%;
+    margin-left: 3%;
+    .line {
+        background-color: #695cff;
     }
     .image {
         width: 4vh;
@@ -473,8 +500,8 @@ ion-content {
     overflow-y: scroll;
     width: 102%;
     //height          : 92vh;
-    background: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 91%);
-    background-color: white;
+    //background: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 91%);
+    //background-color: white;
     padding: 2px 10px;
 }
 
@@ -623,10 +650,12 @@ ion-content {
 }
 
 .item-divider {
-    background: #ecf0f5;
+    background: #dfe4e6;
     border: 0px;
     height: 36px;
     padding: 0px 5px;
+    border-top: 2px solid #d9d9d9;
+    border-bottom: 2px solid #d9d9d9;
 }
 
 @media (min-width: 619px) {
