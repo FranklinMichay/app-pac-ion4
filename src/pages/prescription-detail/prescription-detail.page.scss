@@ -348,6 +348,9 @@ ion-content {
     font-weight: 700;
     margin-bottom: -2%;
     margin-top: -1%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
 }
 
 .esp {
@@ -370,9 +373,11 @@ ion-content {
     font-style: normal;
     line-height: 1.57;
     letter-spacing: 0.22px;
-    margin-left: 22%;
-    padding: 9px 0px 0px 8px;
+    margin-left: 27%;
+    padding: 9px 0px 0px 0px;
     width: 90px;
+    margin-top: -7%;
+
 }
 
 .fecha {
@@ -618,7 +623,7 @@ ion-content {
 }
 
 .item-divider {
-    background-image: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 120%);
+    background: #ecf0f5;
     border: 0px;
     height: 36px;
     padding: 0px 5px;

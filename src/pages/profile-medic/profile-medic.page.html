@@ -7,7 +7,7 @@
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar">PERFIL</ion-title>
+        <ion-title class="title-toolbar">MÉDICO</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -45,7 +45,7 @@
         </div>
         <div class="container-calendar">
             <ion-icon class="icon-location" name="calendar"></ion-icon>
-            <span class="text-calendar">Fecha de nacimiento 5 de Agosto de 1989</span>
+            <span class="text-calendar">Fecha de nacimiento: {{medic.fechaNaci}}</span>
         </div>
         <h3 class="medical-center">Centros Médicos</h3>
         <div class="container-">
@@ -55,7 +55,7 @@
                 <!-- <p class="text-map">
                     <ion-icon name="pin"></ion-icon> <b> </b> COMO LLEGAR
                 </p> -->
-                <label class="text-mc-detail">Ubicacion de centro medico </label>
+                <label class="text-mc-detail">{{item.direccion}} </label>
             </ion-item>
         </div>
     </ion-list>

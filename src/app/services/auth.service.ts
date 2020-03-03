@@ -111,8 +111,6 @@ export class AuthService {
     );
   }
 
-  
-
   getInfoPac(data: any): Observable<any> {
     console.log(data, " data");
     return this.httpClient.get<any>(
@@ -480,12 +478,14 @@ export class AuthService {
       data
     );
   }
+
   createUserPaciente(data: any): Observable<any> {
     return this.httpClient.post<any>(
       `${this.url}` + "paciente/createUserPaciente/",
       data
     );
   }
+
   registerPaciente(formData): Observable<any> {
     return this.httpClient.post<any>(
       `${this.url}` + "paciente/createPerfilPaciente/",
@@ -496,7 +496,6 @@ export class AuthService {
   getIdUser(correo: any): Observable<any> {
     return this.httpClient.get<any>(`${this.url}paciente/getIdUser/${correo}/`);
   }
-
 
   // createUserPaciente(data: any): Observable<any> {
   //   console.log("dataUser", data);
@@ -614,5 +613,17 @@ export class AuthService {
     return this.httpClient.delete<any>(
       `${this.urlMongoDB}despacho/deleteCart/${dni}`
     );
+  }
+
+  //SOCKET DESPACHOS
+
+  getDataDispatch() {
+    const observable = new Observable(observer => {
+      this.socket.on('dispatch', async (data: any) => {
+          console.log(data, 'data express');
+          observer.next(data);
+      });
+    });
+    return observable;
   }
 }

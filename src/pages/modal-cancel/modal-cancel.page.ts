@@ -50,7 +50,7 @@ export class ModalCancelPage implements OnInit {
     });
   }
 
-  closeModal(dataCita) {
+  closeModal(dataCita?) {
     this.modalCtrl.dismiss({
       'data': dataCita
     });

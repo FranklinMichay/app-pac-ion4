@@ -14,9 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { GetMeetingPage } from './../pages/get-meeting/get-meeting.page';
 import { ModalCancelPage } from './../pages/modal-cancel/modal-cancel.page';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
-import { AutoCompleteModule } from 'ionic4-auto-complete';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TagInputModule } from 'ngx-chips';
 import { ImagePicker } from '@ionic-native/image-picker/ngx';
 import { FileTransfer, FileTransferObject } from '@ionic-native/file-transfer/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl };
@@ -58,8 +56,6 @@ registerLocaleData(localeEsAr);
     AngularFireModule.initializeApp(environment),
     HttpClientModule,
     SocketIoModule.forRoot(config),
-    AutoCompleteModule,
-    TagInputModule,
   ],
 
   providers: [

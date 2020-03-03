@@ -4,8 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import { SearchMedicPage } from './search-medic.page';
-import { AutoCompleteModule } from 'ionic4-auto-complete';
-import { TagInputModule } from 'ngx-chips';
 import { FilterPipe } from '../../app/pipes/filter.pipe';
 
 
@@ -19,12 +17,10 @@ const routes: Routes = [
 
 @NgModule({
   imports: [
-    TagInputModule,
     CommonModule,
     FormsModule,
     IonicModule,
     RouterModule.forChild(routes),
-    AutoCompleteModule,
 
   ],
   declarations: [SearchMedicPage,

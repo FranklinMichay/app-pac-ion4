@@ -1,6 +1,5 @@
 <ion-header>
     <ion-toolbar color="primary">
-
         <ion-title class="title-toolbar">PACIENTE</ion-title>
         <ion-buttons slot="primary">
             <ion-button (click)="logout()">
@@ -9,7 +8,6 @@
         </ion-buttons>
     </ion-toolbar>
 </ion-header>
-
 
 <ion-content id="section-category" class="container-home">
     <div class="div-head">
@@ -26,19 +24,35 @@
         </ion-grid>
     </div>
     <div *ngIf="dataHome" class="header-info">
-        <label class="info-home">
-            <img class="medic " src="assets/imgs/doc.svg">
-            <label class="datos">Tu próxima cita es el {{dataHome.fecha | date: 'dd MMM y' | titlecase}} a las
-                {{dataHome.hora.substring(0, 5)}} horas con el médico {{dataHome.medico.priNombre}}
-                {{dataHome.medico.priApellido}} - {{dataHome.medico.especialidad.nombre}}</label>
-        </label>
+
+        <ion-row class="info-home">
+            <ion-col size="4">
+                <img class="medic " src="assets/imgs/doc.svg">
+            </ion-col>
+            <ion-col size="8">
+                <label class="datos">Tu próxima cita es el {{dataHome.fecha | date: 'dd MMM y' | titlecase}} a las
+                        {{dataHome.hora.substring(0, 5)}} horas. </label>
+            </ion-col>
+        </ion-row>
     </div>
-    <div *ngIf="!dataHome " class="header-info ">
+
+    <div *ngIf="!dataHome " class="header-info">
+
+        <ion-row class="info-home">
+            <ion-col size="4">
+                <img class="medic " src="assets/imgs/doc.svg">
+            </ion-col>
+            <ion-col size="8">
+                <label class="datos2 ">Aún no tienes citas agendadas</label>
+            </ion-col>
+        </ion-row>
+    </div>
+    <!-- <div *ngIf="!dataHome " class="header-info ">
         <label class="info-home ">
             <img class="medic " src="../../assets/imgs/doc.svg ">
             <label class="datos2 ">Aún no tienes citas agendadas</label>
         </label>
-    </div>
+    </div> -->
 
     <div *ngIf="slides " class="container-product-detail ">
         <ion-slides [options]="slideOptsOne">

@@ -11,7 +11,6 @@
 </ion-header>
 
 <ion-content *ngIf="productoDespacho">
-
     <div class="ion-padding div-menu">
         <ion-row class="nav-tabs">
             <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
@@ -25,7 +24,6 @@
             </ion-col>
         </ion-row>
     </div>
-
 
     <ion-grid class="grid-receta">
         <ion-row>
@@ -47,16 +45,13 @@
                 <p class="subtitle-receta">{{dataDespacho.datosReceta.datosMedico.especialidad }}</p>
             </ion-col>
             <ion-col size="4">
-                <ion-label class="label-state" [color]="getColor(dataDespacho.estadoDespacho)">
+                <ion-label *ngIf="dataDespacho.estadoDespacho === 'camino' || dataDespacho.estadoDespacho === 'entregado'" class="label-state" [color]="getColor(dataDespacho.estadoDespacho)">
                     {{ dataDespacho.estadoDespacho}}</ion-label>
+                <ion-label *ngIf="dataDespacho.estadoDespacho === 'preparado' || dataDespacho.estadoDespacho === 'preparadoTrans'" class="label-state" [color]="getColor(dataDespacho.estadoDespacho)">
+                    Despachado</ion-label>
             </ion-col>
         </ion-row>
-
     </ion-grid>
-
-
-
-
 
     <div class="form-group required" *ngIf="currentTab === 'step1'">
         <ion-grid *ngIf="dataDespacho" class="ion-no-padding">
@@ -66,9 +61,8 @@
 
             <ion-row *ngFor="let product of productoDespacho; let i = index" class="row-content">
                 <ion-col size="8">
-                    <ion-label class="col-name">{{product?.codigoProducto.nombre}}</ion-label><br>
-                    <ion-label class="col-forma">{{product?.codigoProducto.formaFarmaceutica}}</ion-label>
-
+                    <ion-label class="col-name">{{product?.idProducto.nombre}}</ion-label><br>
+                    <ion-label class="col-forma">{{product?.idProducto.formaFarmaceutica}}</ion-label>
                 </ion-col>
 
                 <ion-col size="4" class="col-name">
@@ -88,21 +82,25 @@
     </div>
 
     <div class="form-group required" *ngIf="currentTab === 'step3'">
-        <h3 *ngIf="dataDespacho.tiempoEstimado && dataDespacho.estadoDespacho === 'camino'" class="eta-desp">Tiempo estimado: {{dataDespacho?.tiempoEstimado}}</h3>
+        <h3 *ngIf="dataDespacho.tiempoEstimado && dataDespacho.estadoDespacho === 'camino'" class="eta-desp">
+            Tiempo estimado: {{dataDespacho?.tiempoEstimado}}
+        </h3>
+
+        <h3 *ngIf="dataDespacho.estadoDespacho === 'preparado' || dataDespacho.estadoDespacho === 'preparadoTrans'" class="eta-desp">
+
+        </h3>
         <div class="stepwizard">
             <div class="stepwizard-row">
                 <div class="stepwizard-step">
-
-                    <ion-icon name="checkmark-circle-outline" class="icon-button"></ion-icon>
-
+                    <ion-icon name="checkmark-circle-outline" class="icon-button">
+                    </ion-icon>
                     <ion-icon src="assets/imgs/svg/hourglass-outline.svg " class="bg-icon "></ion-icon>
-                    <ion-label class="description">Nuevo</ion-label>
+                    <ion-label class="description">Despachado</ion-label>
                 </div>
 
-
                 <div class="stepwizard-step ">
-
-                    <ion-icon *ngIf="dataDespacho.estadoDespacho === 'camino' || dataDespacho.estadoDespacho === 'entregado'" name="checkmark-circle-outline" class="icon-button"></ion-icon>
+                    <ion-icon *ngIf="dataDespacho.estadoDespacho === 'camino' || dataDespacho.estadoDespacho === 'entregado'" name="checkmark-circle-outline" class="icon-button">
+                    </ion-icon>
                     <ion-icon *ngIf="dataDespacho.estadoDespacho != 'camino' && dataDespacho.estadoDespacho != 'entregado'" name="checkmark-circle-outline" class="icon-button1">
                     </ion-icon>
 

@@ -114,8 +114,8 @@
 .datos {
     //margin-top: 2%;
     //padding: 0px 30px 0 0;
-    padding: 9px 16px 0px 0px;
-    font-size: 15.8px;
+    //padding: 9px 16px 0px 0px;
+    font-size: 17px;
     font-family: OpenSans;
 }
 
@@ -134,13 +134,13 @@
 .info-home {
     border-radius: 20px;
     font-size: 20px;
-    //text-align: justify;
     background-color: #14d2b8;
     font-family: Poppins;
     margin-left: auto;
     margin-right: auto;
     display: flex;
     color: white;
+    height: 80px;
 }
 
 .slide-text {
@@ -188,20 +188,22 @@
 }
 
 .header-info {
-    width: 95%;
-    margin: -6% 0% 4% 2%;
+    width: 90%;
+    margin: -5% 0% 4% 5%;
     border-radius: 5px;
+    margin-top: -3%;
 }
 
 .medic {
     width: 130px;
-    height: 30%;
-    margin-top: 1%;
+    height: 90px;
+    margin-top: -23%;
+    position: absolute;
 }
 
 .elige-opcion {
     font-family: Poppins;
-    font-size: 20px;
+    font-size: 25px;
     font-weight: normal;
     font-style: normal;
     font-stretch: normal;

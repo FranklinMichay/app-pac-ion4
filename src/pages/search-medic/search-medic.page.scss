@@ -73,6 +73,10 @@
     background-image: linear-gradient(160deg, #ecf0f5 14%, #ccd6e6 91%);
 }
 
+.bg-specialities {
+    background-color: #f6f6f6;
+}
+
 .list-header {
     text-align: center !important;
     border-top: 0px solid white;
@@ -310,14 +314,46 @@
 
 .best-results {
     font-family: Poppins;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 500;
     font-stretch: normal;
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
     color: black;
-    margin-top: 5%;
+    margin-top: 1%;
+}
+
+.content-best-result {
+    // border-bottom: 1px solid #dfe4e6;
+    // border-top: 1px solid #dfe4e6;
+}
+
+.content-item {
+    border-bottom: 1px solid #dfe4e6;
+}
+
+.title-params {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #657785;
+}
+
+.title-params-es {
+    font-family: Poppins;
+    font-size: 12.8px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.72;
+    letter-spacing: normal;
+    color: #657785;
+    padding: 0px 15px;
 }
 
 .keyword {
@@ -329,6 +365,32 @@
     line-height: 1.72;
     letter-spacing: normal;
     color: #657785;
+}
+
+.text-center-no-desp {
+    text-align: center;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.63;
+    letter-spacing: normal;
+    text-align: center;
+    color: #657785;
+    margin-top: -15%;
+}
+
+.empty-container {
+    display: grid;
+    align-items: center;
+}
+
+.empty-state {
+    align-content: center;
+    margin: 5% auto;
+    height: 23vh;
+    width: 41vw;
 }
 
 ion-label {
@@ -457,6 +519,92 @@ ion-auto-complete {
 .button-search i {
     color: #7461fc;
     font-size: 20px;
+}
+
+//BUSCADOR MEDICOS
+.title-metodo {
+    height: 37px;
+    opacity: 0.99;
+    background-color: #dfe4e6;
+    //margin-top: -4%;
+}
+
+.medicamentos {
+    opacity: 0.99;
+    font-family: OpenSans;
+    font-size: 14px;
+    font-weight: bold;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.57;
+    letter-spacing: 0.22px;
+    color: #140e2c;
+}
+
+.list-card {
+    height: 135px;
+    margin-top: 2%;
+}
+
+.content-card {
+    width: 80px;
+    height: 100px;
+    border-radius: 12px;
+    background-color: white;
+    .i-card {
+        width: 60px;
+        height: 60px;
+        // border: solid 1px black;
+        color: white;
+        border-radius: 12px;
+        margin-top: -10%;
+        margin-left: 38%;
+        background: #d4cfff;
+    }
+    h3 {
+        font-size: 11px;
+        font-weight: 600;
+        padding: 0px 6px 0px 28px;
+        margin-left: -34%;
+        margin-top: 0%;
+    }
+}
+
+.content-card-a {
+    width: 80px;
+    height: 100px;
+    border-radius: 12px;
+    border: solid 2px #597bf0;
+    background-color: white;
+    .i-card {
+        width: 60px;
+        height: 60px;
+        border: solid 2px #597bf0;
+        color: white;
+        border-radius: 12px;
+        margin-top: -10%;
+        margin-left: 38%;
+        background: #d4cfff;
+    }
+    h3 {
+        font-size: 11px;
+        /* margin-top: 4%; */
+        font-weight: 600;
+        padding: 0px 6px 0px 28px;
+        margin-left: -34%;
+        margin-top: 0%;
+    }
+}
+
+.content-slide {
+    margin-top: 5%;
+}
+
+.img-esp {
+    width: 35px;
+    height: 29px;
+    margin-top: 25%;
+    margin-left: 20%;
 }
 
 // @media (min-width: 619px) {

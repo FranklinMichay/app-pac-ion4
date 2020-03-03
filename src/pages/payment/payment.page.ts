@@ -34,6 +34,7 @@ import * as _ from "lodash";
 import { LoadingService } from "src/app/services/loading.service";
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 import { Platform } from "@ionic/angular";
+declare var ol: any;
 
 @Component({
   selector: "app-payment",
@@ -90,8 +91,8 @@ export class PaymentPage implements OnInit {
   map: mapboxgl.Map;
   style = "mapbox://styles/mapbox/streets-v11";
   // Coordenadas de la localización donde queremos centrar el mapa
-  lat: number;
-  lng: number;
+  lat: number = -3.974222033;
+  lng: number = -79.20786264;
   zoom = 13;
   user: any;
   timetest: any;
@@ -100,9 +101,10 @@ export class PaymentPage implements OnInit {
 
   sliderConfig = {
     slidesPerView: 2,
-    spaceBetween: 3,
+    spaceBetween: 1,
     centeredSlides: true
   };
+  intervalIni: any;
 
   constructor(
     public fb: FormBuilder,
@@ -129,11 +131,13 @@ export class PaymentPage implements OnInit {
     console.log(this.dataForView, "DATA PARA DESPACHAR");
     console.log(this.prescription, "RECETA PARA DESPACHAR");
     this.timetest = Date.now();
-    this.checkGPSPermission();
+
+    //this.checkGPSPermission();
   }
 
   ngOnInit() {
-    
+    this.checkGPSPermission();
+
     this.total = this.dataForView.reduce(
       (acc, obj) => acc + obj.totalDispatch * obj.price,
       0
@@ -152,12 +156,12 @@ export class PaymentPage implements OnInit {
   }
 
   // ionViewDidLoad() {
-  //   this.platform.ready().then(() => this.getCurrentPosition());
+  //   this.getCurrentPosition();
   // }
 
-  ionViewDidEnter(){
-    this.platform.ready().then(() => this.getCurrentPosition());
-  }
+  // ionViewDidEnter() {
+  //   this.getCurrentPosition();
+  // }
 
   checkGPSPermission() {
     this.androidPermissions
@@ -242,44 +246,24 @@ export class PaymentPage implements OnInit {
   }
 
   getCurrentPosition() {
-    
     this.geolocation
       .getCurrentPosition({
-        maximumAge: 1000,
-        timeout: 5000,
         enableHighAccuracy: true
       })
       .then(coordinates => {
         console.log("POSICION MAPA", coordinates);
         this.lat = coordinates.coords.latitude;
         this.lng = coordinates.coords.longitude;
-        this.accuracy = coordinates.coords.accuracy;
-        this.timestamp = coordinates.timestamp;
-        this.loadMap();
+        // this.accuracy = coordinates.coords.accuracy;
+        // this.timestamp = coordinates.timestamp;
+        this.intervalIni = setInterval(() => {
+          this.loadMap();
+          clearInterval(this.intervalIni);
+        }, 2000);
       })
       .catch(error => {
         console.log("Error getting location", error);
       });
-  }
-
-  loadMap() {
-    this.mapbox.accessToken = environment.mapbox.accessToken;
-    this.map = new mapboxgl.Map({
-      container: "map",
-      style: "mapbox://styles/mapbox/streets-v11",
-      center: [this.lng, this.lat],
-      zoom: 15
-    });
-    this.addMarker();
-
-    this.map.on("move", () => {
-      console.log(`Current Map Center: ${this.map.getCenter()}`);
-
-      const centerMap = this.map.getCenter();
-      this.lng = centerMap.lng;
-      this.lat = centerMap.lat;
-      this.marker.setLngLat([centerMap.lng, centerMap.lat]).addTo(this.map);
-    });
   }
 
   addMarker() {
@@ -296,6 +280,132 @@ export class PaymentPage implements OnInit {
     })
       .setLngLat([this.lng, this.lat])
       .addTo(this.map);
+  }
+
+  loadMap() {
+    this.mapbox.accessToken = environment.mapbox.accessToken;
+    this.map = new mapboxgl.Map({
+      container: "map",
+      style: "mapbox://styles/mapbox/streets-v11",
+      center: [this.lng, this.lat],
+      zoom: 15
+    });
+    this.addMarker();
+    this.map.on("move", () => {
+      console.log(`Current Map Center: ${this.map.getCenter()}`);
+      const centerMap = this.map.getCenter();
+      this.lng = centerMap.lng;
+      this.lat = centerMap.lat;
+      this.marker.setLngLat([centerMap.lng, centerMap.lat]).addTo(this.map);
+    });
+
+    // var features = [];
+    // var vectorLayer;
+    // var vectorSource;
+    // var iconFeature, iconFeatureDomicilio;
+
+    // var iconStyle = new ol.style.Style({
+    //   image: new ol.style.Icon(
+    //     /** @type {olx.style.IconOptions} */ {
+    //       anchor: [0.5, 50],
+    //       anchorXUnits: "fraction",
+    //       anchorYUnits: "pixels",
+    //       opacity: 0.9,
+    //       //size : [60,60],
+    //       scale: 0.1,
+    //       src: "assets/icon/redMarker.png"
+    //     }
+    //   )
+    // });
+
+    // // var iconDomicilio = new ol.style.Style({
+    // //   image: new ol.style.Icon(
+    // //     /** @type {olx.style.IconOptions} */ {
+    // //       anchor: [0.5, 50],
+    // //       anchorXUnits: "fraction",
+    // //       anchorYUnits: "pixels",
+    // //       opacity: 0.9,
+    // //       //size : [60,60],
+    // //       scale: 0.1,
+    // //       src: "assets/markers/location.png"
+    // //     }
+    // //   )
+    // // });
+
+    // this.map = new ol.Map({
+    //   target: "map",
+    //   layers: [
+    //     new ol.layer.Tile({
+    //       //source: new ol.source.OSM()
+    //       source: new ol.source.XYZ({
+    //         url: "assets/loja/{z}/{x}/{y}.png"
+    //       })
+    //     }) //,
+    //     //vectorLayer
+    //   ],
+
+    //   view: new ol.View({
+    //     center: ol.proj.transform(
+    //       [this.lng, this.lat],
+    //       "EPSG:4326",
+    //       "EPSG:900913"
+    //     ),
+    //     zoom: 15,
+    //     maxZoom: 17,
+    //     minZoom: 14
+    //   })
+    // });
+
+    // iconFeature = new ol.Feature({
+    //   geometry: new ol.geom.Point(
+    //     ol.proj.transform(
+    //       [Number(this.lng), Number(this.lat)],
+    //       "EPSG:4326",
+    //       "EPSG:3857"
+    //     )
+    //   )
+    // });
+    // iconFeature.setStyle(iconStyle);
+    // features.push(iconFeature);
+    // vectorSource = new ol.source.Vector({
+    //   features: features //add an array of features
+    //   //, style: iconStyle     //to set the style for all your features...
+    // });
+    // vectorLayer = new ol.layer.Vector({
+    //   source: vectorSource
+    // });
+    // this.map.addLayer(vectorLayer);
+
+    // iconFeature = new ol.Feature({
+    //   geometry: new ol.geom.Point(
+    //     ol.proj.transform(
+    //       [Number(this.lng), Number(this.lat)],
+    //       "EPSG:4326",
+    //       "EPSG:3857"
+    //     )
+    //   )
+    // });
+    // // iconFeatureDomicilio = new ol.Feature({
+    // //   geometry: new ol.geom.Point(
+    // //     ol.proj.transform(
+    // //       [Number(this.lng + 0.001), Number(this.lat)],
+    // //       "EPSG:4326",
+    // //       "EPSG:3857"
+    // //     )
+    // //   )
+    // // });
+
+    // iconFeature.setStyle(iconStyle);
+    // //iconFeatureDomicilio.setStyle(iconDomicilio);
+    // features.push(iconFeature);
+    // //features.push(iconFeatureDomicilio);
+    // vectorSource = new ol.source.Vector({
+    //   features: features
+    // });
+    // vectorLayer = new ol.layer.Vector({
+    //   source: vectorSource
+    // });
+    // this.map.addLayer(vectorLayer);
   }
 
   initForms() {
@@ -483,7 +593,8 @@ export class PaymentPage implements OnInit {
       detalles: JSON.stringify(details),
       fecha: formatDate(new Date(), "yyyy-MM-dd", "en-US"),
       totalDespacho: this.calculateTotalDispatch(),
-      horarioEntrega: this.horarioSelected.name,
+      //horarioEntrega: this.horarioSelected.name,
+      horarioEntrega: "mañana",
       datosFactura: this.datosPersonalesFrom.value,
       datosEntrega: this.direccionForm.value,
       estadoPago: estadoPagoV,
@@ -620,14 +731,12 @@ export class PaymentPage implements OnInit {
     for (const elemnt of this.listProducts) {
       this.data.index = i;
       this.data._id = elemnt._id;
-      this.data.product = this.listProducts[i].codigoProducto.nombre;
-      this.data.presentation = this.listProducts[i].codigoProducto.presentacion;
-      this.data.concentration = this.listProducts[
-        i
-      ].codigoProducto.concentracion;
+      this.data.product = this.listProducts[i].idProducto.nombre;
+      this.data.presentation = this.listProducts[i].idProducto.presentacion;
+      this.data.concentration = this.listProducts[i].idProducto.concentracion;
       this.data.pharmacyForm = this.listProducts[
         i
-      ].codigoProducto.formaFarmaceutica;
+      ].idProducto.formaFarmaceutica;
       this.data.totalPrescription = quantityOfProducts[i];
       let quant = this.extractDataById(this.addDetails, elemnt._id);
       if (quant.length === 0) {

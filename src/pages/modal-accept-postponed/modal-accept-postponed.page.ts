@@ -48,7 +48,7 @@ export class ModalAcceptPostponedPage implements OnInit {
     });
   }
 
-  closeModal(horaAccept) {
+  closeModal(horaAccept?) {
     this.modalCtrl.dismiss({
       'data': horaAccept
     });

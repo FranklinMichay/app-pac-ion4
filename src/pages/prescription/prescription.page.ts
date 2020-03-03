@@ -256,10 +256,10 @@ export class PrescriptionPage implements OnInit {
     for (const elemnt of this.listProducts) {
       this.data.index = i;
       this.data._id = elemnt._id;
-      this.data.product = this.listProducts[i].codigoProducto.nombre;
-      this.data.pharmacyForm = this.listProducts[i].codigoProducto.formaFarmaceutica;
-      this.data.concentration = this.listProducts[i].codigoProducto.concentracion;
-      this.data.presentation = this.listProducts[i].codigoProducto.presentacion;
+      this.data.product = this.listProducts[i].idProducto.nombre;
+      this.data.pharmacyForm = this.listProducts[i].idProducto.formaFarmaceutica;
+      this.data.concentration = this.listProducts[i].idProducto.concentracion;
+      this.data.presentation = this.listProducts[i].idProducto.presentacion;
       this.data.totalPrescription = quantityOfProducts[i];
       let quant = this.extractDataById(this.addDetails, elemnt._id);
       if (quant.length === 0) {
@@ -282,7 +282,7 @@ export class PrescriptionPage implements OnInit {
     const dataDist = [];
     this.listProducts.map((result: any) => {
       let dataResult: any = {};
-      dataResult.product = result.codigoProducto.nombre;
+      dataResult.product = result.idProducto.nombre;
       let array = [];
       this.dispatchs.map((elemn: any) => {
         let quant = this.extractDataById(this.auth.convertStringToArrayOfObjects(elemn.detalles), result._id);

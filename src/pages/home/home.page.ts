@@ -114,20 +114,9 @@ export class HomePage implements OnInit {
     this.connection = this.auth.getDataAlerts().subscribe(
       (cita: any) => {
         this.cita = cita;
-        console.log("entro en socket alerta");
+        console.log("NOTIFICACION CITAS");
         this.getDataPac();
         this.notification();
-        // this.backgroundMode.isScreenOff(function(bool) {
-        //   console.log(bool, 'estdo de isScreenOf');
-
-        //   if(bool === true){
-        //     this.backgroundMode.wakeUp();
-        //     this.backgroundMode.unlock();
-        //     this.notification();
-        //   }else{
-        //     this.notification();
-        //   }
-        // });
       },
       err => {
         console.log(err, "error getAlerts");

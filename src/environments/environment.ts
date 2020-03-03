@@ -6,6 +6,8 @@ export const environment = {
   production: false,
   apiUrl: 'https://medipharmec.com/api/entidades/getData?model=',
   apiURL1: 'https://medipharmec.com/api/',
+  // apiUrl: 'http://192.168.0.113:8000/entidades/getData?model=',
+  // apiURL1: 'http://192.168.0.113:8000/',
   socketUrl: 'https://medipharmec.com/',
   apiMongoDB: 'https://medipharmec.com/backNode/',
   url: 'https://medipharmec.com',

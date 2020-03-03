@@ -27,31 +27,6 @@
         </ion-row>
     </div>
 
-    <!-- <ion-slides #slider loop (ionSlideNextEnd)="nextWeek()" (ionSlidePrevEnd)="previousWeek()" [options]="slideOpts">
-        <ion-slide *ngFor="let n of numbers" class="content-header">
-            <ion-row>
-                <ion-col *ngFor=" let v of daysWeek">
-                    <span>
-                            {{v.label}}
-                        </span>
-                    <span *ngIf="v.day" class="day-number" [className]="v.selected ? 'today' : 'sn'" (click)="changeDay(v.day)">
-                            {{v.day}}
-                        </span>
-                </ion-col>
-                <ion-col size="12">
-                    <span class="text-center-day date-label"> {{dateLabel}}</span>
-                </ion-col>
-            </ion-row>
-
-        </ion-slide>
-    </ion-slides> -->
-
-    <!-- <ion-list>
-        <ion-item *ngFor="let item of dataList">
-            <ion-label>{{item}}</ion-label>
-        </ion-item>
-    </ion-list> -->
-
     <div class="form-group required" *ngIf="currentTab === 'step1'">
         <div class="container">
             <ion-grid *ngIf="acceptedMeetings">
@@ -85,7 +60,7 @@
             </ion-grid>
             <div *ngIf="acceptedMeetings.length === 0" class="empty-container">
                 <img src="assets/icon/no-documents.svg" class="empty-state">
-                <h3 class="text-center">Sin contenido</h3>
+                <h3 class="text-center-no-desp">No hay citas que mostrar</h3>
             </div>
         </div>
     </div>
@@ -123,7 +98,7 @@
             </ion-grid>
             <div *ngIf="newMeetings.length == 0 " class="empty-container">
                 <img src="assets/icon/no-documents.svg" class="empty-state">
-                <h3 class="text-center">Sin Contenido</h3>
+                <h3 class="text-center-no-desp">No hay citas que mostrar</h3>
             </div>
         </div>
     </div>
@@ -161,17 +136,16 @@
             </ion-grid>
             <div *ngIf="postponedMeetings.length == 0 " class="empty-container">
                 <img src="assets/icon/no-documents.svg" class="empty-state">
-                <h3 class="text-center">Sin Contenido</h3>
+                <h3 class="text-center-no-desp">No hay citas que mostrar</h3>
             </div>
         </div>
     </div>
-
-
 
     <ion-infinite-scroll *ngIf="acceptedMeetings" threshold="100px" (ionInfinite)="loadDataAccepted(true, $event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Actualizando datos">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
+
     <ion-infinite-scroll *ngIf="newMeetings" threshold="100px" (ionInfinite)="loadDataCanceled(true, $event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Actualizando datos">
         </ion-infinite-scroll-content>
@@ -181,6 +155,5 @@
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Actualizando datos">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
-
 
 </ion-content>

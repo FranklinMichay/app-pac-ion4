@@ -18,9 +18,9 @@
     <div *ngIf="isDireccion">
         <form [formGroup]="direccionForm">
             <ion-row class="row-data-fac">
-                <h4 class="title-entrega">Elige un horario de entrega</h4>
+                <!-- <h4 class="title-entrega">Elige un horario de entrega</h4> -->
 
-                <ion-row class="row-horario">
+                <!-- <ion-row class="row-horario">
                     <ion-col size="6" *ngFor="let h of horario">
                         <div class="horario" [ngClass]="{'horario-a': horarioSelected === h}" (click)="updateShedule(h)">
                             <ion-icon name="radio-button-on" class="select-button"></ion-icon>
@@ -28,7 +28,7 @@
 
                         </div>
                     </ion-col>
-                </ion-row>
+                </ion-row> -->
                 <ion-col size="12">
                     <ion-input class="mail" type="text" formControlName="callePrincipal" placeholder="Calle Principal">
                     </ion-input>
@@ -172,6 +172,10 @@
     </div>
 
     <div *ngIf="isCard">
+        <h3>Próximamente</h3>
+    </div>
+
+    <!-- <div *ngIf="isCard">
         <ion-list-header class="title-metodo">
             <ion-label class="medicamentos">Tarjeta de crédito</ion-label>
         </ion-list-header>
@@ -180,13 +184,13 @@
                 <ion-slide *ngFor="let card of cards">
                     <div class="content-card" [ngClass]="{'content-card-a': activeCard === card}" (click)="updateActiveCard(card)">
                         <ion-icon name="radio-button-on" class="select-button"></ion-icon>
-                        <img class="imgs-card" [src]="card.logo">
-                        <!-- <ion-button expand=" full " (click)="addToCart(product) ">Add to Cart</ion-button> -->
-                    </div>
+                        <img class="imgs-card" [src]="card.logo"> -->
+    <!-- <ion-button expand=" full " (click)="addToCart(product) ">Add to Cart</ion-button> -->
+    <!-- </div>
                 </ion-slide>
             </ion-slides>
-        </div>
-
+        </div> -->
+    <!-- 
         <div class="content-data">
             <ion-row>
                 <ion-col size="12">
@@ -209,8 +213,8 @@
             </ion-row>
 
 
-        </div>
-        <!-- <ion-row>
+        </div> -->
+    <!-- <ion-row>
             <ion-col size="2 ">
                 <ion-checkbox class="ion-text-left " [(ngModel)]="cboxPoliticas "></ion-checkbox>
 
@@ -221,7 +225,7 @@
 
             </ion-col>
         </ion-row> -->
-    </div>
+    <!-- </div> -->
 
     <div *ngIf="isContraEntrega" class="entrega ">
 
@@ -253,7 +257,9 @@
     <ion-content *ngIf="isDireccion" class="noScroll">
 
         <!-- <div [hidden]="!isDireccion" class="bg-form"> -->
-        <div class="map" id="map"></div>
+        <div class="container-mapBox">
+            <div #map id="map" style="width: 100%; height: 250px;"> </div>
+        </div>
         <ion-fab (click)="getCurrentPosition()" vertical="center" horizontal="end" slot="">
             <ion-fab-button class="i-fab">
                 <ion-icon color="light" name="locate"></ion-icon>
@@ -266,7 +272,10 @@
 </ion-content>
 <ion-footer class="bg-footer ">
 
-    <ion-button *ngIf="isDireccion" class="accept-edit " type="submit" (click)="goData() " [disabled]="direccionForm.invalid || !sel">
+    <!-- <ion-button *ngIf="isDireccion" class="accept-edit " type="submit" (click)="goData() " [disabled]="direccionForm.invalid || !sel">
+        PROCEDER A FACTURACIÓN</ion-button> -->
+
+    <ion-button *ngIf="isDireccion" class="accept-edit " type="submit" (click)="goData() " [disabled]="direccionForm.invalid">
         PROCEDER A FACTURACIÓN</ion-button>
 
     <ion-button *ngIf="isDatosPersonales " class="accept-edit " type="submit " (click)="goDatos() " [disabled]="datosPersonalesFrom.invalid ">
