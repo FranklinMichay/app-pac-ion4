@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-back-button class="title-toolbar" slot="start">
+        <ion-back-button text="ATRÁS" class="title-toolbar" slot="start">
         </ion-back-button>
         <ion-buttons slot="end">
             <ion-button (click)="returnHome()" slot="end">
@@ -8,7 +8,7 @@
                 <ion-icon class="style-icon-logout" slot="icon-only">Guardar</ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar">EDITAR PERFIL</ion-title>
+        <ion-title class="ion-text-center" class="title-toolbar">EDITAR PERFIL</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -88,7 +88,7 @@
                         <ion-label *ngIf="formEditProfile.get('telefonoCelular').errors && formEditProfile.get('telefonoCelular').dirty">
                             <p class="validator" ion-text *ngIf="formEditProfile.get('telefonoCelular').hasError('required')">Este campo es requerido
                             </p>
-                            <p class="validator" ion-text *ngIf="formEditProfile.get('telefonoCelular').hasError('pattern')">Máximo 10 números</p>
+                            <p class="validator" ion-text *ngIf="formEditProfile.get('telefonoCelular').hasError('pattern')">El campo debe tener min 6 y máx 10 números</p>
                         </ion-label>
                         <ion-item>
                             <ion-icon name="pin" slot="start"></ion-icon>
@@ -101,8 +101,8 @@
                             </p>
                         </ion-label>
                     </ion-list>
-                    <button class="accept-edit" type="submit" [disabled]="formEditProfile.invalid">GUARDAR
-                    </button>
+                    <ion-button class="accept-edit" type="submit" [disabled]="formEditProfile.invalid">GUARDAR
+                    </ion-button>
                 </ion-col>
             </ion-row>
         </ion-grid>

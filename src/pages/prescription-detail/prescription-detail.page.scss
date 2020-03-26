@@ -7,7 +7,6 @@
 // @import "../../theme/variables.scss";
 .title-toolbar {
     color: white;
-    text-align: center;
     font-family: Montserrat;
     font-size: 14px;
     font-weight: 500;
@@ -15,7 +14,6 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: center;
 }
 
 // content {
@@ -161,11 +159,10 @@
     color: white;
 }
 
-.title-toolbar {
-    color: white;
-    text-align: center;
-}
-
+// .title-toolbar {
+//     color: white;
+//     text-align: center;
+// }
 .style-icon-logout {
     color: white;
 }
@@ -374,9 +371,10 @@ ion-content {
     line-height: 1.57;
     letter-spacing: 0.22px;
     margin-left: 27%;
-    padding: 9px 0px 0px 0px;
-    width: 90px;
-    margin-top: -7%;
+    padding: 0px 0px 1px 1px;
+    margin-top: 3%;
+    /* padding: 72% 19%; */
+    position: absolute;
 }
 
 .fecha {
@@ -407,6 +405,10 @@ ion-content {
     margin-top: 2%;
     color: #8c8c8c;
     margin-left: -8%;
+}
+
+.state-container {
+    background-color: red;
 }
 
 .time {
@@ -656,6 +658,16 @@ ion-content {
     padding: 0px 5px;
     border-top: 2px solid #d9d9d9;
     border-bottom: 2px solid #d9d9d9;
+}
+
+.select-button {
+    width: 8px;
+    height: 8px;
+    position: absolute;
+    right: 7%;
+    top: 15%;
+    background-color: #cd2d3f;
+    border-radius: 25px;
 }
 
 @media (min-width: 619px) {

@@ -1,25 +1,42 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-back-button class="title-toolbar" slot="start"> </ion-back-button>
-        <ion-title class="title-toolbar">PAGO</ion-title>
+        <ion-back-button text="ATRÁS" class="title-toolbar" slot="start"> </ion-back-button>
+        <ion-title class="ion-text-center" class="title-toolbar">PAGO</ion-title>
     </ion-toolbar>
 </ion-header>
 <div class="div-slide">
     <ol>
-        <li [ngClass]="{'current': currentTab === 'step1'}" (click)="goDireccion()">ENVÍO</li>
+        <li [ngClass]="{'current': currentTab === 'step1'}">ENVÍO</li>
         <!-- <li [ngClass]="{'current': currentTab === 'step1'}" (click)="goDireccion()">ENVÍO</li> -->
-        <li [ngClass]="{'current': currentTab === 'step2'}" (click)="goFac()">FACTURACIÓN</li>
+        <li [ngClass]="{'current': currentTab === 'step2'}">FACTURACIÓN</li>
         <!-- <li [ngClass]="{'current': currentTab === 'step2'}" (click)="goFac()">FACTURACIÓN</li> -->
         <li [ngClass]="{'current': currentTab === 'step3'}">PAGO</li>
     </ol>
 </div>
 
+<!-- <h4 *ngIf="isDireccion" class="title-entrega">Elige lugar para la entrega</h4> -->
+
+<ion-content *ngIf="isDireccion" class="noScroll">
+
+    <!-- <div [hidden]="!isDireccion" class="bg-form"> -->
+    <div class="container-mapBox">
+        <div #map id="map" style="width: 92%; height: 100%;"> </div>
+    </div>
+    <ion-fab (click)="getCurrentPosition()" vertical="center" horizontal="end" slot="">
+        <ion-fab-button class="i-fab">
+            <ion-icon color="light" name="locate"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+    <!-- </div> -->
+    <!-- <ion-button size="large" [routerLink]="['/directions']"> Cómo llegar</ion-button> -->
+
+</ion-content>
+
 <ion-content class="bg-form">
+    <h2 class="title-entrega">Encuentra tu dirección en el mapa</h2>
     <div *ngIf="isDireccion">
         <form [formGroup]="direccionForm">
             <ion-row class="row-data-fac">
-                <!-- <h4 class="title-entrega">Elige un horario de entrega</h4> -->
-
                 <!-- <ion-row class="row-horario">
                     <ion-col size="6" *ngFor="let h of horario">
                         <div class="horario" [ngClass]="{'horario-a': horarioSelected === h}" (click)="updateShedule(h)">
@@ -50,7 +67,7 @@
                 </ion-col>
 
                 <ion-col size="12">
-                    <ion-input class="mail" type="text" formControlName="numCasa" placeholder="Número de casa">
+                    <ion-input class="mail" type="number" formControlName="numCasa" placeholder="Número de casa">
                     </ion-input>
                     <ion-label *ngIf="direccionForm.get('numCasa').errors && direccionForm.get('numCasa').dirty">
                         <p class="validator" ion-text *ngIf="direccionForm.get('numCasa').hasError('required')">
@@ -81,7 +98,7 @@
             </ion-row>
         </form>
     </div>
-
+    <!-- <ion-textarea *ngIf="isDireccion" [(ngModel)]="address" type="text" style="margin-top:20px;"></ion-textarea> -->
 
     <div *ngIf="isDatosPersonales">
 
@@ -147,7 +164,7 @@
         </form>
     </div>
 
-    <div *ngIf="isPago">
+    <!-- <div *ngIf="isPago">
         <ion-list-header class="title-metodo">
             <ion-label class="medicamentos">Elige un método de pago</ion-label>
         </ion-list-header>
@@ -159,9 +176,32 @@
                             <div class="metodo-pago" [ngClass]="{'metodo-pago-a': active === category}" (click)="updateActive(category)">
                                 <a *ngIf="category.name">
                                     <ion-icon name="radio-button-on" class="select-button"></ion-icon>
-                                    <!-- <img class="crop " [src]="category.logo "> -->
+                                    
                                     <p class="explore-title ">{{category.name}}</p>
                                     <p class="explore-text ">{{category.text}}</p>
+                                </a>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    </div> -->
+
+    <div *ngIf="isPago">
+        <!-- <ion-list-header class="title-metodo">
+            <ion-label class="medicamentos">Elige un método de pago</ion-label>
+        </ion-list-header> -->
+        <div class="option">
+            <ion-grid class="section-hero white-bg " id="section-category ">
+                <ion-row class="g12grid ">
+                    <ion-col class="block-explore " size="6 ">
+                        <div class="inner " tappable>
+                            <div class="metodo-pago-a">
+                                <a>
+                                    <ion-icon name="radio-button-on" class="select-button"></ion-icon>
+                                    <p class="explore-title">CONTRAENTREGA</p>
+                                    <p class="explore-text ">Pago al recibir la compra</p>
                                 </a>
                             </div>
                         </div>
@@ -242,32 +282,15 @@
         <ion-row>
             <ion-col size="2 ">
                 <ion-checkbox class="ion-text-left " [(ngModel)]="cboxPoliticas "></ion-checkbox>
-
             </ion-col>
             <ion-col size="10 ">
                 <p class="politicas ">Acepto las <a href="http://medipharm.com.ec/sistema-medico/#/politicas ">condiciones
                         de uso y políticas de privacidad</a> de Medipharm </p>
-
             </ion-col>
         </ion-row>
     </div>
 
-    <h4 *ngIf="isDireccion" class="title-entrega">Elige lugar para la entrega</h4>
 
-    <ion-content *ngIf="isDireccion" class="noScroll">
-
-        <!-- <div [hidden]="!isDireccion" class="bg-form"> -->
-        <div class="container-mapBox">
-            <div #map id="map" style="width: 100%; height: 250px;"> </div>
-        </div>
-        <ion-fab (click)="getCurrentPosition()" vertical="center" horizontal="end" slot="">
-            <ion-fab-button class="i-fab">
-                <ion-icon color="light" name="locate"></ion-icon>
-            </ion-fab-button>
-        </ion-fab>
-        <!-- </div> -->
-        <!-- <ion-button size="large" [routerLink]="['/directions']"> Cómo llegar</ion-button> -->
-    </ion-content>
 
 </ion-content>
 <ion-footer class="bg-footer ">

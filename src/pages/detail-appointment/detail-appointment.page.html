@@ -1,12 +1,12 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-back-button class="title-toolbar" slot="start">
+        <ion-back-button text="ATRÁS" class="title-toolbar" slot="start">
         </ion-back-button>
         <ion-buttons slot="end">
             <ion-button slot="end">
             </ion-button>
         </ion-buttons>
-        <ion-title *ngIf="dataDespacho" class="title-toolbar"> COD#:{{ dataDespacho.datosReceta.codiRece }}</ion-title>
+        <ion-title class="ion-text-center" *ngIf="dataDespacho" class="title-toolbar"> COD#:{{ dataDespacho.datosReceta.codiRece }}</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -45,10 +45,10 @@
                 <p class="subtitle-receta">{{dataDespacho.datosReceta.datosMedico.especialidad }}</p>
             </ion-col>
             <ion-col size="4">
-                <ion-label *ngIf="dataDespacho.estadoDespacho === 'camino' || dataDespacho.estadoDespacho === 'entregado'" class="label-state" [color]="getColor(dataDespacho.estadoDespacho)">
+                <ion-label *ngIf="dataDespacho.estadoDespacho === 'camino' || dataDespacho.estadoDespacho === 'entregado' || dataDespacho.estadoDespacho === 'nuevo'" class="label-state" [color]="getColor(dataDespacho.estadoDespacho)">
                     {{ dataDespacho.estadoDespacho}}</ion-label>
                 <ion-label *ngIf="dataDespacho.estadoDespacho === 'preparado' || dataDespacho.estadoDespacho === 'preparadoTrans'" class="label-state" [color]="getColor(dataDespacho.estadoDespacho)">
-                    Despachado</ion-label>
+                    Preparado</ion-label>
             </ion-col>
         </ion-row>
     </ion-grid>
@@ -83,7 +83,7 @@
 
     <div class="form-group required" *ngIf="currentTab === 'step3'">
         <h3 *ngIf="dataDespacho.tiempoEstimado && dataDespacho.estadoDespacho === 'camino'" class="eta-desp">
-            Tiempo estimado: {{dataDespacho?.tiempoEstimado}}
+            Tiempo estimado: {{dataDespacho?.tiempoTransportista}}
         </h3>
 
         <h3 *ngIf="dataDespacho.estadoDespacho === 'preparado' || dataDespacho.estadoDespacho === 'preparadoTrans'" class="eta-desp">
@@ -92,10 +92,12 @@
         <div class="stepwizard">
             <div class="stepwizard-row">
                 <div class="stepwizard-step">
-                    <ion-icon name="checkmark-circle-outline" class="icon-button">
+                    <ion-icon *ngIf="dataDespacho.estadoDespacho === 'preparado' || dataDespacho.estadoDespacho === 'preparadoTrans' || dataDespacho.estadoDespacho === 'camino' || dataDespacho.estadoDespacho === 'entregado'" name="checkmark-circle-outline" class="icon-button">
                     </ion-icon>
-                    <ion-icon src="assets/imgs/svg/hourglass-outline.svg " class="bg-icon "></ion-icon>
-                    <ion-label class="description">Despachado</ion-label>
+                    <ion-icon *ngIf="dataDespacho.estadoDespacho === 'nuevo'" name="checkmark-circle-outline" class="icon-button1">
+                    </ion-icon>
+                    <ion-icon src="assets/imgs/svg/briefcase-outline.svg " class="bg-icon "></ion-icon>
+                    <ion-label class="description">Preparado</ion-label>
                 </div>
 
                 <div class="stepwizard-step ">

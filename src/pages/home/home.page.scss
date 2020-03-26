@@ -31,15 +31,17 @@
     letter-spacing: normal;
     color: #657785;
     padding-left: 9%;
+    padding-top: 5%;
 }
 
 .container {
-    height: 9rem;
+    height: 10rem;
     overflow: hidden;
     position: relative;
     border-radius: 10px;
     background: #f6f6f6;
     margin-top: auto;
+    width: 100%;
     //border-bottom: solid 8px #4c69cc;
 }
 
@@ -59,10 +61,11 @@
 }
 
 .container .crop {
-    width: 50%;
-    height: 27%;
+    width: 35.8px;
+    height: 35.8px;
     margin-top: 8%;
     object-fit: contain;
+    margin-left: 9%;
 }
 
 .button-search i {
@@ -219,7 +222,6 @@
 
 .title-toolbar {
     color: white;
-    text-align: center;
     font-family: Montserrat;
     font-size: 14px;
     font-weight: 500;
@@ -227,6 +229,7 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
+    text-align: center;
 }
 
 .color-logout {
@@ -246,6 +249,26 @@
         margin-right: 20%;
         margin-top: 8%;
     }
+}
+
+.select-button {
+    width: 12px;
+    height: 12px;
+    position: absolute;
+    right: 8%;
+    top: 8%;
+    background-color: #cd2d3f;
+    border-radius: 25px;
+}
+
+.select-button1 {
+    width: 18.8px;
+    height: 18.8px;
+    position: absolute;
+    right: 8%;
+    top: 8%;
+    background-color: transparent;
+    border-radius: 25px;
 }
 
 @media (min-width: 619px) {

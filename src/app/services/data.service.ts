@@ -33,6 +33,6 @@ export class DataService {
       this.tagsParam, 'los params');
   }
 
-
+  
 
 }

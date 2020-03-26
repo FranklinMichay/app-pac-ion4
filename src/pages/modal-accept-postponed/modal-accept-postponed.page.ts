@@ -45,7 +45,11 @@ export class ModalAcceptPostponedPage implements OnInit {
       this.auth.sendNotify(result[0]);
       this.closeModal(horaAccept);
       this.loadingCtrl.dismiss();
-    });
+    },
+    error => {
+      console.log(error, 'error');
+    }
+    );
   }
 
   closeModal(horaAccept?) {

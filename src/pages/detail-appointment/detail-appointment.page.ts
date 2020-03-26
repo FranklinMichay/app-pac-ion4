@@ -46,7 +46,6 @@ export class DetailAppointmentPage implements OnInit {
     this.estado = this.dataDespacho.estadoDespacho;
     console.log(this.estado, "estado");
     this.initSocket();
-
   }
 
   changeTab(tab: string) {
@@ -134,10 +133,15 @@ export class DetailAppointmentPage implements OnInit {
       this.connection.unsubscribe();
       this.auth.removeListener("dispatch");
     }
-    this.connection = this.auth.getDataDispatch().subscribe((result: any) => {
-      console.log(result, "socket....");
-      this.processData(result);
-    });
+    this.connection = this.auth.getDataDispatch().subscribe(
+      (result: any) => {
+        console.log(result, "socket....");
+        this.processData(result);
+      },
+      error => {
+        console.log(error, 'error socket');
+      }
+    );
   }
 
   processData(result: any) {
@@ -148,5 +152,4 @@ export class DetailAppointmentPage implements OnInit {
   ngOnDestroy() {
     this.connection.unsubscribe();
   }
-
 }

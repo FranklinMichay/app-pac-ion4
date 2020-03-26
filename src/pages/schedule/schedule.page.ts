@@ -178,19 +178,28 @@ export class SchedulePage implements OnInit {
   }
 
   getDataDay(date) {
-    this.loadingCtrl.presentLoading();
     this.hoursAvailable = [];
     console.log(date, "la fecha seleccionada");
     let now = new Date();
     this.diaHoy = formatDate(now, "yyyy-MM-dd", "en-US");
     console.log(this.diaHoy, "la fecha  de hoy");
+
+    if (date === this.diaHoy) {
+      this.getApointmentNow(date);
+    } else {
+      this.getApointmentOther(date);
+    }
+  }
+
+  getApointmentNow(date) {
     let url =
       "estadoAgenda=available,estadoCita=hold,fecha=" +
       date +
       ",medico_id=" +
       this.medic.id;
-    if (date === this.diaHoy) {
-      this.auth.getByUrlCustom(url).subscribe((result: any) => {
+    this.loadingCtrl.presentLoading();
+    this.auth.getByUrlCustom(url).subscribe(
+      (result: any) => {
         console.log(result, "citas del dia");
         this.hoursAvailable = _.filter(result, item => item.hora >= this.hora);
         console.log("HORAS DE HOY");
@@ -215,12 +224,27 @@ export class SchedulePage implements OnInit {
           },
           err => {
             console.log(err, "errores");
-            console.log(err);
           }
         );
-      });
-    } else {
-      this.auth.getByUrlCustom(url).subscribe((result: any) => {
+        this.loadingCtrl.dismiss();
+      },
+      err => {
+        console.log(err, "error citas");
+        this.loadingCtrl.dismiss();
+      }
+    );
+  }
+
+  getApointmentOther(date) {
+    let url =
+      "estadoAgenda=available,estadoCita=hold,fecha=" +
+      date +
+      ",medico_id=" +
+      this.medic.id;
+
+    this.loadingCtrl.presentLoading();
+    this.auth.getByUrlCustom(url).subscribe(
+      (result: any) => {
         console.log(result, "citas del dia");
         this.hoursAvailable = result;
         console.log("HORAS DE OTRO DIA");
@@ -245,11 +269,15 @@ export class SchedulePage implements OnInit {
           },
           err => {
             console.log(err, "errores");
-            console.log(err);
           }
         );
-      });
-    }
+        this.loadingCtrl.dismiss();
+      },
+      err => {
+        console.log(err, "error citas");
+        this.loadingCtrl.dismiss();
+      }
+    );
   }
 
   controlExpressShedule(data) {

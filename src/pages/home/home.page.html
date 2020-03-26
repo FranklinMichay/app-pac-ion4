@@ -1,11 +1,12 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-title class="title-toolbar">PACIENTE</ion-title>
+
         <ion-buttons slot="primary">
             <ion-button (click)="logout()">
                 <ion-icon class="color-logout" slot="icon-only" name="log-out"></ion-icon>
             </ion-button>
         </ion-buttons>
+        <ion-title class="title-toolbar">PACIENTE</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -23,21 +24,20 @@
             </ion-row>
         </ion-grid>
     </div>
-    <div *ngIf="dataHome" class="header-info">
 
+    <div *ngIf="dataHome" class="header-info">
         <ion-row class="info-home">
             <ion-col size="4">
                 <img class="medic " src="assets/imgs/doc.svg">
             </ion-col>
             <ion-col size="8">
                 <label class="datos">Tu próxima cita es el {{dataHome.fecha | date: 'dd MMM y' | titlecase}} a las
-                        {{dataHome.hora.substring(0, 5)}} horas. </label>
+                    {{dataHome.hora.substring(0, 5)}} horas. </label>
             </ion-col>
         </ion-row>
     </div>
 
     <div *ngIf="!dataHome " class="header-info">
-
         <ion-row class="info-home">
             <ion-col size="4">
                 <img class="medic " src="assets/imgs/doc.svg">
@@ -62,11 +62,15 @@
                     <p>{{slide.medicalCenter}}</p>
                     <p>{{slide.detalle}}</p>
                 </label>
-
             </ion-slide>
         </ion-slides>
     </div>
 
+    <!-- <div>
+        <ion-button (click)="saveToken()" expand="block" fill="clear" shape="round">
+            Click me
+        </ion-button>
+    </div> -->
     <ion-grid class="section-hero white-bg " id="section-category ">
         <ion-row *ngIf="data " class="g12grid ">
             <ion-col class="block-explore " *ngFor="let category of data " size="6 ">
@@ -74,6 +78,8 @@
                     <div class="container ">
                         <a *ngIf="category.logo ">
                             <img class="crop " [src]="category.logo ">
+                            <ion-icon *ngIf="notify && category.name === 'MIS CITAS'" name="radio-button-on-outline" class="select-button"></ion-icon>
+                            <ion-icon *ngIf="notifyAppointment && category.name === 'MIS RECETAS'" name="radio-button-on-outline" class="select-button"></ion-icon>
                             <p class="explore-title ">{{category.name}}</p>
                             <p class="explore-text ">{{category.text}}</p>
                         </a>

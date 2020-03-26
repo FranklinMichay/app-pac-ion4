@@ -1,3 +1,4 @@
+import { ToastService } from './../../app/services/toast.service';
 import { map } from "rxjs/operators";
 
 import { LoadingService } from "../../app/services/loading.service";
@@ -6,8 +7,7 @@ import { AuthService } from "../../../src/app/services/auth.service";
 import * as _ from "lodash";
 import {
   NavController,
-  ModalController,
-  ToastController
+  ModalController
 } from "@ionic/angular";
 import { Router } from "@angular/router";
 import { DataService } from "src/app/services/data.service";
@@ -96,7 +96,7 @@ export class SearchMedicPage implements OnInit {
     private auth: AuthService,
     //public loadingCtrl: LoadingController,
     public mdlCtrl: ModalController,
-    public toast: ToastController,
+    public toast: ToastService,
     private router: Router,
     private loadingCtrl: LoadingService,
     //private formBuilder: FormBuilder,
@@ -370,18 +370,6 @@ export class SearchMedicPage implements OnInit {
     console.log(event);
   }
 
-  // async presentModal() {
-  //   const modal = await this.mdlCtrl.create({
-  //     component: SearchFilterPage,
-  //     cssClass: 'css-modal',
-  //   });
-  //   modal.onDidDismiss()
-  //     .then((data) => {
-  //       console.log(data, 'data del dismis modal ok');
-  //       this.router.navigate(['search-medic'], { state: data });
-  //     });
-  //   return await modal.present();
-  // }
 
   filterMedicalCenter(cMedico) {
     console.log("in medical center filter", this.medics);
@@ -412,24 +400,6 @@ export class SearchMedicPage implements OnInit {
     console.log(medic, "DATOS DEL MEDICO SELECCIONADO");
     this.dataService.dataMedic = medic;
     this.router.navigate(["profile-medic"]);
-    // debugger;
-    // this.medicsFavorites = [];
-    // this.medicsFavorites.push(JSON.parse(sessionStorage.getItem('medics')));
-    // console.log(this.medicsFavorites, 'medicossss');
-    // if (!this.medicsFavorites) {
-    //   sessionStorage.setItem('medics', JSON.stringify(medic));
-
-    // } else {
-    //   this.medicsFavorites.filter((x: any) => {
-    //     if (x.id === medic.id) {
-    //       console.log();
-    //     } else {
-    //       this.medicsFavorites.push(medic);
-    //     }
-    //   });
-    //   console.log(this.medicsFavorites, 'lo del filter');
-    //   sessionStorage.setItem('medics', JSON.stringify(this.medicsFavorites));
-    // }
   }
 
   medicsByCity() {
@@ -445,6 +415,8 @@ export class SearchMedicPage implements OnInit {
       },
       err => {
         console.log(err, "error al traer medicos por ciudad");
+        this.toast.presentToastError('Error de conexión, por favor intente luego');
+        this.loadingCtrl.dismiss();
       }
     );
   }

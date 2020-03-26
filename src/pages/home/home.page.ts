@@ -1,3 +1,4 @@
+import { log } from "util";
 import { formatDate } from "@angular/common";
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import {
@@ -57,6 +58,7 @@ export class HomePage implements OnInit {
     }
   ];
   connection: any;
+  connectionDispatch: any;
   dataHome: any;
   dataHomeDelete: any;
   imageUrl: any;
@@ -75,6 +77,11 @@ export class HomePage implements OnInit {
   price: any = "";
   v1: any;
   v2: any;
+  idUser: any;
+  tokenNotify: any;
+  notify: boolean = false;
+  notifyAppointment: boolean = true;
+  stateNotify: any;
 
   constructor(
     public navCtrl: NavController,
@@ -95,17 +102,8 @@ export class HomePage implements OnInit {
     private androidFullScreen: AndroidFullScreen
   ) {
     this.price = this.route.snapshot.params["price"];
-
     this.data = Info.categories;
-    this.dataUser = JSON.parse(localStorage.getItem("userPaciente"));
-    this.imageUrl = this.dataUser.fotoPerfil;
-    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this.imageUrl
-    );
-    this.url = environment.url;
-    const user = JSON.parse(localStorage.getItem("userPaciente"));
-    console.log(user, "userPaciente");
-    const idPaciente = user ? user.id : 1;
+
     if (this.connection !== undefined) {
       this.connection.unsubscribe();
       this.auth.removeListener("calendar");
@@ -114,7 +112,14 @@ export class HomePage implements OnInit {
     this.connection = this.auth.getDataAlerts().subscribe(
       (cita: any) => {
         this.cita = cita;
-        console.log("NOTIFICACION CITAS");
+        this.notify = true;
+        localStorage.setItem("meetingHome", JSON.stringify(true));
+        if (this.cita.estadoCita === "postponed") {
+          localStorage.setItem("postponed", JSON.stringify(true));
+        } else if (this.cita.estadoCita === "canceled") {
+          localStorage.setItem("canceled", JSON.stringify(true));
+        }
+
         this.getDataPac();
         this.notification();
       },
@@ -145,16 +150,17 @@ export class HomePage implements OnInit {
   }
 
   ngOnInit() {
+    this.initSocket();
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem("userPaciente"));
+    this.idUser = this.dataUser ? this.dataUser.id : null;
+
     this.imageUrl = this.dataUser.fotoPerfil;
     this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       this.imageUrl
     );
+
     this.url = environment.url;
-    const user = JSON.parse(localStorage.getItem("userPaciente"));
-    console.log(user, "userPaciente");
-    const idPaciente = user ? user.id : 1;
 
     let now = new Date();
     this.fecha = formatDate(now, "yyyy-MM-dd", "en-US");
@@ -164,14 +170,35 @@ export class HomePage implements OnInit {
     this.hora = hora + ":" + min + ":" + seg;
     console.log(this.fecha, this.hora, "hora y fecha");
     this.getDataPac();
+
+    this.notify = JSON.parse(localStorage.getItem("meetingHome"));
+    this.notifyAppointment = JSON.parse(
+      localStorage.getItem("appointmentHome")
+    );
   }
 
-  // fullScreenMode() {
-  //   this.androidFullScreen
-  //     .isImmersiveModeSupported()
-  //     .then(() => console.log("El modo inmersivo está disponible"))
-  //     .catch(err => console.log(err, "full screen no es compatible"));
-  // }
+  //SOCKET DESPACHOS
+  initSocket() {
+    if (this.connectionDispatch !== undefined) {
+      this.connectionDispatch.unsubscribe();
+      this.auth.removeListener("dispatch");
+    }
+    this.connectionDispatch = this.auth
+      .getDataDispatch()
+      .subscribe((result: any) => {
+        localStorage.setItem("appointmentHome", JSON.stringify(true));
+        this.notifyAppointment = true;
+        if (
+          result.estadoDespacho === "nuevo" ||
+          result.estadoDespacho === "preparado" ||
+          result.estadoDespacho === "preparadoTrans" ||
+          result.estadoDespacho === "camino"
+        ) {
+          localStorage.setItem("compradas", JSON.stringify(true));
+        }
+        console.log(result, "DATA SOCKET DESPACHO NUEVO");
+      });
+  }
 
   testNetwork() {
     this.networkService.getNetworkStatus().subscribe((connected: boolean) => {
@@ -182,8 +209,17 @@ export class HomePage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {
+  ionViewDidEnter() {
+    this.dataUser = JSON.parse(localStorage.getItem("userPaciente"));
+    this.imageUrl = this.dataUser.fotoPerfil;
+    this.imageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+      this.imageUrl
+    );
     this.getDataPac();
+    this.notify = JSON.parse(localStorage.getItem("meetingHome"));
+    this.notifyAppointment = JSON.parse(
+      localStorage.getItem("appointmentHome")
+    );
   }
 
   ionViewDidLeave() {}
@@ -273,10 +309,8 @@ export class HomePage implements OnInit {
   }
 
   getDataPac() {
-    const user = JSON.parse(localStorage.getItem("userPaciente"));
-    const idPaciente = user ? user.id : null;
     //this.loadingCtrl.presentLoading();
-    this.auth.getMeetingData(idPaciente).subscribe(
+    this.auth.getMeetingData(this.idUser).subscribe(
       (cita: any) => {
         var citaFilter = _.filter(cita, item => item.fecha >= this.fecha);
         citaFilter = _.orderBy(citaFilter, ["fecha"], ["asc"]);
@@ -303,6 +337,16 @@ export class HomePage implements OnInit {
   }
 
   goToMenu(component) {
+    let dataNotifyMeet: any;
+    console.log(component, "componente");
+    if (component === "meetings") {
+      this.notify = false;
+      localStorage.setItem("meetingHome", JSON.stringify(false));
+    } else if (component === "prescription-detail") {
+      this.notifyAppointment = false;
+      localStorage.setItem("appointmentHome", JSON.stringify(false));
+    }
+
     if (component) {
       this.router.navigateByUrl(component);
     } else {
@@ -322,9 +366,26 @@ export class HomePage implements OnInit {
     this.connection.unsubscribe();
     this.auth.removeListener("calendar");
     localStorage.removeItem("userPaciente");
+    localStorage.removeItem("notify");
     this.unsub();
     this.router.navigate(["login"]);
   }
+
+  // saveToken(token) {
+  //   const data: any = {
+  //     token: token,
+  //     userid: this.dataUser.identificacion
+  //   };
+  //   console.log(data, "data para server");
+  //   this.auth.saveToken(data).subscribe(
+  //     data => {
+  //       console.log("data ok=> ", JSON.stringify(data));
+  //     },
+  //     error => {
+  //       console.log("error post =>", JSON.stringify(error));
+  //     }
+  //   );
+  // }
 
   // OnDestroy() {
   //   this.connection.unsubscribe();

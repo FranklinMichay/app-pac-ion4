@@ -1,3 +1,4 @@
+import { formatDate } from "@angular/common";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   FormGroup,
@@ -17,7 +18,6 @@ import {
 import { Router } from "@angular/router";
 import { AuthService } from "src/app/services/auth.service";
 import { LoadingService } from "src/app/services/loading.service";
-import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 import { Crop } from "@ionic-native/crop/ngx";
 import { ImagePicker } from "@ionic-native/image-picker/ngx";
 import {
@@ -27,6 +27,7 @@ import {
 } from "@ionic-native/file-transfer/ngx";
 import { DomSanitizer } from "@angular/platform-browser";
 import { WebView } from "@ionic-native/ionic-webview/ngx";
+import { log } from "util";
 
 @Component({
   selector: "app-register",
@@ -61,6 +62,7 @@ export class RegisterPage implements OnInit {
   imageURI: any;
   imageFileName: any;
   file: File;
+  cboxPoliticas = false;
 
   constructor(
     public alertCtrl: AlertController,
@@ -83,7 +85,7 @@ export class RegisterPage implements OnInit {
           Validators.required
         ])
       ],
-      segNombre: [],
+      segNombre: [''],
       priApellido: [
         "",
         Validators.compose([
@@ -92,8 +94,9 @@ export class RegisterPage implements OnInit {
           Validators.required
         ])
       ],
-      segApellido: [],
-      email: ["", [Validators.email, Validators.required]],
+      segApellido: [''],
+      email: ["", [Validators.pattern("^[A-Z0-9a-z\\._%+-]+@([A-Za-z0-9-]+\\.)+[A-Za-z]{2,4}$"), 
+        Validators.required]],
       password: ["", Validators.required],
       identificacion: [
         "",
@@ -110,7 +113,7 @@ export class RegisterPage implements OnInit {
         "",
         Validators.compose([
           Validators.required,
-          Validators.pattern("^(?:[0-9]{10},)*[0-9]{10}$")
+          Validators.pattern("^(?:[0-9]{6,10},)*[0-9]{6,10}$")
         ])
       ],
       ciudad: [
@@ -122,13 +125,17 @@ export class RegisterPage implements OnInit {
         ])
       ],
       fechaNaci: ["", Validators.required],
-      //cboxPoliticas: [false, RegisterPage.mustBeTruthy],
+      cboxPoliticas: [false, RegisterPage.mustBeTruthy],
       fotoPerfil: [""]
     });
   }
 
   ngOnInit() {
     this.slider.lockSwipes(true);
+  }
+
+  ckeckboxPoliticas() {
+    this.cboxPoliticas = true;
   }
 
   next() {
@@ -185,86 +192,6 @@ export class RegisterPage implements OnInit {
     );
   }
 
-  onSubmit() {
-    const {
-      priNombre,
-      segNombre,
-      priApellido,
-      segApellido,
-      email,
-      password,
-      identificacion
-    } = this.slideOneForm.value;
-
-    const dataInf = {
-      first_name: priNombre,
-      last_name: priApellido,
-      email: email,
-      username: email,
-      password,
-      identificacion: identificacion
-    };
-
-    const fechaNac = new Date(this.slideTwoForm.value.fechaNaci)
-      .toISOString()
-      .slice(0, 10);
-    const edad = this.getEdad(fechaNac);
-
-    const _dataVerify = {
-      email: email,
-      cedula: identificacion
-    };
-    this.auth.verifyUser(_dataVerify).subscribe(
-      verification => {
-        console.log(verification, "verification");
-
-        if (verification.result === "error") {
-          this.presentToast();
-        } else if (verification.result === "success") {
-          this.auth.createUserPaciente(dataInf).subscribe(
-            data => {
-              this.auth.getIdUser(data.email).subscribe(data1 => {
-                console.log(data1, "data con el id");
-                //debugger
-                Object.entries(this.slideTwoForm.value).forEach(
-                  ([key, value]: any[]) => {
-                    this.formData.set(key, value);
-                  }
-                );
-                Object.entries(this.slideOneForm.value).forEach(
-                  ([key, value]: any[]) => {
-                    this.formData.set(key, value);
-                  }
-                );
-                this.formData.append("userPaciente", data1[0].id);
-                this.formData.append("fechaNaci", fechaNac);
-                this.formData.append("edad", String(edad));
-                this.auth.registerPaciente(this.formData).subscribe(data2 => {
-                  this.auth.getInfoPac(data1[0].id).subscribe(data3 => {
-                    console.log(data3, "data3");
-
-                    localStorage.setItem(
-                      "userPaciente",
-                      JSON.stringify(data3[0])
-                    );
-                    this.router.navigate(["home"]);
-                    this.slideOneForm.reset();
-                    this.slideTwoForm.reset();
-                  });
-                });
-              });
-            },
-            err => {
-              console.log(err, "error en registro");
-            }
-          );
-        }
-      },
-      err => {
-        console.log(err, "verify user error");
-      }
-    );
-  }
 
   goToLogin() {
     this.router.navigate(["login"]);
@@ -295,144 +222,198 @@ export class RegisterPage implements OnInit {
   //METODOS NUEVOS REGISTRO
 
   registerUser() {
-    let datos: boolean;
+    let datos: boolean = false;
     let cont = 0;
-    datos = false;
     this.submitted = true;
     if (this.slideOneForm.invalid) {
       return;
     }
+
+    if (this.slideTwoForm.invalid) {
+      return;
+    }
+
     let cedulaVer = this.slideOneForm.get("identificacion").value;
     let digito = cedulaVer.substring(9, 10);
     let cedula = cedulaVer.substring(0, 9);
-    this.auth.verificaInfoUsuario(cedula, digito).subscribe(data => {
-      let priNo = this.slideOneForm.get("priNombre").value;
-      let segNo = this.slideOneForm.get("segNombre").value;
-      let priApe = this.slideOneForm.get("priApellido").value;
-      let segApe = this.slideOneForm.get("segApellido").value;
-      console.log(data);
-      if (data.length === 0) {
-        const valCed = this.validarCedula(cedulaVer);
-        console.log("valCed", valCed);
-        if (valCed) {
-          datos = true;
-        }
-      } else {
-        const nombreComp = data[0].nombres.split(" ");
-        for (let index = 0; index < nombreComp.length; index++) {
-          if (nombreComp[index] == priNo.toUpperCase()) {
-            cont++;
-          } else if (segNo != "") {
-            if (nombreComp[index] == segNo.toUpperCase()) {
+    this.loadingCtrl.presentLoading();
+
+    this.auth.verificaInfoUsuario(cedula, digito).subscribe(
+      data => {
+        let priNo = this.slideOneForm.get("priNombre").value;
+        let segNo = this.slideOneForm.get("segNombre").value;
+        let priApe = this.slideOneForm.get("priApellido").value;
+        let segApe = this.slideOneForm.get("segApellido").value;
+        console.log(priNo);
+
+        console.log(data, "verificaInfoUsuario");
+        if (data.length === 0) {
+          const valCed = this.validarCedula(cedulaVer);
+          console.log("CEDULA ES VALIDA", valCed);
+          if (valCed) {
+            datos = true;
+          }
+        } else {
+          const nombreComp = data[0].nombres.split(" ");
+          console.log(nombreComp, nombreComp.length, "errorr ");
+
+          for (let index = 0; index < nombreComp.length; index++) {
+            if ((nombreComp[index] === priNo.toUpperCase())) {
               cont++;
-            }
-            if (nombreComp[index] == priApe.toUpperCase()) {
-              cont++;
-            } else if (segApe != "") {
-              if (nombreComp[index] == segApe.toUpperCase()) {
-                cont++;
-              }
-            }
-          } else if (nombreComp[index] == segNo.toUpperCase()) {
-            cont++;
-          } else if (nombreComp[index] == priApe.toUpperCase()) {
-            cont++;
-          } else if (segApe != "") {
-            if (nombreComp[index] == segApe.toUpperCase()) {
-              cont++;
-            }
-          } else {
-            if (nombreComp[index] == segApe.toUpperCase()) {
-              cont++;
-            }
+            } else
+              if (segNo !== '') {
+                if ((nombreComp[index] === segNo.toUpperCase())) {
+                  cont++;
+                }
+                if ((nombreComp[index] === priApe.toUpperCase())) {
+                  cont++;
+                } else
+                  if (segApe !== '') {
+                    if ((nombreComp[index] === segApe.toUpperCase())) {
+                      cont++;
+                    }
+                  }
+              } else
+                if ((nombreComp[index] === segNo.toUpperCase())) {
+                  cont++;
+                } else
+                  if ((nombreComp[index] === priApe.toUpperCase())) {
+                    cont++;
+                  } else
+                    if (segApe !== '') {
+                      if ((nombreComp[index] === segApe.toUpperCase())) {
+                        cont++;
+                      }
+                    } else {
+                      if ((nombreComp[index] === segApe.toUpperCase())) {
+                        cont++;
+                      }
+                    }
+          }
+
+          if (cont === nombreComp.length) {
+            datos = true;
           }
         }
 
-        if (cont === nombreComp.length) {
-          datos = true;
-        }
-      }
-      if (datos) {
-        console.log("puede registrar");
-        const {
-          priNombre,
-          priApellido,
-          email,
-          password
-        } = this.slideOneForm.value;
-        const date = new Date(this.slideTwoForm.value.fechaNaci)
-          .toISOString()
-          .slice(0, 10);
-        const edad = this.getEdad(date);
-        const formData = new FormData();
-        formData.append(
-          "fotoPerfil",
-          this.slideTwoForm.get("fotoPerfil").value
-        );
-        const dataInf = {
-          first_name: priNombre,
-          last_name: priApellido,
-          email,
-          username: email,
-          password
-        };
-        const verUser = {
-          email: email,
-          cedula: this.slideOneForm.get("identificacion").value
-        };
-        this.auth.verificaUser(verUser).subscribe(data => {
-          console.log(data.result);
-          if (data.result == "error") {
-            this.presentToastMessage("Error registrando: " + data.verificaUsu);
-          } else if (data.result == "success") {
-            this.auth.createUserPaciente(dataInf).subscribe(
-              data => {
-                this.auth.getIdUser(data.email).subscribe(data1 => {
-                  Object.entries(this.slideTwoForm.value).forEach(
-                    ([key, value]: any[]) => {
-                      formData.set(key, value);
-                    }
-                  );
-                  Object.entries(this.slideOneForm.value).forEach(
-                    ([key, value]: any[]) => {
-                      formData.set(key, value);
-                    }
-                  );
-                  console.log("data1iduser", data1);
-                  console.log("data1[0].id", data1[0].id);
-                  this.id = data1[0].id;
-                  formData.append("user", data1[0].id);
-                  formData.append("fechaNaci", date);
-                  formData.append("edad", String(edad));
-                  console.log("FORM DATAAAAAAAAAAAAAAAAA", formData);
-                  this.auth.registerPaciente(formData).subscribe(data2 => {
-                    console.log("data2", data2);
-                    this.auth.getInfoPac(data1[0].id).subscribe(data3 => {
-                      console.log("data3", data3);
-                      localStorage.setItem(
-                        "userPaciente",
-                        JSON.stringify(data3[0])
-                      );
-                      this.slideOneForm.reset();
-                      this.slideTwoForm.reset();
-                      this.router.navigate(["home"]);
+        if (datos) {
+          console.log("puede registrar");
+          const {
+            priNombre,
+            priApellido,
+            email,
+            password
+          } = this.slideOneForm.value;
+
+          console.log(
+            this.slideTwoForm.get("fechaNaci").value,
+            "fecha nacimiento"
+          );
+          const date = new Date(this.slideTwoForm.value.fechaNaci)
+            .toISOString()
+            .slice(0, 10);
+          console.log(date, "fecha lucas");
+
+          const edad = this.getEdad(date);
+          const formData = new FormData();
+          formData.append(
+            "fotoPerfil",
+            this.slideTwoForm.get("fotoPerfil").value
+          );
+
+          const dataInf = {
+            first_name: priNombre,
+            last_name: priApellido,
+            email,
+            username: email,
+            password
+          };
+          const verUser = {
+            email: email,
+            cedula: this.slideOneForm.get("identificacion").value
+          };
+
+          this.auth.verificaUser(verUser).subscribe(data => {
+            console.log(data.result);
+            if (data.result == "error") {
+              this.presentToastMessage(
+                "Error registrando: " + data.verificaUsu
+              );
+            } else if (data.result == "success") {
+              console.log(dataInf, 'dataInf');
+              
+              this.auth.createUserPaciente(dataInf).subscribe(
+                data => {
+                  this.loadingCtrl.presentLoading();
+                  this.auth.getIdUser(data.email).subscribe(data1 => {
+                    Object.entries(this.slideOneForm.value).forEach(
+                      ([key, value]: any[]) => {
+                        formData.set(key, value);
+                      }
+                    );
+                    // Object.entries(this.slideTwoForm.value).forEach(
+                    //   ([key, value]: any[]) => {
+                    //     formData.set(key, value);
+                    //   }
+                    // );
+                    formData.append(
+                      "telefonoCelular",
+                      this.slideTwoForm.value.telefonoCelular
+                    );
+                    formData.append("ciudad", this.slideTwoForm.value.ciudad);
+                    formData.append("sexo", this.slideTwoForm.value.sexo);
+
+                    console.log("data1iduser", data1);
+                    console.log("data1[0].id", data1[0].id);
+                    this.id = data1[0].id;
+                    formData.append("user", data1[0].id);
+                    const fechaAx = formatDate(date, "yyyy-MM-dd", "en-US");
+                    console.log(date, "date", fechaAx);
+
+                    formData.append("fechaNaci", date);
+                    formData.append("edad", String(edad));
+                    console.log("FORM DATA", formData);
+                    console.log(
+                      formData.get("fechaNaci"),
+                      "dato fecha formDta"
+                    );
+                    this.auth.registerPaciente(formData).subscribe(data2 => {
+                      console.log("data2", data2);
+                      this.auth.getInfoPac(data1[0].id).subscribe(data3 => {
+                        console.log("data3", data3);
+                        localStorage.setItem(
+                          "userPaciente",
+                          JSON.stringify(data3[0])
+                        );
+                        this.slideOneForm.reset();
+                        this.slideTwoForm.reset();
+                        this.router.navigate(["home"]);
+                      });
                     });
                   });
-                });
-              },
-              err => {
-                this.presentToastMessage("Error registrando," + err.message);
-              }
-            );
-          }
-        });
-      } else {
-        console.log("no puede");
-        this.presentToastMessage(
-          "Los nombres no coincide con el número de Cédula Ingresado"
-        );
+                  this.loadingCtrl.dismiss();
+                },
+                err => {
+                  this.presentToastMessage("Error registrando," + err.message);
+                  this.loadingCtrl.dismiss();
+
+                }
+              );
+            }
+          });
+        } else {
+          console.log("no puede");
+          this.presentToastMessage(
+            "Los nombres no coincide con el número de Cédula Ingresado"
+          );
+        }
+        this.loadingCtrl.dismiss();
+      },
+      error => {
+        console.log(error, "error");
+        this.loadingCtrl.dismiss();
       }
-    });
+    );
   }
 
   async presentToastMessage(message) {
@@ -445,10 +426,6 @@ export class RegisterPage implements OnInit {
   }
 
   validarCedula(cedula: string) {
-    // Créditos: Victor Diaz De La Gasca.
-    // Autor: Adrián Egüez
-    // Url autor: https://gist.github.com/vickoman/7800717
-    // Preguntamos si la cedula consta de 10 digitos
     if (cedula.length === 10) {
       // Obtenemos el digito de la region que sonlos dos primeros digitos
       const digitoRegion = cedula.substring(0, 2);

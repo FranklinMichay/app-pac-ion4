@@ -23,6 +23,7 @@ export class AuthService {
   private urlSocket = environment.socketUrl;
   private urlGetInfo = "agenda/getData?model=agenda&params=";
   private urlMongoDB = environment.apiMongoDB;
+  //private urlSaveToken = environment.urlSaveToken;
 
   fechaMeeting: any;
   corsConfig: any = {};
@@ -140,6 +141,11 @@ export class AuthService {
   }
 
   updateProfilePatient(data, id) {
+    this.httpOptions = {
+      headers: new HttpHeaders({
+        "Content-Type": "application/json"
+      })
+    };
     return this.httpClient.put<any>(
       this.url + "paciente/updatePerfilPaciente/" + id + "/",
       data
@@ -619,16 +625,29 @@ export class AuthService {
 
   getDataDispatch() {
     const observable = new Observable(observer => {
-      this.socket.on('dispatch', async (data: any) => {
-          console.log(data, 'data express');
-          observer.next(data);
+      this.socket.on("dispatch", async (data: any) => {
+        console.log(data, "data express");
+        observer.next(data);
       });
     });
     return observable;
   }
 
   senDataDispatch(data: any) {
-    console.log('DATA send Sokect', data);
-    this.socket.emit('dispatch', data);
+    console.log("DATA send Sokect", data);
+    this.socket.emit("dispatch", data);
   }
+
+  //PUSH NOTIFICATIONS
+  // saveToken(data: any): Observable<any> {
+  //   // this.httpOptions = {
+  //   //   headers: new HttpHeaders({
+  //   //     "Content-Type": "application/json"
+  //   //   })
+  //   // };
+  //   return this.httpClient.post<any>(
+  //     `${this.urlSocket}` + "store",
+  //     data
+  //   );
+  // }
 }

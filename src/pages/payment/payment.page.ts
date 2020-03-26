@@ -35,6 +35,10 @@ import { LoadingService } from "src/app/services/loading.service";
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 import { Platform } from "@ionic/angular";
 declare var ol: any;
+import {
+  NativeGeocoder,
+  NativeGeocoderOptions
+} from "@ionic-native/native-geocoder/ngx";
 
 @Component({
   selector: "app-payment",
@@ -57,7 +61,7 @@ export class PaymentPage implements OnInit {
   className: string = "one-class";
   options: any;
   cards: any;
-  active: any;
+  active = "contraPedido";
   activeCard: any;
   isCard = false;
   isContraEntrega = false;
@@ -78,6 +82,7 @@ export class PaymentPage implements OnInit {
 
   horarioSelected: any;
   sel = false;
+  address: string[];
 
   myForm: FormGroup;
   formData = new FormData();
@@ -98,7 +103,8 @@ export class PaymentPage implements OnInit {
   timetest: any;
   accuracy: any;
   timestamp: any;
-
+  hora: any;
+  fecha: any;
   sliderConfig = {
     slidesPerView: 2,
     spaceBetween: 1,
@@ -118,7 +124,8 @@ export class PaymentPage implements OnInit {
     private androidPermissions: AndroidPermissions,
     private locationAccuracy: LocationAccuracy,
     public platform: Platform,
-    public alertController: AlertController
+    public alertController: AlertController,
+    private geocoder: NativeGeocoder
   ) {
     //this.isDatosPersonales = true;
     this.options = Options.options;
@@ -137,7 +144,6 @@ export class PaymentPage implements OnInit {
 
   ngOnInit() {
     this.checkGPSPermission();
-
     this.total = this.dataForView.reduce(
       (acc, obj) => acc + obj.totalDispatch * obj.price,
       0
@@ -145,6 +151,10 @@ export class PaymentPage implements OnInit {
     this.total = parseFloat(this.total).toFixed(2);
     this.calculateTotalDispatch();
     this.initForms();
+    this.hora = formatDate(new Date(), "HH:mm", "en-US");
+    this.fecha = formatDate(new Date(), "yyyy-MM-dd", "en-US");
+    let hf = this.fecha + " " + this.hora;
+    // console.log(hf, 'hora ok');
   }
 
   changeTab(tab: string) {
@@ -199,7 +209,6 @@ export class PaymentPage implements OnInit {
               // call method to turn on GPS
               this.askToTurnOnGPS();
             },
-
             error => {
               //Show alert if user click on 'No Thanks'
               alert(
@@ -281,7 +290,22 @@ export class PaymentPage implements OnInit {
       .addTo(this.map);
   }
 
+  getAddress(lat: number, long: number) {
+    let options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 5
+    };
+    this.geocoder.reverseGeocode(lat, long, options).then(results => {
+      this.address = Object.values(results[0]).reverse();
+      console.log(this.address, "this adress");
+    });
+  }
+
   loadMap() {
+    const url_osrm_nearest = environment.urlNearest;
+    // tslint:disable-next-line: variable-name
+    const url_osrm_route = environment.urlRoute;
+    let principal, secundaria;
     this.mapbox.accessToken = environment.mapbox.accessToken;
     this.map = new mapboxgl.Map({
       container: "map",
@@ -291,12 +315,153 @@ export class PaymentPage implements OnInit {
     });
     this.addMarker();
     this.map.on("move", () => {
-      console.log(`Current Map Center: ${this.map.getCenter()}`);
       const centerMap = this.map.getCenter();
       this.lng = centerMap.lng;
       this.lat = centerMap.lat;
+      //this.getAddress(this.lat, this.lng)
       this.marker.setLngLat([centerMap.lng, centerMap.lat]).addTo(this.map);
+      /////////////////////////////////////////////////////////////
+      let cc = [];
+      cc[0] = centerMap.lng;
+      cc[1] = centerMap.lat;
+      let points = [];
+      let coord3857 = utils.to3857(cc);
+      utils.getNearest(coord3857).then(coord_street => {
+        var last_point = points[points.length - 1];
+        var points_length = points.push(coord_street);
+        utils.createFeature(coord_street);
+        /*         if (points_length < 2) {
+          return;
+        } */
+        //get the route
+        var point1 = coord_street; //.join();
+        var point2 = coord_street; //.join();
+        fetch(url_osrm_route + point1 + ";" + point2)
+          .then(r => {
+            return r.json();
+          })
+          .then(json => {
+            if (json.code !== "Ok") {
+              console.log("principal");
+              return;
+            } //else
+            //if ($scope.txtDireccion === json.waypoints[0].name)
+            principal = json.waypoints[0].name;
+            utils.createRoute(json.routes[0].geometry);
+          });
+      });
+      utils.getSecund(coord3857).then(coord_street => {
+        fetch(
+          url_osrm_nearest +
+            (Number(coord_street[0]) - 0.0001) +
+            "," +
+            (Number(coord_street[1]) - 0.0001)
+        )
+          .then(function(r) {
+            return r.json();
+          })
+          .then(json => {
+            if (json.code !== "Ok") {
+              return;
+            } else if (principal !== json.waypoints[0].name) {
+              secundaria = json.waypoints[0].name;
+              this.direccionForm.controls["callePrincipal"].setValue(principal);
+              this.direccionForm.controls["calleSecundaria"].setValue(
+                secundaria
+              );
+              this.direccionForm.controls["numCasa"].setValue("");
+              this.direccionForm.controls["referencia"].setValue("");
+              this.direccionForm.controls["ciudad"].setValue("");
+              console.log("principal", principal);
+              console.log("secundaria", secundaria);
+            }
+          });
+      });
+
+      /////////////////////////////////////////////////////////////
     });
+
+    var utils = {
+      getNearest: function(coord) {
+        var coord4326 = utils.to4326(coord);
+        return new Promise(function(resolve, reject) {
+          //make sure the coord is on street
+          fetch(url_osrm_nearest + coord4326.join())
+            .then(function(response) {
+              // Convert to JSON
+              return response.json();
+            })
+            .then(function(json) {
+              if (json.code === "Ok") {
+                //$scope.txtDireccion = json.waypoints[0].name;
+                resolve(json.waypoints[0].location);
+              } else reject();
+            });
+        });
+      },
+      getSecund: function(coord) {
+        var coord4326 = utils.to4326(coord);
+        return new Promise(function(resolve, reject) {
+          //make sure the coord is on street
+          fetch(url_osrm_nearest + coord4326.join())
+            .then(function(response) {
+              // Convert to JSON
+              return response.json();
+            })
+            .then(function(json) {
+              if (json.code === "Ok") {
+                //$scope.txtDireccion = json.waypoints[0].name;
+                resolve(json.waypoints[0].location);
+              } else reject();
+            });
+        });
+      },
+      createFeature: function(coord) {
+        var feature = new ol.Feature({
+          type: "place",
+          geometry: new ol.geom.Point(ol.proj.fromLonLat(coord))
+        });
+        //feature.setStyle(styles.icon);
+        //vectorSourceY.addFeature(feature);
+      },
+      createRoute: function(polyline) {
+        // route is ol.geom.LineString
+        var route = new ol.format.Polyline({
+          factor: 1e5
+        }).readGeometry(polyline, {
+          dataProjection: "EPSG:4326",
+          featureProjection: "EPSG:3857"
+        });
+        var feature = new ol.Feature({
+          type: "route",
+          geometry: route
+        });
+        //feature.setStyle(styles.route);
+        //vectorSourceY.addFeature(feature);
+      },
+      to4326: function(coord) {
+        return ol.proj.transform(
+          [parseFloat(coord[0]), parseFloat(coord[1])],
+          "EPSG:3857",
+          "EPSG:4326"
+        );
+      },
+      to3857: function(coord) {
+        return ol.proj.transform(
+          [parseFloat(coord[0]), parseFloat(coord[1])],
+          "EPSG:4326",
+          "EPSG:3857"
+        );
+      }
+    };
+
+    // this.marker.on("dragend", () => {
+    //   console.log("dragend");
+
+    //   const position = this.marker.getLatLng();
+    //   this.getAddress(position.lat, position.lng); // This line is added
+    //   console.log(this.getAddress(position.lat, position.lng), "adress");
+    // });
 
     // var features = [];
     // var vectorLayer;
@@ -493,6 +658,7 @@ export class PaymentPage implements OnInit {
     this.isDatosPersonales = false;
     this.isDireccion = false;
     this.isPago = true;
+    this.isContraEntrega = true;
     this.changeTab("step3");
   }
 
@@ -559,10 +725,16 @@ export class PaymentPage implements OnInit {
   }
 
   createCartP(data) {
-    this.auth.createCart(data).subscribe(() => {
-      this.presentToast();
-      this.router.navigate(["home"]);
-    });
+    this.auth.createCart(data).subscribe(
+      () => {
+        this.presentToast();
+        this.router.navigate(["home"]);
+      },
+      error => {
+        this.toast.presentToastError("Error interno del servidor");
+        console.log(error, "error");
+      }
+    );
   }
 
   save1(pago) {
@@ -575,7 +747,7 @@ export class PaymentPage implements OnInit {
     let formaPagoV = "";
     this.direccionForm.controls["longitud"].setValue(this.lng);
     this.direccionForm.controls["latitud"].setValue(this.lat);
-    if (this.active.tipo === "contraPedido") {
+    if (this.active === "contraPedido") {
       estadoPagoV = "impago";
       formaPagoV = "contraPedido";
     }
@@ -590,9 +762,9 @@ export class PaymentPage implements OnInit {
       idReceta: this.prescription.codiRece,
       datosReceta: this.prescription._id,
       datosPaciente: this.prescription.datosPac,
-      estadoDespacho: 'nuevo',
+      estadoDespacho: "nuevo",
       detalles: JSON.stringify(details),
-      fecha: formatDate(new Date(), "yyyy-MM-dd", "en-US"),
+      fecha: this.fecha + " " + this.hora,
       totalDespacho: this.calculateTotalDispatch(),
       //horarioEntrega: this.horarioSelected.name,
       horarioEntrega: "mañana",
@@ -616,13 +788,21 @@ export class PaymentPage implements OnInit {
   createDispatchService(data: any) {
     console.log(this.lng, this.lat, "long y lat");
     this.loadingCtrl.presentLoading();
-    this.auth.createDispatch(data).subscribe((resultCreate: any) => {
-      console.log("DESPACHO GUARDADO");
-      this.auth.senDataDispatch(data);
-      this.exportData(this.prescription);
-      // this.deleteCartPatient(this.userData.identificacion);
-    });
-    this.loadingCtrl.dismiss();
+    this.auth.createDispatch(data).subscribe(
+      (resultCreate: any) => {
+        console.log(resultCreate, "lo de la base");
+        console.log("DESPACHO GUARDADO");
+        this.auth.senDataDispatch(resultCreate);
+        this.exportData(this.prescription);
+        // this.deleteCartPatient(this.userData.identificacion);
+        this.loadingCtrl.dismiss();
+      },
+      error => {
+        this.toast.presentToastError("Servicio temporalmente no disponible");
+        console.log(error, "error");
+        this.loadingCtrl.dismiss();
+      }
+    );
   }
 
   exportData(event) {
@@ -654,19 +834,25 @@ export class PaymentPage implements OnInit {
   }
 
   getDispatchService(id: any) {
-    this.auth.getDispatchById(id).subscribe((resultDispatch: any) => {
-      console.log(resultDispatch, "DESPACHOS");
-      this.dispatchs = resultDispatch;
-      this.addDetails = this.addDispatchPrescription();
-      this.getInfoProductByListId(this.idForRequest);
-    });
+    this.auth.getDispatchById(id).subscribe(
+      (resultDispatch: any) => {
+        console.log(resultDispatch, "DESPACHOS");
+        this.dispatchs = resultDispatch;
+        this.addDetails = this.addDispatchPrescription();
+        this.getInfoProductByListId(this.idForRequest);
+      },
+      error => {
+        this.toast.presentToastError("Servicio temporalmente no disponible");
+        console.log(error, "error");
+      }
+    );
   }
 
   addDispatchPrescription() {
     let resultAdd = null;
     let allDetails = [];
     this.dispatchs.map((elementMap: any) => {
-      console.log(this.auth.convertStringToArrayOfObjects(elementMap.detalles));
+      //console.log(this.auth.convertStringToArrayOfObjects(elementMap.detalles));
       allDetails = this.concatDetailsDispatch(
         this.auth.convertStringToArrayOfObjects(elementMap.detalles),
         allDetails
@@ -706,11 +892,18 @@ export class PaymentPage implements OnInit {
   }
 
   getInfoProductByListId(ids: any) {
-    this.auth.getInfoProducts(ids).subscribe((resultGetInfoProducts: any) => {
-      console.log(resultGetInfoProducts, "PORDUCOTS");
-      this.listProducts = resultGetInfoProducts;
-      this.processDataInfoProducts();
-    });
+    this.auth.getInfoProducts(ids).subscribe(
+      (resultGetInfoProducts: any) => {
+        console.log(resultGetInfoProducts, "PORDUCOTS");
+        this.listProducts = resultGetInfoProducts;
+        this.processDataInfoProducts();
+      },
+      error => {
+        this.toast.presentToastError("Servicio temporalmente no disponible");
+        console.log(error, "error");
+        this.loadingCtrl.dismiss();
+      }
+    );
   }
 
   processDataInfoProducts() {
@@ -784,14 +977,17 @@ export class PaymentPage implements OnInit {
 
   updatePrescription(dataPrescription: any) {
     this.loadingCtrl.presentLoading();
-    this.auth
-      .updatePrescriptionService(dataPrescription)
-      .subscribe((resultUpdate: any) => {
+    this.auth.updatePrescriptionService(dataPrescription).subscribe(
+      (resultUpdate: any) => {
         console.log(resultUpdate, "RECETA ACTUALIZADA");
         this.deleteCartPatient(this.user.identificacion);
-      });
-      
-    this.loadingCtrl.dismiss();
+        this.loadingCtrl.dismiss();
+      },
+      error => {
+        console.log(error, "error");
+        this.loadingCtrl.dismiss();
+      }
+    );
   }
 
   // updateListPrescription(){
@@ -802,20 +998,22 @@ export class PaymentPage implements OnInit {
   // }
 
   deleteCartPatient(dni: any) {
-    this.auth.deleteCartPatientService(dni).subscribe((result: any) => {
-      this.presentToastCompra("COMPRASTE TODA LA RECETA");
-      this.router.navigate(["prescription-detail"]);
-    });
+    this.auth.deleteCartPatientService(dni).subscribe(
+      (result: any) => {
+        this.presentToastCompra("RECETA COMPRADA EN SU TOTALIDAD");
+        this.router.navigate(["prescription-detail"]);
+      },
+      error => {
+        this.toast.presentToastError("Error interno del servidor");
+        console.log(error, "error");
+      }
+    );
   }
-
-  // extractDataById(data, id) {
-  //   return _.filter(data, function (ob) { return ob.id === id; });
-  // }
 
   async presentToastCompra(message) {
     const toast = await this.toastController.create({
       message: message,
-      duration: 2000,
+      duration: 3000,
       color: "dark"
     });
     toast.present();

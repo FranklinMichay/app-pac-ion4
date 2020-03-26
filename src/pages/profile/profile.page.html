@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-back-button class="title-toolbar" slot="start">
+        <ion-back-button text="ATRÁS" class="title-toolbar" slot="start">
         </ion-back-button>
 
         <ion-buttons slot="end">
@@ -8,7 +8,7 @@
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar" *ngIf="data">{{ data.priNombre | uppercase }}</ion-title>
+        <ion-title class="ion-text-center" class="title-toolbar" *ngIf="data">{{ data.priNombre | uppercase }}</ion-title>
     </ion-toolbar>
 </ion-header>
 

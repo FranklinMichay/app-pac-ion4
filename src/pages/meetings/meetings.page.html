@@ -1,13 +1,13 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-back-button class="style-button-back" slot="start">
+        <ion-back-button text="ATRÁS" class="style-button-back" slot="start">
         </ion-back-button>
         <ion-buttons slot="end">
             <ion-button (click)="returnHome()" slot="end">
                 <ion-icon class="style-icon-logout" slot="icon-only" name="home"></ion-icon>
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar">MIS CITAS</ion-title>
+        <ion-title class="ion-text-center" class="title-toolbar">MIS CITAS</ion-title>
     </ion-toolbar>
 </ion-header>
 
@@ -19,9 +19,11 @@
                 <label class="text-center">Agendadas</label>
             </ion-col>
             <ion-col class="col-center" [ngClass]="{'active': currentTab === 'step2'}" (click)="changeTab('step2')">
+                <ion-icon *ngIf="notifyCanceled" name="radio-button-on-outline" class="select-button"></ion-icon>
                 <label class="text-center">Canceladas</label>
             </ion-col>
             <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step3'}" (click)="changeTab('step3')">
+                <ion-icon *ngIf="notifyPostponed" name="radio-button-on-outline" class="select-button"></ion-icon>
                 <label class="text-center">Pospuestas</label>
             </ion-col>
         </ion-row>

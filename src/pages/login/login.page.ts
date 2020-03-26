@@ -129,7 +129,11 @@ export class LoginPage implements OnInit {
         this.loadingCtrl.dismiss();
       }
 
-    })
+    },
+    error => {
+      console.log(error, 'error');
+    }
+    );
   }
 
   hideShowPassword() {

@@ -7,8 +7,6 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { AngularFireModule } from '@angular/fire';
-import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from 'src/environments/environment';
 import { HttpClientModule } from '@angular/common/http';
 import { GetMeetingPage } from './../pages/get-meeting/get-meeting.page';
@@ -30,8 +28,15 @@ import localeEsAr from '@angular/common/locales/es-AR';
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { LocationAccuracy } from '@ionic-native/location-accuracy/ngx';
 import { AndroidFullScreen } from '@ionic-native/android-full-screen/ngx';
+import {NativeGeocoder,NativeGeocoderOptions} from "@ionic-native/native-geocoder/ngx";
 registerLocaleData(localeEsAr);
 
+import { AngularFireModule } from '@angular/fire';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+// import { FCM } from '@ionic-native/fcm/ngx';
+import { OneSignal } from '@ionic-native/onesignal/ngx';
 
 @NgModule({
   declarations: [
@@ -50,12 +55,16 @@ registerLocaleData(localeEsAr);
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    AngularFirestoreModule, // firestore
+    AngularFireAuthModule, // auth
+    AngularFireStorageModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     AngularFireAuthModule,
-    AngularFireModule.initializeApp(environment),
+    
     HttpClientModule,
     SocketIoModule.forRoot(config),
+    
   ],
 
   providers: [
@@ -64,15 +73,19 @@ registerLocaleData(localeEsAr);
     SplashScreen,
     BackgroundMode,
     Geolocation,
+    NativeGeocoder,
     AndroidFullScreen,
     AndroidPermissions,
     LocationAccuracy,
+    OneSignal,
     LocalNotifications,
+    // FCM,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     FileTransfer,
     FileTransferObject,
     WebView,
     Network,
+ 
     { provide: LOCALE_ID, useValue: 'es-Ar' },
     
   ],

@@ -12,6 +12,7 @@ p.validator {
     color: red;
     font-size: 12px;
     text-align: left;
+    margin-left: 5%;
     //margin-left: -30%;
     // padding: -3px 0px -12px 1px;
     // margin-top: auto;
@@ -85,7 +86,6 @@ p.validator {
 
 .title-toolbar {
     color: white;
-    text-align: center;
     font-family: Montserrat;
     font-size: 14px;
     font-weight: 500;
@@ -93,7 +93,6 @@ p.validator {
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: center;
 }
 
 .icon-pass {
@@ -273,6 +272,8 @@ ion-content {
 
 .option {
     height: 164px;
+    margin-left: 21%;
+    margin-right: -23%;
 }
 
 .scroll-content {
@@ -659,13 +660,14 @@ h3 {
 }
 
 .title-entrega {
-    font-size: 17px;
+    font-size: 13.8px;
     letter-spacing: 0;
     color: black;
     font-family: Poppins;
-    padding: 0px 24px;
-    margin-top: 3%;
+    padding: 0px 0px 0px 23px;
+    margin-top: 4%;
     font-weight: bold;
+    margin-right: 0%;
 }
 
 $number-of-steps: 3;
@@ -791,7 +793,7 @@ li+li {
     width: 91%;
     margin-left: 4.5%;
     border: 1px solid white;
-    top: 2%;
+    top: 5%;
 }
 
 .i-fab {

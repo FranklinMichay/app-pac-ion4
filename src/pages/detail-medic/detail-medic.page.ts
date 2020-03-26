@@ -1,18 +1,17 @@
-import { ModalCancelPage } from './../modal-cancel/modal-cancel.page';
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../../src/app/services/auth.service'
-import { ModalController, AlertController } from '@ionic/angular';
-import { DataService } from 'src/app/services/data.service';
-import { ModalAcceptPostponedPage } from '../modal-accept-postponed/modal-accept-postponed.page';
+import { ModalCancelPage } from "./../modal-cancel/modal-cancel.page";
+import { Component, OnInit } from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import { AuthService } from "../../../src/app/services/auth.service";
+import { ModalController, AlertController } from "@ionic/angular";
+import { DataService } from "src/app/services/data.service";
+import { ModalAcceptPostponedPage } from "../modal-accept-postponed/modal-accept-postponed.page";
 
 @Component({
-  selector: 'app-detail-medic',
-  templateUrl: './detail-medic.page.html',
-  styleUrls: ['./detail-medic.page.scss'],
+  selector: "app-detail-medic",
+  templateUrl: "./detail-medic.page.html",
+  styleUrls: ["./detail-medic.page.scss"]
 })
 export class DetailMedicPage implements OnInit {
-
   medic: any;
   state: any;
   posponed: any;
@@ -28,86 +27,101 @@ export class DetailMedicPage implements OnInit {
     private auth: AuthService,
     public mdlCtrl: ModalController,
     private dataService: DataService,
-    private alertCtrl: AlertController,
-    
+    private alertCtrl: AlertController
   ) {
     this.medic = this.router.getCurrentNavigation().extras.state;
-    
-    this.state = this.route.snapshot.paramMap.get('state')
+
+    this.state = this.route.snapshot.paramMap.get("state");
     // if (this.state === 'canceled') {
     //   classList.add("bg-sunday");
     // }
-    this.posponed = this.route.snapshot.paramMap.get('posponed')
-    console.log(this.posponed,'postponed');
-    
-    console.log(this.medic, this.state, this.posponed, 'data desde meetings');
-    const idUser = JSON.parse(localStorage.getItem('userPaciente'));
+    this.posponed = this.route.snapshot.paramMap.get("posponed");
+    console.log(this.posponed, "postponed");
+
+    console.log(this.medic, this.state, this.posponed, "data desde meetings");
+    const idUser = JSON.parse(localStorage.getItem("userPaciente"));
     this.idPaciente = idUser.id;
-    console.log(this.idPaciente, 'ID del paciente');
+    console.log(this.idPaciente, "ID del paciente");
     this.getDataNews();
     this.getDataAccept();
     this.getDataPostponed();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   getDataNews() {
-    let url = 'estadoCita=new,paciente_id=' + this.idPaciente;
-    this.auth.getByUrlCustom(url).subscribe((result: any) => {
-      this.newMeetings = result;
-      console.log(this.newMeetings, 'Citas agendadas');
-    })
+    let url = "estadoCita=new,paciente_id=" + this.idPaciente;
+    this.auth.getByUrlCustom(url).subscribe(
+      (result: any) => {
+        this.newMeetings = result;
+        console.log(this.newMeetings, "Citas agendadas");
+      },
+      error => {
+        console.log(error, "error  citas agendadas");
+      }
+    );
   }
 
   getDataAccept() {
-    let url = 'estadoCita=accepted,paciente_id=' + this.idPaciente;
-    this.auth.getByUrlCustom(url).subscribe((result: any) => {
-      this.acceptedMeetings = result;
-      console.log(this.acceptedMeetings, 'Citas aceptadas');
-    })
+    let url = "estadoCita=accepted,paciente_id=" + this.idPaciente;
+    this.auth.getByUrlCustom(url).subscribe(
+      (result: any) => {
+        this.acceptedMeetings = result;
+        console.log(this.acceptedMeetings, "Citas aceptadas");
+      },
+      error => {
+        console.log(error, "error citas acepted");
+      }
+    );
   }
 
   getDataPostponed() {
-    let url = 'estadoCita=postponed,paciente_id=' + this.idPaciente;
+    let url = "estadoCita=postponed,paciente_id=" + this.idPaciente;
     this.auth.getByUrlCustom(url).subscribe((result: any) => {
       this.postponedMeetings = result;
-      console.log(this.postponedMeetings, 'Citas pospuestas');
-    })
+      console.log(this.postponedMeetings, "Citas pospuestas");
+    },
+    error => {
+      console.log(error, 'error citas posponed');
+    }
+    );
   }
 
   acceptedAppointment(pkAppointment) {
     const dataForUpdate = {
-      id : pkAppointment,
-      estadoCita : 'accepted',
+      id: pkAppointment,
+      estadoCita: "accepted"
     };
     this.updateAppointment(dataForUpdate);
   }
 
   updateAppointment(data) {
-    this.auth.update(data).subscribe(result=>{
-      console.log(result, 'data actualizada');
+    this.auth.update(data).subscribe(result => {
+      console.log(result, "data actualizada");
       this.presentAlertConfirm();
-      //this.auth.sendNotify(result[0]);
-    })
+      //this.auth.sendNotify(result[0])
+    },
+    error => {
+      console.log(error, 'error');
+    }
+    );
   }
 
-  
   async presentAlertConfirm() {
     const alert = await this.alertCtrl.create({
-      header: 'Listo, tu cita se agendó con éxito',
-      message: 'Que hacer ahora?',
+      header: "Listo, tu cita se agendó con éxito",
+      message: "Que hacer ahora?",
       buttons: [
         {
-          text: 'Ir a mis Citas',
+          text: "Ir a mis Citas",
           handler: () => {
-            this.router.navigate(['meetings']);
-            
+            this.router.navigate(["meetings"]);
           }
-        }, {
-          text: 'Quedarme Aqui',
+        },
+        {
+          text: "Quedarme Aqui",
           handler: () => {
-            console.log('Quedarme Aqui');
+            console.log("Quedarme Aqui");
           }
         }
       ]
@@ -117,51 +131,47 @@ export class DetailMedicPage implements OnInit {
   }
 
   returnHome() {
-    this.router.navigate(['home']);
+    this.router.navigate(["home"]);
   }
 
   async presentModal(dataCancel) {
     const modal = await this.mdlCtrl.create({
       component: ModalCancelPage,
-      cssClass: 'css-modal',
+      cssClass: "css-modal",
       componentProps: {
         hour: dataCancel
       }
-
     });
-    modal.onDidDismiss()
-      .then((data) => {
-        if(data.data.data.estadoCita === 'postponed') {
-          this.dataService.dataCancelPosponed = data
-          console.log(this.dataService.dataCancelPosponed, 'data cancel posponed');
-        }else {
-          this.dataService.dataDelete = data
-          console.log(this.dataService.dataDelete, 'data delete acepted');
-        }
-        this.router.navigate(['meetings'], {state:data} );
-      });
+    modal.onDidDismiss().then(data => {
+      if (data.data.data.estadoCita === "postponed") {
+        this.dataService.dataCancelPosponed = data;
+        console.log(
+          this.dataService.dataCancelPosponed,
+          "data cancel posponed"
+        );
+      } else {
+        this.dataService.dataDelete = data;
+        console.log(this.dataService.dataDelete, "data delete acepted");
+      }
+      this.router.navigate(["meetings"], { state: data });
+    });
     return await modal.present();
   }
 
   async presentModalPosponed(data) {
     const modal = await this.mdlCtrl.create({
       component: ModalAcceptPostponedPage,
-      cssClass: 'css-modal',
+      cssClass: "css-modal",
       componentProps: {
         data: data
       }
     });
-    modal.onDidDismiss()
-      .then((data) => {
-        //console.log(data, 'data del dismis modal ok');
-        this.dataService.idAcceptPosponed = data
-        console.log(this.dataService.idAcceptPosponed, 'data dismiss ok');
-        this.router.navigate(['meetings'], {state:data} );
-      });
+    modal.onDidDismiss().then(data => {
+      //console.log(data, 'data del dismis modal ok');
+      this.dataService.idAcceptPosponed = data;
+      console.log(this.dataService.idAcceptPosponed, "data dismiss ok");
+      this.router.navigate(["meetings"], { state: data });
+    });
     return await modal.present();
   }
-
-
-
-
 }

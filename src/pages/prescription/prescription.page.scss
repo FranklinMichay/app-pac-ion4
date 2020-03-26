@@ -1,6 +1,5 @@
 .title-toolbar {
     color: white;
-    text-align: center;
     font-family: Montserrat;
     font-size: 14px;
     font-weight: 500;
@@ -8,7 +7,6 @@
     font-style: normal;
     line-height: normal;
     letter-spacing: normal;
-    text-align: center;
 }
 
 .style-icon-logout {
@@ -69,10 +67,9 @@
     background-color: #f6f6f6;
     border-radius: 2px;
     padding: 11px 0px 0px 20px;
-    margin-left: -1%;
-    height: 230px;
-    margin-bottom: 3%;
-    margin-right: -8%;
+    margin-left: 3%;
+    height: 100%;
+    margin-bottom: 5%;
 }
 
 .eliminar {
@@ -91,6 +88,7 @@
     line-height: 1.72;
     letter-spacing: normal;
     color: #728391;
+    margin-top: 4%;
 }
 
 .content-medic {
@@ -287,7 +285,7 @@ ion-list-header {
 
 .line-m {
     background-color: #e7e7e7;
-    margin-top: 2%;
+    margin-top: 6%;
     width: 100%;
     margin-left: -1%;
 }
@@ -348,6 +346,8 @@ ion-list-header {
     letter-spacing: normal;
     color: #140e3d;
     width: auto;
+    margin-top: 2%;
+    margin-bottom: -2%;
 }
 
 .val-total {
@@ -360,11 +360,13 @@ ion-list-header {
     letter-spacing: normal;
     color: black;
     margin-left: -40%;
+    margin-top: 2%;
+    margin-bottom: -3%;
 }
 
 .content-price {
-    margin-top: -9%;
-    margin-left: -1%;
+    margin-top: -10%;
+    //margin-left: -1%;
 }
 
 .cont-add {
@@ -390,7 +392,8 @@ ion-list-header {
 }
 
 .row-price {
-    margin-top: -16%;
+    margin-top: -26%;
+    margin-bottom: -8%;
 }
 
 .row-remaining {

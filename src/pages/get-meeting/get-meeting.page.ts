@@ -83,7 +83,11 @@ export class GetMeetingPage implements OnInit {
         this.closeModal();
         this.alertCita(result.message);
       }
-    });
+    },
+    error => {
+      console.log(error, 'error');
+    }
+    );
   }
 
   async alertCita(msj) {

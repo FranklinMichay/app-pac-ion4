@@ -1,6 +1,6 @@
 <ion-header>
     <ion-toolbar color="primary">
-        <ion-back-button class="title-toolbar" slot="start">
+        <ion-back-button text="ATRÁS" class="title-toolbar" slot="start">
         </ion-back-button>
         <ion-buttons slot="end">
             <!-- <ion-button (click)="returnHome()" slot="end">
@@ -11,69 +11,73 @@
                 <ion-badge *ngIf="count > 0" class="cart-badge">{{count}}</ion-badge> -->
             </ion-button>
         </ion-buttons>
-        <ion-title class="title-toolbar">MI CARRITO</ion-title>
+        <ion-title class="ion-text-center" class="title-toolbar">MI CARRITO</ion-title>
     </ion-toolbar>
 </ion-header>
 
 <ion-content *ngIf="dataForView" class="ion-padding bg-content">
-    <ion-row *ngFor="let producto of dataForView; let i = index">
-        <ion-col size="1" class="eliminar" (click)="deleteItem(producto._id)">
-            X
-        </ion-col>
-        <ion-col size="11">
-            <div class="container-prod">
-                <ion-label>
-                    <ion-row>
-                        <ion-col size="10">
-                            <ion-label class="name-prod">{{producto.product | uppercase}}</ion-label>
-                            <h3 class="form-prod">{{producto.pharmacyForm }} - {{producto.concentration }}</h3>
-                            <h3 class="form-prod">{{producto.presentation }}</h3>
-                        </ion-col>
-                        <ion-col size="2">
-                            <ion-col size="12">
-                                <ion-col size="12">
-                                    <ion-icon name="add" class="cont-add" (click)="add(i)"></ion-icon>
-                                </ion-col>
-                                <ion-col size="12">
-                                    <ion-input class="style-input" type="number" on [(ngModel)]="producto.totalDispatch" (change)="calculateTotal($event, i)" (keyup)="calculateTotal($event, i)">
-                                    </ion-input>
-                                </ion-col>
-                                <ion-col size="12">
-                                    <ion-icon name="remove" class="cont-substract" (click)="subtract(i)"></ion-icon>
-                                </ion-col>
-                            </ion-col>
-                        </ion-col>
-                    </ion-row>
-                    <ion-row class="row-price">
-                        <h3 class="form-prod"> Cantidad recetada: {{producto.totalPrescription| number: '1.2-4' }}</h3>
-                    </ion-row>
-                    <ion-row *ngIf="producto.remaining > 0" class="row-remaining">
-                        <h3 class="form-prod"> Cantidad faltante: {{producto.remaining | number: '1.2-4'}}</h3>
-                    </ion-row>
-                    <hr class="line-m"><br>
-                    <div class="content-price">
-                        <ion-row>
-                            <ion-col size="6">
-                                <h3 class="info-total"> Precio Unit:</h3>
-                            </ion-col>
+    <ion-grid>
 
-                            <ion-col size="6">
-                                <p class="val-total">${{ producto.price }}</p>
+        <ion-row *ngFor="let producto of dataForView; let i = index">
+            <ion-col size="1" class="eliminar" (click)="deleteItem(producto._id)">
+                X
+            </ion-col>
+            <ion-col size="11" class="container-prod">
+                <ion-row>
+                    <ion-col size="10">
+                        <ion-label class="name-prod">{{producto.product | uppercase}}</ion-label>
+                        <!-- <h3 class="form-prod">{{producto.pharmacyForm }} - {{producto.concentration }}</h3> -->
+                        <!-- <h3 class="form-prod">{{producto.presentation }}</h3> -->
+                    </ion-col>
+                    <ion-col size="2">
+                        <ion-col size="12">
+                            <ion-col size="12">
+                                <ion-icon name="add" class="cont-add" (click)="add(i)"></ion-icon>
                             </ion-col>
-                        </ion-row>
-                        <ion-row>
-                            <ion-col size="6">
-                                <h3 class="info-total"> Total:</h3>
+                            <ion-col size="12">
+                                <ion-input class="style-input" type="number" on [(ngModel)]="producto.totalDispatch" (change)="calculateTotal($event, i)" (keyup)="calculateTotal($event, i)">
+                                </ion-input>
                             </ion-col>
-                            <ion-col size="6">
-                                <p class="val-total">${{ producto.totalDispatch * producto.price | number: '1.2-4'}}</p>
+                            <ion-col size="12">
+                                <ion-icon name="remove" class="cont-substract" (click)="subtract(i)"></ion-icon>
                             </ion-col>
-                        </ion-row>
-                    </div>
-                </ion-label>
-            </div>
-        </ion-col>
-    </ion-row>
+                        </ion-col>
+                    </ion-col>
+                </ion-row>
+                <ion-row class="row-price">
+                    <ion-col size="12">
+                        <h3 class="form-prod"> Cantidad recetada: {{producto.totalPrescription| number: '1.2-4' }}
+                        </h3>
+
+                        <h3 class="form-prod"> Cantidad faltante: {{producto.remaining | number: '1.2-4'}}</h3>
+                    </ion-col>
+                </ion-row>
+
+                <hr class="line-m"><br>
+
+                <div class="content-price">
+                    <ion-row>
+                        <ion-col size="6">
+                            <h3 class="info-total"> Precio Unit:</h3>
+                        </ion-col>
+
+                        <ion-col size="6">
+                            <p class="val-total">$ {{ producto.price }}</p>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col size="6">
+                            <h3 class="info-total"> Total:</h3>
+                        </ion-col>
+                        <ion-col size="6">
+                            <p class="val-total">$ {{ producto.totalDispatch * producto.price | number: '1.2-4'}}</p>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-col>
+        </ion-row>
+
+    </ion-grid>
 </ion-content>
 <ion-footer class="bg-footer">
     <div class="container-subtotal">

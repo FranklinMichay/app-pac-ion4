@@ -1,3 +1,6 @@
+import { ToastService } from "./../../app/services/toast.service";
+import { log } from "util";
+import { formatDate } from "@angular/common";
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   ModalController,
@@ -14,6 +17,7 @@ import { Info } from "../../shared/mock/months";
 import { environment } from "src/environments/environment";
 import { DataService } from "src/app/services/data.service";
 import { ToastController } from "@ionic/angular";
+// import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: "app-prescription-detail",
@@ -40,6 +44,7 @@ export class PrescriptionDetailPage implements OnInit {
   prescriptionList: any = [];
   productDesp: any;
   despachos: any = {};
+  despachosTotal: any = {};
   lastDataShowed: any = {};
   currentMonth: any;
   currentYear: any;
@@ -63,6 +68,7 @@ export class PrescriptionDetailPage implements OnInit {
   };
 
   dateDivider: any;
+  sliceInfo: any;
 
   //EJEMPLO DIVIDER
   list1: any[];
@@ -81,6 +87,7 @@ export class PrescriptionDetailPage implements OnInit {
 
   //SOCKET DESPACHOS
   connection: any;
+  notify: boolean = false;
 
   constructor(
     //navParams: NavParams,
@@ -92,7 +99,8 @@ export class PrescriptionDetailPage implements OnInit {
     private route: ActivatedRoute,
     public mdlCtrl: ModalController,
     private dataService: DataService,
-    public toastController: ToastController
+    public toastController: ToastController,
+    public toast: ToastService
   ) {
     this.currentYear = this.today.getFullYear();
     this.monthLabel = Info.months[this.today.getMonth()];
@@ -113,7 +121,20 @@ export class PrescriptionDetailPage implements OnInit {
     this.getAppointment(this.dni);
     this.getDespById();
     this.initSocket();
+    this.notify = JSON.parse(localStorage.getItem("compradas"));
+    // this.nofi();
+
+    //console.log(formatDate(new Date(), "yyyy-MM-dd HH:MM", "en-US"), 'daten');
   }
+
+  ionViewDidEnter() {
+    this.notify = JSON.parse(localStorage.getItem("compradas"));
+  }
+
+  // ionViewDidEnter() {
+  //   console.log('ionViewDidEnter');
+  //   this.getAppointment(this.dni);
+  // }
 
   //CONSULTAR RECETAS POR DIA ESPECIFICO
   getData(currentDate) {
@@ -155,7 +176,8 @@ export class PrescriptionDetailPage implements OnInit {
   set(arr) {
     return arr.reduce(function(a, val) {
       if (a.indexOf(val) === -1) {
-        a.push(val);
+        let sli = val.slice(0, 10);
+        a.push(sli);
       }
       return a;
     }, []);
@@ -163,6 +185,7 @@ export class PrescriptionDetailPage implements OnInit {
 
   //CONSULTAR TODAS LAS RECETAS
   getAppointment(dni) {
+    this.loadingCtrl.presentLoading();
     this.auth.getRecetasPaciente(dni).subscribe(
       recetas => {
         console.log(recetas, "desde el  server");
@@ -179,7 +202,8 @@ export class PrescriptionDetailPage implements OnInit {
             fecha: recetas[index].fecha,
             codiRece: recetas[index].codiRece,
             estadoReceta: recetas[index].estadoReceta,
-            _id: recetas[index]._id
+            _id: recetas[index]._id,
+            hora: recetas[index].hora
           };
           this.dataMedic.push(datos);
         }
@@ -208,20 +232,23 @@ export class PrescriptionDetailPage implements OnInit {
           this.finishedAppointment,
           "RECETAS COMPRADAS ORDENADAS DESCENDENTEMENTE"
         );
+        this.loadingCtrl.dismiss();
       },
       err => {
-        console.log(err, "ERROR AL TRAER RECETAS");
+        console.log(err, "ERROR RECETAS");
+        this.toast.presentToastError(
+          "Error de conexión, por favor intente luego"
+        );
+        this.loadingCtrl.dismiss();
       }
     );
   }
 
   goDetails(prescription) {
-    this.loadingCtrl.presentLoading();
     this.dataService.dataCompra = prescription;
     this.getProductPrescriptionCompra(
       this.removeSquareBracket(_.map(prescription.detalles, "id"))
     );
-    this.loadingCtrl.dismiss();
   }
 
   prepareIdsRequest(dataPrescription: any) {
@@ -242,12 +269,18 @@ export class PrescriptionDetailPage implements OnInit {
   }
 
   getProductPrescription(ids: string) {
-    this.auth.getInfoProducts(ids).subscribe(prescription => {
-      this.prescriptionList = prescription;
-      console.log(this.prescriptionList, "PRODUCTOS");
-      this.router.navigate(["prescription"], { state: this.prescriptionList });
-      //this.presentModal();
-    });
+    this.auth.getInfoProducts(ids).subscribe(
+      prescription => {
+        this.prescriptionList = prescription;
+        console.log(this.prescriptionList, "PRODUCTOS");
+        this.router.navigate(["prescription"], {
+          state: this.prescriptionList
+        });
+      },
+      err => {
+        console.log(err, "error");
+      }
+    );
   }
 
   goDetailDesp() {
@@ -257,10 +290,17 @@ export class PrescriptionDetailPage implements OnInit {
   }
 
   getProductPrescriptionCompra(ids: string) {
-    this.auth.getInfoProducts(ids).subscribe(prescription => {
-      this.prescriptionList = prescription;
-      this.router.navigate(["prescription"], { state: this.prescriptionList });
-    });
+    this.auth.getInfoProducts(ids).subscribe(
+      prescription => {
+        this.prescriptionList = prescription;
+        this.router.navigate(["prescription"], {
+          state: this.prescriptionList
+        });
+      },
+      err => {
+        console.log(err, "error");
+      }
+    );
   }
 
   returnHome() {
@@ -273,10 +313,21 @@ export class PrescriptionDetailPage implements OnInit {
       this.currentStep = false;
       console.log(tab, "tab");
     }
+
+    if (tab === "step2") {
+      this.currentStep = true;
+      this.notify = false;
+      localStorage.setItem("compradas", JSON.stringify(false));
+      localStorage.setItem("appointmentHome", JSON.stringify(false));
+      console.log(tab, "tab");
+    }
+
     if (tab === "step3") {
       this.currentStep = true;
       console.log(tab, "tab");
     }
+
+    
   }
 
   nextSlide() {
@@ -467,14 +518,19 @@ export class PrescriptionDetailPage implements OnInit {
   }
 
   getProductPrescription1(ids: string) {
-    this.auth.getInfoProducts(ids).subscribe(prescription => {
-      this.prescriptionList = prescription;
-      console.log(this.prescriptionList, "PRODUCTOS");
-      this.router.navigate(["detail-appointment"], {
-        state: this.prescriptionList
-      });
-      //this.presentModal();
-    });
+    this.auth.getInfoProducts(ids).subscribe(
+      prescription => {
+        this.prescriptionList = prescription;
+        console.log(this.prescriptionList, "PRODUCTOS");
+        this.router.navigate(["detail-appointment"], {
+          state: this.prescriptionList
+        });
+      },
+
+      err => {
+        console.log(err, "error");
+      }
+    );
   }
 
   goDetailAppointment(prescription) {
@@ -501,39 +557,59 @@ export class PrescriptionDetailPage implements OnInit {
 
   //METODOS DESPACHO
   getDespById() {
-    this.loadingCtrl.presentLoading();
-    this.auth.getDespById(this.dni).subscribe(despacho => {
-      this.despachos = despacho;
-      for (let index = 0; index < despacho.length; index++) {
-        despacho[index].detalles = JSON.parse(despacho[index].detalles);
-        despacho[index].datosReceta.datosMedico = JSON.parse(
-          despacho[index].datosReceta.datosMedico
-        );
-        despacho[index].datosReceta.datosPaciente = JSON.parse(
-          despacho[index].datosReceta.datosPaciente
-        );
-        despacho[index].datosReceta.detalles = JSON.parse(
-          despacho[index].datosReceta.detalles
-        );
-        despacho[index].datosReceta.indicaciones = JSON.parse(
-          despacho[index].datosReceta.indicaciones
-        );
-      }
+    this.auth.getDespById(this.dni).subscribe(
+      (despacho: any) => {
+        this.despachosTotal = despacho;
+        console.log(despacho, "DESPACHO PURO");
+        this.despachos = despacho;
 
-      this.despachos = _.orderBy(this.despachos, ["fecha"], ["desc"]);
-      console.log(this.despachos, "LISTA DESPACHOS");
-      this.dateDivider = _.filter(
-        this.despachos,
-        item => item.estadoDespacho != "nuevo"
-      );
-      this.dateDivider = this.removeSquareBracket(
-        _.map(this.dateDivider, "fecha")
-      );
-      console.log(this.dateDivider, "fechas despachos");
-      this.dateDivider = this.set(this.dateDivider.split(","));
-      console.log(this.dateDivider, "fechas despachos");
-      this.loadingCtrl.dismiss();
+        this.despachos.map((element: any) => {
+          element.detalles = JSON.parse(element.detalles);
+          element.datosReceta.datosMedico = JSON.parse(
+            element.datosReceta.datosMedico
+          );
+          element.datosReceta.datosPaciente = JSON.parse(
+            element.datosReceta.datosPaciente
+          );
+          element.datosReceta.detalles = JSON.parse(
+            element.datosReceta.detalles
+          );
+          element.datosReceta.indicaciones = JSON.parse(
+            element.datosReceta.indicaciones
+          );
+        });
+
+        this.dateDivider = this.returnDate(despacho);
+        this.despachos = _.orderBy(this.despachos, ["fecha"], ["desc"]);
+        console.log(this.dateDivider, "date divider");
+        console.log(this.despachos, "lista de despachos descendente");
+      },
+
+      err => {
+        console.log(err, "error");
+      }
+    );
+  }
+
+  returnDate(data: any) {
+    const arrDate = [];
+    data.map((obj: any) => {
+      arrDate.push(obj.fecha.slice(0, 10));
     });
+    arrDate.reverse();
+    return _.uniq(arrDate);
+  }
+
+  sliceDataDate(data: any) {
+    /*data.map((elemnt:any) => {
+      elemnt.fecha = elemnt.fecha.slice(0,10);
+    });*/
+
+    this.dateDivider = this.removeSquareBracket(_.map(data, "fecha"));
+    console.log(this.dateDivider, "fechas despachos string");
+
+    this.dateDivider = this.set(this.dateDivider.split(","));
+    console.log(this.dateDivider, "fechas listar despachos");
   }
 
   prepareIdsDesp(desp: any) {
@@ -599,12 +675,21 @@ export class PrescriptionDetailPage implements OnInit {
       this.auth.removeListener("dispatch");
     }
     this.connection = this.auth.getDataDispatch().subscribe((result: any) => {
-      console.log(result, "socket....");
+      console.log(result, "DATA SOCKET DESPACHO NUEVO");
       this.processData(result);
     });
   }
 
   processData(result: any) {
+    if (result.estadoDespacho === "nuevo") {
+      // this.getAppointment(this.dni);
+      this.getDespById();
+      //const despachos = this.db.doc('despachos/s8SoZa88D6eavUD3UQmA').update(result);
+      // despachos.subscribe(data => {
+      //   console.log(data);
+      // });
+      //this.despachos.push(result);
+    }
     const index = this.findIndexDispatch(result._id);
     this.despachos[index] = result;
     this.despachos[index].detalles = JSON.parse(this.despachos[index].detalles);
@@ -620,6 +705,8 @@ export class PrescriptionDetailPage implements OnInit {
     this.despachos[index].datosReceta.indicaciones = JSON.parse(
       this.despachos[index].datosReceta.indicaciones
     );
+
+    this.despachos = _.orderBy(this.despachos, ["fecha"], ["desc"]);
     console.log(this.despachos, "DESPACHOS ACTUALIZADOS");
   }
 

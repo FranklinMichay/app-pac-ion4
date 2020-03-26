@@ -1,20 +1,24 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { NavParams, ModalController, LoadingController, AlertController } from '@ionic/angular';
-import { AuthService } from 'src/app/services/auth.service';
-import { Router } from '@angular/router';
-import { LoadingService } from '../../app/services/loading.service';
-import * as _ from 'lodash'; 
+import { Component, OnInit, Input } from "@angular/core";
+import {
+  NavParams,
+  ModalController,
+  LoadingController,
+  AlertController
+} from "@ionic/angular";
+import { AuthService } from "src/app/services/auth.service";
+import { Router } from "@angular/router";
+import { LoadingService } from "../../app/services/loading.service";
+import * as _ from "lodash";
 
 @Component({
-  selector: 'app-modal-cancel',
-  templateUrl: './modal-cancel.page.html',
-  styleUrls: ['./modal-cancel.page.scss'],
+  selector: "app-modal-cancel",
+  templateUrl: "./modal-cancel.page.html",
+  styleUrls: ["./modal-cancel.page.scss"]
 })
 export class ModalCancelPage implements OnInit {
-
   @Input() hour: any;
   hourCancel: any;
-  state = 'Disponible';
+  state = "Disponible";
 
   constructor(
     navParams: NavParams,
@@ -24,12 +28,11 @@ export class ModalCancelPage implements OnInit {
     private router: Router,
     private loadingCtrl: LoadingService
   ) {
-    this.hourCancel = navParams.get('hour');
-    console.log(this.hourCancel, 'hora para cancelar');
+    this.hourCancel = navParams.get("hour");
+    console.log(this.hourCancel, "hora para cancelar");
   }
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   cancelAppointment(dataCita) {
     this.loadingCtrl.presentLoading();
@@ -39,21 +42,25 @@ export class ModalCancelPage implements OnInit {
       fecha: dataCita.fecha,
       medico_id: dataCita.medico.id,
       centroMedico_id: dataCita.medico.centroMedico[0].id,
-      origin: 'canceledByPatient',
-      estadoCita: 'canceled'
+      origin: "canceledByPatient",
+      estadoCita: "canceled"
     };
-    this.auth.partialUpdate(_info).subscribe(result => {
-      console.log(result, 'resul de la eliminacion');
-      this.auth.sendNotify(result[0]);
-      this.closeModal(dataCita);
-      this.loadingCtrl.dismiss();
-    });
+    this.auth.partialUpdate(_info).subscribe(
+      result => {
+        console.log(result, "resul de la eliminacion");
+        this.auth.sendNotify(result[0]);
+        this.closeModal(dataCita);
+        this.loadingCtrl.dismiss();
+      },
+      error => {
+        console.log(error, "error ");
+      }
+    );
   }
 
   closeModal(dataCita?) {
     this.modalCtrl.dismiss({
-      'data': dataCita
+      data: dataCita
     });
   }
-
 }
