@@ -7,7 +7,7 @@ import {
   Platform,
   MenuController,
   NavController,
-  AlertController
+  AlertController,
 } from "@ionic/angular";
 import { Info } from "../../shared/mock/months";
 import { AuthService } from "../../../src/app/services/auth.service";
@@ -19,7 +19,7 @@ import { Socket } from "ngx-socket-io";
 import { fn } from "@angular/compiler/src/output/output_ast";
 import {
   LocalNotifications,
-  ILocalNotificationActionType
+  ILocalNotificationActionType,
 } from "@ionic-native/local-notifications/ngx";
 import { Subscription } from "rxjs";
 import { environment } from "src/environments/environment";
@@ -32,7 +32,7 @@ import { AndroidFullScreen } from "@ionic-native/android-full-screen/ngx";
 @Component({
   selector: "app-home",
   templateUrl: "home.page.html",
-  styleUrls: ["home.page.scss"]
+  styleUrls: ["home.page.scss"],
 })
 export class HomePage implements OnInit {
   isConnected = false;
@@ -44,18 +44,21 @@ export class HomePage implements OnInit {
     {
       src: "assets/imgs/slide2.jpg",
       medicalCenter: "CLÍNICA MEDIPHARM",
-      detalle: "Expertos al cuidado de su salud Expertos al cuidado de su salud"
+      detalle:
+        "Expertos al cuidado de su salud Expertos al cuidado de su salud",
     },
     {
       src: "assets/imgs/slide6.jpg",
       medicalCenter: "FARMACIA SAN DANIEL",
-      detalle: "Expertos al cuidado de su salud Expertos al cuidado de su salud"
+      detalle:
+        "Expertos al cuidado de su salud Expertos al cuidado de su salud",
     },
     {
       src: "assets/imgs/slide3.jpg",
       medicalCenter: "LABORATORIO CLINICO LOJA",
-      detalle: "Expertos al cuidado de su salud Expertos al cuidado de su salud"
-    }
+      detalle:
+        "Expertos al cuidado de su salud Expertos al cuidado de su salud",
+    },
   ];
   connection: any;
   connectionDispatch: any;
@@ -67,7 +70,7 @@ export class HomePage implements OnInit {
   slideOptsOne = {
     // initialSlide: 0,
     // slidesPerView: 1,
-    autoplay: true
+    autoplay: true,
   };
   cita: any;
   worker: Subscription;
@@ -103,54 +106,12 @@ export class HomePage implements OnInit {
   ) {
     this.price = this.route.snapshot.params["price"];
     this.data = Info.categories;
-
-    if (this.connection !== undefined) {
-      this.connection.unsubscribe();
-      this.auth.removeListener("calendar");
-    }
-
-    this.connection = this.auth.getDataAlerts().subscribe(
-      (cita: any) => {
-        this.cita = cita;
-        this.notify = true;
-        localStorage.setItem("meetingHome", JSON.stringify(true));
-        if (this.cita.estadoCita === "postponed") {
-          localStorage.setItem("postponed", JSON.stringify(true));
-        } else if (this.cita.estadoCita === "canceled") {
-          localStorage.setItem("canceled", JSON.stringify(true));
-        }
-
-        this.getDataPac();
-        this.notification();
-      },
-      err => {
-        console.log(err, "error getAlerts");
-      }
-    );
-
-    this.clickSub = this.localNotifications.on("click").subscribe(data => {
-      this.presentAlert(
-        "Médico:" +
-          " " +
-          data.data.medico +
-          "<br>" +
-          "fecha:" +
-          " " +
-          data.data.fecha +
-          "<br>" +
-          "hora:" +
-          " " +
-          data.data.hora +
-          "<br>" +
-          "motivo:" +
-          " " +
-          data.data.motivo
-      );
-    });
   }
 
   ngOnInit() {
     this.initSocket();
+    this.initSocketAppointment();
+    this.onClickAlert();
     this.data = Info.categories;
     this.dataUser = JSON.parse(localStorage.getItem("userPaciente"));
     this.idUser = this.dataUser ? this.dataUser.id : null;
@@ -177,6 +138,35 @@ export class HomePage implements OnInit {
     );
   }
 
+  //SOCKET CITAS
+  initSocketAppointment() {
+    if (this.connection !== undefined) {
+      this.connection.unsubscribe();
+      this.auth.removeListener("calendar");
+    }
+
+    this.connection = this.auth.getDataAlerts().subscribe(
+      (cita: any) => {
+        this.cita = cita;
+        this.notify = true;
+        console.log("notify true");
+
+        localStorage.setItem("meetingHome", JSON.stringify(true));
+        if (this.cita.estadoCita === "postponed") {
+          localStorage.setItem("postponed", JSON.stringify(true));
+        } else if (this.cita.estadoCita === "canceled") {
+          localStorage.setItem("canceled", JSON.stringify(true));
+        }
+
+        this.getDataPac();
+        this.notification();
+      },
+      (err) => {
+        console.log(err, "error getAlerts");
+      }
+    );
+  }
+
   //SOCKET DESPACHOS
   initSocket() {
     if (this.connectionDispatch !== undefined) {
@@ -198,6 +188,28 @@ export class HomePage implements OnInit {
         }
         console.log(result, "DATA SOCKET DESPACHO NUEVO");
       });
+  }
+
+  onClickAlert() {
+    this.clickSub = this.localNotifications.on("click").subscribe((data) => {
+      this.presentAlert(
+        "Médico:" +
+          " " +
+          data.data.medico +
+          "<br>" +
+          "fecha:" +
+          " " +
+          data.data.fecha +
+          "<br>" +
+          "hora:" +
+          " " +
+          data.data.hora +
+          "<br>" +
+          "motivo:" +
+          " " +
+          data.data.motivo
+      );
+    });
   }
 
   testNetwork() {
@@ -242,14 +254,14 @@ export class HomePage implements OnInit {
             this.cita.medico.priNombre + " " + this.cita.medico.priApellido,
           fecha: this.cita.fecha,
           hora: this.cita.hora,
-          motivo: ""
+          motivo: "",
         },
         sound: this.platform.is("android")
           ? "file://assets/sound/sound.mp3"
           : "file://assets/sound/sorted.m4r",
         smallIcon: "res://drawable-hdpi/ic_launcher.png",
         icon: "res://drawable-hdpi/ic_launcher.png",
-        foreground: true
+        foreground: true,
       });
     } else if (this.cita.estadoCita === "canceled") {
       this.localNotifications.schedule({
@@ -272,14 +284,14 @@ export class HomePage implements OnInit {
             this.cita.medico.priNombre + " " + this.cita.medico.priApellido,
           fecha: this.cita.fecha,
           hora: this.cita.hora,
-          motivo: this.cita.detalleCancelado
+          motivo: this.cita.detalleCancelado,
         },
         sound: this.platform.is("android")
           ? "file://assets/sound/sound.mp3"
           : "file://assets/sound/sorted.m4r",
         smallIcon: "res://drawable-hdpi/ic_launcher.png",
         icon: "res://drawable-hdpi/ic_launcher.png",
-        foreground: true
+        foreground: true,
       });
     }
   }
@@ -290,16 +302,16 @@ export class HomePage implements OnInit {
       message: data,
       buttons: [
         {
-          text: "OK"
+          text: "OK",
         },
         {
           text: "Ir a mis Citas",
           handler: () => {
             this.router.navigate(["meetings"]);
             console.log("Ir a mis Citas");
-          }
-        }
-      ]
+          },
+        },
+      ],
     });
     await alert.present();
   }
@@ -312,18 +324,18 @@ export class HomePage implements OnInit {
     //this.loadingCtrl.presentLoading();
     this.auth.getMeetingData(this.idUser).subscribe(
       (cita: any) => {
-        var citaFilter = _.filter(cita, item => item.fecha >= this.fecha);
+        var citaFilter = _.filter(cita, (item) => item.fecha >= this.fecha);
         citaFilter = _.orderBy(citaFilter, ["fecha"], ["asc"]);
         console.log(citaFilter, "CITAS PACIENTE ACCEPTED");
         this.dataHomeDelete = _.filter(
           citaFilter,
-          item => item.hora >= this.hora
+          (item) => item.hora >= this.hora
         );
         this.dataHome = _.first(this.dataHomeDelete);
         console.log(this.dataHome, "PROXIMA CITA PACIENTE");
         //this.loadingCtrl.dismiss();
       },
-      err => {
+      (err) => {
         console.log(err, "error ultima cita");
         //this.loadingCtrl.dismiss();
       }
@@ -331,7 +343,7 @@ export class HomePage implements OnInit {
   }
 
   removeData(id) {
-    _.remove(this.dataHome, function(n) {
+    _.remove(this.dataHome, function (n) {
       return n.id === id;
     });
   }
@@ -357,7 +369,7 @@ export class HomePage implements OnInit {
   async presentToast() {
     let toast = await this.toast.create({
       message: "Componente en Construccion",
-      duration: 3000
+      duration: 3000,
     });
     toast.present();
   }
