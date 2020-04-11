@@ -146,7 +146,19 @@
         </ion-row>
     </ion-grid>
 
-    <ion-label *ngIf="!bandera">Label</ion-label>
+
+
+    <ion-grid *ngIf="!bandera" class="ion-no-padding">
+        <ion-list-header class="title-data">
+            <ion-label class="medicamentos">Productos e indicaciones</ion-label>
+        </ion-list-header>
+        <ion-row class="row-content">
+            <ion-col size="12">
+                <ion-label class="col-ind-text">{{appointment.indicacionesAdicionales}}
+                </ion-label>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
 
     <ion-grid *ngIf="bandera" class="ion-no-padding">
         <ion-list-header *ngIf="products" class="title-data">
