@@ -10,7 +10,7 @@
         <ion-title class="ion-text-center" class="title-toolbar">RECETAS</ion-title>
     </ion-toolbar>
 </ion-header>
-<div>
+<!-- <div>
     <div class="ion-padding div-menu">
         <ion-row class="nav-tabs">
             <ion-col class="col-left" [ngClass]="{'active': currentTab === 'step1'}" (click)="changeTab('step1')">
@@ -21,12 +21,11 @@
                 <label class="text-center">Compradas</label>
             </ion-col>
             <ion-col class="col-right" [ngClass]="{'active': currentTab === 'step3'}" (click)="changeTab('step3')">
-                <!-- <ion-icon name="radio-button-on-outline" class="select-button"></ion-icon> -->
                 <label class="text-center">Historial</label>
             </ion-col>
         </ion-row>
     </div>
-</div>
+</div> -->
 
 <!-- <div class="title-data" *ngIf="currentTab === 'step2'">
     <ion-label class="medicamentos">Ordenes Pendientes</ion-label>
@@ -34,6 +33,44 @@
 
 <ion-content class="bg-content">
     <div class="form-group required" *ngIf="currentTab === 'step1'">
+        <div *ngIf="newAppointment">
+            <ion-grid class="content-medic">
+                <ion-row *ngFor="let appointment of newAppointment" (click)="goDetailsAppointment(appointment)" class="container-medic">
+                    <ion-col class="container-image" size="2">
+                        <img class="image" src="assets/icon/receta.svg " />
+                    </ion-col>
+                    <ion-col class="container-info-medic " size="9">
+                        <ion-row>
+                            <ion-col class="name" size="8">
+                                DR: {{ appointment.datosMed.priNombre | uppercase}} {{ appointment.datosMed.priApellido | uppercase}}
+                            </ion-col>
+                            <ion-col class="codReceta" size="4">
+                                COD#:{{ appointment.codiRece }}
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col class="fecha" size="12">
+                                {{ appointment.fecha | date: 'dd MMM y' | titlecase}} {{ appointment.hora}}
+                            </ion-col>
+                        </ion-row>
+                        <ion-row>
+                            <ion-col class="cm" size="12">
+                                {{ appointment.datosMed.especialidad}}
+                            </ion-col>
+                        </ion-row>
+                    </ion-col>
+                    <ion-col size="1" class="icon-medic">
+                        <ion-icon name="ios-arrow-forward"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            <div *ngIf="newAppointment.length === 0" class="empty-container ">
+                <img src="assets/icon/no-documents.svg" class="empty-state ">
+                <h3 class="text-center-no-desp">No hay recetas nuevas</h3>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="form-group required" *ngIf="currentTab === 'step1'">
         <div *ngIf="newAppointment">
             <ion-grid class="content-medic">
                 <ion-row *ngFor="let appointment of newAppointment" (click)="prepareIdsRequest(appointment)" class="container-medic">
@@ -178,5 +215,5 @@
                 <h3 class="text-center-no-desp">Sin contenido</h3>
             </div>
         </ion-item-group>
-    </div>
+    </div> -->
 </ion-content>

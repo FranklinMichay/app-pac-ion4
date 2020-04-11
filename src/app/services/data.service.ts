@@ -17,6 +17,7 @@ export class DataService {
   dataForPay = [];
   dataReceta = [];
   dataDespacho = [];
+  dataAppointment = [];
   constructor(
 
   ) { }

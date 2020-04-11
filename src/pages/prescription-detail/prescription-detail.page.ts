@@ -6,7 +6,7 @@ import {
   ModalController,
   AlertController,
   NavParams,
-  IonSlides
+  IonSlides,
 } from "@ionic/angular";
 import { AuthService } from "src/app/services/auth.service";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -22,7 +22,7 @@ import { ToastController } from "@ionic/angular";
 @Component({
   selector: "app-prescription-detail",
   templateUrl: "./prescription-detail.page.html",
-  styleUrls: ["./prescription-detail.page.scss"]
+  styleUrls: ["./prescription-detail.page.scss"],
 })
 export class PrescriptionDetailPage implements OnInit {
   @ViewChild("slider", { static: true }) slider: IonSlides;
@@ -64,7 +64,7 @@ export class PrescriptionDetailPage implements OnInit {
   numbers = [-1, 0, 1, 2];
   firstLoad = true;
   slideOpts = {
-    initialSlide: 0
+    initialSlide: 0,
   };
 
   dateDivider: any;
@@ -82,12 +82,16 @@ export class PrescriptionDetailPage implements OnInit {
     { label: "Mie.", selected: false, day: "" },
     { label: "Jue.", selected: false, day: "" },
     { label: "Vie.", selected: false, day: "" },
-    { label: "Sab.", selected: false, day: "" }
+    { label: "Sab.", selected: false, day: "" },
   ];
 
   //SOCKET DESPACHOS
   connection: any;
   notify: boolean = false;
+
+  //VARIABLES LISTAR RECETAS
+  detailProd: any = [];
+  data: any;
 
   constructor(
     //navParams: NavParams,
@@ -142,7 +146,7 @@ export class PrescriptionDetailPage implements OnInit {
     this.dataMedic = [];
     this.loadingCtrl.presentLoading();
     this.auth.searchPrescriptionDate(currentDate, this.dni).subscribe(
-      recetas => {
+      (recetas) => {
         this.prescriptions = recetas;
         for (let index = 0; index < recetas.length; index++) {
           this.datosMedico = JSON.parse(recetas[index].datosMedico);
@@ -155,7 +159,7 @@ export class PrescriptionDetailPage implements OnInit {
             detalles: this.dataReceta,
             indicaciones: this.dataIndicaciones,
             fecha: recetas[index].fecha,
-            codiRece: recetas[index].codiRece
+            codiRece: recetas[index].codiRece,
           };
           this.dataMedic.push(datos);
         }
@@ -166,7 +170,7 @@ export class PrescriptionDetailPage implements OnInit {
         );
         this.loadingCtrl.dismiss();
       },
-      err => {
+      (err) => {
         console.log(err, "error recetas");
         this.loadingCtrl.dismiss();
       }
@@ -174,7 +178,7 @@ export class PrescriptionDetailPage implements OnInit {
   }
 
   set(arr) {
-    return arr.reduce(function(a, val) {
+    return arr.reduce(function (a, val) {
       if (a.indexOf(val) === -1) {
         let sli = val.slice(0, 10);
         a.push(sli);
@@ -187,7 +191,7 @@ export class PrescriptionDetailPage implements OnInit {
   getAppointment(dni) {
     this.loadingCtrl.presentLoading();
     this.auth.getRecetasPaciente(dni).subscribe(
-      recetas => {
+      (recetas) => {
         console.log(recetas, "desde el  server");
         for (let index = 0; index < recetas.length; index++) {
           this.datosMedico = JSON.parse(recetas[index].datosMedico);
@@ -203,13 +207,14 @@ export class PrescriptionDetailPage implements OnInit {
             codiRece: recetas[index].codiRece,
             estadoReceta: recetas[index].estadoReceta,
             _id: recetas[index]._id,
-            hora: recetas[index].hora
+            hora: recetas[index].hora,
+            indicacionesAdicionales: recetas[index].indicacionesAdicionales,
           };
           this.dataMedic.push(datos);
         }
         console.log(this.dataMedic, "TODAS LAS RECETAS");
         this.newAppointment = _.filter(this.dataMedic, {
-          estadoReceta: "nueva"
+          estadoReceta: "nueva",
         });
         this.newAppointment = _.orderBy(
           this.newAppointment,
@@ -221,7 +226,7 @@ export class PrescriptionDetailPage implements OnInit {
           "RECETAS NUEVAS ORDENADAS DESCENDENTEMENTE"
         );
         this.finishedAppointment = _.filter(this.dataMedic, {
-          estadoReceta: "finalizada"
+          estadoReceta: "finalizada",
         });
         this.finishedAppointment = _.orderBy(
           this.finishedAppointment,
@@ -234,7 +239,7 @@ export class PrescriptionDetailPage implements OnInit {
         );
         this.loadingCtrl.dismiss();
       },
-      err => {
+      (err) => {
         console.log(err, "ERROR RECETAS");
         this.toast.presentToastError(
           "Error de conexión, por favor intente luego"
@@ -242,6 +247,60 @@ export class PrescriptionDetailPage implements OnInit {
         this.loadingCtrl.dismiss();
       }
     );
+  }
+
+  //MOSTRAR DETALLES DE RECETAS
+  goDetailsAppointment(appointment) {
+    this.detailProd = appointment;
+    if (appointment.detalles.length === 0) {
+      this.router.navigate(["detail-appointment"], {
+        state: this.detailProd,
+      });
+    } else {
+      this.idForRequest = this.removeSquareBracket(
+        _.map(appointment.detalles, "id")
+      );
+      this.getDataDetailProduct(
+        this.removeSquareBracket(_.map(appointment.detalles, "id"))
+      );
+      console.log(this.idForRequest, "ids para request");
+    }
+    
+  }
+
+  getDataDetailProduct(ids: string) {
+    this.auth.getInfoProducts(ids).subscribe(
+      (productsAppointment) => {
+        console.log(productsAppointment, 'getDataDetailProduct');
+        this.dataService.dataAppointment = productsAppointment;     
+        this.router.navigate(["detail-appointment"], {
+          state: this.detailProd,
+        });
+      },
+      (err) => {
+        console.log(err, "error");
+      }
+    );
+  }
+
+  processDataInfoProducts() {
+    this.dataForView = [];
+    console.log("DETALLES DE PRODUCTOS =====>", this.detailProd);
+
+    this.data = {};
+    let i = 0;
+    for (const elemnt of this.detailProd) {
+      this.data.index = i;
+      this.data._id = elemnt._id;
+      this.data.product = this.detailProd[i].idProducto.nombre;
+      this.data.pharmacyForm = this.detailProd[i].idProducto.formaFarmaceutica;
+      this.data.concentration = this.detailProd[i].idProducto.concentracion;
+      this.data.presentation = this.detailProd[i].idProducto.presentacion;
+      this.dataForView.push(this.data);
+      this.data = {};
+      i++;
+    }
+    console.log(this.dataForView, "DATA DESPACHO PROCESADO");
   }
 
   goDetails(prescription) {
@@ -270,14 +329,14 @@ export class PrescriptionDetailPage implements OnInit {
 
   getProductPrescription(ids: string) {
     this.auth.getInfoProducts(ids).subscribe(
-      prescription => {
+      (prescription) => {
         this.prescriptionList = prescription;
         console.log(this.prescriptionList, "PRODUCTOS");
         this.router.navigate(["prescription"], {
-          state: this.prescriptionList
+          state: this.prescriptionList,
         });
       },
-      err => {
+      (err) => {
         console.log(err, "error");
       }
     );
@@ -285,19 +344,19 @@ export class PrescriptionDetailPage implements OnInit {
 
   goDetailDesp() {
     this.router.navigate(["detail-appointment"], {
-      state: this.prescriptionList
+      state: this.prescriptionList,
     });
   }
 
   getProductPrescriptionCompra(ids: string) {
     this.auth.getInfoProducts(ids).subscribe(
-      prescription => {
+      (prescription) => {
         this.prescriptionList = prescription;
         this.router.navigate(["prescription"], {
-          state: this.prescriptionList
+          state: this.prescriptionList,
         });
       },
-      err => {
+      (err) => {
         console.log(err, "error");
       }
     );
@@ -326,8 +385,6 @@ export class PrescriptionDetailPage implements OnInit {
       this.currentStep = true;
       console.log(tab, "tab");
     }
-
-    
   }
 
   nextSlide() {
@@ -336,7 +393,7 @@ export class PrescriptionDetailPage implements OnInit {
       this.firstLoad = false;
       return;
     }
-    this.slider.getActiveIndex().then(index => {
+    this.slider.getActiveIndex().then((index) => {
       newIndex = index;
       console.log(newIndex, "active index next");
       newIndex--;
@@ -349,7 +406,7 @@ export class PrescriptionDetailPage implements OnInit {
 
   prevSlide() {
     let newIndex;
-    this.slider.getActiveIndex().then(index => {
+    this.slider.getActiveIndex().then((index) => {
       newIndex = index;
       console.log(newIndex, "active index prev");
       newIndex++;
@@ -435,7 +492,7 @@ export class PrescriptionDetailPage implements OnInit {
         this.daysWeek[i].day = dayAux;
         this.lastDataShowed.lastDay = {
           index: i,
-          value: dayAux
+          value: dayAux,
         };
         dayAux += 1;
       } else {
@@ -448,13 +505,13 @@ export class PrescriptionDetailPage implements OnInit {
         this.daysWeek[index].day = day;
         this.lastDataShowed.firstDay = {
           index: index,
-          value: day
+          value: day,
         };
       } else if (dayAux1 >= 1) {
         this.daysWeek[j].day = dayAux1;
         this.lastDataShowed.firstDay = {
           index: j,
-          value: dayAux1
+          value: dayAux1,
         };
         dayAux1 -= 1;
       } else {
@@ -498,7 +555,7 @@ export class PrescriptionDetailPage implements OnInit {
 
   removeSquareBracket(array: []) {
     let resultRemove = "";
-    array.map(function(elememnt: any) {
+    array.map(function (elememnt: any) {
       resultRemove += `${elememnt},`;
     });
     return resultRemove.slice(0, resultRemove.length - 1);
@@ -519,15 +576,15 @@ export class PrescriptionDetailPage implements OnInit {
 
   getProductPrescription1(ids: string) {
     this.auth.getInfoProducts(ids).subscribe(
-      prescription => {
+      (prescription) => {
         this.prescriptionList = prescription;
         console.log(this.prescriptionList, "PRODUCTOS");
         this.router.navigate(["detail-appointment"], {
-          state: this.prescriptionList
+          state: this.prescriptionList,
         });
       },
 
-      err => {
+      (err) => {
         console.log(err, "error");
       }
     );
@@ -544,8 +601,8 @@ export class PrescriptionDetailPage implements OnInit {
       cssClass: "css-modal",
       componentProps: {
         prescription: this.prescriptionList,
-        dataReceta: this.dataRecetaModal
-      }
+        dataReceta: this.dataRecetaModal,
+      },
     });
     // modal.onDidDismiss()
     //   .then((data) => {
@@ -585,7 +642,7 @@ export class PrescriptionDetailPage implements OnInit {
         console.log(this.despachos, "lista de despachos descendente");
       },
 
-      err => {
+      (err) => {
         console.log(err, "error");
       }
     );
@@ -624,7 +681,7 @@ export class PrescriptionDetailPage implements OnInit {
 
   getProductDesp(ids: string) {
     // this.loadingCtrl.presentLoading();
-    this.auth.getInfoProducts(ids).subscribe(product => {
+    this.auth.getInfoProducts(ids).subscribe((product) => {
       this.productDesp = product;
       console.log(this.productDesp, "PRODUCTOS DE DESPACHO");
       this.router.navigate(["detail-appointment"], { state: this.productDesp });
@@ -663,7 +720,7 @@ export class PrescriptionDetailPage implements OnInit {
     const toast = await this.toastController.create({
       message: message,
       duration: 2000,
-      color: "dark"
+      color: "dark",
     });
     toast.present();
   }
@@ -711,7 +768,7 @@ export class PrescriptionDetailPage implements OnInit {
   }
 
   findIndexDispatch(id: any) {
-    return this.despachos.findIndex(obj => obj._id === id);
+    return this.despachos.findIndex((obj) => obj._id === id);
   }
 
   ngOnDestroy() {

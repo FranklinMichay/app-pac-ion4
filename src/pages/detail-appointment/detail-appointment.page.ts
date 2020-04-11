@@ -9,7 +9,7 @@ import { NavParams } from "@ionic/angular";
 @Component({
   selector: "app-detail-appointment",
   templateUrl: "./detail-appointment.page.html",
-  styleUrls: ["./detail-appointment.page.scss"]
+  styleUrls: ["./detail-appointment.page.scss"],
 })
 export class DetailAppointmentPage implements OnInit {
   medic: any;
@@ -28,6 +28,11 @@ export class DetailAppointmentPage implements OnInit {
   estado: string = "nuevo";
   connection: any;
 
+  //VARIABLES PARA RECETA
+  appointment: any;
+  products: any;
+  bandera: boolean = true;
+
   constructor(
     //navParams: NavParams,
     private auth: AuthService,
@@ -36,18 +41,41 @@ export class DetailAppointmentPage implements OnInit {
     private dataService: DataService,
     private router: Router
   ) {
-    this.productoDespacho = this.router.getCurrentNavigation().extras.state;
-    console.log(this.productoDespacho, "PRODUCTOS ");
-    this.dataDespacho = this.dataService.dataDespacho;
-    console.log(this.dataDespacho, "DESPACHO");
+    // this.productoDespacho = this.router.getCurrentNavigation().extras.state;
+    // console.log(this.productoDespacho, "PRODUCTOS ");
+    // this.dataDespacho = this.dataService.dataDespacho;
+    // console.log(this.dataDespacho, "DESPACHO");
+
+    //RECETAS DESDE PRESCRIPTION DETAIL
+    this.appointment = this.router.getCurrentNavigation().extras.state;
+    console.log(this.appointment, "RECETA SELECCIONADA");
+
+    this.products = this.dataService.dataAppointment;
+
+    console.log(this.products, "PRODUCTOS DE RECETA");
   }
 
   ngOnInit() {
-    this.estado = this.dataDespacho.estadoDespacho;
-    console.log(this.estado, "estado");
-    this.initSocket();
+    if (this.products.length > 0) {
+      console.log(this.products.length, 'lenght');
+      this.bandera = true;
+    } else {
+      this.bandera = false;
+    }
+    console.log("estado de bandera", this.bandera);
+    // this.estado = this.dataDespacho.estadoDespacho;
+    // console.log(this.estado, "estado");
+    // this.initSocket();
   }
 
+  ionViewWillLeave() {
+    this.dataService.dataAppointment = [];
+    console.log(
+      this.dataService.dataAppointment,
+      "ESTADO DE DATA FOR VIEW & data service"
+    );
+    this.bandera = true;
+  }
   changeTab(tab: string) {
     this.currentTab = tab;
     if (tab === "step1") {
@@ -69,7 +97,7 @@ export class DetailAppointmentPage implements OnInit {
 
   getProductPrescriptionCompra(ids: string) {
     this.loadingCtrl.presentLoading();
-    this.auth.getInfoProducts(ids).subscribe(prescription => {
+    this.auth.getInfoProducts(ids).subscribe((prescription) => {
       this.prescriptionList = prescription;
       this.router.navigate(["prescription"], { state: this.prescriptionList });
     });
@@ -78,7 +106,7 @@ export class DetailAppointmentPage implements OnInit {
 
   removeSquareBracket(array: []) {
     let resultRemove = "";
-    array.map(function(elememnt: any) {
+    array.map(function (elememnt: any) {
       resultRemove += `${elememnt},`;
     });
     return resultRemove.slice(0, resultRemove.length - 1);
@@ -138,8 +166,8 @@ export class DetailAppointmentPage implements OnInit {
         console.log(result, "socket....");
         this.processData(result);
       },
-      error => {
-        console.log(error, 'error socket');
+      (error) => {
+        console.log(error, "error socket");
       }
     );
   }
@@ -149,7 +177,7 @@ export class DetailAppointmentPage implements OnInit {
     console.log(this.dataDespacho, "DESPACHO ACTUALIZADO");
   }
 
-  ngOnDestroy() {
-    this.connection.unsubscribe();
-  }
+  // ngOnDestroy() {
+  //   this.connection.unsubscribe();
+  // }
 }
